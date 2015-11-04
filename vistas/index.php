@@ -133,12 +133,12 @@ if(isset($_SESSION['user_estado'])){
           echo "<script>location.href='../?p=olvidar-clave'</script>";
           exit();
         }elseif($_SESSION['user_estado']==1){
-          if(isset($_GET['mi-perfil'])) include("serv_usuario.php"); 
-          else if(isset($_GET['nuevo_usuario'])) include("serv_nuevo-usuario.php");
-          else if(isset($_GET['cambiar_clave'])) include("serv_cambiar_contrasena.php");
+          if(isset($_GET['perfil'])) include("serv_usuario.php"); 
+          else if(isset($_GET['nuevousuario'])) include("serv_nuevo-usuario.php");
+          else if(isset($_GET['cambiarcontrasena'])) include("serv_cambiar_contrasena.php");
           else if(isset($_GET['perfiles'])) include("serv_perfil.php");  
           else if(isset($_GET['rol'])) include("serv_rol.php");  
-          else if(isset($_GET['opciones'])) include("serv_opciones.php"); 
+          else if(isset($_GET['botones'])) include("serv_opciones.php"); 
           else if(isset($_GET['pais'])) include("serv_pais.php");
           else if(isset($_GET['estado'])) include("serv_estado.php");  
           else if(isset($_GET['ciudad'])) include("serv_ciudad.php");   
@@ -166,7 +166,7 @@ if(isset($_SESSION['user_estado'])){
           else if(isset($_GET['horario_seccion'])) include("serv_horarios_seccion.php");   
           else if(isset($_GET['horario_profesor'])) include("serv_preparar_reporte.php");                                              
           else if(isset($_GET['horario_clases'])) include("serv_preparar_reporte_seccion.php");                     
-          else if(isset($_GET['auditoria'])) include("serv_auditoria.php");   
+          else if(isset($_GET['bitacora'])) include("serv_auditoria.php");   
           else include("serv_inicio.php");                            	                                          	                                        	                                          	                                         	                                          	                                        	                                          	
         }else {
           echo "<script>location.href='403.php'</script>";
