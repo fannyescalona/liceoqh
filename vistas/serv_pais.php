@@ -5,7 +5,7 @@ $perfil->codigo_perfil(@$_SESSION['user_codigo_perfil']);
 $servicios_permitidos=$perfil->IMPRIMIR_SERVICIOS_USUARIO();
 $servicio_solicitado=strtoupper(preg_replace('/(serv_)|(\.php)/','',basename(__FILE__)));
 if(array_search($servicio_solicitado,$servicios_permitidos)){
-  if(isset($_SESSION['datos']['nombre_pais'])){ 
+  if(isset($_SESSION['datos']['descripcion'])){ 
    $disabledRC='disabled';
    $disabledMD='';
    $estatus=null;
@@ -15,12 +15,12 @@ if(array_search($servicio_solicitado,$servicios_permitidos)){
  }
  $servicios='pais';
  if(isset($_SESSION['datos'])){
-  @$nombre_pais=$_SESSION['datos']['nombre_pais'];
-  @$codigo_pais=$_SESSION['datos']['cod_pais'];
+  @$descripcion=$_SESSION['datos']['descripcion'];
+  @$codigo_pais=$_SESSION['datos']['codigo_pais'];
   @$estatus=$_SESSION['datos']['estatus'];
 }
 else{
-  @$nombre_pais=null;
+  @$descripcion=null;
   @$codigo_pais=null;
   @$estatus=null;
 }
@@ -34,9 +34,9 @@ else{
     <legend>País</legend>
     <div id="contenedorFormulario">
       <label>Código:</label>
-     <input title="el código del país es generado por el sistema" name="cod_pais" id="cod_pais" type="text" size="10" readonly value="<?= $codigo_pais;?>" placeholder="Código del País es generado por el sistema" class="campoTexto"/>
+     <input title="el código del país es generado por el sistema" name="codigo_pais" id="codigo_pais" type="text" size="10" readonly value="<?= $codigo_pais;?>" placeholder="Código del País es generado por el sistema" class="campoTexto"/>
      <label>Nombre del País:</label>
-     <input title="Ingrese el nombre del País" onKeyUp="this.value=this.value.toUpperCase()" name="nombre_pais" id="nombre_pais" type="text" size="50" value="<?= $nombre_pais;?>" required="" placeholder="Ingrese el nombre del País" class="campoTexto"/>      
+     <input title="Ingrese el nombre del País" onKeyUp="this.value=this.value.toUpperCase()" name="descripcion" id="descripcion" type="text" size="50" value="<?= $descripcion;?>" required="" placeholder="Ingrese el nombre del País" class="campoTexto"/>      
      <strong class="obligatorio">Los campos resaltados en rojo son obligatorios</strong>
    </div>   
    <br>
@@ -69,7 +69,7 @@ else{
    $mysql=new Conexion();
 
 //Sentencia sql (sin limit) 
-   $_pagi_sql = "SELECT * FROM tpais where fecha_desactivacion is null order by cod_pais desc"; 
+   $_pagi_sql = "SELECT * FROM tpais where fecha_desactivacion is null order by codigo_pais desc"; 
 //cantidad de resultados por página (opcional, por defecto 20) 
    $_pagi_cuantos = 10; 
 //Cadena que separa los enlaces numéricos en la barra de navegación entre páginas.
@@ -81,7 +81,7 @@ else{
 
 //Leemos y escribimos los registros de la página actual 
    while($row = mysql_fetch_array($_pagi_result)){ 
-    echo "<tr><td style='width:20%;'>".$row['cod_pais']."</td><td align='left'>".$row['nombre_pais']."</td></tr>"; 
+    echo "<tr><td style='width:20%;'>".$row['codigo_pais']."</td><td align='left'>".$row['descripcion']."</td></tr>"; 
   } 
 //Incluimos la barra de navegación 
   ?>

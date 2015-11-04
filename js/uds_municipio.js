@@ -2,15 +2,15 @@ function validar_formulario(param){
 //para validar en caso q no return false
 permitido=true;
 
-valor=document.getElementById('nombre_municipio').value;
-valor2=document.getElementById('cod_municipio').value;
-valor3=document.getElementById('cod_ciudad').value;
+valor=document.getElementById('descripcion').value;
+valor2=document.getElementById('codigo_municipio').value;
+valor3=document.getElementById('codigo_estado').value;
 if(devuelve_boton(param)=="Registrar" || devuelve_boton(param)=="Modificar"){
 if(valor.replace(/^\s+|\s+$/gi,"").length==0){ //para no permitir que se queda en blanco
 alert('Ingrese el nombre del Municipio')
 permitido=false;
 }else if(valor3==0){
-	alert('Seleccione una Ciudad')
+	alert('Seleccione una Estado')
 	permitido=false;
 }
 }

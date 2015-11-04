@@ -1,5 +1,5 @@
 <?php
-$servicios='mi-perfil';
+$servicios='perfil';
 $disabledRC=null;
 $disabledMD=null;
 $estatus=null;
@@ -44,10 +44,6 @@ $estatus=null;
         </div>
       </div>
     </div>             
-    
-
-
-
   </div>  
 </div>  
 

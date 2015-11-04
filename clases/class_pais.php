@@ -3,13 +3,13 @@
  class Pais
  {
      private $codigo_pais; 
-     private $nombre_pais;
+     private $descripcion;
      private $estatus_pais; 
      private $fecha_desactivacion; 
      private $mysql; 
 	 
    public function __construct(){
-     $this->nombre_pais=null;
+     $this->descripcion=null;
      $this->codigo_pais=null;
 	 $this->mysql=new Conexion();
    }
@@ -40,12 +40,12 @@
 	 }
    }
    
-   public function nombre_pais(){
+   public function descripcion(){
    $Num_Parametro=func_num_args();
-	 if($Num_Parametro==0) return $this->nombre_pais;
+	 if($Num_Parametro==0) return $this->descripcion;
      
 	 if($Num_Parametro>0){
-	   $this->nombre_pais=func_get_arg(0);
+	   $this->descripcion=func_get_arg(0);
 	 }
    }
 
@@ -61,7 +61,7 @@
    
 
    public function Registrar(){
-    $sql="insert into tpais (nombre_pais) values ('$this->nombre_pais');";
+    $sql="insert into tpais (descripcion) values ('$this->descripcion');";
     if($this->mysql->Ejecutar($sql)!=null)
 	return true;
 	else
@@ -69,14 +69,14 @@
    }
    
      public function Activar(){
-    $sql="update tpais set fecha_desactivacion=NULL where (cod_pais='$this->codigo_pais');";
+    $sql="update tpais set fecha_desactivacion=NULL where (codigo_pais='$this->codigo_pais');";
     if($this->mysql->Ejecutar($sql)!=null)
 	return true;
 	else
 	return false;
    }
     public function Desactivar(){
-    $sql="update tpais set fecha_desactivacion=CURDATE() where (cod_pais='$this->codigo_pais');";
+    $sql="update tpais set fecha_desactivacion=CURDATE() where (codigo_pais='$this->codigo_pais');";
     if($this->mysql->Ejecutar($sql)!=null)
 	return true;
 	else
@@ -84,7 +84,7 @@
    }
    
     public function Actualizar(){
-    $sql="update tpais set nombre_pais='$this->nombre_pais' where (cod_pais='$this->codigo_pais');";
+    $sql="update tpais set descripcion='$this->descripcion' where (codigo_pais='$this->codigo_pais');";
     if($this->mysql->Ejecutar($sql)!=null)
 	return true;
 	else
@@ -94,12 +94,12 @@
    public function Consultar(){
     $sql="select *,
     (CASE WHEN fecha_desactivacion IS NULL THEN  'Activo' 
-    	ELSE 'Desactivado' END) AS estatus_pais from tpais where nombre_pais='$this->nombre_pais'";
+    	ELSE 'Desactivado' END) AS estatus_pais from tpais where descripcion='$this->descripcion'";
 	$query=$this->mysql->Ejecutar($sql);
     if($this->mysql->Total_Filas($query)!=0){
 	$tpais=$this->mysql->Respuesta($query);
-	$this->codigo_pais($tpais['cod_pais']);
-	$this->nombre_pais($tpais['nombre_pais']);
+	$this->codigo_pais($tpais['codigo_pais']);
+	$this->descripcion($tpais['descripcion']);
    	$this->estatus_pais($tpais['estatus_pais']);
 	$this->fecha_desactivacion($tpais['fecha_desactivacion']);
 	return true;
@@ -109,12 +109,12 @@
 	}
    }
    public function Comprobar(){
-    $sql="select * from tpais where nombre_pais='$this->nombre_pais'";
+    $sql="select * from tpais where descripcion='$this->descripcion'";
 	$query=$this->mysql->Ejecutar($sql);
     if($this->mysql->Total_Filas($query)!=0){
 	$tpais=$this->mysql->Respuesta($query);
-	$this->codigo_pais($tpais['cod_pais']);
-	$this->nombre_pais($tpais['nombre_pais']);
+	$this->codigo_pais($tpais['codigo_pais']);
+	$this->descripcion($tpais['descripcion']);
 	$this->fecha_desactivacion($tpais['fecha_desactivacion']);
 	return true;
 	}

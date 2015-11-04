@@ -1,5 +1,5 @@
 <?php
-if(isset($_SESSION['datos']['nombre_usuarios'])){ 
+if(isset($_SESSION['datos']['nombre_usuario'])){ 
  $disabledRC='disabled';
  $disabledMD='';
  $estatus=null;
@@ -7,15 +7,14 @@ if(isset($_SESSION['datos']['nombre_usuarios'])){
  $disabledRC='';
  $disabledMD='disabled';
 }
-$servicios='nuevo_usuario';
+$servicios='nuevousuario';
 if(isset($_SESSION['datos'])){
   @$codigo_perfil=$_SESSION['datos']['perfil'];
   @$estatus=$_SESSION['datos']['estatus_usuario'];
-  @$cedula=$_SESSION['datos']['nombre_usuarios'];
-            //@$nombre_perfil=$_SESSION['datos']['nombre_usuarios'];
+  @$cedula=$_SESSION['datos']['nombre_usuario'];
 }
 else{
-  @$nombre_perfil=null;
+  @$descripcion=null;
   @$codigo_perfil=null;
   @$cedula=null;
   @$estatus=null;
@@ -33,12 +32,11 @@ else{
         <input name="cedula" id="cedula" value="<?= $cedula;?>" size="10"  type="text" placeholder="Ingrese el N&uacute;mero de C&eacute;dula" class="campoTexto" required /> 
         <label>Perfil de Usuario</label>
         <select name="rol" id="perfil" placeholder="Seleccione un Perfil" class="campoTexto" required>
-
           <?php 
           include_once("../clases/class_html.php");
           $html=new Html();
-          $id="cod_perfil";
-          $descripcion="nombre_perfil";
+          $id="codigo_perfil";
+          $descripcion="descripcion";
           $sql="select * from tperfil where fecha_desactivacion is null";
 
           if(is_null($codigo_perfil))
@@ -69,7 +67,7 @@ else{
   $servicio_solicitado=strtolower(preg_replace('/(serv_)|(\.php)/','',basename(__FILE__)));             	
 
   ?>
-  <a href="./?nuevo_usuario" ><img src="../images/cerrar.png" alt="Cerrar" style="width:40px;heigth:40px;float:right;"></a>
+  <a href="./?nuevousuario" ><img src="../images/cerrar.png" alt="Cerrar" style="width:40px;heigth:40px;float:right;"></a>
   <?php
   if(isset($_POST['act'])){
    include_once("../controladores/cont_activar_caducidad_de_clave.php"); 
@@ -77,13 +75,13 @@ else{
  }    
  ?>
  <br /><br />
- <form action="?nuevo_usuario&l" method="POST" name="form" >  
+ <form action="?nuevousuario&l" method="POST" name="form" >  
   <input type="hidden" name="act" value="1" />  
   <table class="table table-striped table-bordered table-condensed">
    <tr> 
+     <td>Activar Caducidad</td>
      <td>Nombre Usuario </td>
      <td>Perfil de usuario</td>
-     <td>Activar Caducidad</td>
      <td>Estatus</td>
    </tr>
    <?php
@@ -93,13 +91,13 @@ else{
    $mysql=new Conexion();
 
 //Sentencia sql (sin limit) 
-   $_pagi_sql = "SELECT u.activar_caducidad,u.nombre_usuarios,tp.nombre_perfil,
+   $_pagi_sql = "SELECT u.activar_caducidad,u.nombre_usuario,tp.descripcion,
    CASE 
    WHEN (u.fecha_desactivacion IS NULL) THEN 'Activo'
    WHEN (u.fecha_desactivacion IS NOT NULL) THEN 'Desactivado'
    ELSE 'otro/desconocido'
    END
-   as estado FROM tusuarios u inner join tperfil tp on tp.cod_perfil=u.cod_perfil order by nombre_usuarios"; 
+   as estado FROM tusuario u inner join tperfil tp on tp.codigo_perfil=u.codigo_perfil order by nombre_usuario"; 
 //cantidad de resultados por página (opcional, por defecto 20) 
    $_pagi_cuantos = 10; 
 //Cadena que separa los enlaces numéricos en la barra de navegación entre páginas.
@@ -117,9 +115,9 @@ else{
     else 
       $val='';
     echo "<tr>
-    <td style='width:20%;'>".$row['nombre_usuarios']."</td>
-    <td align='left'>".$row['nombre_perfil']."</td>
-    <td align='left'><input $val type='checkbox' name='nc[]' id='nc' value='".$row['nombre_usuarios']."'/></td>
+    <td style='width:20%;text-align:center;'><input $val type='checkbox' name='nc[]' id='nc' value='".$row['nombre_usuario']."'/></td>
+    <td align='left'>".$row['nombre_usuario']."</td>
+    <td align='left'>".$row['descripcion']."</td>
     <td align='left' class='".$row['estado']."'>".$row['estado']."</td>
     </tr>"; 
   } 

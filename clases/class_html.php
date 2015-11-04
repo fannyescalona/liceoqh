@@ -62,7 +62,6 @@ class Html
 				echo $value."<input type='checkbox'  value='".$id."' name='".$codigo."[]' id='".$codigo.$x."' />&nbsp;|&nbsp; ";
 			}
 		}
-		// $this->c->Liberar_Resultado($Datos);
 		return $lbResultado;
 	}
 	
@@ -124,43 +123,43 @@ class Html
 
 		</script>"; 
 		$perfil=new Perfil();
-		$query=$this->c->Ejecutar("SELECT * FROM tmodulos where fecha_desactivacion is null");
+		$query=$this->c->Ejecutar("SELECT * FROM tmodulo where fecha_desactivacion is null");
 		echo "Todos&nbsp;&nbsp;
 		<input onclick=seleccionar_todos(true) type='checkbox' name='todos' id='todos'/> 
 		/ Ninguno&nbsp;&nbsp;<input onclick=seleccionar_todos(false) type='checkbox' name='ninguno' id='ninguno'/>";		 
 		echo "<table class='table table-striped table-bordered table-condensed'>";
 		echo "<tr><td>SERVICIOS / OPCIONES</td><td><table class='options'><tr>";
-		$query3=$this->c->Ejecutar("SELECT * FROM topciones where fecha_desactivacion is null");
+		$query3=$this->c->Ejecutar("SELECT * FROM topcion where fecha_desactivacion is null");
 		 while($Datos3=$this->c->Respuesta($query3)){  //opciones
-		 	echo "<td>".$Datos3['nombre_opciones']."</td>";
+		 	echo "<td>".$Datos3['descripcion']."</td>";
 		 }
 		 echo "</tr></table></td></tr>";
 		 while($Datos1=$this->c->Respuesta($query)) // modulos
 		 {
-		 	$query2=$this->c->Ejecutar("SELECT * FROM tservicios where cod_modulo='".$Datos1['cod_modulo']."' and fecha_desactivacion is null");         	
+		 	$query2=$this->c->Ejecutar("SELECT * FROM tservicio where codigo_modulo='".$Datos1['codigo_modulo']."' and fecha_desactivacion is null");         	
 		 	echo "<tr style='color:#FFFFFF;background:#8B0000'>";
-		 	echo "<td align='left'><input type='hidden' value='".$Datos1['cod_modulo']."' name='modulos[]'/>"."&nbsp;&nbsp;&nbsp;".$Datos1['nombre_modulo']."</td><td>".""."</td>";
+		 	echo "<td align='left'><input type='hidden' value='".$Datos1['codigo_modulo']."' name='modulos[]'/>"."&nbsp;&nbsp;&nbsp;".$Datos1['descripcion']."</td><td>".""."</td>";
 		 	echo "</tr>";
 	           while($Datos2=$this->c->Respuesta($query2)){  // servicios
 	           	$perfil->codigo_perfil($perfil_usuario);
-	           	$perfil->codigo_servicios($Datos2['cod_servicios']);             	       	
+	           	$perfil->codigo_servicio($Datos2['codigo_servicio']);             	       	
 	           	$perfil->Consultar_SERVICIOS()==true? $checked='checked': $checked='';
 	           	echo "<tr>";
 	           	echo "<td align='left' style='padding-left:2em;'>"; 
-	           	echo "<input onclick=checkear2(this.class) class='cls_".$Datos2['cod_servicios']."' $checked type='checkbox' name='servicios[]' value='".$Datos2['cod_servicios']."'/>"; 
-	           	echo $Datos2['nombre_servicios']; 
+	           	echo "<input onclick=checkear2(this.class) class='cls_".$Datos2['codigo_servicio']."' $checked type='checkbox' name='servicios[]' value='".$Datos2['codigo_servicio']."'/>"; 
+	           	echo $Datos2['descripcion']; 
 	           	echo "</td>"; 
-	           	$query3=$this->c->Ejecutar("SELECT * FROM topciones where fecha_desactivacion is null");
+	           	$query3=$this->c->Ejecutar("SELECT * FROM topcion where fecha_desactivacion is null");
 	           	echo "<td><table border=0 class='options'><tr>"; 
 	           	
 	                   while($Datos3=$this->c->Respuesta($query3)){  //opciones
 	                   	echo "<td style='border-right:1px #000 solid;'>";          	
-	                   	$perfil->codigo_opciones($Datos3['cod_opciones']);             	       	
+	                   	$perfil->codigo_opcion($Datos3['codigo_opcion']);             	       	
 	                   	$perfil->Consultar_OPCIONES()==true? $checked='checked': $checked='';
-	                   	echo "<center><input onclick=checkear('cls_".$Datos2['cod_servicios']."') 
-	                   	class='cls_".$Datos2['cod_servicios']."'
-	                   	$checked type='checkbox' value='".$Datos3['cod_opciones']."' 
-	                   	name='opciones[".$Datos2['cod_servicios']."][]'/></center>"."                      ";
+	                   	echo "<center><input onclick=checkear('cls_".$Datos2['codigo_servicio']."') 
+	                   	class='cls_".$Datos2['codigo_servicio']."'
+	                   	$checked type='checkbox' value='".$Datos3['codigo_opcion']."' 
+	                   	name='opciones[".$Datos2['codigo_servicio']."][]'/></center>"."                      ";
 	                   	echo "</td>";          	
 	                   }   
 	                   echo "</tr></table></td>";    	 

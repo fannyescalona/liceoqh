@@ -221,7 +221,7 @@
     IN ( SELECT tser.codigo_modulo FROM tservicio tser WHERE tser.codigo_modulo = tmod.codigo_modulo 
     AND tser.codigo_servicio IN ( SELECT tsuo.codigo_servicio FROM tservicio_usuario_opcion tsuo
     WHERE tsuo.codigo_perfil =  '$this->codigo_perfil')) AND tmod.fecha_desactivacion is null 
-    ORDER BY 4,LOWER(tmod.descripcion) ASC";
+    ORDER BY tmod.orden ASC";
     $x=array();
     $i=0;
 	$query=$this->mysql->Ejecutar($sql);

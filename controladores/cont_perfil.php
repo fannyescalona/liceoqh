@@ -3,18 +3,18 @@ session_start();
 if(isset($_POST['operacion']))
 $operacion=ucfirst(trim($_POST['operacion']));
 
-if(isset($_POST['cod_perfil']))
-$id=ucfirst(trim($_POST['cod_perfil']));
+if(isset($_POST['codigo_perfil']))
+$id=ucfirst(trim($_POST['codigo_perfil']));
 
-if(isset($_POST['nombre_perfil']))
-$nombre_perfil=ucfirst(trim($_POST['nombre_perfil']));
+if(isset($_POST['descripcion']))
+$descripcion=ucfirst(trim($_POST['descripcion']));
 
 
 include_once("../clases/class_perfil.php");
 $perfil=new Perfil();
 if($operacion=='Registrar'){
   $perfil->codigo_perfil($id);
-  $perfil->nombre_perfil($nombre_perfil);
+  $perfil->descripcion($descripcion);
   if(!$perfil->Comprobar()){
     if($perfil->Registrar()){
       $confirmacion=1;			                   			                   
@@ -38,10 +38,9 @@ if($operacion=='Registrar'){
   }
 }
 
-
 if($operacion=='Modificar'){
   $perfil->codigo_perfil($id);
-  $perfil->nombre_perfil($nombre_perfil);
+  $perfil->descripcion($descripcion);
   //if(!$perfil->Consultar()){
   if($perfil->Actualizar()){
     $confirmacion=1;
@@ -50,11 +49,11 @@ if($operacion=='Modificar'){
       foreach($_POST['modulos'] as $indiceM => $valorM){
         if(isset($_POST['servicios'])){ 				   	 	
           foreach($_POST['servicios'] as $indiceS => $valorS){
-            $perfil->codigo_servicios($valorS);  
+            $perfil->codigo_servicio($valorS);  
             $perfil->INSERTAR_SERVICIO_PERFIL();           	       	
             if(isset($_POST['opciones'])){ 				   	 			   	 	
               foreach($_POST['opciones'][$valorS] as $indiceO => $valorO){
-                $perfil->codigo_opciones($valorO);            	       		   	 	
+                $perfil->codigo_opcion($valorO);            	       		   	 	
                 $perfil->INSERTAR_OPCION_SERVICIO_PERFIL();
               }				   	 				   	 	        
             }			   	 				   	 				   	 			   	 	           
@@ -79,7 +78,7 @@ if($operacion=='Modificar'){
 
 if($operacion=='Desactivar'){
   $perfil->codigo_perfil($id);
-  $perfil->nombre_perfil($nombre_perfil);
+  $perfil->descripcion($descripcion);
   if($perfil->Consultar()){
     if($perfil->Desactivar())
     $confirmacion=1;
@@ -99,7 +98,7 @@ if($operacion=='Desactivar'){
 		
 if($operacion=='Activar'){
   $perfil->codigo_perfil($id);
-  $perfil->nombre_perfil($nombre_perfil);
+  $perfil->descripcion($descripcion);
   if($perfil->Consultar()){
     if($perfil->Activar())
     $confirmacion=1;
@@ -119,14 +118,14 @@ if($operacion=='Activar'){
 		
 if($operacion=='Consultar'){	
   $perfil->codigo_perfil($id);
-  $perfil->nombre_perfil($nombre_perfil);
+  $perfil->descripcion($descripcion);
   if($perfil->Consultar()){
-    $_SESSION['datos']['cod_perfil']=$perfil->codigo_perfil();
-    $_SESSION['datos']['nombre_perfil']=$perfil->nombre_perfil();
+    $_SESSION['datos']['codigo_perfil']=$perfil->codigo_perfil();
+    $_SESSION['datos']['descripcion']=$perfil->descripcion();
     $_SESSION['datos']['estatus']=$perfil->estatus_perfil();
     header("Location: ../vistas/?perfiles");
   }else{
-    $_SESSION['datos']['mensaje']="No se han encontrado resultados para tu búsqueda(".$nombre_perfil.")";
+    $_SESSION['datos']['mensaje']="No se han encontrado resultados para tu búsqueda(".$descripcion.")";
     header("Location: ../vistas/?perfiles");
   }
 }		  

@@ -3,16 +3,16 @@
  class Municipio
  {
      private $codigo_municipio; 
-     private $nombre_municipio; 
+     private $descripcion; 
      private $estatus_municipio; 
-     private $codigo_ciudad;
+     private $codigo_estado;
      private $fecha_desactivacion; 
      private $mysql; 
 	 
    public function __construct(){
-     $this->nombre_municipio=null;
+     $this->descripcion=null;
      $this->codigo_municipio=null;
-     $this->codigo_ciudad=null;
+     $this->codigo_estado=null;
 	 $this->mysql=new Conexion();
    }
    
@@ -42,21 +42,21 @@
 	 }
    }
    
-   public function nombre_municipio(){
+   public function descripcion(){
    $Num_Parametro=func_num_args();
-	 if($Num_Parametro==0) return $this->nombre_municipio;
+	 if($Num_Parametro==0) return $this->descripcion;
      
 	 if($Num_Parametro>0){
-	   $this->nombre_municipio=func_get_arg(0);
+	   $this->descripcion=func_get_arg(0);
 	 }
    }
 
-   public function codigo_ciudad(){
+   public function codigo_estado(){
       $Num_Parametro=func_num_args();
-	 if($Num_Parametro==0) return $this->codigo_ciudad;
+	 if($Num_Parametro==0) return $this->codigo_estado;
      
 	 if($Num_Parametro>0){
-	   $this->codigo_ciudad=func_get_arg(0);
+	   $this->codigo_estado=func_get_arg(0);
 	 }
    }
 
@@ -71,7 +71,7 @@
    
 
    public function Registrar(){
-    $sql="insert into tmunicipio (nombre_municipio,cod_ciudad) values ('$this->nombre_municipio','$this->codigo_ciudad');";
+    $sql="insert into tmunicipio (descripcion,codigo_estado) values ('$this->descripcion','$this->codigo_estado');";
     if($this->mysql->Ejecutar($sql)!=null)
 	return true;
 	else
@@ -79,14 +79,14 @@
    }
    
      public function Activar(){
-    $sql="update tmunicipio set fecha_desactivacion=NULL where (cod_municipio='$this->codigo_municipio');";
+    $sql="update tmunicipio set fecha_desactivacion=NULL where (codigo_municipio='$this->codigo_municipio');";
     if($this->mysql->Ejecutar($sql)!=null)
 	return true;
 	else
 	return false;
    }
     public function Desactivar(){
-    $sql="update tmunicipio set fecha_desactivacion=CURDATE() where (cod_municipio='$this->codigo_municipio');";
+    $sql="update tmunicipio set fecha_desactivacion=CURDATE() where (codigo_municipio='$this->codigo_municipio');";
     if($this->mysql->Ejecutar($sql)!=null)
 	return true;
 	else
@@ -94,7 +94,7 @@
    }
    
     public function Actualizar(){
-    $sql="update tmunicipio set nombre_municipio='$this->nombre_municipio',cod_ciudad='$this->codigo_ciudad' where (cod_municipio='$this->codigo_municipio');";
+    $sql="update tmunicipio set descripcion='$this->descripcion',codigo_estado='$this->codigo_estado' where (codigo_municipio='$this->codigo_municipio');";
     if($this->mysql->Ejecutar($sql)!=null)
 	return true;
 	else
@@ -104,14 +104,14 @@
    public function Consultar(){
     $sql="select *,
     (CASE WHEN fecha_desactivacion IS NULL THEN  'Activo' 
-    	ELSE 'Desactivado' END) AS estatus_municipio from tmunicipio where nombre_municipio='$this->nombre_municipio'";
+    	ELSE 'Desactivado' END) AS estatus_municipio from tmunicipio where descripcion='$this->descripcion'";
 	$query=$this->mysql->Ejecutar($sql);
     if($this->mysql->Total_Filas($query)!=0){
 	$tmunicipio=$this->mysql->Respuesta($query);
-	$this->codigo_municipio($tmunicipio['cod_municipio']);
-	$this->nombre_municipio($tmunicipio['nombre_municipio']);
+	$this->codigo_municipio($tmunicipio['codigo_municipio']);
+	$this->descripcion($tmunicipio['descripcion']);
 	$this->estatus_municipio($tmunicipio['estatus_municipio']);
-	$this->codigo_ciudad($tmunicipio['cod_ciudad']);
+	$this->codigo_estado($tmunicipio['codigo_estado']);
 	$this->fecha_desactivacion($tmunicipio['fecha_desactivacion']);
 	return true;
 	}
@@ -120,13 +120,13 @@
 	}
    }
    public function Comprobar(){
-    $sql="select * from tmunicipio where nombre_municipio='$this->nombre_municipio' and cod_ciudad='$this->codigo_ciudad'";
+    $sql="select * from tmunicipio where descripcion='$this->descripcion' and codigo_estado='$this->codigo_estado'";
 	$query=$this->mysql->Ejecutar($sql);
     if($this->mysql->Total_Filas($query)!=0){
 	$tmunicipio=$this->mysql->Respuesta($query);
-	$this->codigo_municipio($tmunicipio['cod_municipio']);
-	$this->nombre_municipio($tmunicipio['nombre_municipio']);
-	$this->codigo_ciudad($tmunicipio['cod_ciudad']);
+	$this->codigo_municipio($tmunicipio['codigo_municipio']);
+	$this->descripcion($tmunicipio['descripcion']);
+	$this->codigo_estado($tmunicipio['codigo_estado']);
 	$this->fecha_desactivacion($tmunicipio['fecha_desactivacion']);
 	return true;
 	}

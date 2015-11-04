@@ -39,6 +39,7 @@ else{
       <input title="Ingrese el nombre del servicio" onKeyUp="this.value=this.value.toUpperCase()" name="descripcion" id="descripcion" type="text" size="50" value="<?= $descripcion;?>" placeholder="Ingrese el Nombre del Servicio" class="campoTexto" required>
       <label>Ingrese la url del servicio</label>
       <input title="Ingrese la url del servicio" onKeyUp="this.value=this.value.toUpperCase()" name="url" id="url" type="text" size="50" value="<?= $url;?>" placeholder="Ingrese la URL del Servicio" class="campoTexto">    
+      <label>Módulo</label>
       <select name="codigo_modulo" id="codigo_modulo" title="Seleccione un m&oacute;dulo" placeholder="Seleccione un Módulo" class="campoTexto" required>
         <option value='0'>Seleccione un M&oacute;dulo</option>
         <?php
@@ -82,8 +83,8 @@ else{
    <td>Código </td>
    <td>Nombre</td>
    <td>Url</td>
-   <td>Órden</td>
    <td>Módulo</td>
+   <td>Órden</td>
  </tr>
  <?php
 
@@ -92,7 +93,7 @@ else{
  $mysql=new Conexion();
 
 //Sentencia sql (sin limit) 
- $_pagi_sql = "SELECT s.codigo_servicio,s.descripcion,s.url,s.fecha_desactivacion,m.codigo_modulo,m.descripcion,s.orden FROM tservicio s 
+ $_pagi_sql = "SELECT s.codigo_servicio,s.descripcion AS servicio,s.url,s.fecha_desactivacion,m.codigo_modulo,m.descripcion AS modulo,s.orden FROM tservicio s 
  INNER JOIN tmodulo m ON s.codigo_modulo = m.codigo_modulo WHERE s.fecha_desactivacion IS NULL ORDER BY s.codigo_servicio DESC"; 
 //cantidad de resultados por página (opcional, por defecto 20) 
  $_pagi_cuantos = 10; 
@@ -105,8 +106,8 @@ else{
 
 //Leemos y escribimos los registros de la página actual 
  while($row = mysql_fetch_array($_pagi_result)){ 
-  echo "<tr><td style='width:20%;'>".$row['codigo_servicio']."</td><td align='left'>".$row['descripcion']."</td>
-  <td align='left'>".$row['url']."</td><td align='left'>".$row['descripcion']."</td>
+  echo "<tr><td style='width:20%;'>".$row['codigo_servicio']."</td><td align='left'>".$row['servicio']."</td>
+  <td align='left'>".$row['url']."</td><td align='left'>".$row['modulo']."</td>
     <td align='left'>".$row['orden']."</td></tr>"; 
 } 
 //Incluimos la barra de navegación 

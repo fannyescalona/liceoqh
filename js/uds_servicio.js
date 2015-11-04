@@ -19,6 +19,7 @@ if(devuelve_boton(param)=="Registrar" || devuelve_boton(param)=="Modificar"){
 	}else if(valor4==0){
 		alert('Seleccione un Módulo')
 		permitido=false;
+	}
 }
 	
 if(devuelve_boton(param)=="Desactivar"){

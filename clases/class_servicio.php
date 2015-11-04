@@ -78,7 +78,6 @@ public function url(){
 	   $this->estatus=func_get_arg(0);
 	 }
    }
-    
 
    public function fecha_desactivacion(){
       $Num_Parametro=func_num_args();
@@ -91,7 +90,7 @@ public function url(){
    
    public function Registrar(){
     $sql="insert into tservicio (descripcion,url,orden,codigo_modulo) values ('$this->descripcion','$this->url',
-    	'$this->orden','$this->codigo_modulo');";
+    '$this->orden','$this->codigo_modulo');";
     if($this->mysql->Ejecutar($sql)!=null)
 	return true;
 	else
@@ -114,8 +113,8 @@ public function url(){
    }
    
     public function Actualizar(){
-    $sql="update tservicio set descripcion='$this->descripcion',
-    url='$this->url',orden='$this->orden',codigo_modulo='$this->codigo_modulo', where (codigo_servicio='$this->codigo_servicio');";
+    $sql="update tservicio set descripcion='$this->descripcion',url='$this->url',
+    orden='$this->orden',codigo_modulo='$this->codigo_modulo' where (codigo_servicio='$this->codigo_servicio');";
     if($this->mysql->Ejecutar($sql)!=null)
 	return true;
 	else

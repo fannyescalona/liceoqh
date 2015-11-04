@@ -16,7 +16,6 @@ if(isset($_SESSION['datos'])){
             @$estatus=$_SESSION['datos']['estatus'];
             }
        else{
-
             @$codigo_modulo=null;
             @$descripcion=null;
             @$icono=null;
@@ -39,15 +38,15 @@ if(isset($_SESSION['datos'])){
              <label>Ingrese el n&uacute;mero de orden</label>
              <input title="Ingrese el n&uacute;mero de orden" onKeyPress="return isNumberKey(event)" name="orden" id="orden" type="text" size="50" value="<?= $orden;?>" placeholder="Ingrese el Número de Orden" class="campoTexto" required /> 
              <label>Seleccione un &iacute;cono</label>
-             <input name="icono" id="icono" type="radio" value="icon-home" title="Seleccionar icono de casa" checked="checked"  <? if($icono=="icon-home"){ echo "checked='checked'"; } ?>  
+             <input name="icono" id="icono" type="radio" value="icon-home" title="Seleccionar icono de casa" <?php if($icono=="icon-home"){ echo "checked='checked'"; } ?>  required />
               <span class="icon-home" title="Icono de casa"></span> 
-              <input name="icono" id="icono" type="radio" value="icon-list" title="Seleccionar icono de lista" <? if($icono=="icon-list"){ echo "checked='checked'"; } ?>
+              <input name="icono" id="icono" type="radio" value="icon-list" title="Seleccionar icono de lista" <?php if($icono=="icon-list"){ echo "checked='checked'"; } ?> required />
               <span class="icon-list" title="Icono de lista"></span> 
-              <input name="icono" id="icono" type="radio" value="icon-list-alt" title="Seleccionar icono de lista alternativa" <? if($icono=="icon-list-alt"){ echo "checked='checked'"; } ?>
+              <input name="icono" id="icono" type="radio" value="icon-list-alt" title="Seleccionar icono de lista alternativa" <?php if($icono=="icon-list-alt"){ echo "checked='checked'"; } ?> required />
               <span class="icon-list-alt" title="Icono de lista alternativa"></span> 
-              <input name="icono" id="icono" type="radio" value="icon-cog" title="Seleccionar icono de configuraci&oacute;n" <? if($icono=="icon-cog"){ echo "checked='checked'"; } ?>
+              <input name="icono" id="icono" type="radio" value="icon-cog" title="Seleccionar icono de configuraci&oacute;n" <?php if($icono=="icon-cog"){ echo "checked='checked'"; } ?> required />
               <span class="icon-cog" title="Icono de configuraci&oacute;n"></span> 
-              <input name="icono" id="icono" type="radio" value="icon-lock" title="Seleccionar icono de seguridad" <? if($icono=="icon-lock"){ echo "checked='checked'"; } ?> 
+              <input name="icono" id="icono" type="radio" value="icon-lock" title="Seleccionar icono de seguridad" <?php if($icono=="icon-lock"){ echo "checked='checked'"; } ?> required />
               <span class="icon-lock" title="Icono de seguridad"></span> 
            <br><strong class="obligatorio">Los campos resaltados en rojo son obligatorios</strong>
       </div>    
@@ -95,7 +94,7 @@ $_pagi_nav_num_enlaces=5;
 
 //Leemos y escribimos los registros de la página actual 
 while($row = mysql_fetch_array($_pagi_result)){ 
-    echo "<tr><td style='width:20%;'>".$row['codigo_modulo']."</td><td align='left'>".$row['descripcion']."</td><td align='left'><span class=".$row['icono']."></span>".$row['icono']."</td></tr>"; 
+    echo "<tr><td style='width:20%;'>".$row['codigo_modulo']."</td><td align='left'>".$row['descripcion']."</td><td align='left'><span class=".$row['icono']."></span>".$row['icono']."</td><td align='left'>".$row['orden']."</td></tr>"; 
 } 
 //Incluimos la barra de navegación 
          ?>

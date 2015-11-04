@@ -1,5 +1,5 @@
 <?php
-if(isset($_SESSION['datos']['nombre_parroquia'])){ 
+if(isset($_SESSION['datos']['descripcion'])){ 
  $disabledRC='disabled';
  $disabledMD='';
  $estatus=null;
@@ -9,13 +9,13 @@ if(isset($_SESSION['datos']['nombre_parroquia'])){
 }
 $servicios='parroquia';
 if(isset($_SESSION['datos'])){
-  @$nombre_parroquia=$_SESSION['datos']['nombre_parroquia'];
-  @$codigo_parroquia=$_SESSION['datos']['cod_parroquia'];
-  @$codigo_municipio=$_SESSION['datos']['cod_municipio'];
+  @$descripcion=$_SESSION['datos']['descripcion'];
+  @$codigo_parroquia=$_SESSION['datos']['codigo_parroquia'];
+  @$codigo_municipio=$_SESSION['datos']['codigo_municipio'];
   @$estatus=$_SESSION['datos']['estatus'];
 }
 else{
-  @$nombre_parroquia=null;
+  @$descripcion=null;
   @$codigo_parroquia=null;
   @$codigo_municipio=null;
   @$estatus=null;
@@ -28,25 +28,24 @@ else{
   <form action="../controladores/cont_parroquia.php" method="post" id="form">
    <fieldset>
     <legend>Parroquia</legend>
-
     <div id="contenedorFormulario">
       <label>Código:</label>
-      <input title="El código de la parroquia es generado por el sistema" name="cod_parroquia" id="cod_parroquia" type="text" size="10" readonly value="<?= $codigo_parroquia;?>" required="" placeholder="El código de parroquia es generado por el sistema" class="campoTexto"/> 
+      <input title="El código de la parroquia es generado por el sistema" name="codigo_parroquia" id="codigo_parroquia" type="text" size="10" readonly value="<?= $codigo_parroquia;?>" required="" placeholder="El código de parroquia es generado por el sistema" class="campoTexto"/> 
       <label>Nombre de la Parroquia:</label>
-      <input title="Ingrese el nombre de la parroquia" onKeyUp="this.value=this.value.toUpperCase()" name="nombre_parroquia" id="nombre_parroquia" type="text" size="50" value="<?= $nombre_parroquia;?>" required="" placeholder="Ingrese el nombre de la parroquia" class="campoTexto"/>
+      <input title="Ingrese el nombre de la parroquia" onKeyUp="this.value=this.value.toUpperCase()" name="descripcion" id="descripcion" type="text" size="50" value="<?= $descripcion;?>" required="" placeholder="Ingrese el nombre de la parroquia" class="campoTexto"/>
       <label>Seleccione un Municipio:</label>
-      <select name="cod_municipio" id="cod_municipio" title="Seleccione un municipio" required="" class="campoTexto">
+      <select name="codigo_municipio" id="codigo_municipio" title="Seleccione un municipio" required="" class="campoTexto">
         <option value='0'>Seleccione un Municipio</option>
         <?php
         require_once("../clases/class_bd.php");
         $mysql=new Conexion();
-        $sql = "SELECT cod_municipio,upper(nombre_municipio) nombre_municipio FROM tmunicipio WHERE fecha_desactivacion IS NULL ORDER BY cod_municipio";
+        $sql = "SELECT codigo_municipio,upper(descripcion) descripcion FROM tmunicipio WHERE fecha_desactivacion IS NULL ORDER BY codigo_municipio";
         $query = $mysql->Ejecutar($sql);
         while ($row = $mysql->Respuesta($query)){
-          if($row['cod_municipio']==$codigo_municipio){
-            echo "<option value='".$row['cod_municipio']."' selected>".$row['nombre_municipio']."</option>";
+          if($row['codigo_municipio']==$codigo_municipio){
+            echo "<option value='".$row['codigo_municipio']."' selected>".$row['descripcion']."</option>";
           }else{
-            echo "<option value='".$row['cod_municipio']."'>".$row['nombre_municipio']."</option>";
+            echo "<option value='".$row['codigo_municipio']."'>".$row['descripcion']."</option>";
           }
         }
         ?>
@@ -69,12 +68,8 @@ else{
     $perfil=new Perfil();
     $perfil->codigo_perfil(@$_SESSION['user_codigo_perfil']);
     $servicios_permitidos=$perfil->IMPRIMIR_SERVICIOS_USUARIO();
-    $servicio_solicitado=strtolower(preg_replace('/(serv_)|(\.php)/','',basename(__FILE__)));  	
-
-
-
-
-    ?>
+    $servicio_solicitado=strtolower(preg_replace('/(serv_)|(\.php)/','',basename(__FILE__)));
+  ?>
     <a href="?parroquia" ><img src="../images/cerrar.png" alt="Cerrar" style="width:40px;heigth:40px;float:right;"></a>
     <a href="../excel/excel_parroquia.php" ><img src="../images/icon-excel.png" alt="Exportar a Excel" style="width:40px;heigth:40px;float:right;"></a>
     <a href="<?php echo  '../pdf/?serv='.$servicio_solicitado;?>" target="_blank"><img src="../images/icon-pdf.png" alt="Exportar a PDF" style="width:40px;heigth:40px;float:right;margin:0.3em;margin-left:1em;"></a>        
@@ -92,8 +87,8 @@ else{
      $mysql=new Conexion();
 
 //Sentencia sql (sin limit) 
-     $_pagi_sql = "SELECT p.cod_parroquia,p.nombre_parroquia,p.fecha_desactivacion,m.cod_municipio,m.nombre_municipio FROM tparroquia p 
-     INNER JOIN tmunicipio m ON p.cod_municipio = m.cod_municipio WHERE p.fecha_desactivacion IS NULL ORDER BY p.cod_parroquia DESC"; 
+     $_pagi_sql = "SELECT p.codigo_parroquia,p.descripcion AS parroquia,p.fecha_desactivacion,m.codigo_municipio,m.descripcion AS municipio FROM tparroquia p 
+     INNER JOIN tmunicipio m ON p.codigo_municipio = m.codigo_municipio WHERE p.fecha_desactivacion IS NULL ORDER BY p.codigo_parroquia DESC"; 
 //cantidad de resultados por página (opcional, por defecto 20) 
      $_pagi_cuantos = 10; 
 //Cadena que separa los enlaces numéricos en la barra de navegación entre páginas.
@@ -105,7 +100,7 @@ else{
 
 //Leemos y escribimos los registros de la página actual 
      while($row = mysql_fetch_array($_pagi_result)){ 
-      echo "<tr><td style='width:20%;'>".$row['cod_parroquia']."</td><td align='left'>".$row['nombre_parroquia']."</td><td align='left'>".$row['nombre_municipio']."</td></tr>"; 
+      echo "<tr><td style='width:20%;'>".$row['codigo_parroquia']."</td><td align='left'>".$row['parroquia']."</td><td align='left'>".$row['municipio']."</td></tr>"; 
     } 
 //Incluimos la barra de navegación 
     ?>

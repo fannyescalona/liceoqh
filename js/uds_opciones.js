@@ -2,9 +2,10 @@ function validar_formulario(param){
 //para validar en caso q no return false
 console.log(param);
 permitido=true;
-valor=document.getElementById('nombre_opciones').value;
-valor2=document.getElementById('cod_opciones').value;
-valor3=document.getElementById('orden_opciones').value;
+valor=document.getElementById('descripcion').value;
+valor2=document.getElementById('codigo_opcion').value;
+valor3=document.getElementById('orden').value;
+valor4=document.getElementById('icono').value;
 if(devuelve_boton(param)=="Registrar" || devuelve_boton(param)=="Modificar"){
 	if(valor.replace(/^\s+|\s+$/gi,"").length==0){ //para no permitir que se quede en blanco
 	alert('Ingrese el nombre de la Opción')
@@ -14,6 +15,10 @@ if(devuelve_boton(param)=="Registrar" || devuelve_boton(param)=="Modificar"){
 		alert('Debe seleccionar una acción')
 		permitido=false;
 	}	
+	if(valor4==0){
+		alert('Debe seleccionar un icono')
+		permitido=false;
+	}
 }
 	
 if(devuelve_boton(param)=="Desactivar"){

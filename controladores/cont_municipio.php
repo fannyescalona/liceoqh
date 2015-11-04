@@ -6,22 +6,22 @@ if(isset($_POST['operacion']))
   //Asignar valor a variable
 $operacion=ucfirst(trim($_POST['operacion']));
 
-if(isset($_POST['cod_municipio']))
-$id=ucfirst(trim($_POST['cod_municipio']));
+if(isset($_POST['codigo_municipio']))
+$id=ucfirst(trim($_POST['codigo_municipio']));
 
-if(isset($_POST['nombre_municipio']))
-$nombre_municipio=ucfirst(trim($_POST['nombre_municipio']));
+if(isset($_POST['descripcion']))
+$descripcion=ucfirst(trim($_POST['descripcion']));
 
-if(isset($_POST['cod_ciudad']))
-$cod_ciudad=ucfirst(trim($_POST['cod_ciudad']));
+if(isset($_POST['codigo_estado']))
+$codigo_estado=ucfirst(trim($_POST['codigo_estado']));
 
 
 include_once("../clases/class_municipio.php");
 $municipio=new Municipio();
 if($operacion=='Registrar'){
   $municipio->codigo_municipio($id);
-  $municipio->nombre_municipio($nombre_municipio);
-  $municipio->codigo_ciudad($cod_ciudad);
+  $municipio->descripcion($descripcion);
+  $municipio->codigo_estado($codigo_estado);
     if(!$municipio->Comprobar()){
     if($municipio->Registrar())
       $confirmacion=1;
@@ -46,8 +46,8 @@ if($operacion=='Registrar'){
 
 if($operacion=='Modificar'){
   $municipio->codigo_municipio($id);
-  $municipio->nombre_municipio($nombre_municipio);
-  $municipio->codigo_ciudad($cod_ciudad);
+  $municipio->descripcion($descripcion);
+  $municipio->codigo_estado($codigo_estado);
     if($municipio->Actualizar())
      $confirmacion=1;
     else
@@ -63,8 +63,8 @@ if($operacion=='Modificar'){
 
 if($operacion=='Desactivar'){
   $municipio->codigo_municipio($id);
-  $municipio->nombre_municipio($nombre_municipio);
-  $municipio->codigo_ciudad($cod_ciudad);
+  $municipio->descripcion($descripcion);
+  $municipio->codigo_estado($codigo_estado);
   if($municipio->Consultar()){
     if($municipio->Desactivar())
     $confirmacion=1;
@@ -85,8 +85,8 @@ if($operacion=='Desactivar'){
 
 if($operacion=='Activar'){
   $municipio->codigo_municipio($id);
-  $municipio->nombre_municipio($nombre_municipio);
-  $municipio->codigo_ciudad($cod_ciudad);
+  $municipio->descripcion($descripcion);
+  $municipio->codigo_estado($codigo_estado);
   if($municipio->Consultar()){
     if($municipio->Activar())
     $confirmacion=1;
@@ -106,15 +106,15 @@ if($operacion=='Activar'){
 
 if($operacion=='Consultar'){ 
   $municipio->codigo_municipio($id);
-  $municipio->nombre_municipio($nombre_municipio);
+  $municipio->descripcion($descripcion);
   if($municipio->Consultar()){
-    $_SESSION['datos']['cod_municipio']=$municipio->codigo_municipio();
-    $_SESSION['datos']['nombre_municipio']=$municipio->nombre_municipio();
-    $_SESSION['datos']['cod_ciudad']=$municipio->codigo_ciudad();
+    $_SESSION['datos']['codigo_municipio']=$municipio->codigo_municipio();
+    $_SESSION['datos']['descripcion']=$municipio->descripcion();
+    $_SESSION['datos']['codigo_estado']=$municipio->codigo_estado();
     $_SESSION['datos']['estatus']=$municipio->estatus_municipio();
     header("Location: ../vistas/?municipio");
   }else{
-    $_SESSION['datos']['mensaje']=utf8_encode("No se han encontrado resultados para tu búsqueda(".$nombre_municipio.")");
+    $_SESSION['datos']['mensaje']=utf8_encode("No se han encontrado resultados para tu búsqueda(".$descripcion.")");
     header("Location: ../vistas/?municipio");
   }
 }    

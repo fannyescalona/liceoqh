@@ -1,8 +1,8 @@
 function validar_formulario(param){
 //para validar en caso q no return false
 permitido=true;
-valor=document.getElementById('nombre_perfil').value;
-valor2=document.getElementById('cod_perfil').value;
+valor=document.getElementById('descripcion').value;
+valor2=document.getElementById('codigo_perfil').value;
 if(devuelve_boton(param)=="Registrar" || devuelve_boton(param)=="Modificar"){
 if(valor.replace(/^\s+|\s+$/gi,"").length==0){ //para no permitir que se quede en blanco
 alert('Ingrese el perfil')

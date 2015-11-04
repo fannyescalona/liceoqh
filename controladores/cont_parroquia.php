@@ -6,22 +6,22 @@ if(isset($_POST['operacion']))
   //Asignar valor a variable
 $operacion=ucfirst(trim($_POST['operacion']));
 
-if(isset($_POST['cod_parroquia']))
-$id=ucfirst(trim($_POST['cod_parroquia']));
+if(isset($_POST['codigo_parroquia']))
+$id=ucfirst(trim($_POST['codigo_parroquia']));
 
-if(isset($_POST['nombre_parroquia']))
-$nombre_parroquia=ucfirst(trim($_POST['nombre_parroquia']));
+if(isset($_POST['descripcion']))
+$descripcion=ucfirst(trim($_POST['descripcion']));
 
-if(isset($_POST['cod_municipio']))
-$cod_municipio=ucfirst(trim($_POST['cod_municipio']));
+if(isset($_POST['codigo_municipio']))
+$codigo_municipio=ucfirst(trim($_POST['codigo_municipio']));
 
 
 include_once("../clases/class_parroquia.php");
 $parroquia=new Parroquia();
 if($operacion=='Registrar'){
   $parroquia->codigo_parroquia($id);
-  $parroquia->nombre_parroquia($nombre_parroquia);
-  $parroquia->codigo_municipio($cod_municipio);
+  $parroquia->descripcion($descripcion);
+  $parroquia->codigo_municipio($codigo_municipio);
   if(!$parroquia->Comprobar()){
     if($parroquia->Registrar())
       $confirmacion=1;
@@ -46,8 +46,8 @@ if($operacion=='Registrar'){
 
 if($operacion=='Modificar'){
   $parroquia->codigo_parroquia($id);
-  $parroquia->nombre_parroquia($nombre_parroquia);
-  $parroquia->codigo_municipio($cod_municipio);
+  $parroquia->descripcion($descripcion);
+  $parroquia->codigo_municipio($codigo_municipio);
     if($parroquia->Actualizar())
      $confirmacion=1;
     else
@@ -63,8 +63,8 @@ if($operacion=='Modificar'){
 
 if($operacion=='Desactivar'){
   $parroquia->codigo_parroquia($id);
-  $parroquia->nombre_parroquia($nombre_parroquia);
-  $parroquia->codigo_municipio($cod_municipio);
+  $parroquia->descripcion($descripcion);
+  $parroquia->codigo_municipio($codigo_municipio);
   if($parroquia->Consultar()){
     if($parroquia->Desactivar())
     $confirmacion=1;
@@ -84,8 +84,8 @@ if($operacion=='Desactivar'){
 
 if($operacion=='Activar'){
   $parroquia->codigo_parroquia($id);
-  $parroquia->nombre_parroquia($nombre_parroquia);
-  $parroquia->codigo_municipio($cod_municipio);
+  $parroquia->descripcion($descripcion);
+  $parroquia->codigo_municipio($codigo_municipio);
   if($parroquia->Consultar()){
     if($parroquia->Activar())
     $confirmacion=1;
@@ -105,15 +105,15 @@ if($operacion=='Activar'){
 
 if($operacion=='Consultar'){ 
   $parroquia->codigo_parroquia($id);
-  $parroquia->nombre_parroquia($nombre_parroquia);
+  $parroquia->descripcion($descripcion);
   if($parroquia->Consultar()){
-    $_SESSION['datos']['cod_parroquia']=$parroquia->codigo_parroquia();
-    $_SESSION['datos']['nombre_parroquia']=$parroquia->nombre_parroquia();
-    $_SESSION['datos']['cod_municipio']=$parroquia->codigo_municipio();
+    $_SESSION['datos']['codigo_parroquia']=$parroquia->codigo_parroquia();
+    $_SESSION['datos']['descripcion']=$parroquia->descripcion();
+    $_SESSION['datos']['codigo_municipio']=$parroquia->codigo_municipio();
     $_SESSION['datos']['estatus']=$parroquia->estatus_parroquia();
     header("Location: ../vistas/?parroquia");
   }else{
-    $_SESSION['datos']['mensaje']=utf8_encode("No se han encontrado resultados para tu búsqueda(".$nombre_parroquia.")");
+    $_SESSION['datos']['mensaje']=utf8_encode("No se han encontrado resultados para tu búsqueda(".$descripcion.")");
     header("Location: ../vistas/?parroquia");
   }
 }    

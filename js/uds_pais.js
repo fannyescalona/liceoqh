@@ -2,13 +2,13 @@ function validar_formulario(param){
 //para validar en caso q no return false
 permitido=true;
 
-valor=document.getElementById('nombre_pais').value;
-valor2=document.getElementById('cod_pais').value;
+valor=document.getElementById('descripcion').value;
+valor2=document.getElementById('codigo_pais').value;
 if(devuelve_boton(param)=="Registrar" || devuelve_boton(param)=="Modificar"){
 if(valor.replace(/^\s+|\s+$/gi,"").length==0){ //para no permitir que se queda en blanco
-alert('Ingrese el nombre del país')
-permitido=false;
-}	
+		alert('Ingrese el nombre del país')
+		permitido=false;
+	}	
 }
 	
 if(devuelve_boton(param)=="Desactivar"){

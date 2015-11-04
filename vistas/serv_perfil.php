@@ -1,5 +1,5 @@
 <?php
-if(isset($_SESSION['datos']['nombre_perfil'])){ 
+if(isset($_SESSION['datos']['descripcion'])){ 
                  $disabledRC='disabled';//para desactivar el boton registrar y consultar (RC)
                   $disabledMD='';//para activar el boton Modificar y Desactivar (MD)
                 }else {
@@ -8,13 +8,12 @@ if(isset($_SESSION['datos']['nombre_perfil'])){
                 	}
                 	$servicios='perfiles';
 if(isset($_SESSION['datos'])){
-            @$nombre_perfil=$_SESSION['datos']['nombre_perfil'];
-            @$codigo_perfil=$_SESSION['datos']['cod_perfil'];
-           // unset($_SESSION['datos']);
+            @$descripcion=$_SESSION['datos']['descripcion'];
+            @$codigo_perfil=$_SESSION['datos']['codigo_perfil'];
             @$estatus=$_SESSION['datos']['estatus'];
             }
        else{
-            $nombre_perfil=null;
+            $descripcion=null;
             $codigo_perfil=null;
             $estatus=null;
             }
@@ -27,10 +26,10 @@ if(isset($_SESSION['datos'])){
       <legend>Perfil de Usuario</legend>
       <div id="contenedorFormulario">
         <label>Código:</label>
-        <input title="el c&oacute;digo del perfil es generado por el sistema" style="width:3em" name="cod_perfil" id="cod_perfil" type="text" size=5 readonly value="<?= $codigo_perfil;?>" placeholder="El Código es generado por el sistema" class="campoTexto"/> 
+        <input title="el c&oacute;digo del perfil es generado por el sistema" style="width:3em" name="codigo_perfil" id="codigo_perfil" type="text" size=5 readonly value="<?= $codigo_perfil;?>" placeholder="El Código es generado por el sistema" class="campoTexto"/> 
         <label>Nombre del Perfil:</label>
-        <input title="Ingrese el nombre del perfil de usuario" onKeyUp="this.value=this.value.toUpperCase()" name="nombre_perfil" 
-        id="nombre_perfil" type="text" size="20" value="<?= $nombre_perfil;?>"placeholder="Ingrese el Perfil de Usuario" class="campoTexto" required />
+        <input title="Ingrese el nombre del perfil de usuario" onKeyUp="this.value=this.value.toUpperCase()" name="descripcion" 
+        id="descripcion" type="text" size="20" value="<?= $descripcion;?>"placeholder="Ingrese el Perfil de Usuario" class="campoTexto" required />
         <strong class="obligatorio">Los campos resaltados en rojo son obligatorios</strong>
       </div>    
       <br>
@@ -71,7 +70,7 @@ $servicio_solicitado=strtolower(preg_replace('/(serv_)|(\.php)/','',basename(__F
   $mysql=new Conexion();
 
 //Sentencia sql (sin limit) 
-$_pagi_sql = "SELECT * FROM tperfil where fecha_desactivacion is null order by cod_perfil desc"; 
+$_pagi_sql = "SELECT * FROM tperfil where fecha_desactivacion is null order by codigo_perfil desc"; 
 //cantidad de resultados por página (opcional, por defecto 20) 
 $_pagi_cuantos = 10; 
 //Cadena que separa los enlaces numéricos en la barra de navegación entre páginas.
@@ -83,7 +82,7 @@ $_pagi_nav_num_enlaces=5;
 
 //Leemos y escribimos los registros de la página actual 
 while($row = mysql_fetch_array($_pagi_result)){ 
-    echo "<tr><td style='width:20%;'>".$row['cod_perfil']."</td><td align='left'>".$row['nombre_perfil']."</td></tr>"; 
+    echo "<tr><td style='width:20%;'>".$row['codigo_perfil']."</td><td align='left'>".$row['descripcion']."</td></tr>"; 
 } 
 //Incluimos la barra de navegación 
          ?>

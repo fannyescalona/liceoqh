@@ -6,18 +6,18 @@ if(isset($_POST['operacion']))
 //Asignar valor a variable
 $operacion=ucfirst(trim($_POST['operacion']));
 
-if(isset($_POST['cod_pais']))
-$id=ucfirst(trim($_POST['cod_pais']));
+if(isset($_POST['codigo_pais']))
+$id=ucfirst(trim($_POST['codigo_pais']));
 
-if(isset($_POST['nombre_pais']))
-$nombre_pais=ucfirst(trim($_POST['nombre_pais']));
+if(isset($_POST['descripcion']))
+$descripcion=ucfirst(trim($_POST['descripcion']));
 
 
 include_once("../clases/class_pais.php");
 $pais=new Pais();
 if($operacion=='Registrar'){
   $pais->codigo_pais($id);
-  $pais->nombre_pais($nombre_pais);
+  $pais->descripcion($descripcion);
   if(!$pais->Comprobar()){
     if($pais->Registrar())
       $confirmacion=1;
@@ -42,7 +42,7 @@ if($confirmacion==1){
 
 if($operacion=='Modificar'){
   $pais->codigo_pais($id);
-  $pais->nombre_pais($nombre_pais);
+  $pais->descripcion($descripcion);
   if($pais->Actualizar())
     $confirmacion=1;
   else
@@ -58,7 +58,7 @@ if($operacion=='Modificar'){
 
 if($operacion=='Desactivar'){
   $pais->codigo_pais($id);
-  $pais->nombre_pais($nombre_pais);
+  $pais->descripcion($descripcion);
   if($pais->Consultar()){
     if($pais->Desactivar())
 	   $confirmacion=1;
@@ -78,7 +78,7 @@ if($operacion=='Desactivar'){
 
 if($operacion=='Activar'){
   $pais->codigo_pais($id);
-  $pais->nombre_pais($nombre_pais);
+  $pais->descripcion($descripcion);
   if($pais->Consultar()){
     if($pais->Activar())
      $confirmacion=1;
@@ -98,14 +98,14 @@ if($operacion=='Activar'){
 
 if($operacion=='Consultar'){	
   $pais->codigo_pais($id);
-  $pais->nombre_pais($nombre_pais);
+  $pais->descripcion($descripcion);
    if($pais->Consultar()){
-    $_SESSION['datos']['cod_pais']=$pais->codigo_pais();
-    $_SESSION['datos']['nombre_pais']=$pais->nombre_pais();
+    $_SESSION['datos']['codigo_pais']=$pais->codigo_pais();
+    $_SESSION['datos']['descripcion']=$pais->descripcion();
     $_SESSION['datos']['estatus']=$pais->estatus_pais();
     header("Location: ../vistas/?pais");
   }else{
-   $_SESSION['datos']['mensaje']="No se han encontrado resultados para tu búsqueda(".$nombre_pais.")";
+   $_SESSION['datos']['mensaje']="No se han encontrado resultados para tu búsqueda(".$descripcion.")";
    header("Location: ../vistas/?pais");
   }
 }		  

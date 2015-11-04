@@ -3,14 +3,14 @@
  class Parroquia
  {
      private $codigo_parroquia; 
-     private $nombre_parroquia; 
+     private $descripcion; 
      private $codigo_municipio;
      private $estatus_parroquia;
      private $fecha_desactivacion; 
      private $mysql; 
 	 
    public function __construct(){
-     $this->nombre_parroquia=null;
+     $this->descripcion=null;
      $this->codigo_parroquia=null;
      $this->codigo_municipio=null;
 	 $this->mysql=new Conexion();
@@ -41,12 +41,12 @@
 	 }
    }
    
-   public function nombre_parroquia(){
+   public function descripcion(){
    $Num_Parametro=func_num_args();
-	 if($Num_Parametro==0) return $this->nombre_parroquia;
+	 if($Num_Parametro==0) return $this->descripcion;
      
 	 if($Num_Parametro>0){
-	   $this->nombre_parroquia=func_get_arg(0);
+	   $this->descripcion=func_get_arg(0);
 	 }
    }
 
@@ -70,7 +70,7 @@
    
 
    public function Registrar(){
-    $sql="insert into tparroquia (nombre_parroquia,cod_municipio) values ('$this->nombre_parroquia','$this->codigo_municipio');";
+    $sql="insert into tparroquia (descripcion,codigo_municipio) values ('$this->descripcion','$this->codigo_municipio');";
     if($this->mysql->Ejecutar($sql)!=null)
 	return true;
 	else
@@ -78,14 +78,14 @@
    }
    
      public function Activar(){
-    $sql="update tparroquia set fecha_desactivacion=NULL where (cod_parroquia='$this->codigo_parroquia');";
+    $sql="update tparroquia set fecha_desactivacion=NULL where (codigo_parroquia='$this->codigo_parroquia');";
     if($this->mysql->Ejecutar($sql)!=null)
 	return true;
 	else
 	return false;
    }
     public function Desactivar(){
-    $sql="update tparroquia set fecha_desactivacion=CURDATE() where (cod_parroquia='$this->codigo_parroquia');";
+    $sql="update tparroquia set fecha_desactivacion=CURDATE() where (codigo_parroquia='$this->codigo_parroquia');";
     if($this->mysql->Ejecutar($sql)!=null)
 	return true;
 	else
@@ -93,7 +93,7 @@
    }
    
     public function Actualizar(){
-    $sql="update tparroquia set nombre_parroquia='$this->nombre_parroquia',cod_municipio='$this->codigo_municipio' where (cod_parroquia='$this->codigo_parroquia');";
+    $sql="update tparroquia set descripcion='$this->descripcion',codigo_municipio='$this->codigo_municipio' where (codigo_parroquia='$this->codigo_parroquia');";
     if($this->mysql->Ejecutar($sql)!=null)
 	return true;
 	else
@@ -103,14 +103,14 @@
    public function Consultar(){
     $sql="select *,
     (CASE WHEN fecha_desactivacion IS NULL THEN  'Activo' 
-    	ELSE 'Desactivado' END) AS estatus_parroquia from tparroquia where nombre_parroquia='$this->nombre_parroquia'";
+    	ELSE 'Desactivado' END) AS estatus_parroquia from tparroquia where descripcion='$this->descripcion'";
 	$query=$this->mysql->Ejecutar($sql);
     if($this->mysql->Total_Filas($query)!=0){
 	$tparroquia=$this->mysql->Respuesta($query);
-	$this->codigo_parroquia($tparroquia['cod_parroquia']);
-	$this->nombre_parroquia($tparroquia['nombre_parroquia']);
+	$this->codigo_parroquia($tparroquia['codigo_parroquia']);
+	$this->descripcion($tparroquia['descripcion']);
 	$this->estatus_parroquia($tparroquia['estatus_parroquia']);
-	$this->codigo_municipio($tparroquia['cod_municipio']);
+	$this->codigo_municipio($tparroquia['codigo_municipio']);
 	$this->fecha_desactivacion($tparroquia['fecha_desactivacion']);
 	return true;
 	}
@@ -119,13 +119,13 @@
 	}
    }
    public function Comprobar(){
-    $sql="select * from tparroquia where nombre_parroquia='$this->nombre_parroquia' and cod_municipio='$this->codigo_municipio'";
+    $sql="select * from tparroquia where descripcion='$this->descripcion' and codigo_municipio='$this->codigo_municipio'";
 	$query=$this->mysql->Ejecutar($sql);
     if($this->mysql->Total_Filas($query)!=0){
 	$tparroquia=$this->mysql->Respuesta($query);
-	$this->codigo_parroquia($tparroquia['cod_parroquia']);
-	$this->nombre_parroquia($tparroquia['nombre_parroquia']);
-	$this->codigo_municipio($tparroquia['cod_municipio']);
+	$this->codigo_parroquia($tparroquia['codigo_parroquia']);
+	$this->descripcion($tparroquia['descripcion']);
+	$this->codigo_municipio($tparroquia['codigo_municipio']);
 	$this->fecha_desactivacion($tparroquia['fecha_desactivacion']);
 	return true;
 	}
