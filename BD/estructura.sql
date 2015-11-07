@@ -7,8 +7,8 @@ DROP TABLE IF EXISTS tano_academico;
 
 CREATE TABLE tano_academico (
   codigo_ano_academico int(11) NOT NULL AUTO_INCREMENT,
-  fecha_desactivacion date DEFAULT NULL,
   descripcion char(10) COLLATE utf8_spanish_ci NOT NULL,
+  fecha_desactivacion date DEFAULT NULL,
   PRIMARY KEY (codigo_ano_academico)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 

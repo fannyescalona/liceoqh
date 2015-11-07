@@ -13,7 +13,7 @@ if(isset($_SESSION['user_estado'])){
   <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>:..Universidad Deportiva del Sur</title>
+    <title>:..Liceo Quebrada Honda</title>
     <link rel="stylesheet" href="../css/jquery-ui.css" />
     <link rel="stylesheet" href="../css/normalize.css" />
     <link rel="stylesheet" href="../css/bootstrap.css" />
@@ -59,7 +59,7 @@ if(isset($_SESSION['user_estado'])){
   <body onload="javascript:loading_modal()">
 
     <div id='sidebar'>
-      <a href='<?PHP echo  $_SERVER['SCRIPT_NAME']; ?>'><img id='logo' src='../images/udsihlogo.png'></a>
+      <a href='<?PHP echo  $_SERVER['SCRIPT_NAME']; ?>'><img id='logo' src='../images/qhlogo.png'></a>
       <?php
       if($_SESSION['user_estado']==1){
        include("menu.php");
@@ -137,7 +137,7 @@ if(isset($_SESSION['user_estado'])){
           else if(isset($_GET['nuevousuario'])) include("serv_nuevo-usuario.php");
           else if(isset($_GET['cambiarcontrasena'])) include("serv_cambiar_contrasena.php");
           else if(isset($_GET['perfiles'])) include("serv_perfil.php");  
-          else if(isset($_GET['rol'])) include("serv_rol.php");  
+          else if(isset($_GET['cargo'])) include("serv_cargo.php");  
           else if(isset($_GET['botones'])) include("serv_opciones.php"); 
           else if(isset($_GET['pais'])) include("serv_pais.php");
           else if(isset($_GET['estado'])) include("serv_estado.php");  
@@ -149,14 +149,16 @@ if(isset($_SESSION['user_estado'])){
           else if(isset($_GET['modulo'])) include("serv_modulo.php");
           else if(isset($_GET['ambiente'])) include("serv_ambiente.php"); 
           else if(isset($_GET['bloque_hora'])) include("serv_bloque_hora.php");    
-          else if(isset($_GET['periodo'])) include("serv_periodo.php");        
-          else if(isset($_GET['ano_academico'])) include("serv_ano_academico.php");    
+          else if(isset($_GET['periodo'])) include("serv_periodo.php");           
           else if(isset($_GET['semestre'])) include("serv_semestre.php");    
           else if(isset($_GET['seccion'])) include("serv_seccion.php"); 
           else if(isset($_GET['servicio'])) include("servicio.php");   
           else if(isset($_GET['materia_seccion'])) include("serv_materia_seccion.php"); 
           //else if(isset($_GET['estudiante'])) include("serv_estudiante.php");
-          else if(isset($_GET['persona'])) include("serv_persona.php");    
+          else if(isset($_GET['persona'])) include("serv_persona.php");
+          else if(isset($_GET['parentesco'])) include("serv_parentesco.php"); 
+          else if(isset($_GET['ano_academico'])) include("serv_ano_academico.php");
+          else if(isset($_GET['lapso'])) include("serv_lapso.php");      
           else if(isset($_GET['actualizar_pre_inscripcion'])) include("serv_preinscripcion.php");
           else if(isset($_GET['seleccionar_pre_inscripcion'])) include("serv_preinscripcion.php");
           else if(isset($_GET['inscribir_pre_inscripcion'])) include("serv_preinscripcion.php");

@@ -3,26 +3,21 @@
  class Seccion
  {
      private $seccion; 
-     private $nombre_seccion; 
+     private $descripcion;
+     private $turno;  
      private $capacidad_min;
      private $capacidad_max; 
-     private $turno; 
-     private $codigo_periodo;
-     private $codigo_semestre;
-     private $codigo_materia;
-     private $estatus_seccion;
+     private $estatus; 
      private $fecha_desactivacion; 
      private $mysql; 
 	 
    public function __construct(){
-     $this->turno=null;
+ 
      $this->seccion=null;
-     $this->nombre_seccion=null;
+     $this->descripcion=null;
+     $this->turno=null;
      $this->capacidad_min=null;
      $this->capacidad_max=null;
-     $this->codigo_periodo=null;
-     $this->codigo_semestre=null;
-     $this->codigo_materia=null;
 	 $this->mysql=new Conexion();
    }
    
@@ -43,22 +38,21 @@
 	 }
    }
 
-   public function nombre_seccion(){
+   public function descripcion(){
       $Num_Parametro=func_num_args();
-	 if($Num_Parametro==0) return $this->nombre_seccion;
+	 if($Num_Parametro==0) return $this->descripcion;
      
 	 if($Num_Parametro>0){
-	   $this->nombre_seccion=func_get_arg(0);
+	   $this->descripcion=func_get_arg(0);
 	 }
    }
 
-
-   public function estatus_seccion(){
-      $Num_Parametro=func_num_args();
-	 if($Num_Parametro==0) return $this->estatus_seccion;
+   public function turno(){
+   $Num_Parametro=func_num_args();
+	 if($Num_Parametro==0) return $this->turno;
      
 	 if($Num_Parametro>0){
-	   $this->estatus_seccion=func_get_arg(0);
+	   $this->turno=func_get_arg(0);
 	 }
    }
 
@@ -80,39 +74,12 @@
 	 }
    }
    
-   public function turno(){
-   $Num_Parametro=func_num_args();
-	 if($Num_Parametro==0) return $this->turno;
-     
-	 if($Num_Parametro>0){
-	   $this->turno=func_get_arg(0);
-	 }
-   }
-
-   public function codigo_periodo(){
+    public function estatus(){
       $Num_Parametro=func_num_args();
-	 if($Num_Parametro==0) return $this->codigo_periodo;
+	 if($Num_Parametro==0) return $this->estatus;
      
 	 if($Num_Parametro>0){
-	   $this->codigo_periodo=func_get_arg(0);
-	 }
-   }
-
-   public function codigo_semestre(){
-      $Num_Parametro=func_num_args();
-	 if($Num_Parametro==0) return $this->codigo_semestre;
-     
-	 if($Num_Parametro>0){
-	   $this->codigo_semestre=func_get_arg(0);
-	 }
-   }
-
-   public function codigo_materia(){
-      $Num_Parametro=func_num_args();
-	 if($Num_Parametro==0) return $this->codigo_materia;
-     
-	 if($Num_Parametro>0){
-	   $this->codigo_materia=func_get_arg(0);
+	   $this->estatus=func_get_arg(0);
 	 }
    }
 
@@ -126,35 +93,14 @@
    }
 
    public function Registrar(){
-    $sql="insert into tseccion (seccion,nombre_seccion,capacidad_min,capacidad_max,turno,cod_periodo,cod_semestre) values 
-    ('$this->seccion','$this->nombre_seccion','$this->capacidad_min','$this->capacidad_max','$this->turno','$this->codigo_periodo','$this->codigo_semestre');";
+    $sql="insert into tseccion (seccion,descripcion,turno,capacidad_min,capacidad_max) values 
+    ('$this->seccion','$this->descripcion','$this->turno','$this->capacidad_min','$this->capacidad_max');";
     if($this->mysql->Ejecutar($sql)!=null)
 	return true;
 	else
 	return false;
    }
 
-	public function EliminarMaterias(){
-		$sql="DELETE FROM tmateria_seccion WHERE seccion='$this->seccion';";
-		if($this->mysql->Ejecutar($sql)!=null)
-			return true;
-		else
-			return false;
-	}
-   
-	public function InsertarMaterias(){
-		$sql1="SELECT * FROM tmateria_seccion WHERE seccion='$this->seccion' AND cod_materia='$this->codigo_materia'";
-		$sql="INSERT INTO tmateria_seccion(cod_materia,seccion) VALUES ('$this->codigo_materia','$this->seccion')";
-		$query=$this->mysql->Ejecutar($sql1);
-		if($this->mysql->Total_Filas($query)==0){
-			if($this->mysql->Ejecutar($sql)!=null)
-				return true;
-			else
-				return false;
-		}else{
-			return false;
-		}
-	}
    
     public function Activar(){
     $sql="update tseccion set fecha_desactivacion=NULL where (seccion='$this->seccion');";
@@ -171,10 +117,9 @@
 	return false;
    }
    
-    public function Actualizar($oldseccion){
-    $sql="update tseccion set seccion='$this->seccion',nombre_seccion='$this->nombre_seccion',capacidad_min='$this->capacidad_min',capacidad_max='$this->capacidad_max',
-    turno='$this->turno',cod_periodo='$this->codigo_periodo',cod_semestre='$this->codigo_semestre' 
-    where (seccion='$oldseccion');";
+    public function Actualizar(){
+    $sql="update tseccion set seccion='$this->seccion',descripcion='$this->descripcion',turno='$this->turno',capacidad_min='$this->capacidad_min',
+    capacidad_max='$this->capacidad_max' where (seccion='$this->seccion');";
     if($this->mysql->Ejecutar($sql)!=null)
 	return true;
 	else
@@ -184,18 +129,16 @@
    public function Consultar(){
     $sql="SELECT *,
     (CASE WHEN fecha_desactivacion IS NULL THEN  'Activo' 
-    	ELSE 'Desactivado' END) AS estatus_seccion FROM tseccion WHERE seccion='$this->seccion'";
+    	ELSE 'Desactivado' END) AS estatus FROM tseccion WHERE seccion='$this->seccion'";
 	$query=$this->mysql->Ejecutar($sql);
     if($this->mysql->Total_Filas($query)!=0){
 	$tseccion=$this->mysql->Respuesta($query);
 	$this->seccion($tseccion['seccion']);
-	$this->nombre_seccion($tseccion['nombre_seccion']);
-	$this->estatus_seccion($tseccion['estatus_seccion']);
+	$this->descripcion($tseccion['descripcion']);
+	$this->turno($tseccion['turno']);
 	$this->capacidad_min($tseccion['capacidad_min']);
 	$this->capacidad_max($tseccion['capacidad_max']);
-	$this->turno($tseccion['turno']);
-	$this->codigo_periodo($tseccion['cod_periodo']);
-	$this->codigo_semestre($tseccion['cod_semestre']);
+	$this->estatus($tseccion['estatus']);
 	$this->fecha_desactivacion($tseccion['fecha_desactivacion']);
 	return true;
 	}
@@ -209,12 +152,11 @@
     if($this->mysql->Total_Filas($query)!=0){
 	$tseccion=$this->mysql->Respuesta($query);
 	$this->seccion($tseccion['seccion']);
-	$this->nombre_seccion($tseccion['nombre_seccion']);
+	$this->descripcion($tseccion['descripcion']);
+	$this->turno($tseccion['turno']);
 	$this->capacidad_min($tseccion['capacidad_min']);
 	$this->capacidad_max($tseccion['capacidad_max']);
-	$this->turno($tseccion['turno']);
-	$this->codigo_periodo($tseccion['cod_periodo']);
-	$this->codigo_semestre($tseccion['cod_semestre']);
+	$this->estatus($tseccion['estatus']);
 	$this->fecha_desactivacion($tseccion['fecha_desactivacion']);
 	return true;
 	}

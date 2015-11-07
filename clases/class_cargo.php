@@ -1,17 +1,16 @@
 <?php
  require_once("class_bd.php");
- 
- class Ano_Academico
+ class cargo
  {
-     private $codigo_ano_academico; 
-     private $descripcion;
-     private $estatus; 
+     private $codigo_cargo; 
+     private $descripcion; 
+     private $estatus_cargo; 
      private $fecha_desactivacion; 
      private $mysql; 
 	 
    public function __construct(){
-     $this->codigo_ano_academico=null;
      $this->descripcion=null;
+     $this->codigo_cargo=null;
 	 $this->mysql=new Conexion();
    }
    
@@ -23,17 +22,26 @@
 	 if($value=='finalizado') return $this->mysql->Finalizar_Transaccion();
 	 }
 
-   public function codigo_ano_academico(){
+   public function codigo_cargo(){
       $Num_Parametro=func_num_args();
-	 if($Num_Parametro==0) return $this->codigo_ano_academico;
+	 if($Num_Parametro==0) return $this->codigo_cargo;
      
 	 if($Num_Parametro>0){
-	   $this->codigo_ano_academico=func_get_arg(0);
+	   $this->codigo_cargo=func_get_arg(0);
+	 }
+   }
+   
+	public function estatus_cargo(){
+      $Num_Parametro=func_num_args();
+	 if($Num_Parametro==0) return $this->estatus_cargo;
+     
+	 if($Num_Parametro>0){
+	   $this->estatus_cargo=func_get_arg(0);
 	 }
    }
 
-    public function descripcion(){
-    $Num_Parametro=func_num_args();
+   public function descripcion(){
+   $Num_Parametro=func_num_args();
 	 if($Num_Parametro==0) return $this->descripcion;
      
 	 if($Num_Parametro>0){
@@ -41,14 +49,6 @@
 	 }
    }
 
-   public function estatus(){
-      $Num_Parametro=func_num_args();
-	 if($Num_Parametro==0) return $this->estatus;
-     
-	 if($Num_Parametro>0){
-	   $this->estatus=func_get_arg(0);
-	 }
-   }
    
    public function fecha_desactivacion(){
       $Num_Parametro=func_num_args();
@@ -61,7 +61,7 @@
    
 
    public function Registrar(){
-    $sql="insert into tano_academico (descripcion) values ('$this->descripcion');";
+    $sql="insert into tcargo (descripcion) values ('$this->descripcion');";
     if($this->mysql->Ejecutar($sql)!=null)
 	return true;
 	else
@@ -69,14 +69,14 @@
    }
    
      public function Activar(){
-    $sql="update tano_academico set fecha_desactivacion=NULL where (codigo_ano_academico='$this->codigo_ano_academico');";
+    $sql="update tcargo set fecha_desactivacion=NULL where (codigo_cargo='$this->codigo_cargo');";
     if($this->mysql->Ejecutar($sql)!=null)
 	return true;
 	else
 	return false;
    }
     public function Desactivar(){
-    $sql="update tano_academico set fecha_desactivacion=CURDATE() where (codigo_ano_academico='$this->codigo_ano_academico');";
+    $sql="update tcargo set fecha_desactivacion=CURDATE() where (codigo_cargo='$this->codigo_cargo');";
     if($this->mysql->Ejecutar($sql)!=null)
 	return true;
 	else
@@ -84,7 +84,7 @@
    }
    
     public function Actualizar(){
-    $sql="update tano_academico set descripcion='$this->descripcion' where (codigo_ano_academico='$this->codigo_ano_academico');";
+    $sql="update tcargo set descripcion='$this->descripcion' where (codigo_cargo='$this->codigo_cargo');";
     if($this->mysql->Ejecutar($sql)!=null)
 	return true;
 	else
@@ -94,14 +94,14 @@
    public function Consultar(){
     $sql="select *,
     (CASE WHEN fecha_desactivacion IS NULL THEN  'Activo' 
-    	ELSE 'Desactivado' END) AS estatus from tano_academico where descripcion='$this->descripcion'";
+    	ELSE 'Desactivado' END) AS estatus_cargo from tcargo where descripcion='$this->descripcion'";
 	$query=$this->mysql->Ejecutar($sql);
     if($this->mysql->Total_Filas($query)!=0){
-	$tano_academico=$this->mysql->Respuesta($query);
-	$this->codigo_ano_academico($tano_academico['codigo_ano_academico']);
-	$this->descripcion($tano_academico['descripcion']);
-   	$this->estatus($tano_academico['estatus']);
-	$this->fecha_desactivacion($tano_academico['fecha_desactivacion']);
+	$tcargo=$this->mysql->Respuesta($query);
+	$this->codigo_cargo($tcargo['codigo_cargo']);
+	$this->descripcion($tcargo['descripcion']);
+	$this->estatus_cargo($tcargo['estatus_cargo']);
+	$this->fecha_desactivacion($tcargo['fecha_desactivacion']);
 	return true;
 	}
 	else{
@@ -109,13 +109,14 @@
 	}
    }
    public function Comprobar(){
-    $sql="select * from tano_academico where descripcion='$this->descripcion'";
+    $sql="select * from tcargo where descripcion='$this->descripcion'";
+
 	$query=$this->mysql->Ejecutar($sql);
     if($this->mysql->Total_Filas($query)!=0){
-	$tano_academico=$this->mysql->Respuesta($query);
-	$this->codigo_ano_academico($tano_academico['codigo_ano_academico']);
-	$this->descripcion($tano_academico['descripcion']);
-	$this->fecha_desactivacion($tano_academico['fecha_desactivacion']);
+	$tcargo=$this->mysql->Respuesta($query);
+	$this->codigo_cargo($tcargo['codigo_cargo']);
+	$this->descripcion($tcargo['descripcion']);
+	$this->fecha_desactivacion($tcargo['fecha_desactivacion']);
 	return true;
 	}
 	else{

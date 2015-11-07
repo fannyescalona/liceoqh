@@ -1,19 +1,17 @@
 <?php
  require_once("class_bd.php");
- class materia
+ class Materia
  {
      private $codigo_materia; 
-     private $nombre_materia; 
-     private $tipo_materia; 
-     private $estatus_materia;
+     private $descripcion; 
      private $unidad_curricular;
+     private $estatus_materia;
      private $fecha_desactivacion; 
      private $mysql; 
 	 
    public function __construct(){
-     $this->nombre_materia=null;
+     $this->descripcion=null;
      $this->codigo_materia=null;
-     $this->tipo_materia=null;
      $this->unidad_curricular=null;
 	 $this->mysql=new Conexion();
    }
@@ -35,39 +33,30 @@
 	 }
    }
 
-   public function tipo_materia(){
-      $Num_Parametro=func_num_args();
-	 if($Num_Parametro==0) return $this->tipo_materia;
+   public function descripcion(){
+   $Num_Parametro=func_num_args();
+	 if($Num_Parametro==0) return $this->descripcion;
      
 	 if($Num_Parametro>0){
-	   $this->tipo_materia=func_get_arg(0);
+	   $this->descripcion=func_get_arg(0);
+	 }
+   }
+
+   public function unidad_curricular(){
+      $Num_Parametro=func_num_args();
+	 if($Num_Parametro==0) return $this->unidad_curricular;
+     
+	 if($Num_Parametro>0){
+	   $this->unidad_curricular=func_get_arg(0);
 	 }
    }
    
-	public function estatus_materia(){
+   public function estatus_materia(){
       $Num_Parametro=func_num_args();
 	 if($Num_Parametro==0) return $this->estatus_materia;
      
 	 if($Num_Parametro>0){
 	   $this->estatus_materia=func_get_arg(0);
-	 }
-   }
-
-   public function nombre_materia(){
-   $Num_Parametro=func_num_args();
-	 if($Num_Parametro==0) return $this->nombre_materia;
-     
-	 if($Num_Parametro>0){
-	   $this->nombre_materia=func_get_arg(0);
-	 }
-   }
-
-   public function unidad_curricular(){
-   $Num_Parametro=func_num_args();
-	 if($Num_Parametro==0) return $this->unidad_curricular;
-     
-	 if($Num_Parametro>0){
-	   $this->unidad_curricular=func_get_arg(0);
 	 }
    }
 
@@ -80,8 +69,9 @@
 	 }
    }
    
+
    public function Registrar(){
-    $sql="insert into tmateria (cod_materia,nombre_materia,unidad_curricular,tipo_materia) values ('$this->codigo_materia','$this->nombre_materia','$this->unidad_curricular','$this->tipo_materia');";
+    $sql="insert into tmateria (codigo_materia,descripcion,unidad_curricular) values ('$this->codigo_materia','$this->descripcion','$this->unidad_curricular');";
     if($this->mysql->Ejecutar($sql)!=null)
 	return true;
 	else
@@ -89,14 +79,14 @@
    }
    
      public function Activar(){
-    $sql="update tmateria set fecha_desactivacion=NULL where (cod_materia='$this->codigo_materia');";
+    $sql="update tmateria set fecha_desactivacion=NULL where (codigo_materia='$this->codigo_materia');";
     if($this->mysql->Ejecutar($sql)!=null)
 	return true;
 	else
 	return false;
    }
     public function Desactivar(){
-    $sql="update tmateria set fecha_desactivacion=CURDATE() where (cod_materia='$this->codigo_materia');";
+    $sql="update tmateria set fecha_desactivacion=CURDATE() where (codigo_materia='$this->codigo_materia');";
     if($this->mysql->Ejecutar($sql)!=null)
 	return true;
 	else
@@ -104,7 +94,7 @@
    }
    
     public function Actualizar(){
-    $sql="update tmateria set nombre_materia='$this->nombre_materia',unidad_curricular='$this->unidad_curricular',tipo_materia='$this->tipo_materia' where (cod_materia='$this->codigo_materia');";
+    $sql="update tmateria set  codigo_materia='$this->codigo_materia',descripcion='$this->descripcion',unidad_curricular='$this->unidad_curricular' where (codigo_materia='$this->codigo_materia');";
     if($this->mysql->Ejecutar($sql)!=null)
 	return true;
 	else
@@ -114,15 +104,14 @@
    public function Consultar(){
     $sql="select *,
     (CASE WHEN fecha_desactivacion IS NULL THEN  'Activo' 
-    	ELSE 'Desactivado' END) AS estatus_materia from tmateria where nombre_materia='$this->nombre_materia' or cod_materia='$this->codigo_materia'";
+    	ELSE 'Desactivado' END) AS estatus_materia from tmateria where descripcion='$this->descripcion'";
 	$query=$this->mysql->Ejecutar($sql);
     if($this->mysql->Total_Filas($query)!=0){
 	$tmateria=$this->mysql->Respuesta($query);
-	$this->codigo_materia($tmateria['cod_materia']);
-	$this->nombre_materia($tmateria['nombre_materia']);
-	$this->tipo_materia($tmateria['tipo_materia']);
-	$this->estatus_materia($tmateria['estatus_materia']);
+	$this->codigo_materia($tmateria['codigo_materia']);
+	$this->descripcion($tmateria['descripcion']);
 	$this->unidad_curricular($tmateria['unidad_curricular']);
+	$this->estatus_materia($tmateria['estatus_materia']);
 	$this->fecha_desactivacion($tmateria['fecha_desactivacion']);
 	return true;
 	}
@@ -131,14 +120,13 @@
 	}
    }
    public function Comprobar(){
-    $sql="select * from tmateria where cod_materia='$this->codigo_materia'";
+    $sql="select * from tmateria where descripcion='$this->descripcion' and unidad_curricular='$this->unidad_curricular'";
 	$query=$this->mysql->Ejecutar($sql);
     if($this->mysql->Total_Filas($query)!=0){
 	$tmateria=$this->mysql->Respuesta($query);
-	$this->codigo_materia($tmateria['cod_materia']);
-	$this->nombre_materia($tmateria['nombre_materia']);
+	$this->codigo_materia($tmateria['codigo_materia']);
+	$this->descripcion($tmateria['descripcion']);
 	$this->unidad_curricular($tmateria['unidad_curricular']);
-	$this->tipo_materia($tmateria['tipo_materia']);
 	$this->fecha_desactivacion($tmateria['fecha_desactivacion']);
 	return true;
 	}

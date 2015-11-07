@@ -3,10 +3,10 @@ function validar_formulario(param){
 permitido=true;
 
 valor=document.getElementById('descripcion').value;
-valor2=document.getElementById('codigo_ano_academico').value;
+valor2=document.getElementById('codigo_parentesco').value;
 if(devuelve_boton(param)=="Registrar" || devuelve_boton(param)=="Modificar"){
 if(valor.replace(/^\s+|\s+$/gi,"").length==0){ //para no permitir que se queda en blanco
-		alert('Ingrese el Año Académico')
+		alert('Ingrese el nombre del parentesco')
 		permitido=false;
 	}	
 }

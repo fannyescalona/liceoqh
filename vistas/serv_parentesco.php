@@ -13,30 +13,30 @@ if(array_search($servicio_solicitado,$servicios_permitidos)){
    $disabledRC='';
    $disabledMD='disabled';
  }
- $servicios='ano_academico';
+ $servicios='parentesco';
  if(isset($_SESSION['datos'])){
   @$descripcion=$_SESSION['datos']['descripcion'];
-  @$codigo_ano_academico=$_SESSION['datos']['codigo_ano_academico'];
+  @$codigo_parentesco=$_SESSION['datos']['codigo_parentesco'];
   @$estatus=$_SESSION['datos']['estatus'];
 }
 else{
   @$descripcion=null;
-  @$codigo_ano_academico=null;
+  @$codigo_parentesco=null;
   @$estatus=null;
 }
 ?>
 <br><br>
 <?php if(!isset($_GET['l'])){?>
 <div class="form_externo" >
-  <script src="../js/uds_ano_academico.js"> </script>
-  <form action="../controladores/cont_ano_academico.php" method="post" id="form" class="form-horizontal">
+  <script src="../js/uds_parentesco.js"> </script>
+  <form action="../controladores/cont_parentesco.php" method="post" id="form" class="form-horizontal">
    <fieldset>
-    <legend>Ano Académico</legend>
+    <legend>parentesco</legend>
     <div id="contenedorFormulario">
       <label>Código:</label>
-     <input title="el código del ano académico es generado por el sistema" name="codigo_ano_academico" id="codigo_ano_academico" type="text" size="10" readonly value="<?= $codigo_ano_academico;?>" placeholder="Código del ano académico es generado por el sistema" class="campoTexto"/>
-     <label>Nombre del ano académico:</label>
-     <input title="Ingrese el nombre del ano académico" onKeyUp="this.value=this.value.toUpperCase()" name="descripcion" id="descripcion" type="text" size="50" value="<?= $descripcion;?>" required="" placeholder="Ingrese el nombre del ano académico" class="campoTexto"/>      
+     <input title="el código del parentesco es generado por el sistema" name="codigo_parentesco" id="codigo_parentesco" type="text" size="10" readonly value="<?= $codigo_parentesco;?>" placeholder="Código del parentesco es generado por el sistema" class="campoTexto"/>
+     <label>Parentesco:</label>
+     <input title="Ingrese el parentesco" onKeyUp="this.value=this.value.toUpperCase()" name="descripcion" id="descripcion" type="text" size="50" value="<?= $descripcion;?>" required="" placeholder="Ingrese el nombre del parentesco" class="campoTexto"/>      
      <strong class="obligatorio">Los campos resaltados en rojo son obligatorios</strong>
    </div>   
    <br>
@@ -54,13 +54,13 @@ else{
   $servicios_permitidos=$perfil->IMPRIMIR_SERVICIOS_USUARIO();
   $servicio_solicitado=strtolower(preg_replace('/(serv_)|(\.php)/','',basename(__FILE__)));    
   ?>
-  <a href="?ano_academico"><img src="../images/cerrar.png" alt="Cerrar" style="width:40px;heigth:40px;float:right;"></a>
-  <a href="../excel/excel_ano_academico.php" ><img src="../images/icon-excel.png" alt="Exportar a Excel" style="width:40px;heigth:40px;float:right;"></a>
+  <a href="?parentesco"><img src="../images/cerrar.png" alt="Cerrar" style="width:40px;heigth:40px;float:right;"></a>
+  <a href="../excel/excel_parentesco.php" ><img src="../images/icon-excel.png" alt="Exportar a Excel" style="width:40px;heigth:40px;float:right;"></a>
   <a href="<?php echo  '../pdf/?serv='.$servicio_solicitado;?>" target="_blank"><img src="../images/icon-pdf.png" alt="Exportar a PDF" style="width:40px;heigth:40px;float:right;margin:0.3em;margin-left:1em;"></a>
   <table class="table table-striped table-bordered table-condensed">
    <tr> 
      <td>Código </td>
-     <td>Año Académico</td>
+     <td>Parentesco</td>
    </tr>
    <?php
 
@@ -69,7 +69,7 @@ else{
    $mysql=new Conexion();
 
 //Sentencia sql (sin limit) 
-   $_pagi_sql = "SELECT * FROM tano_academico where fecha_desactivacion is null order by codigo_ano_academico desc"; 
+   $_pagi_sql = "SELECT * FROM tparentesco where fecha_desactivacion is null order by codigo_parentesco desc"; 
 //cantidad de resultados por página (opcional, por defecto 20) 
    $_pagi_cuantos = 10; 
 //Cadena que separa los enlaces numéricos en la barra de navegación entre páginas.
@@ -81,7 +81,7 @@ else{
 
 //Leemos y escribimos los registros de la página actual 
    while($row = mysql_fetch_array($_pagi_result)){ 
-    echo "<tr><td style='width:20%;'>".$row['codigo_ano_academico']."</td><td align='left'>".$row['descripcion']."</td></tr>"; 
+    echo "<tr><td style='width:20%;'>".$row['codigo_parentesco']."</td><td align='left'>".$row['descripcion']."</td></tr>"; 
   } 
 //Incluimos la barra de navegación 
   ?>
@@ -95,5 +95,5 @@ else{
 <?php }?>
 <?php }else{
 
-  include('403.php');     
+  include('403.php');    	
 }?>

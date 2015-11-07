@@ -3,25 +3,22 @@ session_start();
 if(isset($_POST['operacion']))
 $operacion=ucfirst(trim($_POST['operacion']));
 
-if(isset($_POST['cod_materia']))
-$id=ucfirst(trim($_POST['cod_materia']));
+if(isset($_POST['codigo_materia']))
+$codigo_materia=ucfirst(trim($_POST['codigo_materia']));
 
-if(isset($_POST['nombre_materia']))
-$nombre_materia=ucfirst(trim($_POST['nombre_materia']));
+if(isset($_POST['descripcion']))
+$descripcion=ucfirst(trim($_POST['descripcion']));
 
 if(isset($_POST['unidad_curricular']))
 $unidad_curricular=ucfirst(trim($_POST['unidad_curricular']));
 
-if(isset($_POST['tipo_materia']))
-$tipo_materia=ucfirst(trim($_POST['tipo_materia']));
 
 include_once("../clases/class_materia.php");
-$materia=new materia();
+$materia=new Materia();
 if($operacion=='Registrar'){
-  $materia->codigo_materia($id);
-  $materia->nombre_materia($nombre_materia);
+  $materia->codigo_materia($codigo_materia);
+  $materia->descripcion($descripcion);
   $materia->unidad_curricular($unidad_curricular);
-  $materia->tipo_materia($tipo_materia);
   if(!$materia->Comprobar()){
     if($materia->Registrar())
       $confirmacion=1;
@@ -45,10 +42,9 @@ if($operacion=='Registrar'){
 }
 
 if($operacion=='Modificar'){
-  $materia->codigo_materia($id);
-  $materia->nombre_materia($nombre_materia);
+  $materia->codigo_materia($codigo_materia);
+  $materia->descripcion($descripcion);
   $materia->unidad_curricular($unidad_curricular);
-  $materia->tipo_materia($tipo_materia);
   if($materia->Actualizar())
     $confirmacion=1;
   else
@@ -63,8 +59,8 @@ if($operacion=='Modificar'){
 }
 
 if($operacion=='Desactivar'){
-  $materia->codigo_materia($id);
-  $materia->nombre_materia($nombre_materia);
+  $materia->codigo_materia($codigo_materia);
+  $materia->descripcion($descripcion);
   if($materia->Consultar()){
     if($materia->Desactivar())
       $confirmacion=1;
@@ -84,8 +80,8 @@ if($operacion=='Desactivar'){
 
 
 if($operacion=='Activar'){
-  $materia->codigo_materia($id);
-  $materia->nombre_materia($nombre_materia);
+  $materia->codigo_materia($codigo_materia);
+  $materia->descripcion($descripcion);
   if($materia->Consultar()){
     if($materia->Activar())
       $confirmacion=1;
@@ -104,18 +100,17 @@ if($operacion=='Activar'){
 }
 
 if($operacion=='Consultar'){	
-  $materia->codigo_materia($id);
-  $materia->nombre_materia($nombre_materia);
+  $materia->codigo_materia($codigo_materia);
+  $materia->descripcion($descripcion);
   $materia->unidad_curricular($unidad_curricular);
   if($materia->Consultar()){
-    $_SESSION['datos']['cod_materia']=$materia->codigo_materia();
-    $_SESSION['datos']['nombre_materia']=$materia->nombre_materia();
+    $_SESSION['datos']['codigo_materia']=$materia->codigo_materia();
+    $_SESSION['datos']['descripcion']=$materia->descripcion();
     $_SESSION['datos']['unidad_curricular']=$materia->unidad_curricular();
-    $_SESSION['datos']['tipo_materia']=$materia->tipo_materia();
     $_SESSION['datos']['estatus']=$materia->estatus_materia();
     header("Location: ../vistas/?materia");
   }else{
-    $_SESSION['datos']['mensaje']="No se han encontrado resultados para tu búsqueda(".$nombre_materia.")";
+    $_SESSION['datos']['mensaje']="No se han encontrado resultados para tu búsqueda(".$descripcion.")";
     header("Location: ../vistas/?materia");
   }
 }		  

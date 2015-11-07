@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<title>:..Universidad Deportiva del Sur</title>
+	<title>:..Liceo Quebrada Honda</title>
 
 </head>
 <body bgcolor="#0B3F80">
@@ -10,15 +10,15 @@
 <div class="front-signin" style="background:none; margin:0 auto;">
 <center>  
 
-    <img src="/udesur/images/403.jpg" alt="" style="width:600px; height: 400px;" ><br>
-<img src="/udesur/images/home.png" alt="" style="width:80px; height:80px;cursor:pointer" onclick="location.href='/udesur/'">   
+    <img src="/liceo/images/403.jpg" alt="" style="width:600px; height: 400px;" ><br>
+<img src="/liceo/images/home.png" alt="" style="width:80px; height:80px;cursor:pointer" onclick="location.href='/liceo/'">   
       <br>
 </center>
 </div>
 </header>
 <center>
 	<footer>
-		<p>&copy Universidad Deportiva del Sur 2014</p>
+		<p>&copy Unidad Educativa Nacional Quebrada Honda</p>
 	</footer>
 </center>
 </body>
