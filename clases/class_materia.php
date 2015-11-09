@@ -93,8 +93,8 @@
 	return false;
    }
    
-    public function Actualizar(){
-    $sql="update tmateria set  codigo_materia='$this->codigo_materia',descripcion='$this->descripcion',unidad_curricular='$this->unidad_curricular' where (codigo_materia='$this->codigo_materia');";
+    public function Actualizar($oldcodigo){
+    $sql="update tmateria set  codigo_materia='$this->codigo_materia',descripcion='$this->descripcion',unidad_curricular='$this->unidad_curricular' where (codigo_materia='$oldcodigo');";
     if($this->mysql->Ejecutar($sql)!=null)
 	return true;
 	else

@@ -35,12 +35,12 @@ else{
     <div id="contenedorFormulario">
       <label>Código</label>
       <input title="El c&oacute;digo del lapso es generado por el sistema" name="codigo_lapso" id="codigo_lapso" type="text" size="10" readonly value="<?= $codigo_lapso;?>" placeholder="El código del lapso es generado por el Sistema" class="campoTexto"/>
-      <label>Nombre del lapso</label>
-      <input title="Ingrese el nombre del lapso" onKeyUp="this.value=this.value.toUpperCase()" name="descripcion" id="descripcion" type="text" size="50" value="<?= $descripcion;?>" placeholder="Ingrese el lapso" class="campoTexto" required>
-      <label>Fecha Inicio del lapso</label>
-      <input title="Ingrese la fecha inicio del lapso" onKeyPress="return isNumberKey(event)" name="fecha_inicio" id="fecha_inicio" type="text" size="50" value="<?= $fecha_inicio;?>" placeholder="Ingrese la fecha inicio del lapso" class="campoTexto">    
-      <label>Fecha Fin del lapso</label>
-      <input title="Ingrese la fecha fin del lapso" onKeyPress="return isNumberKey(event)" name="fecha_fin" id="fecha_fin" type="text" size="50" value="<?= $fecha_fin;?>" placeholder="Ingrese la fecha fin del lapso" class="campoTexto">    
+      <label>Nombre del Lapso</label>
+      <input title="Ingrese el nombre del lapso" onKeyUp="this.value=this.value.toUpperCase()" name="descripcion" id="descripcion" type="text" size="50" value="<?= $descripcion;?>" placeholder="Ingrese el lapso" class="campoTexto" required >
+      <label>Fecha Inicio del Lapso</label>
+      <input title="Ingrese la fecha inicio del lapso" name="fecha_inicio" id="fecha_inicio" type="text" size="50" value="<?= $fecha_inicio;?>" placeholder="Ingrese la fecha inicio del lapso" class="campoTexto" readonly required >    
+      <label>Fecha Fin del Lapso</label>
+      <input title="Ingrese la fecha fin del lapso" name="fecha_fin" id="fecha_fin" type="text" size="50" value="<?= $fecha_fin;?>" placeholder="Ingrese la fecha fin del lapso" class="campoTexto" readonly required >    
       <label>Año Académico</label>
       <select name="codigo_ano_academico" id="codigo_ano_academico" title="Seleccione un año" required class="campoTexto"/>
                 <option value='0'>Seleccione un Año</option>
@@ -62,10 +62,7 @@ else{
              </div>
              <br>
              <?php echo '<p class="'.$estatus.'" id="estatus_registro">'.$estatus.'</p>'; ?>
-            
-                      <?php
-                      imprimir_boton($disabledRC,$disabledMD,$estatus,$servicios);
-                     ?>       
+             <?php imprimir_boton($disabledRC,$disabledMD,$estatus,$servicios);?>       
        </form>
     </fieldset>
 </form>
@@ -74,7 +71,7 @@ else{
   require_once("../clases/class_perfil.php");
   $perfil=new Perfil();
   $perfil->codigo_perfil(@$_SESSION['user_codigo_perfil']);
-  $lapsos_permitidos=$perfil->IMPRIMIR_lapsoS_USUARIO();
+  $lapsos_permitidos=$perfil->IMPRIMIR_SERVICIOS_USUARIO();
   $lapso_solicitado=strtolower(preg_replace('/(serv_)|(\.php)/','',basename(__FILE__))); 
   ?>
   <a href="?lapso" ><img src="../images/cerrar.png" alt="Cerrar" style="width:40px;heigth:40px;float:right;"></a>
@@ -95,9 +92,11 @@ else{
  $mysql=new Conexion();
 
 //Sentencia sql (sin limit) 
- $_pagi_sql = "SELECT s.codigo_lapso,s.descripcion AS lapso,date_format(s.fecha_inicio,'%d/%m/%Y') fecha_inicio,date_format(s.fecha_fin,'%d/%m/%Y') fecha_fin,fecha_desactivacion,a.codigo_ano_academico,
- a.descripcion AS ano_academico FROM tlapso s 
- INNER JOIN tano_academico a ON s.codigo_ano_academico = a.codigo_ano_academico WHERE s.fecha_desactivacion IS NULL ORDER BY s.codigo_lapso DESC"; 
+ $_pagi_sql = "SELECT s.codigo_lapso,s.descripcion AS lapso,date_format(s.fecha_inicio,'%d/%m/%Y') fecha_inicio,
+ date_format(s.fecha_fin,'%d/%m/%Y') fecha_fin,s.fecha_desactivacion,a.codigo_ano_academico,a.descripcion AS ano_academico 
+ FROM tlapso s 
+ INNER JOIN tano_academico a ON s.codigo_ano_academico = a.codigo_ano_academico 
+ WHERE s.fecha_desactivacion IS NULL ORDER BY s.codigo_lapso DESC"; 
 //cantidad de resultados por página (opcional, por defecto 20) 
  $_pagi_cuantos = 10; 
 //Cadena que separa los enlaces numéricos en la barra de navegación entre páginas.

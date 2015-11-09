@@ -14,7 +14,7 @@ $descripcion=ucfirst(trim($_POST['descripcion']));
 
 
 include_once("../clases/class_ano_academico.php");
-$ano_academico=new ano_academico();
+$ano_academico=new Ano_Academico();
 if($operacion=='Registrar'){
   $ano_academico->codigo_ano_academico($id);
   $ano_academico->descripcion($descripcion);
@@ -102,7 +102,7 @@ if($operacion=='Consultar'){
    if($ano_academico->Consultar()){
     $_SESSION['datos']['codigo_ano_academico']=$ano_academico->codigo_ano_academico();
     $_SESSION['datos']['descripcion']=$ano_academico->descripcion();
-    $_SESSION['datos']['estatus']=$ano_academico->estatus_ano_academico();
+    $_SESSION['datos']['estatus']=$ano_academico->estatus();
     header("Location: ../vistas/?ano_academico");
   }else{
    $_SESSION['datos']['mensaje']="No se han encontrado resultados para tu búsqueda(".$descripcion.")";

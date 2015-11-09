@@ -109,6 +109,14 @@ function init(){
         buttonImage: '../../images/calendario.png',
         buttonImageOnly: true
     });
+    //Agregar Objeto Calendario al input fecha.
+    $('#fecha_ingreso').datepicker({
+        maxDate: '0',
+        showOn: 'both',
+        numberOfMonths: 1,
+        buttonImage: '../images/calendario.png',
+        buttonImageOnly: true
+    });
     //Agregar Objeto Calendario al input fecha_nacimiento.
     $('#fecha_nacimiento').datepicker({
         minDate: '-82y',
@@ -305,7 +313,6 @@ function Limpiar2(){
 function isNumberKey(evt)
   {
      var charCode = (evt.which) ? evt.which : event.keyCode
-     console.log(charCode)
      if (charCode > 31 && (charCode < 48 || charCode > 57) && charCode != 46)
         return false;
      return true;
@@ -317,6 +324,22 @@ function isCharKey(evt)
      if (charCode > 47 && charCode < 58)
         return false;
      return true;
+  }
+
+//Función para escribir solo Rif o Cédulas.
+function isRif(evt,object)
+  {
+    var charCode = (evt.which) ? evt.which : event.keyCode
+    if(object.length<1){
+        if (charCode != 101 && charCode != 103 && charCode != 106 && charCode != 118)
+            return false;
+        return true;
+
+    }else{
+        if (charCode > 31 && (charCode < 48 || charCode > 57) && charCode != 46)
+            return false;
+        return true;
+    }
   }
 
 function devuelve_boton(orden){

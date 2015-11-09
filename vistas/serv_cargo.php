@@ -31,7 +31,7 @@ else{
         <label>Código:</label>
         <input title="el código del cargo es generado por el sistema" name="codigo_cargo" id="codigo_cargo" type="text" readonly value="<?= $codigo_cargo;?>" required="" placeholder="Código del cargo es generado por el sistema" class="campoTexto"/>
         <label>Nombre del Cargo:</label>
-        <input title="Ingrese el nombre del cargo" onKeyUp="this.value=this.value.toUpperCase()" name="descripcion" id="descripcion" type="text" placeholder="Ingrese Nombre del cargo" class="campoTexto" value="<?= $descripcion;?>" required="" />        
+        <input title="Ingrese el nombre del cargo" onKeyUp="this.value=this.value.toUpperCase()" name="descripcion" id="descripcion" type="text" placeholder="Ingrese Nombre del cargo" class="campoTexto" value="<?= $descripcion;?>" required /> 
         <strong class="obligatorio">Los campos resaltados en rojo son obligatorios</strong>
       </div>
       <br> 

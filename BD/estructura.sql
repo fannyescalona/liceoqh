@@ -76,6 +76,7 @@ DROP TABLE IF EXISTS tinscripcion;
 
 CREATE TABLE tinscripcion (
   codigo_inscripcion int(11) NOT NULL AUTO_INCREMENT,
+  descripcion varchar(60) NOT NULL,
   fecha_inicio date NOT NULL,
   fecha_fin date NOT NULL,
   fecha_cierre date NOT NULL,

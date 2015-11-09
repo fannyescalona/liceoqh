@@ -11,7 +11,7 @@
 <center>  
 
     <img src="/liceo/images/403.jpg" alt="" style="width:600px; height: 400px;" ><br>
-<img src="/liceo/images/home.png" alt="" style="width:80px; height:80px;cursor:pointer" onclick="location.href='/liceo/'">   
+<img src="/liceoqh/images/home.png" alt="" style="width:80px; height:80px;cursor:pointer" onclick="location.href='/liceoqh/'">   
       <br>
 </center>
 </div>

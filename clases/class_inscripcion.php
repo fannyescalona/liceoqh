@@ -3,6 +3,7 @@
  class inscripcion
  {
      private $codigo_inscripcion; 
+     private $descripcion;
      private $fecha_inicio;
      private $fecha_fin;
      private $fecha_cierre;
@@ -36,7 +37,16 @@
    }
    }
 
-public function fecha_inicio(){
+  public function descripcion(){
+      $Num_Parametro=func_num_args();
+   if($Num_Parametro==0) return $this->descripcion;
+     
+   if($Num_Parametro>0){
+     $this->descripcion=func_get_arg(0);
+   }
+   }
+
+  public function fecha_inicio(){
       $Num_Parametro=func_num_args();
    if($Num_Parametro==0) return $this->fecha_inicio;
      
@@ -81,8 +91,8 @@ public function fecha_inicio(){
    }
    
    public function Registrar(){
-    $sql="insert into tinscripcion (fecha_inicio,fecha_fin,fecha_cierre) values ('$this->fecha_inicio',
-    '$this->fecha_fin','$this->fecha_cierre');";
+    $sql="insert into tinscripcion (descripcion,fecha_inicio,fecha_fin,fecha_cierre) values ('$this->descripcion',STR_TO_DATE('$this->fecha_inicio','%d/%m/%Y'),
+    STR_TO_DATE('$this->fecha_fin','%d/%m/%Y'),STR_TO_DATE('$this->fecha_cierre','%d/%m/%Y'));";
     if($this->mysql->Ejecutar($sql)!=null)
   return true;
   else
@@ -105,8 +115,8 @@ public function fecha_inicio(){
    }
    
     public function Actualizar(){
-    $sql="update tinscripcion set fecha_inicio='$this->fecha_inicio',
-    fecha_fin='$this->fecha_fin',fecha_cierre='$this->fecha_cierre' where (codigo_inscripcion='$this->codigo_inscripcion');";
+    $sql="update tinscripcion set descripcion='$this->descripcion',fecha_inicio=STR_TO_DATE('$this->fecha_inicio','%d/%m/%Y'),
+    STR_TO_DATE('$this->fecha_fin','%d/%m/%Y'),STR_TO_DATE('$this->fecha_cierre','%d/%m/%Y') where (codigo_inscripcion='$this->codigo_inscripcion');";
     if($this->mysql->Ejecutar($sql)!=null)
   return true;
   else
@@ -114,13 +124,15 @@ public function fecha_inicio(){
    }
    
    public function Consultar(){
-    $sql="select *,
+    $sql="select codigo_inscripcion,descripcion,date_format(fecha_inicio,'%d/%m/%Y') AS fecha_inicio,
+    date_format(fecha_fin,'%d/%m/%Y') AS fecha_fin,date_format(fecha_cierre,'%d/%m/%Y') AS fecha_cierre
     (CASE WHEN fecha_desactivacion IS NULL THEN  'Activo' 
-      ELSE 'Desactivado' END) AS estatus from tinscripcion where codigo_inscripcion='$this->codigo_inscripcion'";
+      ELSE 'Desactivado' END) AS estatus from tinscripcion where descripcion='$this->descripcion'";
   $query=$this->mysql->Ejecutar($sql);
     if($this->mysql->Total_Filas($query)!=0){
   $tinscripcion=$this->mysql->Respuesta($query);
   $this->codigo_inscripcion($tinscripcion['codigo_inscripcion']);
+  $this->descripcion($tinscripcion['descripcion']);
   $this->fecha_inicio($tinscripcion['fecha_inicio']);
   $this->fecha_fin($tinscripcion['fecha_fin']);
   $this->fecha_cierre($tinscripcion['fecha_cierre']);
@@ -133,11 +145,12 @@ public function fecha_inicio(){
   }
    }
    public function Comprobar(){
-    $sql="select * from tinscripcion where codigo_inscripcion='$this->codigo_inscripcion'";
+    $sql="select * from tinscripcion where descripcion='$this->descripcion'";
   $query=$this->mysql->Ejecutar($sql);
     if($this->mysql->Total_Filas($query)!=0){
   $tinscripcion=$this->mysql->Respuesta($query);
   $this->codigo_inscripcion($tinscripcion['codigo_inscripcion']);
+  $this->descripcion($tinscripcion['descripcion']);
   $this->fecha_inicio($tinscripcion['fecha_inicio']);
   $this->fecha_fin($tinscripcion['fecha_fin']);
   $this->fecha_cierre($tinscripcion['fecha_cierre']);

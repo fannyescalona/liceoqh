@@ -37,8 +37,8 @@
 <body>
 <header>
 	<div class="wrapper logintop"> 
-	    <div class="barra_gobierno"></div> 
-	    <img class="superior" src="images/udsih.jpg" >
+	    <img class="cintillo" src="images/cintillo.jpg" >
+	    <img class="superior" src="images/qh.jpg" >
 <div class="front-signin" style="background:#FFF;">
 
     <center><h2>Acceder al Sistema</h2></center>

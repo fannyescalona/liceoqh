@@ -23,14 +23,8 @@ if(isset($_SESSION['user_estado'])){
     <link rel="stylesheet" href="../librerias/alert/Alert.css" />
     <script src="../librerias/alert/Alert.js"></script>    
     <!-- load jQuery -->
-    <?php
-      if($ccccc[0]=='horario_seccion'){ 
-      echo '<script src="../js/jquery-1.7.1.min.js"></script>';
-    }else {
-      echo '<script src="../js/jquery.js"></script>';
-    }
-    ?>
-    
+    <script src="../js/jquery.min.js"></script>
+    <script src="../js/jquery.js"></script>
     <script src="../js/jquery-ui.js"></script>
     <script src="../js/jquery.ui.datepicker-es.js"></script>
     <script src="../js/jquery-ui-timepicker.js"></script>
@@ -133,43 +127,34 @@ if(isset($_SESSION['user_estado'])){
           echo "<script>location.href='../?p=olvidar-clave'</script>";
           exit();
         }elseif($_SESSION['user_estado']==1){
-          if(isset($_GET['perfil'])) include("serv_usuario.php"); 
-          else if(isset($_GET['nuevousuario'])) include("serv_nuevo-usuario.php");
-          else if(isset($_GET['cambiarcontrasena'])) include("serv_cambiar_contrasena.php");
-          else if(isset($_GET['perfiles'])) include("serv_perfil.php");  
-          else if(isset($_GET['cargo'])) include("serv_cargo.php");  
-          else if(isset($_GET['botones'])) include("serv_opciones.php"); 
-          else if(isset($_GET['pais'])) include("serv_pais.php");
-          else if(isset($_GET['estado'])) include("serv_estado.php");  
-          else if(isset($_GET['ciudad'])) include("serv_ciudad.php");   
-          else if(isset($_GET['municipio'])) include("serv_municipio.php"); 
-          else if(isset($_GET['parroquia'])) include("serv_parroquia.php"); 
-          else if(isset($_GET['carrera'])) include("serv_carrera.php");   
-          else if(isset($_GET['materia'])) include("serv_materia.php");   
-          else if(isset($_GET['modulo'])) include("serv_modulo.php");
-          else if(isset($_GET['ambiente'])) include("serv_ambiente.php"); 
-          else if(isset($_GET['bloque_hora'])) include("serv_bloque_hora.php");    
-          else if(isset($_GET['periodo'])) include("serv_periodo.php");           
-          else if(isset($_GET['semestre'])) include("serv_semestre.php");    
-          else if(isset($_GET['seccion'])) include("serv_seccion.php"); 
-          else if(isset($_GET['servicio'])) include("servicio.php");   
-          else if(isset($_GET['materia_seccion'])) include("serv_materia_seccion.php"); 
-          //else if(isset($_GET['estudiante'])) include("serv_estudiante.php");
-          else if(isset($_GET['persona'])) include("serv_persona.php");
-          else if(isset($_GET['parentesco'])) include("serv_parentesco.php"); 
-          else if(isset($_GET['ano_academico'])) include("serv_ano_academico.php");
-          else if(isset($_GET['lapso'])) include("serv_lapso.php");      
-          else if(isset($_GET['actualizar_pre_inscripcion'])) include("serv_preinscripcion.php");
-          else if(isset($_GET['seleccionar_pre_inscripcion'])) include("serv_preinscripcion.php");
-          else if(isset($_GET['inscribir_pre_inscripcion'])) include("serv_preinscripcion.php");
-          else if(isset($_GET['periodo_inscripcion'])) include("serv_periodo_inscripcion.php");    
-          else if(isset($_GET['inscripcion'])) include("serv_inscripcion.php");
-          else if(isset($_GET['comprobante_inscripcion'])) include("serv_comprobante_inscripcion.php");                 
-          else if(isset($_GET['horario_seccion'])) include("serv_horarios_seccion.php");   
-          else if(isset($_GET['horario_profesor'])) include("serv_preparar_reporte.php");                                              
-          else if(isset($_GET['horario_clases'])) include("serv_preparar_reporte_seccion.php");                     
-          else if(isset($_GET['bitacora'])) include("serv_auditoria.php");   
-          else include("serv_inicio.php");                            	                                          	                                        	                                          	                                         	                                          	                                        	                                          	
+            if(isset($_GET['perfil'])) include("serv_usuario.php"); //listo
+            else if(isset($_GET['nuevousuario'])) include("serv_nuevo-usuario.php");
+            else if(isset($_GET['cambiarcontrasena'])) include("serv_cambiar_contrasena.php"); //listo
+            else if(isset($_GET['perfiles'])) include("serv_perfil.php"); //listo
+            else if(isset($_GET['cargo'])) include("serv_cargo.php"); //listo
+            else if(isset($_GET['botones'])) include("serv_opciones.php"); //listo
+            else if(isset($_GET['pais'])) include("serv_pais.php"); //listo
+            else if(isset($_GET['estado'])) include("serv_estado.php"); //listo
+            else if(isset($_GET['municipio'])) include("serv_municipio.php"); //listo
+            else if(isset($_GET['parroquia'])) include("serv_parroquia.php"); //listo
+            else if(isset($_GET['materia'])) include("serv_materia.php"); //listo
+            else if(isset($_GET['modulo'])) include("serv_modulo.php"); //listo
+            else if(isset($_GET['seccion'])) include("serv_seccion.php"); 
+            else if(isset($_GET['servicio'])) include("servicio.php"); //listo
+            //else if(isset($_GET['estudiante'])) include("serv_estudiante.php");
+            else if(isset($_GET['plantel'])) include("serv_plantel.php"); //listo
+            else if(isset($_GET['persona'])) include("serv_persona.php"); 
+            else if(isset($_GET['parentesco'])) include("serv_parentesco.php"); //listo
+            else if(isset($_GET['ano_academico'])) include("serv_ano_academico.php"); //listo
+            else if(isset($_GET['lapso'])) include("serv_lapso.php"); //listo  
+            else if(isset($_GET['bitacora'])) include("serv_auditoria.php"); //listo
+            else if(isset($_GET['inscripcion'])) include("serv_inscripcion.php"); //listo
+            else if(isset($_GET['actualizar_pre_inscripcion'])) include("serv_preinscripcion.php");
+            else if(isset($_GET['seleccionar_pre_inscripcion'])) include("serv_preinscripcion.php");
+            else if(isset($_GET['inscribir_pre_inscripcion'])) include("serv_preinscripcion.php");
+            else if(isset($_GET['periodo_inscripcion'])) include("serv_periodo_inscripcion.php");  
+            else if(isset($_GET['comprobante_inscripcion'])) include("serv_comprobante_inscripcion.php"); 
+            else include("serv_inicio.php"); //listo                               	                                          	                                        	                                          	                                         	                                          	                                        	                                          	
         }else {
           echo "<script>location.href='403.php'</script>";
         }

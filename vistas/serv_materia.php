@@ -30,18 +30,17 @@ else{
     <legend>materia</legend>
     <div id="contenedorFormulario">
       <label>Código:</label>
+      <input type="hidden" name="oldcodigo_materia" id="oldcodigo_materia" value="<?= $codigo_materia;?>">
       <input title="Ingrese el código de la materia" onKeyUp="this.value=this.value.toUpperCase()" name="codigo_materia" id="codigo_materia" type="text" size="10" value="<?= $codigo_materia;?>" required placeholder="Ingrese el código de la materia " class="campoTexto"/> 
       <label>Materia:</label>
       <input title="Ingrese el nombre de la materia" onKeyUp="this.value=this.value.toUpperCase()" name="descripcion" id="descripcion" type="text" size="50" value="<?= $descripcion;?>" required placeholder="Ingrese el nombre de la materia" class="campoTexto"/>
       <label>Unidad curricular:</label>
       <input title="Ingrese la unidad curricular" onKeyUp="this.value=this.value.toUpperCase()" name="unidad_curricular" id="unidad_curricular" type="text" size="50" value="<?= $unidad_curricular;?>" required placeholder="Ingrese la unidad curricular" class="campoTexto"/>
-               
       <strong class="obligatorio">Los campos resaltados en rojo son obligatorios</strong>
     </div>
     <br>
     <?php echo '<p class="'.$estatus.'" id="estatus_registro">'.$estatus.'</p>'; ?>
     <tr>
-
       <?php
       imprimir_boton($disabledRC,$disabledMD,$estatus,$servicios);
       ?>                                   
@@ -68,20 +67,19 @@ else{
      </tr>
      <?php
 
-           //Conexión a la base de datos 
-     require_once("../clases/class_bd.php");
-     $mysql=new Conexion();
-
+//Conexión a la base de datos 
+require_once("../clases/class_bd.php");
+$mysql=new Conexion();
 //Sentencia sql (sin limit) 
-     $_pagi_sql = "SELECT * FROM tmateria where fecha_desactivacion is null order by codigo_materia desc";
+$_pagi_sql = "SELECT * FROM tmateria where fecha_desactivacion is null order by codigo_materia desc";
 //cantidad de resultados por página (opcional, por defecto 20) 
-     $_pagi_cuantos = 10; 
+$_pagi_cuantos = 10; 
 //Cadena que separa los enlaces numéricos en la barra de navegación entre páginas.
-     $_pagi_separador = " ";
+$_pagi_separador = " ";
 //Cantidad de enlaces a los números de página que se mostrarán como máximo en la barra de navegación.
-     $_pagi_nav_num_enlaces=5;
+$_pagi_nav_num_enlaces=5;
 //Incluipos el script de paginación. Éste ya ejecuta la consulta automáticamente 
-     @include("../librerias/paginador/paginator.inc.php"); 
+@include("../librerias/paginador/paginator.inc.php"); 
 
 //Leemos y escribimos los registros de la página actual 
      while($row = mysql_fetch_array($_pagi_result)){ 

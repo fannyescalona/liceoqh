@@ -10,6 +10,7 @@ if(isset($_SESSION['datos']['descripcion'])){
 $servicios='inscripcion';
 if(isset($_SESSION['datos'])){
   @$codigo_inscripcion=$_SESSION['datos']['codigo_inscripcion'];
+  @$descripcion=$_SESSION['datos']['descripcion'];
   @$fecha_inicio=$_SESSION['datos']['fecha_inicio'];
   @$fecha_fin=$_SESSION['datos']['fecha_fin'];
   @$fecha_cierre=$_SESSION['datos']['fecha_cierre'];
@@ -29,33 +30,34 @@ else{
   <script src="../js/uds_inscripcion.js"> </script>
   <form action="../controladores/cont_inscripcion.php" method="post" id="form">
    <fieldset>
-    <legend>Inscripción</legend>
+    <legend>Período de Inscripción</legend>
     <div id="contenedorFormulario">
       <label>Código</label>
-      <input title="El c&oacute;digo del inscripcion es generado por el sistema" name="codigo_inscripcion" id="codigo_inscripcion" type="text" size="10"  value="<?= $codigo_inscripcion;?>" placeholder="El código del inscripcion es generado por el Sistema" class="campoTexto"/>
+      <input title="El c&oacute;digo del inscripcion es generado por el sistema" name="codigo_inscripcion" id="codigo_inscripcion" type="text" size="10"  value="<?= $codigo_inscripcion;?>" placeholder="El código del inscripcion es generado por el Sistema" class="campoTexto" readonly />
+      <label>Período de Inscripción:</label>
+      <input title="Ingrese el nombre del Período de Inscripción" onKeyUp="this.value=this.value.toUpperCase()" name="descripcion" id="descripcion" type="text" placeholder="Ingrese Nombre del Período de Inscripción" class="campoTexto" value="<?= $descripcion;?>" required /> 
       <label>Fecha Inicio</label>
       <input title="Ingrese la fecha inicio del inscripcion" onKeyPress="return isNumberKey(event)" name="fecha_inicio" id="fecha_inicio" type="text" size="50" value="<?= $fecha_inicio;?>" placeholder="Ingrese la fecha inicio del inscripcion" class="campoTexto">    
       <label>Fecha Fin</label>
       <input title="Ingrese la fecha fin del inscripcion" onKeyPress="return isNumberKey(event)" name="fecha_fin" id="fecha_fin" type="text" size="50" value="<?= $fecha_fin;?>" placeholder="Ingrese la fecha fin del inscripcion" class="campoTexto">    
    	  <label>Fecha Cierre</label>
       <input title="Ingrese la fecha cierre del inscripcion" onKeyPress="return isNumberKey(event)" name="fecha_cierre" id="fecha_cierre" type="text" size="50" value="<?= $fecha_cierre;?>" placeholder="Ingrese la fecha cierre" class="campoTexto">    
-            <strong class="obligatorio">Los campos resaltados en rojo son obligatorios</strong>
+      <strong class="obligatorio">Los campos resaltados en rojo son obligatorios</strong>
     </div>
      <br>
      <?php echo '<p class="'.$estatus.'" id="estatus_registro">'.$estatus.'</p>'; ?>
-    
-              <?php
-              imprimir_boton($disabledRC,$disabledMD,$estatus,$servicios);
-             ?>       
-       </form>
-    </fieldset>
+     <?php
+      imprimir_boton($disabledRC,$disabledMD,$estatus,$servicios);
+     ?>  
+    </fieldset>     
+  </form>
 </form>
 <br>
 <?php }else{ 
   require_once("../clases/class_perfil.php");
   $perfil=new Perfil();
   $perfil->codigo_perfil(@$_SESSION['user_codigo_perfil']);
-  $inscripcions_permitidos=$perfil->IMPRIMIR_inscripcionS_USUARIO();
+  $inscripcions_permitidos=$perfil->IMPRIMIR_SERVICIOS_USUARIO();
   $inscripcion_solicitado=strtolower(preg_replace('/(serv_)|(\.php)/','',basename(__FILE__))); 
   ?>
   <a href="?inscripcion" ><img src="../images/cerrar.png" alt="Cerrar" style="width:40px;heigth:40px;float:right;"></a>
@@ -63,7 +65,8 @@ else{
   <a href="<?php echo  '../pdf/?serv='.$inscripcion_solicitado;?>" target="_blank"><img src="../images/icon-pdf.png" alt="Exportar a PDF" style="width:40px;heigth:40px;float:right;margin:0.3em;margin-left:1em;"></a>
 <table class="table table-striped table-bordered table-condensed">
  <tr> 
-   <td>Código Inscripción</td>
+   <td>Código</td>
+   <td>Período de Inscripción</td>
    <td>Fecha Inicio</td>
    <td>Fecha Fin</td>
    <td>Fecha Cierre</td>
@@ -90,10 +93,10 @@ else{
 //Leemos y escribimos los registros de la página actual 
  while($row = mysql_fetch_array($_pagi_result)){ 
   echo "<tr><td style='width:20%;'>".$row['codigo_inscripcion']."</td>
-  <td align='left'>".$row['inscripcion']."</td>
+  <td align='left'>".$row['descripcion']."</td>
   <td align='left'>".$row['fecha_inicio']."</td>
     <td align='left'>".$row['fecha_fin']."</td>
-    <td align='left'>".$row['ano_academico']."</td></tr>"; 
+    <td align='left'>".$row['fecha_cierre']."</td></tr>"; 
 } 
 //Incluimos la barra de navegación 
 ?>

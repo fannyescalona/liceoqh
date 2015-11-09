@@ -37,6 +37,19 @@ body {
     margin-top: 0;
     width: 935px;
 }
+.cintillo {
+    background-color: #FFFFFF;
+    background-image: url("../images/udsih.jpg") no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    float: left;
+    height: 100px;
+    margin-top: 0;
+    overflow: hidden;
+    width: 935px;
+}
 .superior {
     background-color: #FFFFFF;
     background-image: url("../images/udsih.jpg") no-repeat center center fixed;
@@ -599,20 +612,57 @@ form table tr td {
  background:#f9f9f9 !important;
  box-shadow: 0px 0px 12px rgb(255, 255, 255) !important;
 }
- 
-textarea {
- background:rgba(244, 244, 244, 0.8) !important;
- border:1px solid #ddd !important;
- border-radius: 1px !important;
+
+.lista {
  display: block !important;
- padding:5px 5px !important;
- max-width:100% !important;
- max-height:150px !important;
- width:100% !important;
- /*height:150px !important;*/
- font-size: inherit !important;
- font-family: arial !important;
- outline:inherit !important;
+ /*background:rgba(243,243,243, 0.9) !important;*/
+ /*border:1px solid #e5e5e5 !important;*/
+ border-radius: 1px !important;
+ box-shadow:0px 0px 0px 0px  !important;
+ /*color:#aaa !important;*/
+ font-size: 1em !important;
+ margin: 0 0 10px 0 !important;
+ padding:1px 4px !important;
+ height:36px !important;
+ outline:none !important; 
+ width:330px !important;
+ transition:0.4s width ease-in !important;
+ -webkit-transition:0.4s width ease-in-out !important;
+ -moz-transition:0.4s width ease-in-out !important;
+ -o-transition:0.4s width ease-in-out !important;
+}
+ 
+.lista:focus {
+ width:400px !important;
+ background:#f9f9f9 !important;
+ box-shadow: 0px 0px 12px rgb(255, 255, 255) !important;
+}
+
+input[type="checkbox"],input[type="radio"]{
+    margin: 15px 0 15px 0 !important;
+}
+
+textarea {
+ display: block !important;
+ /*background:rgba(244, 244, 244, 0.8) !important;*/
+ /*border:1px solid #ddd !important;*/
+ border-radius: 1px !important;
+ box-shadow:0px 0px 0px 0px  !important;
+ font-size: 1em !important;
+ margin: 0 0 10px 0 !important;
+ padding:1px 4px !important;
+ outline:none !important;
+ width:330px !important;
+ transition:0.4s width ease-in !important;
+ -webkit-transition:0.4s width ease-in-out !important;
+ -moz-transition:0.4s width ease-in-out !important;
+ -o-transition:0.4s width ease-in-out !important;
+}
+
+textarea:focus {
+ width:400px !important;
+ background:#f9f9f9 !important;
+ box-shadow: 0px 0px 12px rgb(255, 255, 255) !important;
 }
  
 input[type="submit"] {

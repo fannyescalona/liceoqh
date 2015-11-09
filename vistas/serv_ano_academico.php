@@ -1,10 +1,4 @@
 <?php
-require_once("../clases/class_perfil.php");
-$perfil=new Perfil();
-$perfil->codigo_perfil(@$_SESSION['user_codigo_perfil']);
-$servicios_permitidos=$perfil->IMPRIMIR_SERVICIOS_USUARIO();
-$servicio_solicitado=strtoupper(preg_replace('/(serv_)|(\.php)/','',basename(__FILE__)));
-if(array_search($servicio_solicitado,$servicios_permitidos)){
   if(isset($_SESSION['datos']['descripcion'])){ 
    $disabledRC='disabled';
    $disabledMD='';
@@ -93,7 +87,3 @@ else{
 </div>
 </div>
 <?php }?>
-<?php }else{
-
-  include('403.php');     
-}?>

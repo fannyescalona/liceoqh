@@ -4,7 +4,7 @@ if(isset($_POST['operacion']))
 $operacion=ucfirst(trim($_POST['operacion']));
 
 if(isset($_POST['codigo_materia']))
-$codigo_materia=ucfirst(trim($_POST['codigo_materia']));
+$codigo_materia=trim($_POST['codigo_materia']);
 
 if(isset($_POST['descripcion']))
 $descripcion=ucfirst(trim($_POST['descripcion']));
@@ -45,7 +45,7 @@ if($operacion=='Modificar'){
   $materia->codigo_materia($codigo_materia);
   $materia->descripcion($descripcion);
   $materia->unidad_curricular($unidad_curricular);
-  if($materia->Actualizar())
+  if($materia->Actualizar($_POST['oldcodigo_materia']))
     $confirmacion=1;
   else
     $confirmacion=-1;

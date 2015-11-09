@@ -1,59 +1,68 @@
 <?php
 //Verificar Inicio de Session.
 session_start();
+
 //Verificar si la variable esta construida.
 if(isset($_POST['operacion']))
 //Asignar valor a variable
 $operacion=ucfirst(trim($_POST['operacion']));
 
-if(isset($_POST['rol']))
-$rol=ucfirst(trim($_POST['rol']));
+if(isset($_POST['cedula']))
+$cedula=ucfirst(trim($_POST['cedula']));
 
-if(isset($_POST['nacionalidad']))
-$nacionalidad=ucfirst(trim($_POST['nacionalidad']));
+if(isset($_POST['nombres']))
+$nombres=ucfirst(trim($_POST['nombres']));
 
-if(isset($_POST['cedula_persona']))
-$cedula_persona=ucfirst(trim($_POST['cedula_persona']));
+if(isset($_POST['apellidos']))
+$apellidos=ucfirst(trim($_POST['apellidos']));
 
-if(isset($_POST['nombre_persona']))
-$nombre_persona=ucfirst(trim($_POST['nombre_persona']));
+if(isset($_POST['genero']))
+$genero=ucfirst(trim($_POST['genero']));
 
-if(isset($_POST['apellido_persona']))
-$apellido_persona=ucfirst(trim($_POST['apellido_persona']));
+if(isset($_POST['fecha_nacimiento']))
+$fecha_nacimiento=(trim($_POST['fecha_nacimiento']));
 
-if(isset($_POST['sexo']))
-$sexo=ucfirst(trim($_POST['sexo']));
-
-if(isset($_POST['fecha_nacimiento'])){
-  if(!empty($_POST['fecha_nacimiento'])){
-    //el formato va acorde a la fecha como string
-    $objetoFecha = DateTime::createFromFormat("d/m/Y", $_POST['fecha_nacimiento'] );
-     
-    //el formato ahora es acorde a lo que ocupamos, segun mysql
-    $fecha_nacimiento = $objetoFecha->format("Y-m-d");
-  } 
-}
-
-if(isset($_POST['edocivil']))
-$edocivil=ucfirst(trim($_POST['edocivil']));
-
-if(isset($_POST['tlf_fijo']))
-$tlf_fijo=ucfirst(trim($_POST['tlf_fijo']));
-
-if(isset($_POST['tlf_movil']))
-$tlf_movil=ucfirst(trim($_POST['tlf_movil']));
-
-if(isset($_POST['email']))
-$email=ucfirst(trim($_POST['email']));
-
-if(isset($_POST['cod_parroquia']))
-$cod_parroquia=ucfirst(trim($_POST['cod_parroquia']));
+if(isset($_POST['lugar_nacimiento']))
+$lugar_nacimiento=ucfirst(trim($_POST['lugar_nacimiento']));
 
 if(isset($_POST['direccion']))
 $direccion=ucfirst(trim($_POST['direccion']));
 
-if(isset($_POST['titulo']))
-$titulo=ucfirst(trim($_POST['titulo']));
+if(isset($_POST['telefono_habitacion']))
+$telefono_habitacion=ucfirst(trim($_POST['telefono_habitacion']));
+
+if(isset($_POST['telefono_movil']))
+$telefono_movil=ucfirst(trim($_POST['telefono_movil']));
+
+if(isset($_POST['email']))
+$email=ucfirst(trim($_POST['email']));
+
+if(isset($_POST['esrepresentante']))
+$esrepresentante=ucfirst(trim($_POST['esrepresentante']));
+
+if(isset($_POST['espersonalinstitucion']))
+$espersonalinstitucion=ucfirst(trim($_POST['espersonalinstitucion']));
+
+if(isset($_POST['fecha_ingreso']))
+$fecha_ingreso=ucfirst(trim($_POST['fecha_ingreso']));
+
+if(isset($_POST['codigo_cargo']))
+$codigo_cargo=ucfirst(trim($_POST['codigo_cargo']));
+
+if(isset($_POST['codigo_dependencia']))
+$codigo_dependencia=ucfirst(trim($_POST['codigo_dependencia']));
+
+if(isset($_POST['condicion_cargo']))
+$condicion_cargo=ucfirst(trim($_POST['condicion_cargo']));
+
+if(isset($_POST['nivel_academico']))
+$nivel_academico=ucfirst(trim($_POST['nivel_academico']));
+
+if(isset($_POST['carga_horaria']))
+$carga_horaria=ucfirst(trim($_POST['carga_horaria']));
+
+if(isset($_POST['codigo_plantel']))
+$codigo_plantel=ucfirst(trim($_POST['codigo_plantel']));
 
 //Variable para el Combo Dependiente.
 if(isset($_POST['filtro']))
@@ -61,21 +70,27 @@ $filtro=trim($_POST['filtro']);
 
 include_once("../clases/class_persona.php");
 $persona=new Persona();
-if($operacion=='Registrar'){
-  $persona->rol($rol);
-  $persona->nacionalidad($nacionalidad);
-  $persona->cedula_persona($cedula_persona);
-  $persona->nombre_persona($nombre_persona);
-  $persona->apellido_persona($apellido_persona);
-  $persona->sexo($sexo);
+if($operacion=='Registrar'){ 
+  $persona->cedula($cedula);
+  $persona->nombres($nombres);
+  $persona->apellidos($apellidos);
+  $persona->genero($genero);
   $persona->fecha_nacimiento($fecha_nacimiento);
-  $persona->edocivil($edocivil);
-  $persona->tlf_fijo($tlf_fijo);
-  $persona->tlf_movil($tlf_movil);
-  $persona->email($email);
-  $persona->cod_parroquia($cod_parroquia);
+  $persona->lugar_nacimiento($lugar_nacimiento);
   $persona->direccion($direccion);
-  $persona->titulo($titulo);
+  $persona->telefono_habitacion($telefono_habitacion);
+  $persona->telefono_movil($telefono_movil);
+  $persona->email($email);
+  $persona->esestudiante("N");
+  $persona->esrepresentante($esrepresentante);
+  $persona->espersonalinstitucion($espersonalinstitucion);
+  $persona->codigo_cargo($codigo_cargo);
+  $persona->fecha_ingreso($fecha_ingreso);
+  $persona->codigo_dependencia($codigo_dependencia);
+  $persona->condicion_cargo($codigo_dependencia);
+  $persona->nivel_academico($nivel_academico);
+  $persona->carga_horaria($carga_horaria);
+  $persona->codigo_plantel($codigo_plantel);
   if(!$persona->Comprobar()){
     if($persona->Registrar())
        $confirmacion=1;
@@ -99,20 +114,26 @@ if($operacion=='Registrar'){
 }
 
 if($operacion=='Modificar'){
-  $persona->rol($rol);
-  $persona->nacionalidad($nacionalidad);
-  $persona->cedula_persona($cedula_persona);
-  $persona->nombre_persona($nombre_persona);
-  $persona->apellido_persona($apellido_persona);
-  $persona->sexo($sexo);
+  $persona->cedula($cedula);
+  $persona->nombres($nombres);
+  $persona->apellidos($apellidos);
+  $persona->genero($genero);
   $persona->fecha_nacimiento($fecha_nacimiento);
-  $persona->edocivil($edocivil);
-  $persona->tlf_fijo($tlf_fijo);
-  $persona->tlf_movil($tlf_movil);
-  $persona->email($email);
-  $persona->cod_parroquia($cod_parroquia);
+  $persona->lugar_nacimiento($lugar_nacimiento);
   $persona->direccion($direccion);
-  $persona->titulo($titulo);
+  $persona->telefono_habitacion($telefono_habitacion);
+  $persona->telefono_movil($telefono_movil);
+  $persona->email($email);
+  $persona->esestudiante("N");
+  $persona->esrepresentante($esrepresentante);
+  $persona->espersonalinstitucion($espersonalinstitucion);
+  $persona->codigo_cargo($codigo_cargo);
+  $persona->fecha_ingreso($fecha_ingreso);
+  $persona->codigo_dependencia($codigo_dependencia);
+  $persona->condicion_cargo($codigo_dependencia);
+  $persona->nivel_academico($nivel_academico);
+  $persona->carga_horaria($carga_horaria);
+  $persona->codigo_plantel($codigo_plantel);
     if($persona->Actualizar())
      $confirmacion=1;
     else
@@ -127,8 +148,8 @@ if($operacion=='Modificar'){
 }
 
 if($operacion=='Desactivar'){
-  $persona->cedula_persona($cedula_persona);
-  $persona->nombre_persona($nombre_persona);
+  $persona->cedula($cedula);
+  $persona->nombres($nombres);
   if($persona->Consultar()){
     if($persona->Desactivar())
     $confirmacion=1;
@@ -148,8 +169,8 @@ if($operacion=='Desactivar'){
 
 
 if($operacion=='Activar'){
-  $persona->cedula_persona($cedula_persona);
-  $persona->nombre_persona($nombre_persona);
+  $persona->cedula($cedula);
+  $persona->nombres($nombres);
   if($persona->Consultar()){
     if($persona->Activar())
     $confirmacion=1;
@@ -168,27 +189,32 @@ if($operacion=='Activar'){
 }
 
 if($operacion=='Consultar'){ 
-  $persona->cedula_persona($cedula_persona);
-  $persona->nombre_persona($nombre_persona);
+  $persona->cedula($cedula);
+  $persona->nombres($nombres);
   if($persona->Consultar()){
-    $_SESSION['datos']['rol']=$persona->rol();
-    $_SESSION['datos']['nacionalidad']=$persona->nacionalidad();
-    $_SESSION['datos']['cedula_persona']=$persona->cedula_persona();
-    $_SESSION['datos']['nombre_persona']=$persona->nombre_persona();
-    $_SESSION['datos']['apellido_persona']=$persona->apellido_persona();
-    $_SESSION['datos']['sexo']=$persona->sexo();
+    $_SESSION['datos']['cedula']=$persona->cedula();
+    $_SESSION['datos']['nombres']=$persona->nombres();
+    $_SESSION['datos']['apellidos']=$persona->apellidos();
+    $_SESSION['datos']['genero']=$persona->genero();
     $_SESSION['datos']['fecha_nacimiento']=$persona->fecha_nacimiento();
-    $_SESSION['datos']['edocivil']=$persona->edocivil();
-    $_SESSION['datos']['tlf_fijo']=$persona->tlf_fijo();
-    $_SESSION['datos']['tlf_movil']=$persona->tlf_movil();
-    $_SESSION['datos']['email']=$persona->email();
-    $_SESSION['datos']['cod_parroquia']=$persona->cod_parroquia();
+    $_SESSION['datos']['lugar_nacimiento']=$persona->lugar_nacimiento();
     $_SESSION['datos']['direccion']=$persona->direccion();
-    $_SESSION['datos']['titulo']=$persona->titulo();
+    $_SESSION['datos']['telefono_habitacion']=$persona->telefono_habitacion();
+    $_SESSION['datos']['telefono_movil']=$persona->telefono_movil();
+    $_SESSION['datos']['email']=$persona->email();
+    $_SESSION['datos']['esrepresentante']=$persona->esrepresentante();
+    $_SESSION['datos']['espersonalinstitucion']=$persona->espersonalinstitucion();
+    $_SESSION['datos']['codigo_cargo']=$persona->codigo_cargo();
+    $_SESSION['datos']['fecha_ingreso']=$persona->fecha_ingreso();
+    $_SESSION['datos']['codigo_dependencia']=$persona->codigo_dependencia();
+    $_SESSION['datos']['condicion_cargo']=$persona->condicion_cargo();
+    $_SESSION['datos']['nivel_academico']=$persona->nivel_academico();
+    $_SESSION['datos']['carga_horaria']=$persona->carga_horaria();
+    $_SESSION['datos']['codigo_plantel']=$persona->codigo_plantel();
     $_SESSION['datos']['estatus']=$persona->estatus_persona();
     header("Location: ../vistas/?persona");
   }else{
-    $_SESSION['datos']['mensaje']=utf8_encode("No se han encontrado resultados para tu búsqueda(".$cedula_persona.")");
+    $_SESSION['datos']['mensaje']=utf8_encode("No se han encontrado resultados para tu búsqueda(".$cedula.")");
     header("Location: ../vistas/?persona");
   }
 }

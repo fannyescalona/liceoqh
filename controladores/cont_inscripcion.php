@@ -9,6 +9,9 @@ $operacion=ucfirst(trim($_POST['operacion']));
 if(isset($_POST['codigo_inscripcion']))
 $codigo_inscripcion=ucfirst(trim($_POST['codigo_inscripcion']));
 
+if(isset($_POST['descripcion']))
+$descripcion=ucfirst(trim($_POST['descripcion']));
+
 if(isset($_POST['fecha_inicio']))
 $fecha_inicio=ucfirst(trim($_POST['fecha_inicio']));
 
@@ -22,6 +25,7 @@ include_once("../clases/class_inscripcion.php");
 $inscripcion=new inscripcion();
 if($operacion=='Registrar'){
   $inscripcion->codigo_inscripcion($codigo_inscripcion);
+  $inscripcion->descripcion($descripcion);
   $inscripcion->fecha_inicio($fecha_inicio);
   $inscripcion->fecha_fin($fecha_fin);
   $inscripcion->fecha_cierre($fecha_cierre);
@@ -39,16 +43,17 @@ if($operacion=='Registrar'){
     }
   }
   if($confirmacion==1){
-    $_SESSION['datos']['mensaje']="La inscripción ha sido registrada con éxito !";
+    $_SESSION['datos']['mensaje']="El Período de Inscripción ha sido registrado con éxito !";
     header("Location: ../vistas/?inscripcion");
    }else{
-    $_SESSION['datos']['mensaje']="Se presentó un error al registrar la inscripción.";
+    $_SESSION['datos']['mensaje']="Se presentó un error al registrar El Período de Inscripción.";
     header("Location: ../vistas/?inscripcion");
   }
 }
 
 if($operacion=='Modificar'){
   $inscripcion->codigo_inscripcion($codigo_inscripcion);
+  $inscripcion->descripcion($descripcion);
   $inscripcion->fecha_inicio($fecha_inicio);
   $inscripcion->fecha_fin($fecha_fin);
   $inscripcion->fecha_cierre($fecha_cierre);
@@ -57,10 +62,10 @@ if($operacion=='Modificar'){
   else
    $confirmacion=-1;
   if($confirmacion==1){
-    $_SESSION['datos']['mensaje']="La inscripción ha sido modificada con éxito !";
+    $_SESSION['datos']['mensaje']="El Período de Inscripción ha sido modificado con éxito !";
     header("Location: ../vistas/?inscripcion");
   }else{
-    $_SESSION['datos']['mensaje']="Problema al modificar la inscripción.";
+    $_SESSION['datos']['mensaje']="Problema al modificar El Período de Inscripción.";
     header("Location: ../vistas/?inscripcion");
   }
 }
@@ -76,10 +81,10 @@ if($operacion=='Desactivar'){
     $confirmacion=0;
   }
   if($confirmacion==1){
-    $_SESSION['datos']['mensaje']="La inscripción ha sido desactivada con éxito";
+    $_SESSION['datos']['mensaje']="El Período de Inscripción ha sido desactivado con éxito";
     header("Location: ../vistas/?inscripcion");
   }else{
-    $_SESSION['datos']['mensaje']="Problema al desactivar la inscripción.";
+    $_SESSION['datos']['mensaje']="Problema al desactivar El Período de Inscripción.";
     header("Location: ../vistas/?inscripcion");
   }
 }
@@ -95,10 +100,10 @@ if($operacion=='Activar'){
     $confirmacion=0;
   }
   if($confirmacion==1){
-    $_SESSION['datos']['mensaje']="La inscripción ha sido desactivada con éxito";
+    $_SESSION['datos']['mensaje']="El Período de Inscripción ha sido desactivado con éxito";
     header("Location: ../vistas/?inscripcion");
   }else{
-    $_SESSION['datos']['mensaje']="Problema al desactivar la inscripción.";
+    $_SESSION['datos']['mensaje']="Problema al desactivar El Período de Inscripción.";
     header("Location: ../vistas/?inscripcion");
   }
 }

@@ -89,8 +89,8 @@ public function fecha_inicio(){
    }
    
    public function Registrar(){
-    $sql="insert into tlapso (descripcion,fecha_inicio,fecha_fin,codigo_ano_academico) values ('$this->descripcion','$this->fecha_inicio',
-    '$this->fecha_fin','$this->codigo_ano_academico');";
+    $sql="insert into tlapso (descripcion,fecha_inicio,fecha_fin,codigo_ano_academico) values ('$this->descripcion',STR_TO_DATE('$this->fecha_inicio','%d/%m/%Y'),
+    STR_TO_DATE('$this->fecha_fin','%d/%m/%Y'),'$this->codigo_ano_academico');";
     if($this->mysql->Ejecutar($sql)!=null)
 	return true;
 	else
@@ -122,9 +122,10 @@ public function fecha_inicio(){
    }
    
    public function Consultar(){
-    $sql="select *,
+    $sql="select codigo_lapso,descripcion,date_format(fecha_inicio,'%d/%m/%Y') AS fecha_inicio,
+    date_format(fecha_fin,'%d/%m/%Y') fecha_fin,codigo_ano_academico,fecha_desactivacion,
     (CASE WHEN fecha_desactivacion IS NULL THEN  'Activo' 
-    	ELSE 'Desactivado' END) AS estatus from tlapso where descripcion='$this->descripcion'";
+    	ELSE 'Desactivado' END) AS estatus from tlapso where descripcion='$this->descripcion' AND codigo_ano_academico = '$this->codigo_ano_academico'";
 	$query=$this->mysql->Ejecutar($sql);
     if($this->mysql->Total_Filas($query)!=0){
 	$tlapso=$this->mysql->Respuesta($query);
@@ -142,7 +143,7 @@ public function fecha_inicio(){
 	}
    }
    public function Comprobar(){
-    $sql="select * from tlapso where descripcion='$this->descripcion'";
+    $sql="select * from tlapso where descripcion='$this->descripcion' AND codigo_ano_academico = '$this->codigo_ano_academico'";
 	$query=$this->mysql->Ejecutar($sql);
     if($this->mysql->Total_Filas($query)!=0){
 	$tlapso=$this->mysql->Respuesta($query);
