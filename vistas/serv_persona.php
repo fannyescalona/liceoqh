@@ -19,6 +19,7 @@ if(isset($_SESSION['datos'])){
   @$telefono_habitacion=$_SESSION['datos']['telefono_habitacion'];
   @$telefono_movil=$_SESSION['datos']['telefono_movil'];
   @$email=$_SESSION['datos']['email'];
+  @$esestudiante=$_SESSION['datos']['esestudiante'];
   @$esrepresentante=$_SESSION['datos']['esrepresentante'];
   @$espersonalinstitucion=$_SESSION['datos']['espersonalinstitucion'];
   @$fecha_ingreso=$_SESSION['datos']['fecha_ingreso'];
@@ -41,6 +42,7 @@ else{
   @$telefono_habitacion=null;
   @$telefono_movil=null;
   @$email=null;
+  @$esestudiante=null;
   @$esrepresentante=null;
   @$espersonalinstitucion=null;
   @$fecha_ingreso=null;
@@ -176,8 +178,7 @@ else{
      <td align='left'>Nombres y Apellidos</td>
      <td align='left'>G&eacute;nero</td>
      <td align='left'>Fecha de Nacimiento</td>
-     <td align='left'>C&oacute;digo de Persona</td>
-     <td align='left'>codigo_cargo</td>
+     <td align='left'>Cargo</td>
    </tr>
    <?php
 
@@ -186,13 +187,14 @@ else{
    $mysql=new Conexion();
 
 //Sentencia sql (sin limit) 
-   $_pagi_sql = "SELECT p.cedula,p.nombres,p.apellidos,p.genero,date_format(p.fecha_nacimiento,'%d/%m/%Y') fecha_nacimiento,
+   $_pagi_sql = "SELECT p.cedula,p.nombres,p.apellidos,p.genero,p.fecha_nacimiento,
     CONCAT(p.lugar_nacimiento,'_',par.descripcion) AS lugar_nacimiento,p.direccion,p.telefono_habitacion,p.telefono_movil,p.email,
     p.esestudiante,p.esrepresentante,p.espersonalinstitucion,(CASE WHEN p.fecha_desactivacion IS NULL THEN  'Activo' 
-    ELSE 'Desactivado' END) AS estatus,date_format(p.fecha_ingreso,'%d/%m/%Y)',p.codigo_cargo,p.codigo_dependencia,p.condicion_cargo,
+    ELSE 'Desactivado' END) AS estatus,p.fecha_ingreso,CONCAT(p.codigo_cargo,'_',c.descripcion),p.codigo_dependencia,p.condicion_cargo,
     p.nivel_academico,p.carga_horaria,p.codigo_plantel
     FROM tpersona p 
-    INNER JOIN tparroquia par ON p.lugar_nacimiento = par.codigo_parroquia 
+    INNER JOIN tparroquia par ON p.lugar_nacimiento = par.codigo_parroquia
+    INNER JOIN tcargo c ON p.codigo_cargo = c.codigo_cargo  
     WHERE p.esestudiante='N' ORDER BY p.cedula DESC"; 
 //cantidad de resultados por página (opcional, por defecto 20) 
    $_pagi_cuantos = 10; 

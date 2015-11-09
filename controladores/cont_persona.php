@@ -1,7 +1,6 @@
 <?php
 //Verificar Inicio de Session.
 session_start();
-
 //Verificar si la variable esta construida.
 if(isset($_POST['operacion']))
 //Asignar valor a variable
@@ -36,6 +35,9 @@ $telefono_movil=ucfirst(trim($_POST['telefono_movil']));
 
 if(isset($_POST['email']))
 $email=ucfirst(trim($_POST['email']));
+
+if(isset($_POST['esestudiante']))
+$esestudiante=ucfirst(trim($_POST['esestudiante']));
 
 if(isset($_POST['esrepresentante']))
 $esrepresentante=ucfirst(trim($_POST['esrepresentante']));
@@ -84,8 +86,8 @@ if($operacion=='Registrar'){
   $persona->esestudiante("N");
   $persona->esrepresentante($esrepresentante);
   $persona->espersonalinstitucion($espersonalinstitucion);
-  $persona->codigo_cargo($codigo_cargo);
   $persona->fecha_ingreso($fecha_ingreso);
+  $persona->codigo_cargo($codigo_cargo);
   $persona->codigo_dependencia($codigo_dependencia);
   $persona->condicion_cargo($codigo_dependencia);
   $persona->nivel_academico($nivel_academico);
@@ -127,8 +129,8 @@ if($operacion=='Modificar'){
   $persona->esestudiante("N");
   $persona->esrepresentante($esrepresentante);
   $persona->espersonalinstitucion($espersonalinstitucion);
-  $persona->codigo_cargo($codigo_cargo);
   $persona->fecha_ingreso($fecha_ingreso);
+  $persona->codigo_cargo($codigo_cargo);
   $persona->codigo_dependencia($codigo_dependencia);
   $persona->condicion_cargo($codigo_dependencia);
   $persona->nivel_academico($nivel_academico);
@@ -190,7 +192,6 @@ if($operacion=='Activar'){
 
 if($operacion=='Consultar'){ 
   $persona->cedula($cedula);
-  $persona->nombres($nombres);
   if($persona->Consultar()){
     $_SESSION['datos']['cedula']=$persona->cedula();
     $_SESSION['datos']['nombres']=$persona->nombres();
@@ -202,22 +203,24 @@ if($operacion=='Consultar'){
     $_SESSION['datos']['telefono_habitacion']=$persona->telefono_habitacion();
     $_SESSION['datos']['telefono_movil']=$persona->telefono_movil();
     $_SESSION['datos']['email']=$persona->email();
+    $_SESSION['datos']['esestudiante']=$persona->esestudiante("N");
     $_SESSION['datos']['esrepresentante']=$persona->esrepresentante();
     $_SESSION['datos']['espersonalinstitucion']=$persona->espersonalinstitucion();
-    $_SESSION['datos']['codigo_cargo']=$persona->codigo_cargo();
     $_SESSION['datos']['fecha_ingreso']=$persona->fecha_ingreso();
+    $_SESSION['datos']['codigo_cargo']=$persona->codigo_cargo();
     $_SESSION['datos']['codigo_dependencia']=$persona->codigo_dependencia();
     $_SESSION['datos']['condicion_cargo']=$persona->condicion_cargo();
     $_SESSION['datos']['nivel_academico']=$persona->nivel_academico();
     $_SESSION['datos']['carga_horaria']=$persona->carga_horaria();
     $_SESSION['datos']['codigo_plantel']=$persona->codigo_plantel();
-    $_SESSION['datos']['estatus']=$persona->estatus_persona();
+    $_SESSION['datos']['estatus']=$persona->estatus();
     header("Location: ../vistas/?persona");
   }else{
-    $_SESSION['datos']['mensaje']=utf8_encode("No se han encontrado resultados para tu búsqueda(".$cedula.")");
+    $_SESSION['datos']['mensaje']=utf8_encode("No se han encontrado resultados para tu búsqueda(".$descripcion.")");
     header("Location: ../vistas/?persona");
   }
-}
+}    
+?>
 
 if($operacion=='Combo'){
   echo $persona->BuscarParroquias($filtro);

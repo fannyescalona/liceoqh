@@ -247,6 +247,15 @@
    }
    }
 
+   public function estatus(){
+      $Num_Parametro=func_num_args();
+   if($Num_Parametro==0) return $this->estatus;
+     
+   if($Num_Parametro>0){
+     $this->estatus=func_get_arg(0);
+   }
+   }
+
    public function Registrar(){
     $sql="INSERT INTO tpersona (cedula,nombres,apellidos,genero,fecha_nacimiento,lugar_nacimiento,direccion,telefono_habitacion,telefono_movil,
     email,esestudiante,esrepresentante,espersonalinstitucion,fecha_ingreso,codigo_cargo,codigo_dependencia,condicion_cargo,nivel_academico,carga_horaria,codigo_plantel) 
@@ -277,9 +286,9 @@
    
     public function Actualizar(){
     $sql="UPDATE tpersona SET cedula='$this->cedula',nombres='$this->nombres',apellidos='$this->apellidos',genero='$this->genero',
-    fecha_nacimiento=STR_TO_DATE('$this->fecha_nacimiento','%d/%m/%Y'),lugar_nacimiento='$this->lugar_nacimiento',direccion='$this->direccion',telefono_habitacion='$this->telefono_habitacion',
+    STR_TO_DATE('$this->fecha_nacimiento','%d/%m/%Y'),lugar_nacimiento='$this->lugar_nacimiento',direccion='$this->direccion',telefono_habitacion='$this->telefono_habitacion',
     telefono_movil='$this->telefono_movil',email='$this->email',esestudiante='$this->esestudiante',esrepresentante='$this->esrepresentante',
-    espersonalinstitucion='$this->espersonalinstitucion',codigo_cargo='$this->codigo_cargo',fecha_ingreso=STR_TO_DATE('$this->fecha_ingreso','%d/%m/%Y'),
+    espersonalinstitucion='$this->espersonalinstitucion',codigo_cargo='$this->codigo_cargo',STR_TO_DATE('$this->fecha_ingreso','%d/%m/%Y'),
     codigo_dependencia='$this->codigo_dependencia',condicion_cargo='$this->condicion_cargo',nivel_academico='$this->nivel_academico',
     carga_horaria='$this->carga_horaria',codigo_plantel='$this->codigo_plantel' 
     WHERE p.cedula = pr.cedula AND p.cedula='$this->cedula';";
@@ -290,14 +299,13 @@
    }
    
    public function Consultar(){
-    $sql="SELECT p.cedula,p.nombres,p.apellidos,p.genero,date_format(p.fecha_nacimiento,'%d/%m/%Y') fecha_nacimiento,
-    CONCAT(p.lugar_nacimiento,'_',par.descripcion) AS lugar_nacimiento,p.direccion,p.telefono_habitacion,p.telefono_movil,p.email,
-    p.esestudiante,p.esrepresentante,p.espersonalinstitucion,(CASE WHEN p.fecha_desactivacion IS NULL THEN  'Activo' 
-    ELSE 'Desactivado' END) AS estatus,date_format(p.fecha_ingreso,'%d/%m/%Y)',p.codigo_cargo,p.codigo_dependencia,p.condicion_cargo,
-    p.nivel_academico,p.carga_horaria,p.codigo_plantel
+    $sql="SELECT p.cedula,p.nombres,p.apellidos,p.genero,p.fecha_nacimiento, 
+    CONCAT(p.lugar_nacimiento,'_',par.descripcion) AS lugar_nacimiento,p.direccion,
+    p.telefono_habitacion,p.telefono_movil,p.email, p.esestudiante,p.esrepresentante,p.espersonalinstitucion,
+    (CASE WHEN p.fecha_desactivacion IS NULL THEN 'Activo' ELSE 'Desactivado' END) AS estatus,
+    p.fecha_ingreso,p.codigo_cargo,p.codigo_dependencia,p.condicion_cargo, p.nivel_academico,p.carga_horaria,p.codigo_plantel 
     FROM tpersona p 
-    INNER JOIN tparroquia par ON p.lugar_nacimiento = par.codigo_parroquia 
-    WHERE p.cedula='$this->cedula'";
+    INNER JOIN tparroquia par ON p.lugar_nacimiento = par.codigo_parroquia";
 	$query=$this->mysql->Ejecutar($sql);
     if($this->mysql->Total_Filas($query)!=0){
   	$tpersona=$this->mysql->Respuesta($query);
@@ -329,14 +337,13 @@
 	}
    }
    public function Comprobar(){
-    $sql="SELECT p.cedula,p.nombres,p.apellidos,p.genero,date_format(p.fecha_nacimiento,'%d/%m/%Y') fecha_nacimiento,
-    CONCAT(p.lugar_nacimiento,'_',par.descripcion) AS lugar_nacimiento,p.direccion,p.telefono_habitacion,p.telefono_movil,p.email,
-    p.esestudiante,p.esrepresentante,p.espersonalinstitucion,(CASE WHEN p.fecha_desactivacion IS NULL THEN  'Activo' 
-    ELSE 'Desactivado' END) AS estatus,date_format(p.fecha_ingreso,'%d/%m/%Y)',p.codigo_cargo,p.codigo_dependencia,p.condicion_cargo,
-    p.nivel_academico,p.carga_horaria,p.codigo_plantel,p.fecha_desactivacion 
-    FROM tpersona p 
-    INNER JOIN tparroquia par ON p.lugar_nacimiento = par.codigo_parroquia 
-    WHERE p.cedula='$this->cedula'";
+    $sql="SELECT p.cedula,p.nombres,p.apellidos,p.genero,p.fecha_nacimiento, 
+    CONCAT(p.lugar_nacimiento,'_',par.descripcion) AS lugar_nacimiento,p.direccion,
+    p.telefono_habitacion,p.telefono_movil,p.email, p.esestudiante,p.esrepresentante,p.espersonalinstitucion,
+    (CASE WHEN p.fecha_desactivacion IS NULL THEN 'Activo' ELSE 'Desactivado' END) AS estatus,
+    p.fecha_ingreso,p.codigo_cargo,p.codigo_dependencia,p.condicion_cargo, p.nivel_academico,
+    p.carga_horaria,p.codigo_plantel,p.fecha_desactivacion FROM tpersona p 
+    INNER JOIN tparroquia par ON p.lugar_nacimiento = par.codigo_parroquia";
     echo $sql;
 	$query=$this->mysql->Ejecutar($sql);
     if($this->mysql->Total_Filas($query)!=0){
@@ -371,13 +378,20 @@
    }
 
    public function BuscarParroquias($filtro){
-   	$sql = "SELECT pr.esestudiante id,pr.nombre_parroquia name, '4' as lvl FROM tpais p 
-   	INNER JOIN testado e ON p.cod_pais = e.cod_pais 
-   	INNER JOIN tciudad c ON e.cod_estado = c.cod_estado 
-   	INNER JOIN tmunicipio m ON c.cod_ciudad = m.cod_ciudad 
-   	INNER JOIN tparroquia pr ON m.cod_municipio = pr.cod_municipio 
-   	WHERE p.nombre_pais = '$filtro'
-   	ORDER BY pr.esestudiante DESC";
+   	$sql ="SELECT pr.descripcion as lvl 
+    FROM tpais p 
+    INNER JOIN testado e ON p.codigo_pais = e.codigo_pais 
+    INNER JOIN tmunicipio m ON e.codigo_estado = m.codigo_estado 
+    INNER JOIN tparroquia pr ON m.codigo_municipio = pr.codigo_municipio ORDER BY pr.descripcion DESC";
+
+     /*"SELECT pr.esestudiante id,pr.descripcion name, '4' as lvl 
+    FROM tpais p 
+   	INNER JOIN testado e ON p.codigo_pais = e.codigo_pais 
+   	INNER JOIN tmunicipio e ON e.codigo_estado = m.codigo_estado 
+   	INNER JOIN tparroquia pr ON m.codigo_municipio = pr.codigo_municipio 
+   	WHERE p.descripcion = '$filtro'
+   	ORDER BY pr.esestudiante DESC";*/
+
    	$query = $this->mysql->Ejecutar($sql);
         while($Obj=$this->mysql->Respuesta_assoc($query)){
             $rows[]=array_map("utf8_encode",$Obj);
