@@ -1,9 +1,19 @@
+$(document).ready(init);
+
+function init(){
+	//Búsquedas de los municipios por autocompletar.
+	$('#cedula').autocomplete({
+		source:'../autocomplete/persona.php', 
+		minLength:1
+	});
+}
+
 function validar_formulario(param){
 	permitido=true;
 document.getElementById('operacion').value=devuelve_boton(param);
 if(document.getElementById('cedula')){
-    if(document.getElementById('cedula').value.trim().length!==8){
-     alert("la cédula debe tener 8 caracteres")
+    if(document.getElementById('cedula').value.trim().length==0){
+     alert("Debe seleccionar una persona")
      permitido=false;
      return false;
      }
@@ -12,7 +22,7 @@ if(document.getElementById('cedula')){
 if(document.getElementById('perfil')){
 	if(devuelve_boton(param)=="Registrar" || devuelve_boton(param)=="Modificar"){
     if(document.getElementById('perfil').value.trim()=="" || document.getElementById('perfil').value.trim()=="null"){
-     alert("selecciona el perfil del usuario")
+     alert("Debe seleccionar el perfil del usuario")
 		permitido=false;     
      return false;
      }

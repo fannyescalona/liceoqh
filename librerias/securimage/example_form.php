@@ -34,8 +34,8 @@ Código:<br />
 <input type="text" name="code" size="12" /><br /><br />
 
 <input type="submit" value="Aceptar" />
- <br><img src="/udesur/images/home.png" alt="" style="width:80px; height:80px;cursor:pointer"
-                       onclick="location.href='/udesur/'">  
+ <br><img src="/liceoqh/images/home.png" alt="" style="width:80px; height:80px;cursor:pointer"
+                       onclick="location.href='/liceoqh/'">  
 </form>
 
 <?php

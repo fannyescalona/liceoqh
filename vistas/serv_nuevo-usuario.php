@@ -81,6 +81,7 @@ else{
    <tr> 
      <td>Activar Caducidad</td>
      <td>Nombre Usuario </td>
+     <td>Nombre Persona</td>
      <td>Perfil de usuario</td>
      <td>Estatus</td>
    </tr>
@@ -96,8 +97,12 @@ else{
    WHEN (u.fecha_desactivacion IS NULL) THEN 'Activo'
    WHEN (u.fecha_desactivacion IS NOT NULL) THEN 'Desactivado'
    ELSE 'otro/desconocido'
-   END
-   as estado FROM tusuario u inner join tperfil tp on tp.codigo_perfil=u.codigo_perfil order by nombre_usuario"; 
+   END AS estado,
+    CONCAT(p.nombres,' ',p.apellidos) AS persona  
+   FROM tusuario u 
+   INNER JOIN tpersona p ON u.cedula = p.cedula 
+   INNER JOIN tperfil tp ON tp.codigo_perfil=u.codigo_perfil 
+   ORDER BY nombre_usuario ASC"; 
 //cantidad de resultados por página (opcional, por defecto 20) 
    $_pagi_cuantos = 10; 
 //Cadena que separa los enlaces numéricos en la barra de navegación entre páginas.
@@ -106,8 +111,6 @@ else{
    $_pagi_nav_num_enlaces=5;
 //Incluimos el script de paginación. Éste ya ejecuta la consulta automáticamente 
    @include("../librerias/paginador/paginator.inc.php"); 
-
-
 //Leemos y escribimos los registros de la página actual 
    while($row = mysql_fetch_array($_pagi_result)){ 
     if($row['activar_caducidad']=='1')
@@ -117,6 +120,7 @@ else{
     echo "<tr>
     <td style='width:20%;text-align:center;'><input $val type='checkbox' name='nc[]' id='nc' value='".$row['nombre_usuario']."'/></td>
     <td align='left'>".$row['nombre_usuario']."</td>
+    <td align='left'>".$row['persona']."</td>
     <td align='left'>".$row['descripcion']."</td>
     <td align='left' class='".$row['estado']."'>".$row['estado']."</td>
     </tr>"; 

@@ -130,8 +130,8 @@
             <?php if(empty($_GET['p'])){?>      
       <p>Olvidaste tu contrase&ntilde;a. click <a href="?p=olvidar-clave">aqui</a> </p>
             <?php }else {?>
-                      <br><img src="/udesur/images/home.png" alt="" style="width:80px; height:80px;cursor:pointer"
-                       onclick="location.href='/udesur/'">         
+                      <br><img src="/liceoqh/images/home.png" alt="" style="width:80px; height:80px;cursor:pointer"
+                       onclick="location.href='/liceoqh/'">         
             <?php 
             }
             } //cierre de condicion de la captcha

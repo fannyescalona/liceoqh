@@ -62,7 +62,6 @@ class Usuario{
      
 	 if($Num_Parametro>0){
 	   $this->password=sha1(md5(func_get_arg(0)));
-
 	 }
    }
     public function cedula(){
@@ -129,13 +128,12 @@ class Usuario{
 	public function Registrar(){
 	 $sqlx="insert into tusuario (cedula,nombre_usuario,codigo_perfil) values('$this->cedula','$this->cedula','$this->rol')";
 	if($this->mysql->Ejecutar($sqlx)!=null){
-		$this->password("123456");
 	   $sql="insert into tcontrasena (estado,nombre_usuario,contrasena) values(3,'$this->cedula','$this->password')";
-	$this->mysql->Ejecutar($sql);
-	return true;
+		$this->mysql->Ejecutar($sql);
+			return true;
 	}
 	else
-	return false;
+		return false;
 	}
  
 	public function Buscar_ultimas_3_clave(){
@@ -220,14 +218,13 @@ class Usuario{
 }
 
 	public function Consultar_personal(){
- $sql="SELECT * from tpersonales where cedula='$this->cedula'";
-   
-   $query=$this->mysql->Ejecutar($sql);
-   if($this->mysql->Total_Filas($query)>0)
-   	   return true;
-	   else
-	   return false;
-}
+	$sql="SELECT * from tpersona where cedula='$this->cedula' AND espersonalinstitucion='Y'";
+	$query=$this->mysql->Ejecutar($sql);
+	if($this->mysql->Total_Filas($query)>0)
+		return true;
+	else
+		return false;
+	}
 
 	public function Buscar_1(){
    $sql="SELECT concat(p.nombres,' ',p.apellidos) as fullname_user, rol.descripcion AS perfil, 

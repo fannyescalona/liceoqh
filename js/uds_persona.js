@@ -1,24 +1,11 @@
 $(document).ready(init);
+
 function init(){
 	//Búsquedas de los municipios por autocompletar.
 	$('#lugar_nacimiento').autocomplete({
 		source:'../autocomplete/parroquia.php', 
 		minLength:1
 	});
-
-	/*$('#personal1').hide();
-	$('#personal2').hide();
-
-	$('#espersonalinstitucion').change(function(){
-		if($(this).val()=="Y"){
-			$('#personal1').show();
-			$('#personal2').show();
-		}
-		else if($(this).val()=="N"){
-			$('#personal1').hide();
-			$('#personal2').hide();
-		}
-	});*/
 }
 
 function validar_formulario(param){
@@ -95,5 +82,5 @@ if(devuelve_boton(param)=="Desactivar"){
 
 document.getElementById("operacion").value=devuelve_boton(param);
 if(permitido==true)
-document.getElementById("form").submit();
+	document.getElementById("form").submit();
 }

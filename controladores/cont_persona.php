@@ -1,9 +1,9 @@
 <?php
 //Verificar Inicio de Session.
 session_start();
+
 //Verificar si la variable esta construida.
 if(isset($_POST['operacion']))
-//Asignar valor a variable
 $operacion=ucfirst(trim($_POST['operacion']));
 
 if(isset($_POST['cedula']))
@@ -21,8 +21,10 @@ $genero=ucfirst(trim($_POST['genero']));
 if(isset($_POST['fecha_nacimiento']))
 $fecha_nacimiento=(trim($_POST['fecha_nacimiento']));
 
-if(isset($_POST['lugar_nacimiento']))
-$lugar_nacimiento=ucfirst(trim($_POST['lugar_nacimiento']));
+if(isset($_POST['lugar_nacimiento'])){
+  $lugarnacimiento=explode("_",trim($_POST['lugar_nacimiento']));
+  $lugar_nacimiento=$lugarnacimiento[0];
+}
 
 if(isset($_POST['direccion']))
 $direccion=ucfirst(trim($_POST['direccion']));
@@ -66,13 +68,10 @@ $carga_horaria=ucfirst(trim($_POST['carga_horaria']));
 if(isset($_POST['codigo_plantel']))
 $codigo_plantel=ucfirst(trim($_POST['codigo_plantel']));
 
-//Variable para el Combo Dependiente.
-if(isset($_POST['filtro']))
-$filtro=trim($_POST['filtro']);
-
 include_once("../clases/class_persona.php");
 $persona=new Persona();
-if($operacion=='Registrar'){ 
+
+if($operacion=='Registrar'){
   $persona->cedula($cedula);
   $persona->nombres($nombres);
   $persona->apellidos($apellidos);
@@ -169,7 +168,6 @@ if($operacion=='Desactivar'){
   }
 }
 
-
 if($operacion=='Activar'){
   $persona->cedula($cedula);
   $persona->nombres($nombres);
@@ -216,14 +214,8 @@ if($operacion=='Consultar'){
     $_SESSION['datos']['estatus']=$persona->estatus();
     header("Location: ../vistas/?persona");
   }else{
-    $_SESSION['datos']['mensaje']=utf8_encode("No se han encontrado resultados para tu búsqueda(".$descripcion.")");
+    $_SESSION['datos']['mensaje']="No se han encontrado resultados para tu búsqueda(".$descripcion.")";
     header("Location: ../vistas/?persona");
   }
-}    
-?>
-
-if($operacion=='Combo'){
-  echo $persona->BuscarParroquias($filtro);
-  unset($persona);
 }    
 ?>
