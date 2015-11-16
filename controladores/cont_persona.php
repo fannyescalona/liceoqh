@@ -88,7 +88,7 @@ if($operacion=='Registrar'){
   $persona->fecha_ingreso($fecha_ingreso);
   $persona->codigo_cargo($codigo_cargo);
   $persona->codigo_dependencia($codigo_dependencia);
-  $persona->condicion_cargo($codigo_dependencia);
+  $persona->condicion_cargo($condicion_cargo);
   $persona->nivel_academico($nivel_academico);
   $persona->carga_horaria($carga_horaria);
   $persona->codigo_plantel($codigo_plantel);
@@ -131,7 +131,7 @@ if($operacion=='Modificar'){
   $persona->fecha_ingreso($fecha_ingreso);
   $persona->codigo_cargo($codigo_cargo);
   $persona->codigo_dependencia($codigo_dependencia);
-  $persona->condicion_cargo($codigo_dependencia);
+  $persona->condicion_cargo($condicion_cargo);
   $persona->nivel_academico($nivel_academico);
   $persona->carga_horaria($carga_horaria);
   $persona->codigo_plantel($codigo_plantel);
@@ -217,5 +217,10 @@ if($operacion=='Consultar'){
     $_SESSION['datos']['mensaje']="No se han encontrado resultados para tu búsqueda(".$descripcion.")";
     header("Location: ../vistas/?persona");
   }
-}    
+}
+
+if($operacion=="BuscarDatosRepresentante"){
+  echo $persona->BuscarDatosRepresentante($cedula);
+  unset($persona);
+} 
 ?>

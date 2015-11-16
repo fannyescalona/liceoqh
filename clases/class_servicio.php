@@ -141,6 +141,7 @@ public function url(){
 	return false;
 	}
    }
+
    public function Comprobar(){
     $sql="select * from tservicio where descripcion='$this->descripcion'";
 	$query=$this->mysql->Ejecutar($sql);

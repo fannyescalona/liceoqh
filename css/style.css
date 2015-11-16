@@ -27,7 +27,7 @@
 
 body {
 
-    background: #0B3F80;            
+    background: #356AAD;            
 
 }
 .barra_gobierno{
@@ -193,8 +193,8 @@ p{
     z-index: 16;
 }
 #logo {
-    /*background: url("../images/udsihlogo.png") no-repeat scroll center center transparent;*/
     height: 200px;
+    margin: 0 10px 0 15px;
 }
 #sidebar > ul {
     border-bottom: 1px solid #4E4E4E;
@@ -580,6 +580,16 @@ form table tr td {
  display: inline-block;
  margin:50px 0 0 0;
  /*width:600px;*/
+ padding:20px 50px;
+ background:rgba(255, 255, 255, 0.7);
+ box-shadow:3px 0px 8px rgba(0, 0, 0, 0.4);
+ border-radius: 0 1px 1px 0;
+ text-align: center !important;
+}
+
+#contenedorInscripcion {
+ display: inline-block;
+ margin:10px 0 0 0;
  padding:20px 50px;
  background:rgba(255, 255, 255, 0.7);
  box-shadow:3px 0px 8px rgba(0, 0, 0, 0.4);

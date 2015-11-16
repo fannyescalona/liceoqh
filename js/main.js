@@ -38,18 +38,6 @@ function init(){
 			ampm: false
 	};
 	$.timepicker.setDefaults($.timepicker.regional['es']);
-    //Agregar Objeto Calendario al input anio_paa.
-    $('#anio_paa').datepicker({
-        dateFormat: 'yy',
-        yearRange: '1950:2007',
-        showOn: 'both'
-    });
-    //Agregar Objeto Calendario al input anio_rusnieu.
-    $('#anio_rusnieu').datepicker({
-        dateFormat: 'yy',
-        yearRange: '2008:+0',
-        showOn: 'both'
-    });
     //Agregar Objeto Calendario al input fecha_desde.
     $('#fecha_desde').datepicker({
         dateFormat: 'yy-mm-dd',
@@ -126,6 +114,42 @@ function init(){
         buttonImage: '../images/calendario.png',
         buttonImageOnly: true
     });
+    //Agregar Objeto Calendario al input fecha_nacimiento.
+    $('#fecha_nacimiento_estudiante').datepicker({
+        minDate: '-18y',
+        maxDate: '-10y',
+        showOn: 'both',
+        numberOfMonths: 1,
+        buttonImage: '../images/calendario.png',
+        buttonImageOnly: true
+    });
+    //Agregar Objeto Calendario al input fecha_nacimiento.
+    $('#fecha_nacimiento_padre').datepicker({
+        minDate: '-82y',
+        maxDate: '-18y',
+        showOn: 'both',
+        numberOfMonths: 1,
+        buttonImage: '../images/calendario.png',
+        buttonImageOnly: true
+    });
+    //Agregar Objeto Calendario al input fecha_nacimiento.
+    $('#fecha_nacimiento_madre').datepicker({
+        minDate: '-82y',
+        maxDate: '-18y',
+        showOn: 'both',
+        numberOfMonths: 1,
+        buttonImage: '../images/calendario.png',
+        buttonImageOnly: true
+    });
+    //Agregar Objeto Calendario al input fecha_nacimiento.
+    $('#fecha_nacimiento_representante').datepicker({
+        minDate: '-82y',
+        maxDate: '-18y',
+        showOn: 'both',
+        numberOfMonths: 1,
+        buttonImage: '../images/calendario.png',
+        buttonImageOnly: true
+    });
 	//Agregar Objeto de Horas al input hora_inicio
 	$('#hora_inicio').timepicker({
 		hourGrid: 4,
@@ -138,67 +162,6 @@ function init(){
 		minuteGrid: 10,
 		timeFormat: 'HH:mm'
 	});
-}
-
-function comboDependiente(value,url,object){
-    $.ajax({
-        url: url,
-        type: 'POST',
-        async: true,
-        data: value,
-        dataType: 'JSON',
-        success: function(resp){
-            var options = '<option value=0>Seleccione</option>'; 
-            for (var i = 0; i < resp.length; i++) { 
-                if((resp[i].lvl==1) && (resp[i].id == $('#lvl1').val())){
-                    options += '<option value="' + resp[i].id + '" selected>' + resp[i].name + '</option>';
-                }
-                else if((resp[i].lvl==2) && (resp[i].id == $('#lvl2').val())){
-                    options += '<option value="' + resp[i].id + '" selected>' + resp[i].name + '</option>';
-                }
-                else if((resp[i].lvl==3) && (resp[i].id == $('#lvl3').val())){
-                    options += '<option value="' + resp[i].id + '" selected>' + resp[i].name + '</option>';
-                }
-                else if((resp[i].lvl==4) && (resp[i].id == $('#lvl4').val())){
-                    options += '<option value="' + resp[i].id + '" selected>' + resp[i].name + '</option>';
-                }
-                else if((resp[i].lvl==1) && (resp[i].id == $('#lvl5').val())){
-                    options += '<option value="' + resp[i].id + '" selected>' + resp[i].name + '</option>';
-                }
-                else if((resp[i].lvl==2) && (resp[i].id == $('#lvl6').val())){
-                    options += '<option value="' + resp[i].id + '" selected>' + resp[i].name + '</option>';
-                }
-                else if((resp[i].lvl==3) && (resp[i].id == $('#lvl7').val())){
-                    options += '<option value="' + resp[i].id + '" selected>' + resp[i].name + '</option>';
-                }
-                else if((resp[i].lvl==4) && (resp[i].id == $('#lvl8').val())){
-                    options += '<option value="' + resp[i].id + '" selected>' + resp[i].name + '</option>';
-                }
-                else if((resp[i].lvl==1) && (resp[i].id == $('#lvl9').val())){
-                    options += '<option value="' + resp[i].id + '" selected>' + resp[i].name + '</option>';
-                }
-                else if((resp[i].lvl==2) && (resp[i].id == $('#lvl10').val())){
-                    options += '<option value="' + resp[i].id + '" selected>' + resp[i].name + '</option>';
-                }
-                else if((resp[i].lvl==3) && (resp[i].id == $('#lvl11').val())){
-                    options += '<option value="' + resp[i].id + '" selected>' + resp[i].name + '</option>';
-                }
-                else if((resp[i].lvl==4) && (resp[i].id == $('#lvl12').val())){
-                    options += '<option value="' + resp[i].id + '" selected>' + resp[i].name + '</option>';
-                }
-                else if((resp[i].lvl==5) && (resp[i].id == $('#lvl13').val())){
-                    options += '<option value="' + resp[i].id + '" selected>' + resp[i].name + '</option>';
-                }
-                else{
-                    options += '<option value="' + resp[i].id + '">' + resp[i].name + '</option>';
-                } 
-            }
-            object.html(options);
-        },
-        error: function(){
-            alert("¡Error al procesar la petición!");
-        }
-    });
 }
 
 function salir(){
@@ -339,6 +302,18 @@ function isRif(evt,object)
         if (charCode > 31 && (charCode < 48 || charCode > 57) && charCode != 46)
             return false;
         return true;
+    }
+  }
+
+//Función para validar que el primer caracter ingresado en un correo sea una letra.
+function isEmail(evt,object)
+  {
+    var charCode = (evt.which) ? evt.which : event.keyCode
+    if(object.length<1){
+        if (charCode >= 48 && charCode <= 57)
+            return false;
+        return true;
+
     }
   }
 

@@ -3,7 +3,7 @@ require_once('../clases/class_bd.php');
 $conexion = new Conexion();
 $sql = "SELECT TRIM(cedula) AS cedula,CONCAT(nombres,' ',apellidos) AS nombre 
 	    FROM tpersona  
-   		WHERE genero='F' AND esestudiante = 'N' 
+   		WHERE esestudiante = 'N' 
    		AND (cedula LIKE '%".$_REQUEST['term']."%' OR CONCAT(nombres,' ',apellidos) LIKE '%".$_REQUEST['term']."%')";
 $query = $conexion->Ejecutar($sql);
 while($Obj=$conexion->Respuesta($query)){

@@ -65,18 +65,18 @@ else{
       <div id="contenedorFormulario">
         <div class="row">
           <div class="span6">
-            <label>Ingrese el Número de Cédula:</label>
-            <input tabindex=1 onKeyPress="return isRif(event,this.value)" onKeyUp="this.value=this.value.toUpperCase()" title="Ingrese el número de cédula" maxlength=10 name="cedula" id="cedula" type="text" size="10" value="<?= $cedula;?>" placeholder="Ingrese el número de Cedula" class="campoTexto" required />
-            <label>Ingrese el(los) nombre(s) del la Persona:</label>
-            <input tabindex=3 title="Ingrese el(los) nombre(s) del la Persona" onKeyUp="this.value=this.value.toUpperCase()" name="nombres" id="nombres" type="text" size="50" value="<?= $nombres;?>" placeholder="Ingrese el Nombre" class="campoTexto" required />
+            <label>Cédula:</label>
+            <input tabindex=1 onKeyPress="return isRif(event,this.value)" onKeyUp="this.value=this.value.toUpperCase()" title="Ingrese el número de cédula" maxlength=10 name="cedula" id="cedula" type="text" size="10" value="<?= $cedula;?>" placeholder="Ingrese el número de Cédula" class="campoTexto" required />
+            <label>Nombre(s):</label>
+            <input tabindex=3 title="Ingrese el(los) nombre(s) de la Persona" onKeyUp="this.value=this.value.toUpperCase()" name="nombres" id="nombres" type="text" size="50" value="<?= $nombres;?>" placeholder="Ingrese el Nombre" class="campoTexto" required />
             <label>Fecha de Nacimiento:</label>
             <input tabindex=5 title="Seleccione el fecha de Nacimiento" name="fecha_nacimiento" id="fecha_nacimiento" type="text" size="50" value="<?= $fecha_nacimiento;?>" placeholder="Ingrese la Fecha de Nacimiento" class="campoTexto" readonly required />
-            <label>Ingrese Dirección de la Persona:</label>
+            <label>Dirección:</label>
             <textarea tabindex=7 onKeyUp="this.value=this.value.toUpperCase()" title="Ingrese la dirección del persona" name="direccion" id="direccion" rows=5 placeholder="Ingrese la Dirección" required /><?php echo $direccion;?></textarea>
             <label>Correo Electrónico:</label>
-            <input tabindex=10 title="Ingrese el correo electrónico del persona" onKeyUp="this.value=this.value.toUpperCase()" name="email" id="email" type="text" size="50" value="<?= $email;?>" placeholder="Ingrese el Correo Electrónico" class="campoTexto" required />
+            <input tabindex=10 title="Ingrese el correo electrónico del persona" onKeyPress="return isEmail(event,this.value)" onKeyUp="this.value=this.value.toLowerCase()" name="email" id="email" type="text" size="50" value="<?= $email;?>" placeholder="Ingrese el Correo Electrónico" class="campoTexto" required />
             <label>Personal del Plantel:</label>
-            <input tabindex=12 type="radio" name="espersonalinstitucion" id="espersonalinstitucion" value="Y" <?php if($espersonalinstitucion=="Y"){echo "checked"; }?>> SÍ <input type="radio" name="espersonalinstitucion" id="espersonalinstitucion" value="N" <?php if($espersonalinstitucion=="N" || $espersonalinstitucion==NULL){echo "checked"; }?>> NO
+            <input tabindex=12 type="radio" name="espersonalinstitucion" id="epiSI" value="Y" <?php if($espersonalinstitucion=="Y"){echo "checked"; }?>> SÍ <input type="radio" name="espersonalinstitucion" id="epiNO" value="N" <?php if($espersonalinstitucion=="N" || $espersonalinstitucion==NULL){echo "checked"; }?>> NO
             <div id="personal1">
               <label>Fecha de Ingreso:</label>
               <input tabindex=14 title="Seleccione el fecha de Ingreso" name="fecha_ingreso" id="fecha_ingreso" type="text" size="50" value="<?= $fecha_ingreso;?>" placeholder="Ingrese la Fecha de Ingreso" class="campoTexto" readonly required />
@@ -108,11 +108,11 @@ else{
               <option value="F" <?php if($genero=="F"){ echo "selected";}?>>Femenino</option>
               <option value="M" <?php if($genero=="M"){ echo "selected";}?>>Masculino</option>
             </select>
-            <label>Ingrese el(los) apellido(s) del la Persona:</label>
-            <input tabindex=4 title="Ingrese el(los) apellido(s) del la Persona" onKeyUp="this.value=this.value.toUpperCase()" name="apellidos" id="apellidos" type="text" size="50" value="<?= $apellidos;?>" placeholder="Ingrese el Apellido" class="campoTexto" required />
+            <label>Apellido(s):</label>
+            <input tabindex=4 title="Ingrese el(los) apellido(s) de la Persona" onKeyUp="this.value=this.value.toUpperCase()" name="apellidos" id="apellidos" type="text" size="50" value="<?= $apellidos;?>" placeholder="Ingrese el Apellido" class="campoTexto" required />
             <label>Lugar de Nacimiento:</label>
-            <input tabindex=6 title="Seleccione un Municipio" onKeyUp="this.value=this.value.toUpperCase()" name="lugar_nacimiento" id="lugar_nacimiento" type="text" size="50" value="<?= $lugar_nacimiento;?>" placeholder="Seleccione un municipio" class="campoTexto" required />
-            <label>Número de Habitación:</label>
+            <input tabindex=6 title="Seleccione una Parroquia" onKeyUp="this.value=this.value.toUpperCase()" name="lugar_nacimiento" id="lugar_nacimiento" type="text" size="50" value="<?= $lugar_nacimiento;?>" placeholder="Seleccione una parroquia" class="campoTexto" required />
+            <label>Teléfono de Habitación:</label>
             <input tabindex=8 maxlength=11 title="Ingrese el número de habitación" onKeyPress="return isNumberKey(event)" name="telefono_habitacion" id="telefono_habitacion" type="text" size="50" value="<?= $telefono_habitacion;?>" placeholder="Ingreso el Número de Habitación" class="campoTexto" required />
             <label>Teléfono Celular:</label>
             <input tabindex=9 maxlength=11 title="Ingrese el número de celular" onKeyPress="return isNumberKey(event)" name="telefono_movil" id="telefono_movil" type="text" size="50" value="<?= $telefono_movil;?>" placeholder="Ingrese el Número Celular" class="campoTexto" required />
@@ -148,8 +148,8 @@ else{
               <input tabindex=19 maxlength=2 title="Ingrese la carga horaria" onKeyPress="return isNumberKey(event)" name="carga_horaria" id="carga_horaria" type="text" size="50" value="<?= $telefono_movil;?>" placeholder="Ingrese la carga horaria" class="campoTexto" required />
             </div>
           </div> 
-          <strong class="obligatorio">Los campos resaltados en rojo son obligatorios</strong>
         </div>    
+          <strong class="obligatorio">Los campos resaltados en rojo son obligatorios</strong>
       </div>    
       <br><br>
       <?php echo '<tr><td colspan="2" class="'.$estatus.'" id="estatus_registro">'.$estatus.'</td></tr>'; ?>
@@ -202,7 +202,7 @@ else{
       @include("../librerias/paginador/paginator.inc.php"); 
       //Leemos y escribimos los registros de la página actual 
       while($row = mysql_fetch_array($_pagi_result)){ 
-      echo "<tr><td style='width:10%;'>".$row['cedula']."</td><td align='left'>".$row['nomape']."</td><td align='left'>".$row['genero']."</td><td style='width:15%;' align='left'>".$row['fecha_nacimiento']."</td><td align='left'>".$row['codigo_cargo']."</td></tr>"; 
+      echo "<tr><td style='width:10%;'>".$row['cedula']."</td><td align='left'>".$row['nomape']."</td><td align='left'>".$row['genero']."</td><td style='width:15%;' align='left'>".$row['fecha_nacimiento']."</td><td align='left'>".$row['descripcion']."</td></tr>"; 
       } 
       //Incluimos la barra de navegación 
     ?>

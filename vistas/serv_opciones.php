@@ -54,17 +54,17 @@ if(isset($_SESSION['datos'])){
         <span class="icon-ok" title="Icono de aceptar"></span> 
        <label>Seleccione la Acción que desea cambiar el nombre:</label>       
        <select  name="orden" id="orden" title="Seleccione una acci&oacute;n" placeholder="Seleccione una Opción" class="campoTexto" required >
-                  <option <?php  if(!is_null($orden) and $orden==0) echo "selected"; ?> value="0">Sin accion</option>
-                  <option <?php  if(!is_null($orden) and $orden==1) echo "selected"; ?> value="1">Insertar, Incluir, Registrar,Guardar</option>
-                  <option <?php  if(!is_null($orden) and $orden==2) echo "selected"; ?> value="2">Modificar,Actualizar,Guardar</option>
-                  <option <?php  if(!is_null($orden) and $orden==3) echo "selected"; ?> value="3">Desactivar,Deshabilitar</option>
-                  <option <?php  if(!is_null($orden) and $orden==4) echo "selected"; ?> value="4">Activar,Habilitar</option>
-                  <option <?php  if(!is_null($orden) and $orden==5) echo "selected"; ?> value="5">Buscar,Consultar</option>
-                  <option <?php  if(!is_null($orden) and $orden==6) echo "selected"; ?> value="6">Cancelar, Deshacer </option>
-                  <option <?php  if(!is_null($orden) and $orden==7) echo "selected"; ?> value="7">Listar,Imprimir</option>
-                  <option <?php  if(!is_null($orden) and $orden==8) echo "selected"; ?> value="8">Aceptar</option>
-             </select>  
-           <strong class="obligatorio">Los campos resaltados en rojo son obligatorios</strong>
+          <option <?php  if(!is_null($orden) and $orden==0) echo "selected"; ?> value="0">Sin accion</option>
+          <option <?php  if(!is_null($orden) and $orden==1) echo "selected"; ?> value="1">Insertar, Incluir, Registrar,Guardar</option>
+          <option <?php  if(!is_null($orden) and $orden==2) echo "selected"; ?> value="2">Modificar,Actualizar,Guardar</option>
+          <option <?php  if(!is_null($orden) and $orden==3) echo "selected"; ?> value="3">Desactivar,Deshabilitar</option>
+          <option <?php  if(!is_null($orden) and $orden==4) echo "selected"; ?> value="4">Activar,Habilitar</option>
+          <option <?php  if(!is_null($orden) and $orden==5) echo "selected"; ?> value="5">Buscar,Consultar</option>
+          <option <?php  if(!is_null($orden) and $orden==6) echo "selected"; ?> value="6">Cancelar, Deshacer </option>
+          <option <?php  if(!is_null($orden) and $orden==7) echo "selected"; ?> value="7">Listar,Imprimir</option>
+          <option <?php  if(!is_null($orden) and $orden==8) echo "selected"; ?> value="8">Aceptar</option>
+        </select>  
+      <strong class="obligatorio">Los campos resaltados en rojo son obligatorios</strong>
       </div>    
       <br>
       <?php echo '<p class="'.$estatus.'" id="estatus_registro">'.$estatus.'</p>'; ?>

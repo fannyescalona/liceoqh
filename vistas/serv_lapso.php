@@ -43,26 +43,26 @@ else{
       <input title="Ingrese la fecha fin del lapso" name="fecha_fin" id="fecha_fin" type="text" size="50" value="<?= $fecha_fin;?>" placeholder="Ingrese la fecha fin del lapso" class="campoTexto" readonly required >    
       <label>Año Académico</label>
       <select name="codigo_ano_academico" id="codigo_ano_academico" title="Seleccione un año" required class="campoTexto"/>
-                <option value='0'>Seleccione un Año</option>
-                <?php
-                  require_once("../clases/class_bd.php");
-                  $mysql=new Conexion();
-                  $sql = "SELECT codigo_ano_academico,upper(descripcion) descripcion FROM tano_academico WHERE fecha_desactivacion IS NULL ORDER BY codigo_ano_academico";
-                  $query = $mysql->Ejecutar($sql);
-                  while ($row = $mysql->Respuesta($query)){
-                    if($row['codigo_ano_academico']==$codigo_ano_academico){
-                      echo "<option value='".$row['codigo_ano_academico']."' selected>".$row['descripcion']."</option>";
-                    }else{
-                      echo "<option value='".$row['codigo_ano_academico']."'>".$row['descripcion']."</option>";
-                    }
-                  }
-                ?>
-              </select>                                           
-                <strong class="obligatorio">Los campos resaltados en rojo son obligatorios</strong>
-             </div>
-             <br>
-             <?php echo '<p class="'.$estatus.'" id="estatus_registro">'.$estatus.'</p>'; ?>
-             <?php imprimir_boton($disabledRC,$disabledMD,$estatus,$servicios);?>       
+        <option value='0'>Seleccione un Año</option>
+        <?php
+          require_once("../clases/class_bd.php");
+          $mysql=new Conexion();
+          $sql = "SELECT codigo_ano_academico,upper(descripcion) descripcion FROM tano_academico WHERE fecha_desactivacion IS NULL ORDER BY codigo_ano_academico";
+          $query = $mysql->Ejecutar($sql);
+          while ($row = $mysql->Respuesta($query)){
+            if($row['codigo_ano_academico']==$codigo_ano_academico){
+              echo "<option value='".$row['codigo_ano_academico']."' selected>".$row['descripcion']."</option>";
+            }else{
+              echo "<option value='".$row['codigo_ano_academico']."'>".$row['descripcion']."</option>";
+            }
+          }
+        ?>
+      </select>                                           
+        <strong class="obligatorio">Los campos resaltados en rojo son obligatorios</strong>
+     </div>
+     <br>
+     <?php echo '<p class="'.$estatus.'" id="estatus_registro">'.$estatus.'</p>'; ?>
+     <?php imprimir_boton($disabledRC,$disabledMD,$estatus,$servicios);?>       
        </form>
     </fieldset>
 </form>

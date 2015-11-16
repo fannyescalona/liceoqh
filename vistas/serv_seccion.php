@@ -41,8 +41,8 @@ else{
       <label>Asigne el Turno:</label>
       <select name="turno" id="turno" title="Seleccione un turno para la secci&oacute;n" placeholder="Seleccione un turno" class="campoTexto"  required >
         <option value='0'>Seleccione un Turno</option>
-        <option value='D' <? if($turno=='D'){ echo 'selected'; }?> Diurno</option>
-        <option value='N' <? if($turno=='N'){ echo 'selected'; }?> Nocturno</option>
+        <option value='M' <?php if($turno=='M'){ echo 'selected'; }?>> Mañana</option>
+        <option value='T' <?php if($turno=='T'){ echo 'selected'; }?>> Tarde</option>
       </select>
       <label>Capacidad Mínima de la Sección:</label>
       <input title="Ingrese la capacidad mínima de la sección" onKeyPress="return isNumberKey(event)" name="capacidad_min" id="capacidad_min" maxlength=2 type="text" size="50" value="<?= $capacidad_min;?>" placeholder="Ingrese la Capacidad Mínima" class="campoTexto" required />
@@ -53,10 +53,8 @@ else{
       <strong class="obligatorio">Los campos resaltados en rojo son obligatorios</strong>
     </div>    
     <br><br>
-    <?php echo '<p class="'.$estatus.'" id="estatus_registro">'.$estatus.'</p>'; ?>
-
-    <?php
-    imprimir_boton($disabledRC,$disabledMD,$estatus,$servicios);
+    <?php echo '<p class="'.$estatus.'" id="estatus_registro">'.$estatus.'</p>'; 
+      imprimir_boton($disabledRC,$disabledMD,$estatus,$servicios);
     ?>  
   </fieldset>
 </form>
@@ -88,7 +86,9 @@ else{
    $mysql=new Conexion();
 
 //Sentencia sql (sin limit) 
-   $_pagi_sql = "SELECT * FROM tseccion where fecha_desactivacion is null order by seccion desc";  
+   $_pagi_sql = "SELECT seccion,descripcion,CASE turno WHEN 'M' THEN 'MAÑANA' ELSE 'TARDE' END AS turno, 
+   capacidad_max,capacidad_min 
+   FROM tseccion where fecha_desactivacion is null order by seccion desc";  
 //Booleano. Define si se utiliza pg_num_rows() (true) o COUNT(*) (false).
    $_pagi_conteo_alternativo = true;
 //cantidad de resultados por página (opcional, por defecto 20) 

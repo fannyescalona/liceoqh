@@ -37,7 +37,7 @@
 <body>
 <header>
 	<div class="wrapper logintop"> 
-	    <img class="cintillo" src="images/cintillo.jpg" >
+	    <img class="cintillo" src="images/cintillo.png" >
 	    <img class="superior" src="images/qh.jpg" >
 <div class="front-signin" style="background:#FFF;">
 
@@ -138,14 +138,12 @@
             ?>   
     </center>
   </form>
-  <br />
-  <p align="center"><a href="vistas/preinscripcion/preinscripcion.php?pa=l">PRE-INSCRIBETE</a></p>
 </div>
 	</div>
 </header>
 <center>
 	<footer>
-		<p>&copy Universidad Deportiva del Sur 2014</p>
+		<p>&copy Liceo Bolivariano "Quebrada Honda", 2015</p>
 	</footer>
 </center>
 <?php
