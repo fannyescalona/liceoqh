@@ -12,7 +12,8 @@
       rep.cedula AS cedula_representante,rep.nombres AS nombre_representante,rep.apellidos AS apellido_representante,
       Date_Format(rep.fecha_nacimiento,'%d/%m/%Y') AS fn_representante,CONCAT(rep.lugar_nacimiento,'_',prep.descripcion) AS ln_representante,
       rep.direccion AS dir_representante,rep.telefono_habitacion AS th_representante,rep.telefono_movil AS tm_representante,rep.email AS email_representante,
-      CONCAT(pi.codigo_parentesco,'_',par.descripcion) AS parentesco,CONCAT(pi.lugar_trabajo,'_',plugt.descripcion) AS lugar_trabajo,rep.genero AS genero_representante
+      CONCAT(pi.codigo_parentesco,'_',par.descripcion) AS parentesco,CONCAT(pi.lugar_trabajo,'_',plugt.descripcion) AS lugar_trabajo,rep.genero AS genero_representante,
+      pi.proceso_completado 
       FROM tpersona est 
       INNER JOIN tproceso_inscripcion pi ON est.cedula = pi.cedula_estudiante 
       LEFT JOIN tpersona rep ON pi.cedula_representante = rep.cedula 
@@ -23,6 +24,7 @@
       WHERE pi.cedula_estudiante = '".$cedula_estudiante."'";
       $query = $mysql->Ejecutar($sql);
       while($row = $mysql->Respuesta($query)){
+        $proceso_completado = $row['proceso_completado'];
         ?>
         <div id="contenedorInscripcion">
           <h1>Estudiante</h1>
@@ -87,6 +89,10 @@
         <label>
           <input type="hidden" name="operacion" value="" id="operacion_tab4" />
           <input name="cmdRegistrar" type="button" id="cmdForm3" class="btn btn-large" value="Modificar" />
+          <?php
+            if($proceso_completado=="Y")
+              echo "<input name='cmdImprimir' type='button' id='cmdImprimir' class='btn btn-large' value='Imprimir Ficha' />";
+          ?>
         </label>
       </p>
     </fieldset>

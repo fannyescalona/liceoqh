@@ -358,6 +358,7 @@ CREATE TABLE tproceso_inscripcion (
   lugar_trabajo int(11) NULL,
   primerafi date NULL,
   seccion char(5) NULL,
+  proceso_completado char(1) COLLATE utf8_spanish_ci NOT NULL DEFAULT 'N',
   estatus char(1) COLLATE utf8_spanish_ci NOT NULL DEFAULT '1',
   PRIMARY KEY (codigo_procesoinscripcion),
   CONSTRAINT fk_tpi_tinscrip FOREIGN KEY (codigo_inscripcion) REFERENCES tinscripcion (codigo_inscripcion) ON UPDATE CASCADE,

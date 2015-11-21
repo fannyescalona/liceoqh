@@ -139,6 +139,11 @@ function init(){
 		validar_formulario3();
 	})
 
+	$('#cmdImprimir').click(function(){
+		url = "../informe_pdf/ficha_inscripcion.php?cedula_estudiante="+$('#cedula').val();
+		window.open(url, '_blank');
+	})
+
 	$('#tab-datospadres').click(function(){
 		if($('#cedula').val()==""){
 			alert('Debe completar los datos del estudiante antes de continuar!');

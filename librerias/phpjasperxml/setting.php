@@ -1,0 +1,9 @@
+<?php
+$server="localhost";
+$db="bdliceo";
+$user="root";
+$pass="14nc4r1n4";
+$version="0.9b";
+$pgport=5432;
+$pchartfolder="./class/pchart2";
+?>

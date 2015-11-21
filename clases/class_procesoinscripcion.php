@@ -963,7 +963,7 @@ class Inscripcion {
     if(!$this->persona->Comprobar()){
       if($this->persona->Registrar()){
         $sql="UPDATE tproceso_inscripcion SET cedula_docente='$this->cedula_docente',cedula_representante='$this->cedula_representante',
-        codigo_parentesco='$this->codigo_parentesco',lugar_trabajo='$this->lugar_trabajo'
+        codigo_parentesco='$this->codigo_parentesco',lugar_trabajo='$this->lugar_trabajo',proceso_completado='Y'
         WHERE cedula_estudiante='$this->cedula_estudiante';";
         if($this->mysql->Ejecutar($sql)!=null)
           $logico=true;
@@ -980,7 +980,7 @@ class Inscripcion {
       if($this->persona->fecha_desactivacion()==null){
         if($this->persona->Actualizar()){
           $sql="UPDATE tproceso_inscripcion SET cedula_docente='$this->cedula_docente',cedula_representante='$this->cedula_representante',
-          codigo_parentesco='$this->codigo_parentesco',lugar_trabajo='$this->lugar_trabajo'
+          codigo_parentesco='$this->codigo_parentesco',lugar_trabajo='$this->lugar_trabajo',proceso_completado='Y'
           WHERE cedula_estudiante='$this->cedula_estudiante';";
           if($this->mysql->Ejecutar($sql)!=null)
             $logico=true;
