@@ -116,7 +116,7 @@ if(isset($_SESSION['user_estado'])){
             else if(isset($_GET['modulo'])) include("serv_modulo.php"); //listo
             else if(isset($_GET['seccion'])) include("serv_seccion.php"); //listo
             else if(isset($_GET['servicio'])) include("servicio.php"); //listo
-            else if(isset($_GET['estudiante'])) include("serv_estudiante.php");
+            else if(isset($_GET['estudiante'])) include("serv_estudiante.php"); //listo
             else if(isset($_GET['plantel'])) include("serv_plantel.php"); //listo
             else if(isset($_GET['persona'])) include("serv_persona.php"); //listo
             else if(isset($_GET['parentesco'])) include("serv_parentesco.php"); //listo
@@ -124,11 +124,11 @@ if(isset($_SESSION['user_estado'])){
             else if(isset($_GET['lapso'])) include("serv_lapso.php"); //listo  
             else if(isset($_GET['bitacora'])) include("serv_auditoria.php"); //listo
             else if(isset($_GET['inscripcion'])) include("serv_inscripcion.php"); //listo
-            else if(isset($_GET['asignar_seccion'])) include("serv_msd.php");
-            else if(isset($_GET['proceso_inscripcion'])) include("serv_procesoinscripcion.php");
-            else if(isset($_GET['inscribir_pre_inscripcion'])) include("serv_preinscripcion.php");
-            else if(isset($_GET['periodo_inscripcion'])) include("serv_periodo_inscripcion.php");  
-            else if(isset($_GET['comprobante_inscripcion'])) include("serv_comprobante_inscripcion.php"); 
+            else if(isset($_GET['asignar_seccion'])) include("serv_asignarseccion.php"); //listo
+            else if(isset($_GET['proceso_inscripcion'])) include("serv_procesoinscripcion.php"); //listo
+            else if(isset($_GET['asignar_notas'])) include("serv_asignarnotas.php"); //listo
+            //  Reportes
+            else if(isset($_GET['rep_fichainscripcion'])) include("rep_fichainscripcion.php"); //listo
             else include("serv_inicio.php"); //listo                               	                                          	                                        	                                          	                                         	                                          	                                        	                                          	
             }else {
             echo "<script>location.href='403.php'</script>";

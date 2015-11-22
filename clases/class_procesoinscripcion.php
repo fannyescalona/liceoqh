@@ -61,7 +61,8 @@ class Inscripcion {
   private $telefono_movil_representante;
   private $lugar_trabajo; 
   private $email_representante;  
-  private $codigo_parentesco; 
+  private $codigo_parentesco;  
+  private $seccion; 
   private $estatus; 
   private $fecha_desactivacion; 
   private $error; 
@@ -127,6 +128,7 @@ class Inscripcion {
     $this->lugar_trabajo=null;
     $this->email_representante=null;
     $this->codigo_parentesco=null;
+    $this->seccion=null;
     $this->estatus=null;
     $this->fecha_desactivacion=null;
     $this->error=null;
@@ -682,6 +684,15 @@ class Inscripcion {
   }
   }
 
+  public function seccion(){
+  $Num_Parametro=func_num_args();
+  if($Num_Parametro==0) return $this->seccion;
+
+  if($Num_Parametro>0){
+  $this->seccion=func_get_arg(0);
+  }
+  }
+
   public function estatus(){
     $Num_Parametro=func_num_args();
     if($Num_Parametro==0) return $this->estatus;
@@ -706,6 +717,31 @@ class Inscripcion {
 
     if($Num_Parametro>0){
       $this->error=func_get_arg(0);
+    }
+  }
+
+  public function RegistrarInscripcionManual(){
+    $sql="INSERT INTO tproceso_inscripcion (codigo_inscripcion,fecha_inscripcion,codigo_ano_academico,cedula_estudiante,
+    peso,talla,plantel_procedencia,primerafi,cedula_docente,seccion,cedula_representante,codigo_parentesco) VALUES ((SELECT MAX(codigo_inscripcion) FROM tinscripcion WHERE fecha_desactivacion IS NULL),
+    CURDATE(),(SELECT MAX(codigo_ano_academico) FROM tano_academico WHERE fecha_desactivacion IS NULL),'$this->cedula_estudiante','$this->peso','$this->talla','$this->plantel_procedencia',CURDATE(),
+    '$this->cedula_docente','$this->seccion','$this->cedula_representante','$this->codigo_parentesco');";
+    if($this->mysql->Ejecutar($sql)!=null)
+      return true;
+    else{
+      $this->error(mysql_error());
+      return false;
+    }
+  }
+
+  public function ActualizarInscripcionManual(){
+    $sql="UPDATE tproceso_inscripcion SET peso='$this->peso',talla='$this->talla',plantel_procedencia='$this->plantel_procedencia',
+    cedula_docente='$this->cedula_docente',seccion='$this->seccion',cedula_representante='$this->cedula_representante',
+    codigo_parentesco='$this->codigo_parentesco' WHERE cedula_estudiante='$this->cedula_estudiante';";
+    if($this->mysql->Ejecutar($sql)!=null)
+      return true;
+    else{
+      $this->error(mysql_error());
+      return false;
     }
   }
 
@@ -1002,6 +1038,16 @@ class Inscripcion {
     if($logico==true){
       return true;
     }else{
+      return false;
+    }
+  }
+
+  public function Asignar_Seccion($estudiante,$seccion){
+    $sql="UPDATE tproceso_inscripcion SET seccion='$seccion' WHERE cedula_estudiante = '$estudiante'";
+    if($this->mysql->Ejecutar($sql)!=null)
+      return true;
+    else{
+      $this->error(mysql_error());
       return false;
     }
   }

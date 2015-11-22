@@ -9,6 +9,7 @@
      private $capacidad_max; 
      private $estatus; 
      private $fecha_desactivacion; 
+     private $error; 
      private $mysql; 
 	 
    public function __construct(){
@@ -18,6 +19,7 @@
      $this->turno=null;
      $this->capacidad_min=null;
      $this->capacidad_max=null;
+     $this->error=null;
 	 $this->mysql=new Conexion();
    }
    
@@ -92,6 +94,45 @@
 	 }
    }
 
+   public function error(){
+      $Num_Parametro=func_num_args();
+	 if($Num_Parametro==0) return $this->error;
+     
+	 if($Num_Parametro>0){
+	   $this->error=func_get_arg(0);
+	 }
+   }
+
+	public function EliminarMateriasDocentes(){
+		$sql="DELETE FROM tmateria_seccion_docente WHERE (seccion='$this->seccion');";
+		if($this->mysql->Ejecutar($sql)!=null)
+			return true;
+		else{
+	    	$this->error(pg_last_error());
+	    	return false;
+	    }
+	} 
+
+	public function InsertarMateriasDocentes($materias,$docentes){
+	    $sql="INSERT INTO tmateria_seccion_docente(seccion,codigo_materia,cedula_docente) VALUES ";
+	    for($i=0;$i<count($materias);$i++){
+	    	//	Obtenemos el codigo de la materia y el docente
+	    	$materia=explode('_',$materias[$i]);
+	    	$codigo_materia = $materia[0];
+	    	$docente=explode('_',$docentes[$i]);
+	    	$cedula_docente = $docente[0];
+	    	$sql.="('$this->seccion','$codigo_materia','$cedula_docente'),";
+	    }
+	    $sql=substr($sql,0,-1);
+	    $sql=$sql.";";
+	    if($this->mysql->Ejecutar($sql)!=null)
+	      return true;
+	    else{
+	    	$this->error(mysql_error());
+	    	return false;
+	    }
+    }
+
    public function Registrar(){
     $sql="insert into tseccion (seccion,descripcion,turno,capacidad_min,capacidad_max) values 
     ('$this->seccion','$this->descripcion','$this->turno','$this->capacidad_min','$this->capacidad_max');";
@@ -164,5 +205,27 @@
 	return false;
 	}
    }
+
+  public function Eliminar_Notas($msd,$estudiante,$lapso){
+    $sql="DELETE FROM tcontrol_notas 
+    WHERE codigo_msd=$msd AND cedula_estudiante='$estudiante' AND codigo_lapso=$lapso;";
+    if($this->mysql->Ejecutar($sql)!=null)
+      return true;
+    else{
+      $this->error(mysql_error());
+      return false;
+    }
+  }
+
+  public function Asignar_Notas($msd,$estudiante,$lapso,$nota){
+    $sql="INSERT INTO tcontrol_notas (codigo_msd,cedula_estudiante,codigo_lapso,notafinal) VALUES 
+    ($msd,'$estudiante',$lapso,$nota);";
+    if($this->mysql->Ejecutar($sql)!=null)
+      return true;
+    else{
+      $this->error(mysql_error());
+      return false;
+    }
+  }
 }
 ?>

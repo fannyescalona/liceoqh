@@ -1,7 +1,7 @@
 <?php
   require_once("../clases/class_bd.php");
   $mysql=new Conexion();
-  $sql = "SELECT CONCAT('PERIODO ',descripcion) AS descripcion,
+  $sql = "SELECT descripcion,
   date_format(fecha_inicio,'%d/%m/%Y') fecha_inicio,date_format(fecha_cierre,'%d/%m/%Y') fecha_cierre 
   FROM tinscripcion WHERE fecha_desactivacion IS NULL";
   $query = $mysql->Ejecutar($sql);

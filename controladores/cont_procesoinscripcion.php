@@ -397,4 +397,17 @@ if($operacion=='Consultar'){
     header("Location: ../vistas/?proceso_inscripcion#datosestudiantes");
   }                              
 }
+
+if($operacion=='Asignar_Seccion'){
+  $con=0;
+  if(isset($_POST['estudiantes']) && isset($_POST['secciones'])){
+    for($i=0;$i<count($_POST['estudiantes']);$i++){
+      if($inscripcion->Asignar_Seccion($_POST['estudiantes'][$i],$_POST['secciones'][$i]))
+        $con++;
+    }
+    $rest=count($_POST['estudiantes'])-$con;
+  }
+  $_SESSION['datos']['mensaje']="Cantidad de Estudiantes Seleccionados: ".count($_POST['estudiantes']).", Cantidad Asignados: ".$con.", Cantidad Restantes: ".$rest;
+  header("Location: ../vistas/?asignar_seccion");
+}
 ?>

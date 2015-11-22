@@ -164,6 +164,14 @@ function init(){
 	});
 }
 
+//Función que recibe el id del objeto y  la url para ejecutar el llamado de autocompletado
+function ACDataGrid(obj,url){
+    $('#'+obj).autocomplete({
+        source:'../autocomplete/'+url, 
+        minLength:1
+    });
+}
+
 function salir(){
     noty({
         text: stringUnicode("¿Está seguro que quiere salir?"),
@@ -220,7 +228,6 @@ Limpiar2();
 			$($(this)).html('');
 	});
    $("select option[value=''],select option[value='null'],select option[value='0']").attr("selected",true);
-   
 }
 
 

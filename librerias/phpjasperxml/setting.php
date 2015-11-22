@@ -1,8 +1,9 @@
 <?php
-$server="localhost";
-$db="bdliceo";
-$user="root";
-$pass="14nc4r1n4";
+require_once("../../clases/conf.php");
+$server=SERVER;
+$db=BD;
+$user=USER;
+$pass=PASSWORD;
 $version="0.9b";
 $pgport=5432;
 $pchartfolder="./class/pchart2";

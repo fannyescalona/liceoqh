@@ -1,5 +1,5 @@
 <?php
-if(isset($_SESSION['datos']['cedula_estudiante'])){ 
+if(isset($_SESSION['datos']['cedula'])){ 
  $disabledRC='disabled';
  $disabledMD='';
  $estatus=null;
@@ -9,162 +9,182 @@ if(isset($_SESSION['datos']['cedula_estudiante'])){
 }
 $servicios='estudiante';
 if(isset($_SESSION['datos'])){
-  @$nacionalidad=$_SESSION['datos']['nacionalidad'];
-  @$cedula_estudiante=$_SESSION['datos']['cedula_estudiante'];
-  @$nombre_estudiante=$_SESSION['datos']['nombre_estudiante'];
-  @$apellido_estudiante=$_SESSION['datos']['apellido_estudiante'];
-  @$sexo=$_SESSION['datos']['sexo'];
-  @$edo_civil=$_SESSION['datos']['edo_civil'];
-  @$tlf_fijo=$_SESSION['datos']['tlf_fijo'];
-  @$tlf_movil=$_SESSION['datos']['tlf_movil'];
-  @$cod_parroquia=$_SESSION['datos']['cod_parroquia'];
-  @$direccion=$_SESSION['datos']['direccion'];
-  @$email=$_SESSION['datos']['email'];
+  @$cedula_docente=$_SESSION['datos']['cedula_docente'];
+  @$seccion=$_SESSION['datos']['seccion'];
+  @$cedula=$_SESSION['datos']['cedula'];
+  @$nombres=$_SESSION['datos']['nombres'];
+  @$apellidos=$_SESSION['datos']['apellidos'];
+  @$genero=$_SESSION['datos']['genero'];
   @$fecha_nacimiento=$_SESSION['datos']['fecha_nacimiento'];
-  @$titulo=$_SESSION['datos']['titulo'];
+  @$lugar_nacimiento=$_SESSION['datos']['lugar_nacimiento'];
+  @$direccion=$_SESSION['datos']['direccion'];
+  @$telefono_habitacion=$_SESSION['datos']['telefono_habitacion'];
+  @$telefono_movil=$_SESSION['datos']['telefono_movil'];
+  @$email=$_SESSION['datos']['email'];
+  @$esestudiante=$_SESSION['datos']['esestudiante'];
+  @$peso=$_SESSION['datos']['peso'];
+  @$talla=$_SESSION['datos']['talla'];
+  @$plantel_procedencia=$_SESSION['datos']['plantel_procedencia'];
+  @$cedula_representante=$_SESSION['datos']['cedula_representante'];
+  @$codigo_parentesco=$_SESSION['datos']['codigo_parentesco'];
   @$estatus=$_SESSION['datos']['estatus'];
 }
 else{
-  @$nacionalidad=null;
-  @$cedula_estudiante=null;
-  @$nombre_estudiante=null;
-  @$apellido_estudiante=null;
-  @$sexo=null;
-  @$edo_civil=null;
-  @$tlf_fijo=null;
-  @$tlf_movil=null;
-  @$cod_parroquia=null;
-  @$direccion=null;
-  @$email=null;
+  @$cedula_docente=null;
+  @$seccion=null;
+  @$cedula=null;
+  @$nombres=null;
+  @$apellidos=null;
+  @$genero=null;
   @$fecha_nacimiento=null;
-  @$titulo=null;
+  @$lugar_nacimiento=null;
+  @$direccion=null;
+  @$telefono_habitacion=null;
+  @$telefono_movil=null;
+  @$email=null;
+  @$esestudiante=null;
+  @$peso=null;
+  @$talla=null;
+  @$plantel_procedencia=null;
+  @$cedula_representante=null;
+  @$codigo_parentesco=null;
   @$estatus=null;
 }
 ?>
 <br><br>
-<?php if(!isset($_GET['l'])){?>
+<?php if(!isset($_GET['l'])){
+  require_once("../clases/class_bd.php");
+  $mysql=new Conexion();
+  $sql = "SELECT descripcion,
+  date_format(fecha_inicio,'%d/%m/%Y') fecha_inicio,date_format(fecha_cierre,'%d/%m/%Y') fecha_cierre 
+  FROM tinscripcion WHERE fecha_desactivacion IS NULL";
+  $query = $mysql->Ejecutar($sql);
+  while ($row = $mysql->Respuesta($query)){
+    echo "<span style='font-weight: bold;'> \"".$row['descripcion']."  FECHA DE INICIO: </span>".$row['fecha_inicio']." <span style='font-weight: bold;'>FECHA DE CIERRE: </span>".$row['fecha_cierre']."<span style='font-weight: bold;'> \"</span><br /><br />";
+  }
+  ?>
 <div class="form_externo" >
   <script src="../js/uds_estudiante.js"> </script>
-  <form action="../controladores/cont_estudiante.php" method="post" id="form">
-   <fieldset>
-    <legend>Estudiante</legend>
-    <div id="contenedorFormulario">
-      <div class="row">
-        <div class="span6">
-          <label>Seleccione un País:</label>
-          <select id="nacionalidad" name="nacionalidad" title="Seleccione un país" placeholder="Seleccione un País" class="campoTexto" required >
-            <option value=0 selected>Seleccione un País</option>
-            <?php
-            require_once("../clases/class_bd.php");
-            $mysql=new Conexion();
-            $sql = "SELECT cod_pais,nombre_pais FROM tpais WHERE fecha_desactivacion IS NULL ORDER BY nombre_pais ASC";
-            $query = $mysql->Ejecutar($sql);
-            while ($row = $mysql->Respuesta($query)){
-              if($row['cod_pais']==$nacionalidad){
-                echo "<option value='".$row['cod_pais']."' selected>".$row['nombre_pais']."</option>";
-              }else{
-                echo "<option value='".$row['cod_pais']."'>".$row['nombre_pais']."</option>";
-              }
-            }
-            ?>
-          </select>
-          <label>Número de Cédula de Identidad:</label>
-          <input onKeyPress="return isNumberKey(event)" title="Ingrese la c&eacute;dula del estudiante" name="cedula_estudiante" id="cedula_estudiante" type="text" size="10" value="<?= $cedula_estudiante;?>" placeholder="Ingrese el número de Cedula del Estudiante" class="campoTexto"  required /> </td></tr>
-          <label>Ingrese el(los) nombre(s) del estudiante:</label>
-          <input title="Ingrese el(los) nombre(s) del estudiante" onKeyUp="this.value=this.value.toUpperCase()" name="nombre_estudiante" id="nombre_estudiante" type="text" size="50" value="<?= $nombre_estudiante;?>" placeholder="Ingrese el Nombre del Estudiante" class="campoTexto"  required /></td></tr>
-          <label>Ingrese el(los) apellido(s) del estudiante:</label>
-          <input title="Ingrese el(los) apellido(s) del estudiante" onKeyUp="this.value=this.value.toUpperCase()" name="apellido_estudiante" id="apellido_estudiante" type="text" size="50" value="<?= $apellido_estudiante;?>" placeholder="Ingrese el Apellido del Estudiante" class="campoTexto"  required /></td></tr>
-          <label>Seleccione el Género:</label>
-          <select name="sexo" id="sexo" title="Seleccione el Género" placeholder="Seleccione el Género" class="campoTexto"required >
-            <option value='0'>Seleccione el Género</option>
-            <option value="F" <? if($sexo=="F"){ echo "selected";}?> >Femenino</option>
-            <option value="M" <? if($sexo=="M"){ echo "selected";}?> >Masculino</option>
-          </select>
-          <label>Seleccione el fecha de nacimiento:</label>
-          <input title="Seleccione el fecha de nacimiento" name="fecha_nacimiento" id="fecha_nacimiento" type="text" size="50" value="<?= $fecha_nacimiento;?>" placeholder="Ingrese la Fecha de Nacimiento" class="campoTexto" required /></td></tr>
-        </div>
-
-        <div class="span6">
-          <label>Seleccione el estado civil:</label>
-          <select name="edocivil" id="edocivil" title="Seleccione el estado civil" placeholder="Seleccione el Estado Civil" class="campoTexto"required >
-            <option value='0'>Seleccione el estado Civil</option>
-            <option value="S" <? if($sexo=="S"){ echo "selected";}?> >Soltero(a)</option>
-            <option value="C" <? if($sexo=="C"){ echo "selected";}?> >Casado(a)</option>
-            <option value="D" <? if($sexo=="D"){ echo "selected";}?> >Divorciado(a)</option>
-            <option value="V" <? if($sexo=="V"){ echo "selected";}?> >Viudo(a)</option>
-          </select>
-          <label>Ingrese el n&uacute;mero de habitaci&oacute;n:</label>
-          <input maxlength=11 title="Ingrese el n&uacute;mero de habitaci&oacute;n" onKeyPress="return isNumberKey(event)" name="tlf_fijo" id="tlf_fijo" type="text" size="50" value="<?= $tlf_fijo;?>" placeholder="Ingrese el número de Habitación" class="campoTexto"  required /></td></tr>
-          <label>Ingrese el n&uacute;mero de celular:</label>
-          <input maxlength=11 title="Ingrese el n&uacute;mero de celular" onKeyPress="return isNumberKey(event)" name="tlf_movil" id="tlf_movil" type="text" size="50" value="<?= $tlf_movil;?>" placeholder="Ingrese el número de Celular" class="campoTexto"  required /></td></tr>
-          <label>Ingrese el correo electr&oacute;nico:</label>
-          <input title="Ingrese el correo electr&oacute;nico del estudiante" onKeyUp="this.value=this.value.toUpperCase()" name="email" id="email" type="text" size="50" value="<?= $email;?>" placeholder="Ingrese el correo electrónico" class="campoTexto" required /></td></tr>
-          <label>Seleccione una parroquia:</label>
-          <select name="cod_parroquia" id="cod_parroquia" title="Seleccione una parroquia" placeholder="Seleccione el Género" class="campoTexto" required >
-          </select>
-          <input type="hidden" id="lvl4" name="lvl4" value="<?= $cod_parroquia?>"/>
-          <label>Ingrese la direcci&oacute;n:</label>
-          <textarea onKeyUp="this.value=this.value.toUpperCase()" title="Ingrese la direcci&oacute;n del estudiante" name="direccion" id="direccion" value="<?= $direccion;?>" placeholder="Ingrese la Dirección" class="campoTexto" required /></textarea>
-          <label>Ingrese el t&iacute;tulo o profesi&oacute;n:</label>
-          <input title="Ingrese el t&iacute;tulo o profesi&oacute;n del estudiante" onKeyUp="this.value=this.value.toUpperCase()" name="titulo" id="titulo" type="text" size="50" value="<?= $titulo;?>" placeholder="Ingrese el Título o Profesión" class="campoTexto"  required /></td></tr>
-        </div>
-      
-      <strong class="obligatorio">Los campos resaltados en rojo son obligatorios</strong>
+  <form action="../controladores/cont_estudiante.php" method="POST" id="form">
+    <fieldset>
+      <legend>Estudiante</legend>
+      <div id="contenedorFormulario">
+        <div class="row">
+          <div class="span6">
+            <label>Cédula Docente:</label>
+            <input tabindex=1 onKeyUp="this.value=this.value.toUpperCase()" title="Ingrese el número de cédula del docente" name="cedula_docente" id="cedula_docente" type="text" size="10" value="<?= $cedula_docente;?>" placeholder="Ingrese el número de Cédula del Docente" class="campoTexto" required />
+            <label>Cédula:</label>
+            <input tabindex=3 onKeyPress="return isRif(event,this.value)" maxlength=10 onKeyUp="this.value=this.value.toUpperCase()" title="Ingrese el número de cédula del docente" name="cedula" id="cedula" type="text" size="10" value="<?= $cedula;?>" placeholder="Ingrese el número de Cédula" class="campoTexto" required />
+            <label>Nombre(s):</label>
+            <input tabindex=5 title="Ingrese el(los) nombre(s) de la estudiante" onKeyUp="this.value=this.value.toUpperCase()" name="nombres" id="nombres" type="text" size="50" value="<?= $nombres;?>" placeholder="Ingrese el Nombre" class="campoTexto" required />
+            <label>Fecha de Nacimiento:</label>
+            <input tabindex=7 title="Seleccione el fecha de Nacimiento" name="fecha_nacimiento" id="fecha_nacimiento" type="text" size="50" value="<?= $fecha_nacimiento;?>" placeholder="Ingrese la Fecha de Nacimiento" class="campoTexto" readonly required />
+            <label>Dirección:</label>
+            <textarea tabindex=9 onKeyUp="this.value=this.value.toUpperCase()" title="Ingrese la dirección del estudiante" name="direccion" id="direccion" rows=5 placeholder="Ingrese la Dirección" required /><?php echo $direccion;?></textarea>
+            <label>Correo Electrónico:</label>
+            <input tabindex=12 title="Ingrese el correo electrónico del estudiante" onKeyPress="return isEmail(event,this.value)" onKeyUp="this.value=this.value.toLowerCase()" name="email" id="email" type="text" size="50" value="<?= $email;?>" placeholder="Ingrese el Correo Electrónico" class="campoTexto" required />
+            <label>Peso en Kg:</label>
+            <input tabindex=14 maxlength=5 title="Ingrese el peso del estudiante expresado en Kg" onKeyPress="return isNumberKey(event)" name="peso" id="peso" type="text" size="50" value="<?= $peso;?>" placeholder="Ingreso el peso del estudiante" class="campoTexto" required />
+            <label>Cédula Representante:</label>
+            <input tabindex=16 onKeyUp="this.value=this.value.toUpperCase()" title="Ingrese el número de cédula del representante" name="cedula_representante" id="cedula_representante" type="text" size="10" value="<?= $cedula_representante;?>" placeholder="Ingrese el número de Cédula del Representante" class="campoTexto" required />
+          </div>
+          <div class="span6">
+            <label>Sección:</label>
+            <input tabindex=2 title="Seleccione una sección" onKeyUp="this.value=this.value.toUpperCase()" name="seccion" id="seccion" type="text" size="50" value="<?= $seccion;?>" placeholder="Seleccione una sección" class="campoTexto" />
+            <label>Género:</label>
+            <select tabindex=4 name="genero" id="genero" title="Seleccione el Género" class='lista' required >
+              <option value="">Selecione una opción</option>
+              <option value="F" <?php if($genero=="F"){ echo "selected";}?>>Femenino</option>
+              <option value="M" <?php if($genero=="M"){ echo "selected";}?>>Masculino</option>
+            </select>
+            <label>Apellido(s):</label>
+            <input tabindex=6 title="Ingrese el(los) apellido(s) de la estudiante" onKeyUp="this.value=this.value.toUpperCase()" name="apellidos" id="apellidos" type="text" size="50" value="<?= $apellidos;?>" placeholder="Ingrese el Apellido" class="campoTexto" required />
+            <label>Lugar de Nacimiento:</label>
+            <input tabindex=8 title="Seleccione una Parroquia" onKeyUp="this.value=this.value.toUpperCase()" name="lugar_nacimiento" id="lugar_nacimiento" type="text" size="50" value="<?= $lugar_nacimiento;?>" placeholder="Seleccione una parroquia" class="campoTexto" required />
+            <label>Teléfono de Habitación:</label>
+            <input tabindex=10 maxlength=11 title="Ingrese el número de habitación" onKeyPress="return isNumberKey(event)" name="telefono_habitacion" id="telefono_habitacion" type="text" size="50" value="<?= $telefono_habitacion;?>" placeholder="Ingreso el Número de Habitación" class="campoTexto" required />
+            <label>Teléfono Celular:</label>
+            <input tabindex=11 maxlength=11 title="Ingrese el número de celular" onKeyPress="return isNumberKey(event)" name="telefono_movil" id="telefono_movil" type="text" size="50" value="<?= $telefono_movil;?>" placeholder="Ingrese el Número Celular" class="campoTexto" required />
+            <label>Plantel Procedencia:</label>
+            <input tabindex=13 title="Ingrese un plantel de procedencia" onKeyUp="this.value=this.value.toUpperCase()" name="plantel_procedencia" id="plantel_procedencia" type="text" size="50" value="<?= $plantel_procedencia;?>" placeholder="Ingrese un plantel de procedencia" class="campoTexto" />
+            <label>Talla:</label>
+            <select tabindex=15 name="talla" id="talla" title="Seleccione una Talla" class='lista' required >
+              <option value="">Selecione una opción</option>
+              <option value="S" <?php if($talla=="S"){ echo "selected";}?>>Pequeña (S)</option>
+              <option value="M" <?php if($talla=="M"){ echo "selected";}?>>Mediana (M)</option>
+              <option value="L" <?php if($talla=="L"){ echo "selected";}?>>Larga (L)</option>
+              <option value="XL" <?php if($talla=="XL"){ echo "selected";}?>>Extra Larga (XL)</option>
+            </select>
+            <label>Parentesco:</label>
+            <input tabindex=17 onKeyUp="this.value=this.value.toUpperCase()" title="Ingrese el parentesco del representante" name="codigo_parentesco" id="codigo_parentesco" type="text" size="10" value="<?= $codigo_parentesco;?>" placeholder="Ingrese el parentesco del representante" class="campoTexto" required />
+          </div> 
+        </div>    
+          <strong class="obligatorio">Los campos resaltados en rojo son obligatorios</strong>
       </div>    
-    </div>    
-    <br><br>
-    <?php echo '<tr><td colspan="2" class="'.$estatus.'" id="estatus_registro">'.$estatus.'</td></tr>'; ?>
-
+      <br><br>
+      <?php echo '<tr><td colspan="2" class="'.$estatus.'" id="estatus_registro">'.$estatus.'</td></tr>'; ?>
+      <?php
+        imprimir_boton($disabledRC,$disabledMD,$estatus,$servicios);
+      ?>
+    </fieldset>
+  </form>
+</div>
+  <?php }else{ 
+    require_once("../clases/class_perfil.php");
+    $perfil=new Perfil();
+    $perfil->codigo_perfil(@$_SESSION['user_codigo_perfil']);
+    $servicios_permitidos=$perfil->IMPRIMIR_SERVICIOS_USUARIO();
+    $servicio_solicitado=strtolower(preg_replace('/(serv_)|(\.php)/','',basename(__FILE__))); 
+  ?>
+  <a href="?estudiante" ><img src="../images/cerrar.png" alt="Cerrar" style="width:40px;heigth:40px;float:right;"></a>
+  <a href="../excel/excel_estudiante.php" ><img src="../images/icon-excel.png" alt="Exportar a Excel" style="width:40px;heigth:40px;float:right;"></a>
+  <a href="<?php echo  '../pdf/?serv='.$servicio_solicitado;?>" target="_blank"><img src="../images/icon-pdf.png" alt="Exportar a PDF" style="width:40px;heigth:40px;float:right;margin:0.3em;margin-left:1em;"></a>
+  <table class="table table-striped table-bordered table-condensed">
+    <tr> 
+      <td style="width:10%;"> C&eacute;dula </td>
+      <td align='left'>Nombres y Apellidos</td>
+      <td align='left'>G&eacute;nero</td>
+      <td align='left'>Fecha de Nacimiento</td>
+      <td align='left'>Sección</td>
+    </tr>
     <?php
-    imprimir_boton($disabledRC,$disabledMD,$estatus,$servicios);
-    ?>  
-  </fieldset>
-</form>
-<br>
-<?php }else{ ?>
-<a href="?estudiante" ><img src="../images/cerrar.png" alt="Cerrar" style="width:40px;heigth:40px;float:right;"></a>
-<a href="../excel/excel_estudiante.php" ><img src="../images/icon-excel.png" alt="Exportar a Excel" style="width:40px;heigth:40px;float:right;"></a>
-<table class="table table-striped table-bordered table-condensed">
- <tr> 
-   <td>Cédula</td>
-   <td>Nombres y Apellidos</td>
-   <td>Género</td>
-   <td>Fecha de Nacimiento</td>
-   <td>Código de Estudiante</td>
-   <td>Rol o Cargo</td>
- </tr>
- <?php
-
-           //Conexión a la base de datos 
- require_once("../clases/class_bd.php");
- $mysql=new Conexion();
-
-//Sentencia sql (sin limit) 
- $_pagi_sql = "SELECT CONCAT((CASE pa.nombre_pais WHEN 'VENEZUELA' THEN 'V-' ELSE 'E-' END),p.cedula) cedula, 
- CONCAT(p.nombres,' ',p.apellidos) nomape, CASE p.sexo WHEN 'F' THEN 'FEMENINO' ELSE 'MASCULINO' END genero, 
- DATE_FORMAT(p.fecha_nacimiento,'%d/%m/%Y') fecha_nacimiento,pr.cod_personal, r.nombre_rol rol 
- FROM tpersonas p INNER JOIN tpais pa ON p.nacionalidad = pa.cod_pais INNER JOIN tpersonales pr ON p.cedula = pr.cedula 
- INNER JOIN trol r ON pr.cod_rol = r.cod_rol WHERE UPPER(r.nombre_rol) LIKE '%ESTUDIANTE%' ORDER BY cedula DESC"; 
-//cantidad de resultados por página (opcional, por defecto 20) 
- $_pagi_cuantos = 10; 
-//Cadena que separa los enlaces numéricos en la barra de navegación entre páginas.
- $_pagi_separador = " ";
-//Cantidad de enlaces a los números de página que se mostrarán como máximo en la barra de navegación.
- $_pagi_nav_num_enlaces=5;
-//Incluimos el script de paginación. Éste ya ejecuta la consulta automáticamente 
- @include("../librerias/paginador/paginator.inc.php"); 
-
-//Leemos y escribimos los registros de la página actual 
- while($row = mysql_fetch_array($_pagi_result)){ 
-  echo "<tr><td style='width:20%;'>".$row['cedula']."</td><td align='left'>".$row['nomape']."</td><td align='left'>".$row['genero']."</td><td align='left'>".$row['fecha_nacimiento']."</td><td align='left'>".$row['cod_personal']."</td><td align='left'>".$row['rol']."</td></tr>"; 
-} 
-//Incluimos la barra de navegación 
-?>
-</table>
-<div class="pagination">
- <ul>
-   <?php echo"<li>".$_pagi_navegacion."</li>";?>
- </ul>
-</div>
-</div>
-<?php }?>
+      //Conexión a la base de datos 
+      require_once("../clases/class_bd.php");
+      $mysql=new Conexion();
+      //Sentencia sql (sin limit) 
+      $_pagi_sql = "SELECT p.cedula,CONCAT(p.nombres,' ',p.apellidos) AS nomape,CASE p.genero WHEN 'F' THEN 'Femenino' ELSE 'Masculino' END AS genero,
+      date_format(p.fecha_nacimiento,'%d/%m/%Y') AS fecha_nacimiento,CONCAT(p.lugar_nacimiento,'_',par.descripcion) AS lugar_nacimiento,p.direccion,p.telefono_habitacion,
+      p.telefono_movil,p.email,(CASE WHEN p.fecha_desactivacion IS NULL THEN 'Activo' ELSE 'Desactivado' END) AS estatus,
+      s.descripcion AS seccion 
+      FROM tpersona p 
+      INNER JOIN tproceso_inscripcion pi ON p.cedula = pi.cedula_estudiante 
+      INNER JOIN tparroquia par ON p.lugar_nacimiento = par.codigo_parroquia 
+      LEFT JOIN tseccion s ON pi.seccion = s.seccion 
+      WHERE p.esestudiante='Y' ORDER BY p.cedula DESC"; 
+      //cantidad de resultados por página (opcional, por defecto 20) 
+      $_pagi_cuantos = 10; 
+      //Cadena que separa los enlaces numéricos en la barra de navegación entre páginas.
+      $_pagi_separador = " ";
+      //Cantidad de enlaces a los números de página que se mostrarán como máximo en la barra de navegación.
+      $_pagi_nav_num_enlaces=5;
+      //Incluimos el script de paginación. Éste ya ejecuta la consulta automáticamente 
+      @include("../librerias/paginador/paginator.inc.php"); 
+      //Leemos y escribimos los registros de la página actual 
+      while($row = mysql_fetch_array($_pagi_result)){ 
+      echo "<tr>
+        <td style='width:10%;'>".$row['cedula']."</td>
+        <td align='left'>".$row['nomape']."</td>
+        <td align='left'>".$row['genero']."</td>
+        <td style='width:15%;' align='left'>".$row['fecha_nacimiento']."</td>
+        <td align='left'>".$row['seccion']."</td>
+        </tr>"; 
+      } 
+      //Incluimos la barra de navegación 
+    ?>
+  </table>
+  <div class="pagination">
+    <ul>
+      <?php echo"<li>".$_pagi_navegacion."</li>";?>
+    </ul>
+  </div>
+  <?php }?>

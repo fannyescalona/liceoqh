@@ -30,8 +30,13 @@ if($operacion=='Registrar'){
   $seccion->capacidad_min($capacidad_min);
   $seccion->capacidad_max($capacidad_max);
   if(!$seccion->Comprobar()){
-    if($seccion->Registrar())
-       $confirmacion=1;
+    if($seccion->Registrar()){
+      if(isset($_POST['materias']) && isset($_POST['docentes'])){
+        $seccion->EliminarMateriasDocentes();
+        $seccion->InsertarMateriasDocentes($_POST['materias'],$_POST['docentes']);
+        $confirmacion=1;
+      }
+    }
     else
        $confirmacion=-1;
   }else{
@@ -57,8 +62,13 @@ if($operacion=='Modificar'){
   $seccion->turno($turno);
   $seccion->capacidad_min($capacidad_min);
   $seccion->capacidad_max($capacidad_max);
-  if($seccion->Actualizar())
-   $confirmacion=1;
+  if($seccion->Actualizar()){
+    if(isset($_POST['materias']) && isset($_POST['docentes'])){
+      $seccion->EliminarMateriasDocentes();
+      $seccion->InsertarMateriasDocentes($_POST['materias'],$_POST['docentes']);
+      $confirmacion=1;
+    }
+  }
   else
    $confirmacion=-1;
   if($confirmacion==1){
@@ -125,5 +135,19 @@ if($operacion=='Consultar'){
     $_SESSION['datos']['mensaje']=utf8_encode("No se han encontrado resultados para tu búsqueda(".$descripcion.")");
     header("Location: ../vistas/?seccion");
   }
-}    
+}
+
+if($operacion=='Asignar_Notas'){
+  $con=0;
+  if(isset($_POST['msd']) && isset($_POST['estudiante']) && isset($_POST['lapso']) && isset($_POST['notas'])){
+    for($i=0;$i<count($_POST['msd']);$i++){
+      $seccion->Eliminar_Notas($_POST['msd'][$i],$_POST['estudiante'][$i],$_POST['lapso'][$i]);
+      if($seccion->Asignar_Notas($_POST['msd'][$i],$_POST['estudiante'][$i],$_POST['lapso'][$i],$_POST['notas'][$i]))
+        $con++;
+    }
+    $rest=count($_POST['msd'])-$con;
+  }
+  $_SESSION['datos']['mensaje']="Cantidad de Estudiantes Seleccionados: ".count($_POST['msd']).", Cantidad Calificados: ".$con.", Cantidad Restantes: ".$rest;
+  header("Location: ../vistas/?asignar_notas");
+}
 ?>
