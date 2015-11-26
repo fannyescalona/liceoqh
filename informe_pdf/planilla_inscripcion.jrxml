@@ -8,48 +8,49 @@
 	</parameter>
 	<queryString>
 		<![CDATA[SELECT aa.descripcion AS ano_escolar,TIMESTAMPDIFF(YEAR, e.fecha_nacimiento, CURDATE()) AS edad,ROUND(pi.peso,2) AS peso,
-pi.talla,CONCAT(e.nombres,' ',e.apellidos) AS estudiante,pi.cedula_estudiante,pi.cedula_escolar,pi.codigo_canaima,
-CASE e.genero WHEN 'F' THEN 'X' ELSE '' END AS genero_f,CASE e.genero WHEN 'M' THEN 'X' ELSE '' END AS genero_m,
-DATE_FORMAT(e.fecha_nacimiento,'%d/%m/%Y') AS fecha_nacimiento,pe.descripcion AS lugar_nacimiento,
-ee.descripcion AS estado,e.direccion,pi.plantel_procedencia,e.telefono_habitacion,e.email AS email_estudiante,
-CONCAT(p.nombres,' ',p.apellidos) AS padre,pi.cedula_padre,CONCAT(m.nombres,' ',m.apellidos) AS madre,pi.cedula_madre,
-COALESCE(p.direccion,m.direccion) AS direccion_padres,COALESCE(p.telefono_habitacion,m.telefono_habitacion) AS telefono_habitacion_padres,
-COALESCE(p.email,m.email) AS email_padres,
-CASE pi.certificado_sextogrado WHEN 'Y' THEN 'X' ELSE '' END AS certificado_sextogrado,
-CASE pi.notascertificadas WHEN 'Y' THEN 'X' ELSE '' END AS notascertificadas,
-CASE pi.cartabuenaconducta WHEN 'Y' THEN 'X' ELSE '' END AS cartabuenaconducta,
-CASE pi.fotoestudiante WHEN 'Y' THEN 'X' ELSE '' END AS fotoestudiante,
-CASE pi.fotocopia_ciestudiante WHEN 'Y' THEN 'X' ELSE '' END AS fotocopia_ciestudiante,
-CASE pi.fotocopia_pnestudiante WHEN 'Y' THEN 'X' ELSE '' END AS fotocopia_pnestudiante,
-CASE pi.fotorepresentante WHEN 'Y' THEN 'X' ELSE '' END AS fotorepresentante,
-CASE pi.fotocopia_cirepresentante WHEN 'Y' THEN 'X' ELSE '' END AS fotocopia_cirepresentante,
-CASE pi.kitscomedor WHEN 'Y' THEN 'X' ELSE '' END AS kitscomedor,
-CASE pi.becado WHEN 'Y' THEN 'X' ELSE '' END AS becado_si,
-CASE pi.becado WHEN 'N' THEN 'X' ELSE '' END AS becado_no,
-CASE pi.tipobeca WHEN 'N' THEN 'Nacional' WHEN 'E' THEN 'Estadal' WHEN 'M' THEN 'Madres del Barrio' WHEN 'H' THEN 'Hijos de Venezuela' ELSE '' END tipobeca,
-CONCAT(r.nombres,' ',r.apellidos) AS representante,pi.cedula_representante,
-r.direccion AS direccion_representante,pr.descripcion AS parentesco,r.telefono_habitacion AS telefono_representante,plt.descripcion AS lugar_trabajo,
-DATE_FORMAT(pi.primerafi,'%d/%m/%Y') AS primerafi,DATE_FORMAT(pi.primerafi,'%Y') AS anofi,
-CONCAT(d.nombres,' ',d.apellidos) AS docente,DATE_FORMAT(pi.fecha_inscripcion,'%d/%m/%Y') AS fecha_inscripcion,
-COALESCE((SELECT CASE WHEN notafinal >= 10 THEN 'X' ELSE '' END FROM tcontrol_notas cn WHERE cn.cedula_estudiante = pi.cedula_estudiante),'X') AS estudiante_regular,
-COALESCE((SELECT CASE WHEN notafinal < 10 THEN 'X' ELSE '' END FROM tcontrol_notas cn WHERE cn.cedula_estudiante = pi.cedula_estudiante),'') AS estudiante_repitiente,
-(SELECT GROUP_CONCAT(m.descripcion,',') FROM tcontrol_notas ctn INNER JOIN tmateria_seccion_docente msd ON ctn.codigo_msd = msd.codigo_msd
-INNER JOIN tmateria m ON msd.codigo_materia = m.codigo_materia
-WHERE ctn.notafinal < 10
-ORDER BY ctn.codigo_lapso ASC) AS asignaturas_pendientes
-FROM tproceso_inscripcion pi
-INNER JOIN tano_academico aa ON pi.codigo_ano_academico = aa.codigo_ano_academico
-INNER JOIN tpersona e ON pi.cedula_estudiante = e.cedula
-INNER JOIN tparroquia pe ON e.lugar_nacimiento = pe.codigo_parroquia
-INNER JOIN tmunicipio me ON pe.codigo_municipio = me.codigo_municipio
-INNER JOIN testado ee ON me.codigo_estado = ee.codigo_estado
-INNER JOIN tpersona d ON pi.cedula_docente = d.cedula
-INNER JOIN tpersona r ON pi.cedula_representante = r.cedula
-INNER JOIN tparentesco pr ON pi.codigo_parentesco = pr.codigo_parentesco
-INNER JOIN tparroquia plt ON pi.lugar_trabajo = plt.codigo_parroquia
-LEFT JOIN tpersona p ON pi.cedula_padre = p.cedula
-LEFT JOIN tpersona m ON pi.cedula_madre = m.cedula
-WHERE pi.cedula_estudiante = $P{cedula_estudiante}]]>
+	pi.talla,CONCAT(e.nombres,' ',e.apellidos) AS estudiante,pi.cedula_estudiante,pi.cedula_escolar,pi.codigo_canaima,
+	CASE e.genero WHEN 'F' THEN 'X' ELSE '' END AS genero_f,CASE e.genero WHEN 'M' THEN 'X' ELSE '' END AS genero_m,
+	DATE_FORMAT(e.fecha_nacimiento,'%d/%m/%Y') AS fecha_nacimiento,pe.descripcion AS lugar_nacimiento,
+	ee.descripcion AS estado,e.direccion,pi.plantel_procedencia,e.telefono_habitacion,e.email AS email_estudiante,
+	CONCAT(p.nombres,' ',p.apellidos) AS padre,pi.cedula_padre,CONCAT(m.nombres,' ',m.apellidos) AS madre,pi.cedula_madre,
+	COALESCE(p.direccion,m.direccion) AS direccion_padres,COALESCE(p.telefono_habitacion,m.telefono_habitacion) AS telefono_habitacion_padres,
+	COALESCE(p.email,m.email) AS email_padres,
+	CASE pi.certificado_sextogrado WHEN 'Y' THEN 'X' ELSE '' END AS certificado_sextogrado,
+	CASE pi.notascertificadas WHEN 'Y' THEN 'X' ELSE '' END AS notascertificadas,
+	CASE pi.cartabuenaconducta WHEN 'Y' THEN 'X' ELSE '' END AS cartabuenaconducta,
+	CASE pi.fotoestudiante WHEN 'Y' THEN 'X' ELSE '' END AS fotoestudiante,
+	CASE pi.fotocopia_ciestudiante WHEN 'Y' THEN 'X' ELSE '' END AS fotocopia_ciestudiante,
+	CASE pi.fotocopia_pnestudiante WHEN 'Y' THEN 'X' ELSE '' END AS fotocopia_pnestudiante,
+	CASE pi.fotorepresentante WHEN 'Y' THEN 'X' ELSE '' END AS fotorepresentante,
+	CASE pi.fotocopia_cirepresentante WHEN 'Y' THEN 'X' ELSE '' END AS fotocopia_cirepresentante,
+	CASE pi.kitscomedor WHEN 'Y' THEN 'X' ELSE '' END AS kitscomedor,
+	CASE pi.becado WHEN 'Y' THEN 'X' ELSE '' END AS becado_si,
+	CASE pi.becado WHEN 'N' THEN 'X' ELSE '' END AS becado_no,
+	CASE pi.tipobeca WHEN 'N' THEN 'Nacional' WHEN 'E' THEN 'Estadal' WHEN 'M' THEN 'Madres del Barrio' WHEN 'H' THEN 'Hijos de Venezuela' ELSE '' END tipobeca,
+	CONCAT(r.nombres,' ',r.apellidos) AS representante,pi.cedula_representante,
+	r.direccion AS direccion_representante,pr.descripcion AS parentesco,r.telefono_habitacion AS telefono_representante,plt.descripcion AS lugar_trabajo,
+	DATE_FORMAT(pi.primerafi,'%d/%m/%Y') AS primerafi,DATE_FORMAT(pi.primerafi,'%Y') AS anofi,
+	CONCAT(d.nombres,' ',d.apellidos) AS docente,DATE_FORMAT(pi.fecha_inscripcion,'%d/%m/%Y') AS fecha_inscripcion,
+	COALESCE((SELECT CASE WHEN AVG(notafinal) >= 10 THEN 'X' ELSE NULL END FROM tcontrol_notas cn WHERE cn.cedula_estudiante = pi.cedula_estudiante),'X') AS estudiante_regular,
+	COALESCE((SELECT CASE WHEN AVG(notafinal) < 10 THEN 'X' ELSE NULL END FROM tcontrol_notas cn WHERE cn.cedula_estudiante = pi.cedula_estudiante),'') AS estudiante_repitiente,
+	(SELECT GROUP_CONCAT(m.descripcion,',') FROM tcontrol_notas ctn 
+	INNER JOIN tmateria_seccion_docente msd ON ctn.codigo_msd = msd.codigo_msd
+	INNER JOIN tmateria m ON msd.codigo_materia = m.codigo_materia
+	WHERE ctn.notafinal < 10 AND ctn.cedula_estudiante = pi.cedula_estudiante 
+	ORDER BY ctn.codigo_lapso ASC) AS asignaturas_pendientes
+	FROM tproceso_inscripcion pi
+	INNER JOIN tano_academico aa ON pi.codigo_ano_academico = aa.codigo_ano_academico
+	INNER JOIN tpersona e ON pi.cedula_estudiante = e.cedula
+	INNER JOIN tparroquia pe ON e.lugar_nacimiento = pe.codigo_parroquia
+	INNER JOIN tmunicipio me ON pe.codigo_municipio = me.codigo_municipio
+	INNER JOIN testado ee ON me.codigo_estado = ee.codigo_estado
+	INNER JOIN tpersona d ON pi.cedula_docente = d.cedula
+	INNER JOIN tpersona r ON pi.cedula_representante = r.cedula
+	INNER JOIN tparentesco pr ON pi.codigo_parentesco = pr.codigo_parentesco
+	INNER JOIN tparroquia plt ON pi.lugar_trabajo = plt.codigo_parroquia
+	LEFT JOIN tpersona p ON pi.cedula_padre = p.cedula
+	LEFT JOIN tpersona m ON pi.cedula_madre = m.cedula
+	WHERE pi.cedula_estudiante = $P{cedula_estudiante}]]>
 	</queryString>
 	<field name="ano_escolar" class="java.lang.String"/>
 	<field name="edad" class="java.lang.Long"/>

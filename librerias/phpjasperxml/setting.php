@@ -1,5 +1,5 @@
 <?php
-require_once("../../clases/conf.php");
+require_once("../clases/conf.php");
 $server=SERVER;
 $db=BD;
 $user=USER;

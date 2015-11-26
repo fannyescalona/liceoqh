@@ -261,7 +261,7 @@ DROP TABLE IF EXISTS tplantel;
 
 CREATE TABLE tplantel (
   codigo_plantel char(11) NOT NULL,
-  nombre varchar(35) COLLATE utf8_spanish_ci NOT NULL,
+  nombre varchar(60) COLLATE utf8_spanish_ci NOT NULL,
   direccion varchar(255) COLLATE utf8_spanish_ci NOT NULL,
   telefono_habitacion varchar(11) NOT NULL,
   localidad varchar(20),

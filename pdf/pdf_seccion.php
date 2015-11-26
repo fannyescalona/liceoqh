@@ -8,20 +8,18 @@
    //Cabecera de página
     public function Header()
     {
-  
-       $this->Image("../images/UDS.jpg" , 10 ,15, 40 , 40, "JPG" ,$_SERVER['HTTP_HOST']."/udesur/vistas/");
-      $this->Image("../images/cintillo.jpg" , 10 ,5, 270 , 8, "JPG" ,$_SERVER['HTTP_HOST']."/udesur/vistas/");
-      $this->Ln(15);  
-   $this->SetFont('Arial','B',12);  
-  $this->Cell(0,6,"UNIVERSIDAD DEPORTIVA DEL SUR",0,1,"C");
-    $this->Cell(0,6,"\"Sistema de Ingreso Estudiantes y Horarios\"",0,1,"C");
+      $this->Image("../images/cintillo_reportes.jpg" , 10 ,5, 270 , 25, "JPG" ,$_SERVER['HTTP_HOST']."/liceoqh/vistas/");
+      $this->Ln(25);  
+      $this->SetFont('Arial','B',12);  
+      $this->Cell(0,6,"UNIDAD EDUCATIVA NACIONAL QUEBRADA HONDA",0,1,"C");
+      $this->Cell(0,6,"\"Sistema de Ingreso Estudiantes y Contol de Notas\"",0,1,"C");
        $this->Ln(15); 
    $this->Cell(0,6,'LISTADO DE LAS SECCIONES',0,1,"C");
    $this->Ln(5);
     
     
      $this->SetFillColor(0,0,140); 
-         $avnzar=10;
+         $avnzar=30;
          $altura=7;
          $anchura=10;
          $color_fondo=false;
@@ -35,8 +33,6 @@
                   $this->Cell($anchura*4,$altura,utf8_decode('CAPACIDAD MÍNIMA'),1,0,'L',$color_fondo); 
                   $this->Cell($anchura*4,$altura,utf8_decode('CAPACIDAD MÁXIMA'),1,0,'L',$color_fondo); 
                   $this->Cell($anchura*3,$altura,'TURNO',1,0,'L',$color_fondo); 
-                  $this->Cell($anchura*3,$altura,utf8_decode('PERÍODO'),1,0,'L',$color_fondo); 
-                  $this->Cell($anchura*3,$altura,'SEMESTRE',1,0,'L',$color_fondo); 
                   $this->Cell($anchura*2+6,$altura,'ESTATUS',1,1,'L',$color_fondo);
                   $this->Cell($avnzar);     
     }
@@ -66,9 +62,9 @@
         $this->SetFont("Arial","I",6);
           $avanzar=30;
       $this->Cell($avanzar);  
-      $uni="Universidad Deportiva del Sur. Consolidando el Sistema Bolivariano del Deporte.";
-      $dir="Dirección: Vía Manrique, Av. Universidad, Km. 2 (Villa Deportiva), San Carlos Estado Cojedes,República Bolivariana de Venezuela.";
-      $tel="Teléfono: (+58) 0258-4330349 (Control de Estudio), 4331518 (Rectorado)";
+      $uni="Unidad Educativa Nacional Quebrada Honda.";
+      $dir="Dirección: Calle 03 Centro Poblado B Quebrado Honda, Agua Blanca Estado Portuguesa,República Bolivariana de Venezuela.";
+      $tel="Teléfono: (+58) 0255-8084598";
       $this->Cell(130,4,utf8_decode($uni),0,1,"L");
       $this->Cell($avanzar);  
       $this->Cell(130,4,utf8_decode($dir),0,1,"L");
@@ -190,18 +186,19 @@ function NbLines($w,$txt)
    
     $lobjPdf->SetFont('Arial','',12);
    //Table with 20 rows and 5 columns
-      $lobjPdf->SetWidths(array(20,40,40,40,40,26));
+      $lobjPdf->SetWidths(array(20,40,40,26));
 require_once("../clases/class_bd.php");
   $mysql=new Conexion();
-  $sql="SELECT s.seccion,s.nombre_seccion,s.capacidad_min,s.capacidad_max,CASE s.turno WHEN 'D' THEN 'DIURNO' ELSE 'NOCTURNO' END turno, 
-  p.descripcion AS periodo, sm.semestre,CASE WHEN s.fecha_desactivacion IS NULL THEN 'Activo' ELSE 'Desactivado' END estatus 
-   FROM tseccion s INNER JOIN tperiodo p ON s.cod_periodo = p.cod_periodo INNER JOIN tsemestre sm ON s.cod_semestre = sm.cod_semestre 
+  $sql="SELECT s.seccion,s.descripcion AS nombre_seccion,s.capacidad_min,s.capacidad_max,
+  CASE s.turno WHEN 'M' THEN 'MAÑANA' ELSE 'TARDE' END turno, 
+  CASE WHEN s.fecha_desactivacion IS NULL THEN 'Activo' ELSE 'Desactivado' END estatus 
+   FROM tseccion s 
    WHERE s.fecha_desactivacion IS NULL ORDER BY seccion DESC";
   $i=-1;
   $data=$mysql->Ejecutar($sql);
     if($mysql->Total_Filas($data)!=0){
          $lobjPdf->SetFillColor(0,0,140); 
-         $avnzar=10;
+         $avnzar=30;
          $altura=7;
          $anchura=10;
          $color_fondo=false;
@@ -217,8 +214,6 @@ require_once("../clases/class_bd.php");
           $lobjPdf->Cell($anchura*4,$altura,utf8_decode($tperfil['capacidad_min']),1,0,'C',$color_fondo); 
           $lobjPdf->Cell($anchura*4,$altura,utf8_decode($tperfil['capacidad_max']),1,0,'C',$color_fondo); 
           $lobjPdf->Cell($anchura*3,$altura,utf8_decode($tperfil['turno']),1,0,'C',$color_fondo); 
-          $lobjPdf->Cell($anchura*3,$altura,utf8_decode($tperfil['periodo']),1,0,'C',$color_fondo);
-          $lobjPdf->Cell($anchura*3,$altura,utf8_decode($tperfil['semestre']),1,0,'C',$color_fondo); 
           $lobjPdf->Cell($anchura*2+6,$altura,utf8_decode($tperfil['estatus']),1,1,'C',$color_fondo);
          $lobjPdf->Cell($avnzar);         
          }

@@ -9,20 +9,17 @@
    //Cabecera de página
     public function Header()
     {
-  
-       $this->Image("../images/UDS.jpg" , 10 ,15, 40 , 40, "JPG" ,$_SERVER['HTTP_HOST']."/udesur/vistas/");
-      $this->Image("../images/cintillo.jpg" , 10 ,5, 270 , 8, "JPG" ,$_SERVER['HTTP_HOST']."/udesur/vistas/");
-      $this->Ln(15);  
-   $this->SetFont('Arial','B',12);  
-  $this->Cell(0,6,"UNIVERSIDAD DEPORTIVA DEL SUR",0,1,"C");
-    $this->Cell(0,6,"\"Sistema de Ingreso Estudiantes y Horarios\"",0,1,"C");
-       $this->Ln(15); 
-   $this->Cell(0,6,'LISTADO DE LOS MUNICIPIOS',0,1,"C");
-   $this->Ln(5);
-    
+      $this->Image("../images/cintillo_reportes.jpg" , 10 ,5, 270 , 25, "JPG" ,$_SERVER['HTTP_HOST']."/liceoqh/vistas/");
+      $this->Ln(25);  
+      $this->SetFont('Arial','B',12);  
+      $this->Cell(0,6,"UNIDAD EDUCATIVA NACIONAL QUEBRADA HONDA",0,1,"C");
+      $this->Cell(0,6,"\"Sistema de Ingreso Estudiantes y Contol de Notas\"",0,1,"C");
+      $this->Ln(15); 
+      $this->Cell(0,6,'LISTADO DE LOS MUNICIPIOS',0,1,"C");
+      $this->Ln(5);
     
      $this->SetFillColor(0,0,140); 
-         $avnzar=25;
+         $avnzar=55;
          $altura=7;
          $anchura=10;
          $color_fondo=false;
@@ -34,7 +31,6 @@
                  $this->Cell($anchura*2,$altura,utf8_decode('CÓDIGO'),1,0,'C',$color_fondo); 
                   $this->Cell($anchura*4,$altura,'PAIS',1,0,'C',$color_fondo); 
                   $this->Cell($anchura*4,$altura,'ESTADO',1,0,'C',$color_fondo); 
-                  $this->Cell($anchura*4,$altura,'CIUDAD',1,0,'C',$color_fondo); 
                   $this->Cell($anchura*4,$altura,'MUNICIPIO',1,0,'C',$color_fondo); 
                   $this->Cell($anchura*2+6,$altura,'ESTATUS',1,1,'C',$color_fondo); 
                   $this->Cell($avnzar); 
@@ -65,9 +61,9 @@
         $this->SetFont("Arial","I",6);
           $avanzar=23;
       $this->Cell($avanzar);  
-      $uni="Universidad Deportiva del Sur. Consolidando el Sistema Bolivariano del Deporte.";
-      $dir="Dirección: Vía Manrique, Av. Universidad, Km. 2 (Villa Deportiva), San Carlos Estado Cojedes,República Bolivariana de Venezuela.";
-      $tel="Teléfono: (+58) 0258-4330349 (Control de Estudio), 4331518 (Rectorado)";
+      $uni="Unidad Educativa Nacional Quebrada Honda.";
+      $dir="Dirección: Calle 03 Centro Poblado B Quebrado Honda, Agua Blanca Estado Portuguesa,República Bolivariana de Venezuela.";
+      $tel="Teléfono: (+58) 0255-8084598";
       $this->Cell(130,4,utf8_decode($uni),0,1,"L");
       $this->Cell($avanzar);  
       $this->Cell(130,4,utf8_decode($dir),0,1,"L");
@@ -189,20 +185,21 @@ function NbLines($w,$txt)
    
     $lobjPdf->SetFont('Arial','',12);
    //Table with 20 rows and 5 columns
-      $lobjPdf->SetWidths(array(20,40,40,40,40,26));
+      $lobjPdf->SetWidths(array(20,40,40,40,26));
        require_once("../clases/class_bd.php");
  require_once("../clases/class_bd.php");
   $mysql=new Conexion();
-  $sql="select *,
-    (CASE WHEN tmunicipio.fecha_desactivacion IS NULL THEN  'Activo' 
-      ELSE 'Desactivado' END) AS estatus from testado inner join tpais on tpais.cod_pais=testado.cod_pais
-      inner join tciudad on tciudad.cod_estado=testado.cod_estado
-      inner join tmunicipio on tmunicipio.cod_ciudad=tciudad.cod_ciudad";
+  $sql="SELECT m.codigo_municipio,m.descripcion AS municipio,e.descripcion AS estado,p.descripcion AS pais,
+    (CASE WHEN m.fecha_desactivacion IS NULL THEN  'Activo' 
+      ELSE 'Desactivado' END) AS estatus 
+      FROM tmunicipio m 
+      INNER JOIN testado e on m.codigo_estado=e.codigo_estado
+      INNER JOIN tpais p on e.codigo_pais=p.codigo_pais";
   $i=-1;
   $data=$mysql->Ejecutar($sql);
     if($mysql->Total_Filas($data)!=0){
          $lobjPdf->SetFillColor(0,0,140); 
-         $avnzar=25;
+         $avnzar=55;
          $altura=7;
          $anchura=10;
          $color_fondo=false;
@@ -214,12 +211,11 @@ function NbLines($w,$txt)
          $xxxx=0;
          while($tperfil=$mysql->Respuesta($data)){
          $lobjPdf->Row(array(
-         utf8_decode(ucwords(strtolower(@utf8_decode($tperfil['cod_municipio'])))),
-         utf8_decode(ucwords(strtolower(@utf8_decode($tperfil['nombre_pais'])))),
-         utf8_decode(ucwords(strtolower(@utf8_decode($tperfil['nombre_estado'])))),
-         utf8_decode(ucwords(strtolower(@utf8_decode($tperfil['nombre_ciudad'])))),
-         utf8_decode(ucwords(strtolower(@utf8_decode($tperfil['nombre_municipio'])))),
-         utf8_decode(ucwords(strtolower(@utf8_decode($tperfil['estatus']))))));
+         utf8_decode(ucwords($tperfil['codigo_municipio'])),
+         utf8_decode(ucwords($tperfil['pais'])),
+         utf8_decode(ucwords($tperfil['estado'])),
+         utf8_decode(ucwords($tperfil['municipio'])),
+         utf8_decode(ucwords($tperfil['estatus']))));
           $lobjPdf->Cell($avnzar);         
          }
          
