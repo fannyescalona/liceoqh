@@ -22,6 +22,7 @@ CREATE TABLE tmateria (
   codigo_materia char(7) COLLATE utf8_spanish_ci NOT NULL,
   descripcion varchar(100) COLLATE utf8_spanish_ci NOT NULL,
   unidad_curricular int(11) NOT NULL DEFAULT '0',
+  grado_escolar char(1) NOT NULL DEFAULT '1',
   fecha_desactivacion date DEFAULT NULL,
   PRIMARY KEY (codigo_materia)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
@@ -38,6 +39,7 @@ CREATE TABLE tseccion (
   turno char(1) COLLATE utf8_spanish_ci NOT NULL,
   capacidad_min int(11) NOT NULL DEFAULT '5',
   capacidad_max int(11) NOT NULL DEFAULT '40',
+  grado_escolar char(1) NOT NULL DEFAULT '1',
   fecha_desactivacion date DEFAULT NULL,
   PRIMARY KEY (seccion)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
@@ -338,7 +340,7 @@ CREATE TABLE tproceso_inscripcion (
   cedula_escolar char(10) COLLATE utf8_spanish_ci NULL,
   codigo_canaima varchar(20) NULL,
   peso float NOT NULL DEFAULT 0,
-  talla char(2) NOT NULL DEFAULT 'S',
+  estatura float NOT NULL DEFAULT 0,
   plantel_procedencia varchar(50),
   certificado_sextogrado char(1) NOT NULL DEFAULT 'N',
   notascertificadas char(1) NOT NULL DEFAULT 'N',

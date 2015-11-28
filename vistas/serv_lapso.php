@@ -108,15 +108,29 @@ else{
 
 //Leemos y escribimos los registros de la página actual 
  while($row = mysql_fetch_array($_pagi_result)){ 
-  echo "<tr><td style='width:20%;'>".$row['codigo_lapso']."</td>
+  echo "<tr style='cursor: pointer;' id='".$row['lapso']."_".$row['codigo_ano_academico']."' onclick='enviarForm(this.id)'>
+  <td style='width:20%;'>".$row['codigo_lapso']."</td>
   <td align='left'>".$row['lapso']."</td>
   <td align='left'>".$row['fecha_inicio']."</td>
-    <td align='left'>".$row['fecha_fin']."</td>
-    <td align='left'>".$row['ano_academico']."</td></tr>"; 
+  <td align='left'>".$row['fecha_fin']."</td>
+  <td align='left'>".$row['ano_academico']."</td></tr>"; 
 } 
 //Incluimos la barra de navegación 
 ?>
 </table>
+<script type="text/javascript">
+function enviarForm(value){
+  var data=value.split('_');
+  document.getElementById('campo_oculto').value=data[0];
+  document.getElementById('campo_oculto2').value=data[1];
+  document.getElementById('form1').submit();
+}
+</script>
+<form id="form1" method="POST" action="../controladores/cont_lapso.php">
+  <input type="hidden" name="descripcion" id="campo_oculto" value="" />
+  <input type="hidden" name="codigo_ano_academico" id="campo_oculto2" value="" />
+  <input type="hidden" name="operacion" id="operacion" value="Consultar" />
+</form>
 <div class="pagination">
  <ul>
    <?php echo"<li>".$_pagi_navegacion."</li>";?>

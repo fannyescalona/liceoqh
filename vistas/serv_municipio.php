@@ -86,8 +86,11 @@ else{
      $mysql=new Conexion();
 
 //Sentencia sql (sin limit) 
-     $_pagi_sql = "SELECT m.codigo_municipio,m.descripcion AS municipio,m.fecha_desactivacion,c.codigo_estado,c.descripcion AS estado FROM tmunicipio m 
-     INNER JOIN testado c ON m.codigo_estado = c.codigo_estado WHERE m.fecha_desactivacion IS NULL ORDER BY m.codigo_municipio DESC"; 
+     $_pagi_sql = "SELECT m.codigo_municipio,m.descripcion AS municipio,m.fecha_desactivacion,c.codigo_estado,c.descripcion AS estado 
+     FROM tmunicipio m 
+     INNER JOIN testado c ON m.codigo_estado = c.codigo_estado 
+     WHERE m.fecha_desactivacion IS NULL 
+     ORDER BY m.codigo_municipio DESC"; 
 //cantidad de resultados por página (opcional, por defecto 20) 
      $_pagi_cuantos = 10; 
 //Cadena que separa los enlaces numéricos en la barra de navegación entre páginas.
@@ -99,11 +102,27 @@ else{
 
 //Leemos y escribimos los registros de la página actual 
      while($row = mysql_fetch_array($_pagi_result)){ 
-      echo "<tr><td style='width:20%;'>".$row['codigo_municipio']."</td><td align='left'>".$row['municipio']."</td><td align='left'>".$row['estado']."</td></tr>"; 
+      echo "<tr style='cursor: pointer;' id='".$row['municipio']."_".$row['codigo_estado']."' onclick='enviarForm(this.id)'>
+      <td style='width:20%;'>".$row['codigo_municipio']."</td>
+      <td align='left'>".$row['municipio']."</td>
+      <td align='left'>".$row['estado']."</td></tr>"; 
     } 
 //Incluimos la barra de navegación 
     ?>
   </table>
+<script type="text/javascript">
+function enviarForm(value){
+  data=value.split('_');
+  document.getElementById('campo_oculto').value=data[0];
+  document.getElementById('campo_oculto2').value=data[1];
+  document.getElementById('form1').submit();
+}
+</script>
+<form id="form1" method="POST" action="../controladores/cont_municipio.php">
+  <input type="hidden" name="descripcion" id="campo_oculto" value="" />
+  <input type="hidden" name="codigo_estado" id="campo_oculto2" value="" />
+  <input type="hidden" name="operacion" id="operacion" value="Consultar" />
+</form>
   <div class="pagination">
    <ul>
      <?php echo"<li>".$_pagi_navegacion."</li>";?>

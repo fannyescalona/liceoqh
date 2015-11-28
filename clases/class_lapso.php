@@ -2,22 +2,24 @@
  require_once("class_bd.php");
  class lapsos
  {
-     private $codigo_lapso; 
-     private $descripcion; 
-     private $fecha_inicio;
-     private $fecha_fin;
-     private $codigo_ano_academico;
-     private $estatus;
-     private $fecha_desactivacion; 
-     private $mysql; 
+    private $codigo_lapso; 
+    private $descripcion; 
+    private $fecha_inicio;
+    private $fecha_fin;
+    private $codigo_ano_academico;
+    private $estatus;
+    private $fecha_desactivacion; 
+  	private $error; 
+    private $mysql; 
 	 
    public function __construct(){
    	$this->codigo_lapso=null;
-     $this->descripcion=null;
-     $this->fecha_inicio=null;
-     $this->fecha_fin=null;
-     $this->codigo_ano_academico=null;
-	 $this->mysql=new Conexion();
+    $this->descripcion=null;
+    $this->fecha_inicio=null;
+    $this->fecha_fin=null;
+    $this->codigo_ano_academico=null;
+    $this->error=null;
+	$this->mysql=new Conexion();
    }
    
  public function __destruct(){}
@@ -44,7 +46,7 @@
 	   $this->descripcion=func_get_arg(0);
 	 }
    }
-public function fecha_inicio(){
+	public function fecha_inicio(){
       $Num_Parametro=func_num_args();
 	 if($Num_Parametro==0) return $this->fecha_inicio;
      
@@ -87,45 +89,59 @@ public function fecha_inicio(){
 	   $this->fecha_desactivacion=func_get_arg(0);
 	 }
    }
+
+  public function error(){
+    $Num_Parametro=func_num_args();
+    if($Num_Parametro==0) return $this->error;
+
+    if($Num_Parametro>0){
+      $this->error=func_get_arg(0);
+    }
+  }
    
    public function Registrar(){
-    $sql="insert into tlapso (descripcion,fecha_inicio,fecha_fin,codigo_ano_academico) values ('$this->descripcion',STR_TO_DATE('$this->fecha_inicio','%d/%m/%Y'),
-    STR_TO_DATE('$this->fecha_fin','%d/%m/%Y'),'$this->codigo_ano_academico');";
+    $sql="insert into tlapso (descripcion,fecha_inicio,fecha_fin,codigo_ano_academico) values ('$this->descripcion',STR_TO_DATE('$this->fecha_inicio','%d/%m/%Y'),STR_TO_DATE('$this->fecha_fin','%d/%m/%Y'),'$this->codigo_ano_academico');";
     if($this->mysql->Ejecutar($sql)!=null)
 	return true;
-	else
-	return false;
+	else{
+      $this->error($this->mysql->Error());
+      return false;
+    } 
    }
    
      public function Activar(){
     $sql="update tlapso set fecha_desactivacion=NULL where (codigo_lapso='$this->codigo_lapso');";
     if($this->mysql->Ejecutar($sql)!=null)
 	return true;
-	else
-	return false;
+	else{
+      $this->error($this->mysql->Error());
+      return false;
+    } 
    }
     public function Desactivar(){
     $sql="update tlapso set fecha_desactivacion=CURDATE() where (codigo_lapso='$this->codigo_lapso');";
     if($this->mysql->Ejecutar($sql)!=null)
 	return true;
-	else
-	return false;
+	else{
+      $this->error($this->mysql->Error());
+      return false;
+    } 
    }
    
     public function Actualizar(){
-    $sql="update tlapso set descripcion='$this->descripcion',fecha_inicio='$this->fecha_inicio',
-    fecha_fin='$this->fecha_fin',codigo_ano_academico='$this->codigo_ano_academico' where (codigo_lapso='$this->codigo_lapso');";
+    $sql="update tlapso set descripcion='$this->descripcion',fecha_inicio='$this->fecha_inicio',fecha_fin='$this->fecha_fin',codigo_ano_academico='$this->codigo_ano_academico' where (codigo_lapso='$this->codigo_lapso');";
     if($this->mysql->Ejecutar($sql)!=null)
 	return true;
-	else
-	return false;
+	else{
+      $this->error($this->mysql->Error());
+      return false;
+    } 
    }
    
    public function Consultar(){
-    $sql="select codigo_lapso,descripcion,date_format(fecha_inicio,'%d/%m/%Y') AS fecha_inicio,
-    date_format(fecha_fin,'%d/%m/%Y') fecha_fin,codigo_ano_academico,fecha_desactivacion,
-    (CASE WHEN fecha_desactivacion IS NULL THEN  'Activo' 
-    	ELSE 'Desactivado' END) AS estatus from tlapso where descripcion='$this->descripcion' AND codigo_ano_academico = '$this->codigo_ano_academico'";
+    $sql="select codigo_lapso,descripcion,date_format(fecha_inicio,'%d/%m/%Y') AS fecha_inicio,date_format(fecha_fin,'%d/%m/%Y') fecha_fin,";
+    $sql.="codigo_ano_academico,fecha_desactivacion,(CASE WHEN fecha_desactivacion IS NULL THEN  'Activo' ELSE 'Desactivado' END) AS estatus ";
+    $sql.="from tlapso where descripcion='$this->descripcion' AND codigo_ano_academico = '$this->codigo_ano_academico'";
 	$query=$this->mysql->Ejecutar($sql);
     if($this->mysql->Total_Filas($query)!=0){
 	$tlapso=$this->mysql->Respuesta($query);
@@ -139,9 +155,11 @@ public function fecha_inicio(){
 	return true;
 	}
 	else{
-	return false;
-	}
+      $this->error($this->mysql->Error());
+      return false;
+    } 
    }
+
    public function Comprobar(){
     $sql="select * from tlapso where descripcion='$this->descripcion' AND codigo_ano_academico = '$this->codigo_ano_academico'";
 	$query=$this->mysql->Ejecutar($sql);
@@ -153,11 +171,13 @@ public function fecha_inicio(){
 	$this->fecha_fin($tlapso['fecha_fin']);
 	$this->codigo_ano_academico($tlapso['codigo_ano_academico']);
 	$this->fecha_desactivacion($tlapso['fecha_desactivacion']);
+    $this->error("El registro ya existe !");
 	return true;
 	}
 	else{
-	return false;
-	}
+      $this->error($this->mysql->Error());
+      return false;
+    } 
    }
 }
 ?>

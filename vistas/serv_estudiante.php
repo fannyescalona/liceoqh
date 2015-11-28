@@ -22,8 +22,6 @@ if(isset($_SESSION['datos'])){
   @$telefono_movil=$_SESSION['datos']['telefono_movil'];
   @$email=$_SESSION['datos']['email'];
   @$esestudiante=$_SESSION['datos']['esestudiante'];
-  @$peso=$_SESSION['datos']['peso'];
-  @$talla=$_SESSION['datos']['talla'];
   @$plantel_procedencia=$_SESSION['datos']['plantel_procedencia'];
   @$cedula_representante=$_SESSION['datos']['cedula_representante'];
   @$codigo_parentesco=$_SESSION['datos']['codigo_parentesco'];
@@ -43,8 +41,6 @@ else{
   @$telefono_movil=null;
   @$email=null;
   @$esestudiante=null;
-  @$peso=null;
-  @$talla=null;
   @$plantel_procedencia=null;
   @$cedula_representante=null;
   @$codigo_parentesco=null;
@@ -76,17 +72,15 @@ else{
             <label>Cédula:</label>
             <input tabindex=3 onKeyPress="return isRif(event,this.value)" maxlength=10 onKeyUp="this.value=this.value.toUpperCase()" title="Ingrese el número de cédula del docente" name="cedula" id="cedula" type="text" size="10" value="<?= $cedula;?>" placeholder="Ingrese el número de Cédula" class="campoTexto" required />
             <label>Nombre(s):</label>
-            <input tabindex=5 title="Ingrese el(los) nombre(s) de la estudiante" onKeyUp="this.value=this.value.toUpperCase()" name="nombres" id="nombres" type="text" size="50" value="<?= $nombres;?>" placeholder="Ingrese el Nombre" class="campoTexto" required />
+            <input tabindex=5 title="Ingrese el(los) nombre(s) de la estudiante" onKeyPress="return isCharKey(event)" onKeyUp="this.value=this.value.toUpperCase()" name="nombres" id="nombres" type="text" size="50" value="<?= $nombres;?>" placeholder="Ingrese el Nombre" class="campoTexto" required />
             <label>Fecha de Nacimiento:</label>
             <input tabindex=7 title="Seleccione el fecha de Nacimiento" name="fecha_nacimiento" id="fecha_nacimiento" type="text" size="50" value="<?= $fecha_nacimiento;?>" placeholder="Ingrese la Fecha de Nacimiento" class="campoTexto" readonly required />
             <label>Dirección:</label>
             <textarea tabindex=9 onKeyUp="this.value=this.value.toUpperCase()" title="Ingrese la dirección del estudiante" name="direccion" id="direccion" rows=5 placeholder="Ingrese la Dirección" required /><?php echo $direccion;?></textarea>
             <label>Correo Electrónico:</label>
-            <input tabindex=12 title="Ingrese el correo electrónico del estudiante" onKeyPress="return isEmail(event,this.value)" onKeyUp="this.value=this.value.toLowerCase()" name="email" id="email" type="text" size="50" value="<?= $email;?>" placeholder="Ingrese el Correo Electrónico" class="campoTexto" required />
-            <label>Peso en Kg:</label>
-            <input tabindex=14 maxlength=5 title="Ingrese el peso del estudiante expresado en Kg" onKeyPress="return isNumberKey(event)" name="peso" id="peso" type="text" size="50" value="<?= $peso;?>" placeholder="Ingreso el peso del estudiante" class="campoTexto" required />
+            <input tabindex=12 title="Ingrese el correo electrónico del estudiante" onKeyPress="return isEmail(event,this.value)" onKeyUp="this.value=this.value.toLowerCase()" name="email" id="email" type="text" size="50" value="<?= $email;?>" placeholder="Ingrese el Correo Electrónico" class="campoTexto" />
             <label>Cédula Representante:</label>
-            <input tabindex=16 onKeyUp="this.value=this.value.toUpperCase()" title="Ingrese el número de cédula del representante" name="cedula_representante" id="cedula_representante" type="text" size="10" value="<?= $cedula_representante;?>" placeholder="Ingrese el número de Cédula del Representante" class="campoTexto" required />
+            <input tabindex=14 onKeyUp="this.value=this.value.toUpperCase()" title="Ingrese el número de cédula del representante" name="cedula_representante" id="cedula_representante" type="text" size="10" value="<?= $cedula_representante;?>" placeholder="Ingrese el número de Cédula del Representante" class="campoTexto" required />
           </div>
           <div class="span6">
             <label>Sección:</label>
@@ -98,7 +92,7 @@ else{
               <option value="M" <?php if($genero=="M"){ echo "selected";}?>>Masculino</option>
             </select>
             <label>Apellido(s):</label>
-            <input tabindex=6 title="Ingrese el(los) apellido(s) de la estudiante" onKeyUp="this.value=this.value.toUpperCase()" name="apellidos" id="apellidos" type="text" size="50" value="<?= $apellidos;?>" placeholder="Ingrese el Apellido" class="campoTexto" required />
+            <input tabindex=6 title="Ingrese el(los) apellido(s) de la estudiante" onKeyPress="return isCharKey(event)" onKeyUp="this.value=this.value.toUpperCase()" name="apellidos" id="apellidos" type="text" size="50" value="<?= $apellidos;?>" placeholder="Ingrese el Apellido" class="campoTexto" required />
             <label>Lugar de Nacimiento:</label>
             <input tabindex=8 title="Seleccione una Parroquia" onKeyUp="this.value=this.value.toUpperCase()" name="lugar_nacimiento" id="lugar_nacimiento" type="text" size="50" value="<?= $lugar_nacimiento;?>" placeholder="Seleccione una parroquia" class="campoTexto" required />
             <label>Teléfono de Habitación:</label>
@@ -107,23 +101,14 @@ else{
             <input tabindex=11 maxlength=11 title="Ingrese el número de celular" onKeyPress="return isNumberKey(event)" name="telefono_movil" id="telefono_movil" type="text" size="50" value="<?= $telefono_movil;?>" placeholder="Ingrese el Número Celular" class="campoTexto" required />
             <label>Plantel Procedencia:</label>
             <input tabindex=13 title="Ingrese un plantel de procedencia" onKeyUp="this.value=this.value.toUpperCase()" name="plantel_procedencia" id="plantel_procedencia" type="text" size="50" value="<?= $plantel_procedencia;?>" placeholder="Ingrese un plantel de procedencia" class="campoTexto" />
-            <label>Talla:</label>
-            <select tabindex=15 name="talla" id="talla" title="Seleccione una Talla" class='lista' required >
-              <option value="">Selecione una opción</option>
-              <option value="S" <?php if($talla=="S"){ echo "selected";}?>>Pequeña (S)</option>
-              <option value="M" <?php if($talla=="M"){ echo "selected";}?>>Mediana (M)</option>
-              <option value="L" <?php if($talla=="L"){ echo "selected";}?>>Larga (L)</option>
-              <option value="XL" <?php if($talla=="XL"){ echo "selected";}?>>Extra Larga (XL)</option>
-            </select>
             <label>Parentesco:</label>
-            <input tabindex=17 onKeyUp="this.value=this.value.toUpperCase()" title="Ingrese el parentesco del representante" name="codigo_parentesco" id="codigo_parentesco" type="text" size="10" value="<?= $codigo_parentesco;?>" placeholder="Ingrese el parentesco del representante" class="campoTexto" required />
+            <input tabindex=15 onKeyUp="this.value=this.value.toUpperCase()" title="Ingrese el parentesco del representante" name="codigo_parentesco" id="codigo_parentesco" type="text" size="10" value="<?= $codigo_parentesco;?>" placeholder="Ingrese el parentesco del representante" class="campoTexto" required />
           </div> 
         </div>    
           <strong class="obligatorio">Los campos resaltados en rojo son obligatorios</strong>
       </div>    
       <br><br>
-      <?php echo '<tr><td colspan="2" class="'.$estatus.'" id="estatus_registro">'.$estatus.'</td></tr>'; ?>
-      <?php
+      <?php echo '<p class="'.$estatus.'" id="estatus_registro">'.$estatus.'</p>';
         imprimir_boton($disabledRC,$disabledMD,$estatus,$servicios);
       ?>
     </fieldset>
@@ -171,7 +156,7 @@ else{
       @include("../librerias/paginador/paginator.inc.php"); 
       //Leemos y escribimos los registros de la página actual 
       while($row = mysql_fetch_array($_pagi_result)){ 
-      echo "<tr>
+      echo "<tr style='cursor: pointer;' id='".$row['cedula']."' onclick='enviarForm(this.id)'>
         <td style='width:10%;'>".$row['cedula']."</td>
         <td align='left'>".$row['nomape']."</td>
         <td align='left'>".$row['genero']."</td>
@@ -182,6 +167,16 @@ else{
       //Incluimos la barra de navegación 
     ?>
   </table>
+<script type="text/javascript">
+function enviarForm(value){
+  document.getElementById('campo_oculto').value=value;
+  document.getElementById('form1').submit();
+}
+</script>
+<form id="form1" method="POST" action="../controladores/cont_estudiante.php">
+  <input type="hidden" name="cedula" id="campo_oculto" value="" />
+  <input type="hidden" name="operacion" id="operacion" value="Consultar" />
+</form>
   <div class="pagination">
     <ul>
       <?php echo"<li>".$_pagi_navegacion."</li>";?>

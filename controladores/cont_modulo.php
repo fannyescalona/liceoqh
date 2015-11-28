@@ -42,7 +42,7 @@ if($operacion=='Registrar'){
     $_SESSION['datos']['mensaje']="El módulo ha sido registrado con éxito !";
     header("Location: ../vistas/?modulo");
   }else {
-    $_SESSION['datos']['mensaje']="Se presentó un error al registrar el módulo.";
+    $_SESSION['datos']['mensaje']="Se presentó un error al registrar el módulo.<br><b>Error: ".utf8_encode($modulo->error())."</b>";
     header("Location: ../vistas/?modulo");
   }
 }
@@ -60,7 +60,7 @@ if($operacion=='Modificar'){
     $_SESSION['datos']['mensaje']="El módulo ha sido modificado con éxito !";
     header("Location: ../vistas/?modulo");
   }else{
-    $_SESSION['datos']['mensaje']="Error al modificar el módulo.";
+    $_SESSION['datos']['mensaje']="Se presentó un error al modificar el módulo.<br><b>Error: ".utf8_encode($modulo->error())."</b>";
     header("Location: ../vistas/?modulo");
   }
 }
@@ -80,7 +80,7 @@ if($operacion=='Desactivar'){
     $_SESSION['datos']['mensaje']="El módulo ha sido desactivado con éxito !";
     header("Location: ../vistas/?modulo");
   }else{
-    $_SESSION['datos']['mensaje']="Problema al desactivar el módulo.";
+    $_SESSION['datos']['mensaje']="Se presentó un error al desactivar el módulo.<br><b>Error: ".utf8_encode($modulo->error())."</b>";
     header("Location: ../vistas/?modulo");
   }
 }
@@ -101,7 +101,7 @@ if($operacion=='Activar'){
     $_SESSION['datos']['mensaje']="El módulo ha sido desactivado con éxito !";
     header("Location: ../vistas/?modulo");
   }else{
-    $_SESSION['datos']['mensaje']="Problema al desactivar el módulo.";
+    $_SESSION['datos']['mensaje']="Se presentó un error al desactivar el módulo.<br><b>Error: ".utf8_encode($modulo->error())."</b>";
     header("Location: ../vistas/?modulo");
   }
 }
@@ -119,7 +119,12 @@ if($operacion=='Consultar'){
     $_SESSION['datos']['estatus']=$modulo->estatus();
     header("Location: ../vistas/?modulo");
   }else{
-    $_SESSION['datos']['mensaje']="No se han encontrado resultados para tu búsqueda(".$descripcion.")";
+    $error="";
+    if($modulo->error()!=null)
+      $error="Se presentó un error al realizar la búsqueda.<br><b>Error: ".utf8_encode($modulo->error())."</b>";
+    else 
+      $error="No se han encontrado resultados para tu búsqueda(".$codigo_modulo.")";
+    $_SESSION['datos']['mensaje']=$error;
     header("Location: ../vistas/?modulo");
   }                              
 }		  

@@ -28,10 +28,10 @@ if($operacion=='Registrar'){
     }
   }
   if($confirmacion==1){
-    $_SESSION['datos']['mensaje']=utf8_decode("El cargo ha sido registrado con éxito !");
+    $_SESSION['datos']['mensaje']="El cargo ha sido registrado con éxito !";
     header("Location: ../vistas/?cargo");
   }else{
-    $_SESSION['datos']['mensaje']=utf8_decode("Se presentó un error al registrar el cargo.");
+    $_SESSION['datos']['mensaje']="Se presentó un error al registrar el cargo.<br><b>Error: ".utf8_encode($cargo->error())."</b>";
     header("Location: ../vistas/?cargo");
   }
 }
@@ -44,10 +44,10 @@ if($operacion=='Modificar'){
     else
     $confirmacion=-1;
   if($confirmacion==1){
-    $_SESSION['datos']['mensaje']=utf8_decode("El cargo ha sido modificado con éxito !");
+    $_SESSION['datos']['mensaje']="El cargo ha sido modificado con éxito !";
     header("Location: ../vistas/?cargo");
   }else{
-    $_SESSION['datos']['mensaje']=utf8_decode("Problema al modificar el cargo.");
+    $_SESSION['datos']['mensaje']="Problema al modificar el cargo.<br><b>Error: ".utf8_encode($cargo->error())."</b>";
     header("Location: ../vistas/?cargo");
   }
 }
@@ -64,10 +64,10 @@ if($operacion=='Desactivar'){
     $confirmacion=0;
   }
   if($confirmacion==1){
-    $_SESSION['datos']['mensaje']=utf8_decode("El cargo ha sido desactivado con éxito");
+    $_SESSION['datos']['mensaje']="El cargo ha sido desactivado con éxito";
     header("Location: ../vistas/?cargo");
   }else{
-    $_SESSION['datos']['mensaje']=utf8_decode("Problema al desactivar el cargo.");
+    $_SESSION['datos']['mensaje']="Problema al desactivar el cargo.<br><b>Error: ".utf8_encode($cargo->error())."</b>";
     header("Location: ../vistas/?cargo");
   }
 }
@@ -85,10 +85,10 @@ if($operacion=='Activar'){
     $confirmacion=0;
   }
   if($confirmacion==1){
-    $_SESSION['datos']['mensaje']=utf8_decode("El cargo ha sido desactivado con éxito");
+    $_SESSION['datos']['mensaje']="El cargo ha sido desactivado con éxito";
     header("Location: ../vistas/?cargo");
   }else{
-    $_SESSION['datos']['mensaje']=utf8_decode("Problema al desactivar el cargo.");
+    $_SESSION['datos']['mensaje']="Problema al desactivar el cargo.<br><b>Error: ".utf8_encode($cargo->error())."</b>";
     header("Location: ../vistas/?cargo");
   }
 }
@@ -102,7 +102,12 @@ if($operacion=='Consultar'){
     $_SESSION['datos']['estatus']=$cargo->estatus_cargo();
     header("Location: ../vistas/?cargo");
   }else{
-    $_SESSION['datos']['mensaje']=utf8_decode("No se han encontrado resultados para tu búsqueda(".$descripcion.")");
+    $error="";
+    if($cargo->error()!=null)
+      $error="Se presentó un error al realizar la búsqueda.<br><b>Error: ".utf8_encode($cargo->error())."</b>";
+    else 
+      $error="No se han encontrado resultados para tu búsqueda(".$descripcion.")";
+    $_SESSION['datos']['mensaje']=$error;
     header("Location: ../vistas/?cargo");
   }
 }

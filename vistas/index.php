@@ -146,7 +146,7 @@ if(isset($_SESSION['user_estado'])){
       </div>
       <?php
       if(isset($_SESSION['datos']['mensaje'])){
-        echo "<script>alert('".$_SESSION['datos']['mensaje']."')</script>";	
+        echo '<script>alert("'.$_SESSION['datos']['mensaje'].'");</script>';	
       }
       if(isset($_SESSION['datos']))
         unset($_SESSION['datos']);	

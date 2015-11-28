@@ -40,7 +40,7 @@ if($operacion=='Registrar'){
     $_SESSION['datos']['mensaje']="El estado ha sido registrado con éxito !";
     header("Location: ../vistas/?estado");
    }else{
-    $_SESSION['datos']['mensaje']="Se presentó un error al registrar el estado.";
+    $_SESSION['datos']['mensaje']="Se presentó un error al registrar el estado.<br><b>Error: ".utf8_encode($estado->error())."</b>";
     header("Location: ../vistas/?estado");
   }
 }
@@ -57,7 +57,7 @@ if($operacion=='Modificar'){
     $_SESSION['datos']['mensaje']="El estado ha sido modificado con éxito !";
     header("Location: ../vistas/?estado");
   }else{
-    $_SESSION['datos']['mensaje']="Problema al modificar el estado.";
+    $_SESSION['datos']['mensaje']="Problema al modificar el estado.<br><b>Error: ".utf8_encode($estado->error())."</b>";
     header("Location: ../vistas/?estado");
   }
 }
@@ -78,7 +78,7 @@ if($operacion=='Desactivar'){
     $_SESSION['datos']['mensaje']="El estado ha sido desactivado con éxito";
     header("Location: ../vistas/?estado");
   }else{
-    $_SESSION['datos']['mensaje']="Problema al desactivar el estado.";
+    $_SESSION['datos']['mensaje']="Problema al desactivar el estado.<br><b>Error: ".utf8_encode($estado->error())."</b>";
     header("Location: ../vistas/?estado");
   }
 }
@@ -100,7 +100,7 @@ if($operacion=='Activar'){
     $_SESSION['datos']['mensaje']="El estado ha sido desactivado con éxito";
     header("Location: ../vistas/?estado");
   }else{
-    $_SESSION['datos']['mensaje']="Problema al desactivar el estado.";
+    $_SESSION['datos']['mensaje']="Problema al desactivar el estado.<br><b>Error: ".utf8_encode($estado->error())."</b>";
     header("Location: ../vistas/?estado");
   }
 }
@@ -115,7 +115,12 @@ if($operacion=='Consultar'){
     $_SESSION['datos']['estatus']=$estado->estatus_estado();
     header("Location: ../vistas/?estado");
   }else{
-    $_SESSION['datos']['mensaje']=utf8_encode("No se han encontrado resultados para tu búsqueda(".$descripcion.")");
+    $error="";
+    if($estado->error()!=null)
+      $error="Se presentó un error al realizar la búsqueda.<br><b>Error: ".utf8_encode($estado->error())."</b>";
+    else 
+      $error="No se han encontrado resultados para tu búsqueda(".$descripcion.")";
+    $_SESSION['datos']['mensaje']=$error;
     header("Location: ../vistas/?estado");
   }
 }    

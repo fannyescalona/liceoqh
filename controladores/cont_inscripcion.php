@@ -46,7 +46,7 @@ if($operacion=='Registrar'){
     $_SESSION['datos']['mensaje']="El Período de Inscripción ha sido registrado con éxito !";
     header("Location: ../vistas/?inscripcion");
    }else{
-    $_SESSION['datos']['mensaje']="Se presentó un error al registrar El Período de Inscripción.";
+    $_SESSION['datos']['mensaje']="Se presentó un error al registrar El Período de Inscripción.<br><b>Error: ".utf8_encode($inscripcion->error())."</b>";
     header("Location: ../vistas/?inscripcion");
   }
 }
@@ -65,7 +65,7 @@ if($operacion=='Modificar'){
     $_SESSION['datos']['mensaje']="El Período de Inscripción ha sido modificado con éxito !";
     header("Location: ../vistas/?inscripcion");
   }else{
-    $_SESSION['datos']['mensaje']="Problema al modificar El Período de Inscripción.";
+    $_SESSION['datos']['mensaje']="Problema al modificar El Período de Inscripción.<br><b>Error: ".utf8_encode($inscripcion->error())."</b>";
     header("Location: ../vistas/?inscripcion");
   }
 }
@@ -84,7 +84,7 @@ if($operacion=='Desactivar'){
     $_SESSION['datos']['mensaje']="El Período de Inscripción ha sido desactivado con éxito";
     header("Location: ../vistas/?inscripcion");
   }else{
-    $_SESSION['datos']['mensaje']="Problema al desactivar El Período de Inscripción.";
+    $_SESSION['datos']['mensaje']="Problema al desactivar El Período de Inscripción.<br><b>Error: ".utf8_encode($inscripcion->error())."</b>";
     header("Location: ../vistas/?inscripcion");
   }
 }
@@ -103,7 +103,7 @@ if($operacion=='Activar'){
     $_SESSION['datos']['mensaje']="El Período de Inscripción ha sido desactivado con éxito";
     header("Location: ../vistas/?inscripcion");
   }else{
-    $_SESSION['datos']['mensaje']="Problema al desactivar El Período de Inscripción.";
+    $_SESSION['datos']['mensaje']="Problema al desactivar El Período de Inscripción.<br><b>Error: ".utf8_encode($inscripcion->error())."</b>";
     header("Location: ../vistas/?inscripcion");
   }
 }
@@ -113,13 +113,19 @@ if($operacion=='Consultar'){
   $inscripcion->descripcion($descripcion);
   if($inscripcion->Consultar()){
     $_SESSION['datos']['codigo_inscripcion']=$inscripcion->codigo_inscripcion();
+    $_SESSION['datos']['descripcion']=$inscripcion->descripcion();
     $_SESSION['datos']['fecha_inicio']=$inscripcion->fecha_inicio();
     $_SESSION['datos']['fecha_fin']=$inscripcion->fecha_fin();
     $_SESSION['datos']['fecha_cierre']=$inscripcion->fecha_cierre();
     $_SESSION['datos']['estatus']=$inscripcion->estatus();
     header("Location: ../vistas/?inscripcion");
   }else{
-    $_SESSION['datos']['mensaje']=utf8_encode("No se han encontrado resultados para tu búsqueda(".$descripcion.")");
+    $error="";
+    if($inscripcion->error()!=null)
+      $error="Se presentó un error al realizar la búsqueda.<br><b>Error: ".utf8_encode($inscripcion->error())."</b>";
+    else 
+      $error="No se han encontrado resultados para tu búsqueda(".$descripcion.")";
+    $_SESSION['datos']['mensaje']=$error;
     header("Location: ../vistas/?inscripcion");
   }
 }    

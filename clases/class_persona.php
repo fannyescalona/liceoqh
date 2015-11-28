@@ -21,6 +21,8 @@ class Persona {
   private $nivel_academico; 
   private $carga_horaria; 
   private $codigo_plantel; 
+  private $peso; 
+  private $estatura; 
   private $fecha_desactivacion; 
   private $estatus; 
   private $error; 
@@ -47,6 +49,8 @@ class Persona {
     $this->nivel_academico=null;
     $this->carga_horaria=null;
     $this->codigo_plantel=null;
+    $this->peso=null;
+    $this->estatura=null;
     $this->mysql=new Conexion();
   }
 
@@ -283,12 +287,12 @@ class Persona {
     }
   }
 
-  public function talla(){
+  public function estatura(){
     $Num_Parametro=func_num_args();
-    if($Num_Parametro==0) return $this->talla;
+    if($Num_Parametro==0) return $this->estatura;
 
     if($Num_Parametro>0){
-      $this->talla=func_get_arg(0);
+      $this->estatura=func_get_arg(0);
     }
   }
 
@@ -330,23 +334,22 @@ class Persona {
 
   public function Registrar(){
     if($this->espersonalinstitucion=="Y"){
-      $sql="INSERT INTO tpersona (cedula,nombres,apellidos,genero,fecha_nacimiento,lugar_nacimiento,direccion,telefono_habitacion,telefono_movil,
-      email,esestudiante,esrepresentante,espersonalinstitucion,fecha_ingreso,codigo_cargo,codigo_dependencia,condicion_cargo,nivel_academico,carga_horaria,codigo_plantel) 
-      VALUES ('$this->cedula','$this->nombres','$this->apellidos','$this->genero',STR_TO_DATE('$this->fecha_nacimiento','%d/%m/%Y'),'$this->lugar_nacimiento',
-      '$this->direccion','$this->telefono_habitacion','$this->telefono_movil','$this->email','$this->esestudiante','$this->esrepresentante','$this->espersonalinstitucion',
-      STR_TO_DATE('$this->fecha_ingreso','%d/%m/%Y'),$this->codigo_cargo,'$this->codigo_dependencia','$this->condicion_cargo','$this->nivel_academico','$this->carga_horaria','$this->codigo_plantel');"; 
+      $sql="INSERT INTO tpersona (cedula,nombres,apellidos,genero,fecha_nacimiento,lugar_nacimiento,direccion,telefono_habitacion,telefono_movil,";
+      $sql.="email,esestudiante,esrepresentante,espersonalinstitucion,fecha_ingreso,codigo_cargo,codigo_dependencia,condicion_cargo,nivel_academico,carga_horaria,codigo_plantel) ";
+      $sql.="VALUES ('$this->cedula','$this->nombres','$this->apellidos','$this->genero',STR_TO_DATE('$this->fecha_nacimiento','%d/%m/%Y'),'$this->lugar_nacimiento',";
+      $sql.="'$this->direccion','$this->telefono_habitacion','$this->telefono_movil','$this->email','$this->esestudiante','$this->esrepresentante','$this->espersonalinstitucion',";
+      $sql.="STR_TO_DATE('$this->fecha_ingreso','%d/%m/%Y'),$this->codigo_cargo,'$this->codigo_dependencia','$this->condicion_cargo','$this->nivel_academico','$this->carga_horaria','$this->codigo_plantel');"; 
     }
     else{
-      $sql="INSERT INTO tpersona (cedula,nombres,apellidos,genero,fecha_nacimiento,lugar_nacimiento,direccion,telefono_habitacion,telefono_movil,
-      email,esestudiante,esrepresentante,fecha_ingreso,codigo_cargo,codigo_dependencia,condicion_cargo,nivel_academico,carga_horaria,codigo_plantel) 
-      VALUES ('$this->cedula','$this->nombres','$this->apellidos','$this->genero',STR_TO_DATE('$this->fecha_nacimiento','%d/%m/%Y'),'$this->lugar_nacimiento',
-      '$this->direccion','$this->telefono_habitacion','$this->telefono_movil','$this->email','$this->esestudiante','$this->esrepresentante',
-      NULL,NULL,NULL,NULL,NULL,NULL,NULL);";
+      $sql="INSERT INTO tpersona (cedula,nombres,apellidos,genero,fecha_nacimiento,lugar_nacimiento,direccion,telefono_habitacion,telefono_movil,email,esestudiante,esrepresentante,";
+      $sql.="fecha_ingreso,codigo_cargo,codigo_dependencia,condicion_cargo,nivel_academico,carga_horaria,codigo_plantel) VALUES ('$this->cedula','$this->nombres','$this->apellidos',";
+      $sql.="'$this->genero',STR_TO_DATE('$this->fecha_nacimiento','%d/%m/%Y'),'$this->lugar_nacimiento','$this->direccion','$this->telefono_habitacion','$this->telefono_movil','$this->email',";
+      $sql.="'$this->esestudiante','$this->esrepresentante',NULL,NULL,NULL,NULL,NULL,NULL,NULL);";
     }
     if($this->mysql->Ejecutar($sql)!=null)
       return true;
     else{
-      $this->error(mysql_error());
+      $this->error($this->mysql->Error());
       return false;
     } 
   }
@@ -356,7 +359,7 @@ class Persona {
     if($this->mysql->Ejecutar($sql)!=null)
       return true;
     else{
-      $this->error(mysql_error());
+      $this->error($this->mysql->Error());
       return false;
     } 
   }
@@ -366,43 +369,43 @@ class Persona {
     if($this->mysql->Ejecutar($sql)!=null)
       return true;
     else{
-      $this->error(mysql_error());
+      $this->error($this->mysql->Error());
       return false;
     } 
   }
 
   public function Actualizar(){
     if($this->espersonalinstitucion=="Y"){
-      $sql="UPDATE tpersona SET nombres='$this->nombres',apellidos='$this->apellidos',genero='$this->genero',
-      fecha_nacimiento=STR_TO_DATE('$this->fecha_nacimiento','%d/%m/%Y'),lugar_nacimiento='$this->lugar_nacimiento',direccion='$this->direccion',telefono_habitacion='$this->telefono_habitacion',
-      telefono_movil='$this->telefono_movil',email='$this->email',esestudiante='$this->esestudiante',esrepresentante='$this->esrepresentante',
-      espersonalinstitucion='$this->espersonalinstitucion',codigo_cargo=$this->codigo_cargo,fecha_ingreso=STR_TO_DATE('$this->fecha_ingreso','%d/%m/%Y'),
-      codigo_dependencia='$this->codigo_dependencia',condicion_cargo='$this->condicion_cargo',nivel_academico='$this->nivel_academico',
-      carga_horaria='$this->carga_horaria',codigo_plantel='$this->codigo_plantel' 
-      WHERE cedula='$this->cedula';";
+      $sql="UPDATE tpersona SET nombres='$this->nombres',apellidos='$this->apellidos',genero='$this->genero',";
+      $sql.="fecha_nacimiento=STR_TO_DATE('$this->fecha_nacimiento','%d/%m/%Y'),lugar_nacimiento='$this->lugar_nacimiento',direccion='$this->direccion',telefono_habitacion='$this->telefono_habitacion',";
+      $sql.="telefono_movil='$this->telefono_movil',email='$this->email',esestudiante='$this->esestudiante',esrepresentante='$this->esrepresentante',";
+      $sql.="espersonalinstitucion='$this->espersonalinstitucion',codigo_cargo=$this->codigo_cargo,fecha_ingreso=STR_TO_DATE('$this->fecha_ingreso','%d/%m/%Y'),";
+      $sql.="codigo_dependencia='$this->codigo_dependencia',condicion_cargo='$this->condicion_cargo',nivel_academico='$this->nivel_academico',";
+      $sql.="carga_horaria='$this->carga_horaria',codigo_plantel='$this->codigo_plantel' ";
+      $sql.="WHERE cedula='$this->cedula';";
     }else{
-      $sql="UPDATE tpersona SET nombres='$this->nombres',apellidos='$this->apellidos',genero='$this->genero',
-      fecha_nacimiento=STR_TO_DATE('$this->fecha_nacimiento','%d/%m/%Y'),lugar_nacimiento='$this->lugar_nacimiento',direccion='$this->direccion',telefono_habitacion='$this->telefono_habitacion',
-      telefono_movil='$this->telefono_movil',email='$this->email',esestudiante='$this->esestudiante',esrepresentante='$this->esrepresentante' 
-      WHERE cedula='$this->cedula';";
+      $sql="UPDATE tpersona SET nombres='$this->nombres',apellidos='$this->apellidos',genero='$this->genero',";
+      $sql.="fecha_nacimiento=STR_TO_DATE('$this->fecha_nacimiento','%d/%m/%Y'),lugar_nacimiento='$this->lugar_nacimiento',direccion='$this->direccion',telefono_habitacion='$this->telefono_habitacion',";
+      $sql.="telefono_movil='$this->telefono_movil',email='$this->email',esestudiante='$this->esestudiante',esrepresentante='$this->esrepresentante' ";
+      $sql.="WHERE cedula='$this->cedula';";
     }
     if($this->mysql->Ejecutar($sql)!=null)
       return true;
     else{
-      $this->error(mysql_error());
+      $this->error($this->mysql->Error());
       return false;
     } 
   }
 
   public function Consultar(){
-    $sql="SELECT p.cedula,p.nombres,p.apellidos,p.genero,date_format(p.fecha_nacimiento,'%d/%m/%Y') AS fecha_nacimiento, 
-    CONCAT(p.lugar_nacimiento,'_',par.descripcion) AS lugar_nacimiento,p.direccion,p.telefono_habitacion,p.telefono_movil,
-    p.email, p.esestudiante,p.esrepresentante,p.espersonalinstitucion,(CASE WHEN p.fecha_desactivacion IS NULL THEN 'Activo' ELSE 'Desactivado' END) AS estatus,
-    date_format(p.fecha_ingreso,'%d/%m/%Y') AS fecha_ingreso,p.codigo_cargo,p.codigo_dependencia,p.condicion_cargo,
-    p.nivel_academico,p.carga_horaria,p.codigo_plantel 
-    FROM tpersona p 
-    INNER JOIN tparroquia par ON p.lugar_nacimiento = par.codigo_parroquia 
-    WHERE p.cedula='$this->cedula' AND p.esestudiante='N'";
+    $sql="SELECT p.cedula,p.nombres,p.apellidos,p.genero,date_format(p.fecha_nacimiento,'%d/%m/%Y') AS fecha_nacimiento, ";
+    $sql.="CONCAT(p.lugar_nacimiento,'_',par.descripcion) AS lugar_nacimiento,p.direccion,p.telefono_habitacion,p.telefono_movil,";
+    $sql.="p.email, p.esestudiante,p.esrepresentante,p.espersonalinstitucion,(CASE WHEN p.fecha_desactivacion IS NULL THEN 'Activo' ELSE 'Desactivado' END) AS estatus,";
+    $sql.="date_format(p.fecha_ingreso,'%d/%m/%Y') AS fecha_ingreso,p.codigo_cargo,p.codigo_dependencia,p.condicion_cargo,";
+    $sql.="p.nivel_academico,p.carga_horaria,p.codigo_plantel ";
+    $sql.="FROM tpersona p ";
+    $sql.="INNER JOIN tparroquia par ON p.lugar_nacimiento = par.codigo_parroquia ";
+    $sql.="WHERE p.cedula='$this->cedula' AND p.esestudiante='N'";
     $query=$this->mysql->Ejecutar($sql);
     if($this->mysql->Total_Filas($query)!=0){
       $tpersona=$this->mysql->Respuesta($query);
@@ -430,7 +433,7 @@ class Persona {
       return true;
     }
     else{
-      $this->error(mysql_error());
+      $this->error($this->mysql->Error());
       return false;
     } 
   }
@@ -469,10 +472,11 @@ class Persona {
       $this->codigo_plantel($tpersona['codigo_plantel']);
       $this->fecha_desactivacion($tpersona['fecha_desactivacion']);
       $this->estatus($tpersona['estatus']);
+      $this->error("El registro ya existe !");
       return true;
     }
     else{
-      $this->error(mysql_error());
+      $this->error($this->mysql->Error()); 
       return false;
     } 
   }
@@ -499,20 +503,20 @@ class Persona {
   }
 
   public function ConsultarEstudiante(){
-    $sql="SELECT p.cedula,p.nombres,p.apellidos,p.genero,date_format(p.fecha_nacimiento,'%d/%m/%Y') AS fecha_nacimiento, 
-    CONCAT(p.lugar_nacimiento,'_',par.descripcion) AS lugar_nacimiento,p.direccion,p.telefono_habitacion,p.telefono_movil,
-    p.email,(CASE WHEN p.fecha_desactivacion IS NULL THEN 'Activo' ELSE 'Desactivado' END) AS estatus,
-    CONCAT(pi.cedula_docente,'_',d.nombres,' ',d.apellidos) AS cedula_docente,CONCAT(pi.seccion,'_',s.descripcion) AS seccion,
-    CONCAT(pi.cedula_representante,'_',r.nombres,' ',r.apellidos) AS cedula_representante,
-    CONCAT(pi.codigo_parentesco,'_',parent.descripcion) AS codigo_parentesco,pi.peso,pi.talla,pi.plantel_procedencia 
-    FROM tpersona p 
-    INNER JOIN tproceso_inscripcion pi ON p.cedula = pi.cedula_estudiante 
-    INNER JOIN tparroquia par ON p.lugar_nacimiento = par.codigo_parroquia 
-    LEFT JOIN tpersona d ON pi.cedula_docente = d.cedula 
-    LEFT JOIN tseccion s ON pi.seccion = s.seccion 
-    LEFT JOIN tpersona r ON pi.cedula_representante = r.cedula 
-    LEFT JOIN tparentesco parent ON pi.codigo_parentesco = parent.codigo_parentesco 
-    WHERE p.cedula='$this->cedula'";
+    $sql="SELECT p.cedula,p.nombres,p.apellidos,p.genero,date_format(p.fecha_nacimiento,'%d/%m/%Y') AS fecha_nacimiento,";
+    $sql.="CONCAT(p.lugar_nacimiento,'_',par.descripcion) AS lugar_nacimiento,p.direccion,p.telefono_habitacion,p.telefono_movil,";
+    $sql.="p.email,(CASE WHEN p.fecha_desactivacion IS NULL THEN 'Activo' ELSE 'Desactivado' END) AS estatus,";
+    $sql.="CONCAT(pi.cedula_docente,'_',d.nombres,' ',d.apellidos) AS cedula_docente,CONCAT(pi.seccion,'_',s.descripcion) AS seccion,";
+    $sql.="CONCAT(pi.cedula_representante,'_',r.nombres,' ',r.apellidos) AS cedula_representante,";
+    $sql.="CONCAT(pi.codigo_parentesco,'_',parent.descripcion) AS codigo_parentesco,pi.peso,pi.estatura,pi.plantel_procedencia ";
+    $sql.="FROM tpersona p ";
+    $sql.="INNER JOIN tproceso_inscripcion pi ON p.cedula = pi.cedula_estudiante ";
+    $sql.="INNER JOIN tparroquia par ON p.lugar_nacimiento = par.codigo_parroquia ";
+    $sql.="LEFT JOIN tpersona d ON pi.cedula_docente = d.cedula ";
+    $sql.="LEFT JOIN tseccion s ON pi.seccion = s.seccion ";
+    $sql.="LEFT JOIN tpersona r ON pi.cedula_representante = r.cedula ";
+    $sql.="LEFT JOIN tparentesco parent ON pi.codigo_parentesco = parent.codigo_parentesco ";
+    $sql.="WHERE p.cedula='$this->cedula'";
     $query=$this->mysql->Ejecutar($sql);
     if($this->mysql->Total_Filas($query)!=0){
       $tpersona=$this->mysql->Respuesta($query);
@@ -530,14 +534,14 @@ class Persona {
       $this->email($tpersona['email']);
       $this->plantel_procedencia($tpersona['plantel_procedencia']);
       $this->peso($tpersona['peso']);
-      $this->talla($tpersona['talla']);
+      $this->estatura($tpersona['estatura']);
       $this->cedula_representante($tpersona['cedula_representante']);
       $this->codigo_parentesco($tpersona['codigo_parentesco']);
       $this->estatus($tpersona['estatus']);
       return true;
     }
     else{
-      $this->error(mysql_error());
+      $this->error($this->mysql->Error());
       return false;
     } 
   }

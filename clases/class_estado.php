@@ -6,13 +6,15 @@
      private $descripcion; 
      private $codigo_pais;
      private $estatus_estado; 
-     private $fecha_desactivacion; 
+     private $fecha_desactivacion;  
+     private $error; 
      private $mysql; 
 	 
    public function __construct(){
      $this->descripcion=null;
      $this->codigo_estado=null;
      $this->codigo_pais=null;
+     $this->error=null;
 	 $this->mysql=new Conexion();
    }
    
@@ -69,36 +71,52 @@
 	 }
    }
    
+   public function error(){
+      $Num_Parametro=func_num_args();
+	 if($Num_Parametro==0) return $this->error;
+     
+	 if($Num_Parametro>0){
+	   $this->error=func_get_arg(0);
+	 }
+   }         
 
    public function Registrar(){
     $sql="insert into testado (descripcion,codigo_pais) values ('$this->descripcion','$this->codigo_pais');";
     if($this->mysql->Ejecutar($sql)!=null)
 	return true;
-	else
-	return false;
+	else{
+		$this->error($this->mysql->Error());
+		return false;
+	}
    }
    
      public function Activar(){
     $sql="update testado set fecha_desactivacion=NULL where (codigo_estado='$this->codigo_estado');";
     if($this->mysql->Ejecutar($sql)!=null)
 	return true;
-	else
-	return false;
+	else{
+		$this->error($this->mysql->Error());
+		return false;
+	}
    }
     public function Desactivar(){
     $sql="update testado set fecha_desactivacion=CURDATE() where (codigo_estado='$this->codigo_estado');";
     if($this->mysql->Ejecutar($sql)!=null)
 	return true;
-	else
-	return false;
+	else{
+		$this->error($this->mysql->Error());
+		return false;
+	}
    }
    
     public function Actualizar(){
     $sql="update testado set descripcion='$this->descripcion',codigo_pais='$this->codigo_pais' where (codigo_estado='$this->codigo_estado');";
     if($this->mysql->Ejecutar($sql)!=null)
 	return true;
-	else
-	return false;
+	else{
+		$this->error($this->mysql->Error());
+		return false;
+	}
    }
    
    public function Consultar(){
@@ -116,7 +134,8 @@
 	return true;
 	}
 	else{
-	return false;
+		$this->error($this->mysql->Error());
+		return false;
 	}
    }
    public function Comprobar(){
@@ -128,10 +147,12 @@
 	$this->descripcion($testado['descripcion']);
 	$this->codigo_pais($testado['codigo_pais']);
 	$this->fecha_desactivacion($testado['fecha_desactivacion']);
+	$this->error("El registro ya existe !");
 	return true;
 	}
 	else{
-	return false;
+		$this->error($this->mysql->Error());
+		return false;
 	}
    }
 }

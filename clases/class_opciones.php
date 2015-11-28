@@ -8,6 +8,7 @@
      private $orden; 
      private $estatus_opciones; 
      private $fecha_desactivacion; 
+     private $error;
      private $mysql; 
 	 
    public function __construct(){
@@ -15,6 +16,7 @@
      $this->codigo_opcion=null;
      $this->icono=null;
      $this->orden=null;
+     $this->error=null;
 	 $this->mysql=new Conexion();
    }
    
@@ -78,43 +80,56 @@
 	 }
    }
    
+   public function error(){
+      $Num_Parametro=func_num_args();
+	 if($Num_Parametro==0) return $this->error;
+     
+	 if($Num_Parametro>0){
+	   $this->error=func_get_arg(0);
+	 }
+   }   
 
    public function Registrar(){
     $sql="insert into topcion (descripcion,icono,orden) values ('$this->descripcion','$this->icono',$this->orden);";
     if($this->mysql->Ejecutar($sql)!=null)
 	return true;
-	else
-	return false;
+	else{
+		$this->error($this->mysql->Error());
+		return false;
+	}
    }
    
      public function Activar(){
     $sql="update topcion set fecha_desactivacion=NULL where (codigo_opcion='$this->codigo_opcion');";
     if($this->mysql->Ejecutar($sql)!=null)
 	return true;
-	else
-	return false;
+	else{
+		$this->error($this->mysql->Error());
+		return false;
+	}
    }
     public function Desactivar(){
     $sql="update topcion set fecha_desactivacion=CURDATE() where (codigo_opcion='$this->codigo_opcion');";
     if($this->mysql->Ejecutar($sql)!=null)
 	return true;
-	else
-	return false;
+	else{
+		$this->error($this->mysql->Error());
+		return false;
+	}
    }
    
     public function Actualizar(){
     $sql="update topcion set descripcion='$this->descripcion',icono='$this->icono',orden=$this->orden where (codigo_opcion='$this->codigo_opcion');";
     if($this->mysql->Ejecutar($sql)!=null)
 	return true;
-	else
-	return false;
+	else{
+		$this->error($this->mysql->Error());
+		return false;
+	}
    }
    
    public function Consultar(){
-    $sql="select *,
-    ( CASE 
-        WHEN fecha_desactivacion IS NULL THEN  'Activo'
-        ELSE 'Desactivado' END) AS estatus_opciones from topcion where descripcion='$this->descripcion'";
+    $sql="select *,(CASE WHEN fecha_desactivacion IS NULL THEN  'Activo' ELSE 'Desactivado' END) AS estatus_opciones from topcion where descripcion='$this->descripcion'";
 	$query=$this->mysql->Ejecutar($sql);
     if($this->mysql->Total_Filas($query)!=0){
 	$topcion=$this->mysql->Respuesta($query);
@@ -127,7 +142,8 @@
 	return true;
 	}
 	else{
-	return false;
+		$this->error($this->mysql->Error());
+		return false;
 	}
    }
    public function Comprobar(){
@@ -140,10 +156,12 @@
 	$this->icono($topcion['icono']);
    	$this->orden($topcion['orden']);
 	$this->fecha_desactivacion($topcion['fecha_desactivacion']);
+    $this->error("El registro ya existe !");
 	return true;
 	}
 	else{
-	return false;
+		$this->error($this->mysql->Error());
+		return false;
 	}
    }
 }

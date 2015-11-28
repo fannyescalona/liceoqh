@@ -46,7 +46,7 @@ if($operacion=='Registrar'){
     $_SESSION['datos']['mensaje']="El Lapso ha sido registrado con éxito !";
     header("Location: ../vistas/?lapso");
    }else{
-    $_SESSION['datos']['mensaje']="Se presentó un error al registrar el Lapso.";
+    $_SESSION['datos']['mensaje']="Se presentó un error al registrar el Lapso.<br><b>Error: ".utf8_encode($lapsos->error())."</b>";
     header("Location: ../vistas/?lapso");
   }
 }
@@ -65,7 +65,7 @@ if($operacion=='Modificar'){
     $_SESSION['datos']['mensaje']="El Lapso ha sido modificado con éxito !";
     header("Location: ../vistas/?lapso");
   }else{
-    $_SESSION['datos']['mensaje']="Problema al modificar el Lapso.";
+    $_SESSION['datos']['mensaje']="Se presentó un error al modificar el Lapso.<br><b>Error: ".utf8_encode($lapsos->error())."</b>";
     header("Location: ../vistas/?lapso");
   }
 }
@@ -86,7 +86,7 @@ if($operacion=='Desactivar'){
     $_SESSION['datos']['mensaje']="El Lapso ha sido desactivado con éxito";
     header("Location: ../vistas/?lapso");
   }else{
-    $_SESSION['datos']['mensaje']="Problema al desactivar el Lapso.";
+    $_SESSION['datos']['mensaje']="Se presentó un error al desactivar el Lapso.<br><b>Error: ".utf8_encode($lapsos->error())."</b>";
     header("Location: ../vistas/?lapso");
   }
 }
@@ -107,7 +107,7 @@ if($operacion=='Activar'){
     $_SESSION['datos']['mensaje']="El Lapso ha sido desactivado con éxito";
     header("Location: ../vistas/?lapso");
   }else{
-    $_SESSION['datos']['mensaje']="Problema al desactivar el Lapso.";
+    $_SESSION['datos']['mensaje']="Se presentó un error al desactivar el Lapso.<br><b>Error: ".utf8_encode($lapsos->error())."</b>";
     header("Location: ../vistas/?lapso");
   }
 }
@@ -125,7 +125,12 @@ if($operacion=='Consultar'){
     $_SESSION['datos']['estatus']=$lapsos->estatus();
     header("Location: ../vistas/?lapso");
   }else{
-    $_SESSION['datos']['mensaje']=utf8_encode("No se han encontrado resultados para tu búsqueda(".$descripcion.")");
+    $error="";
+    if($lapsos->error()!=null)
+      $error="Se presentó un error al realizar la búsqueda.<br><b>Error: ".utf8_encode($lapsos->error())."</b>";
+    else 
+      $error="No se han encontrado resultados para tu búsqueda(".$descripcion.")";
+    $_SESSION['datos']['mensaje']=$error;
     header("Location: ../vistas/?lapso");
   }
 }    

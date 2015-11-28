@@ -12,12 +12,14 @@ if(isset($_SESSION['datos'])){
   @$descripcion=$_SESSION['datos']['descripcion'];
   @$codigo_materia=$_SESSION['datos']['codigo_materia'];
   @$unidad_curricular=$_SESSION['datos']['unidad_curricular'];
+  @$grado_escolar=$_SESSION['datos']['grado_escolar'];
   @$estatus=$_SESSION['datos']['estatus'];
 }
 else{
   @$descripcion=null;
   @$codigo_materia=null;
   @$unidad_curricular=null;
+  @$grado_escolar=null;
   @$estatus=null;
 }
 ?>
@@ -27,7 +29,7 @@ else{
   <script src="../js/uds_materia.js"> </script>
   <form action="../controladores/cont_materia.php" method="post" id="form">
    <fieldset>
-    <legend>materia</legend>
+    <legend>Materia</legend>
     <div id="contenedorFormulario">
       <label>Código:</label>
       <input type="hidden" name="oldcodigo_materia" id="oldcodigo_materia" value="<?= $codigo_materia;?>">
@@ -36,6 +38,16 @@ else{
       <input title="Ingrese el nombre de la materia" onKeyUp="this.value=this.value.toUpperCase()" name="descripcion" id="descripcion" type="text" size="50" value="<?= $descripcion;?>" required placeholder="Ingrese el nombre de la materia" class="campoTexto"/>
       <label>Unidad curricular:</label>
       <input title="Ingrese la unidad curricular" onKeyUp="this.value=this.value.toUpperCase()" name="unidad_curricular" id="unidad_curricular" type="text" size="50" value="<?= $unidad_curricular;?>" required placeholder="Ingrese la unidad curricular" class="campoTexto"/>
+      <label>Grado Escolar:</label>
+      <select tabindex=4 name="grado_escolar" id="grado_escolar" title="Seleccione el Grado Escolar" class='lista' required >
+        <option value="">Selecione una opción</option>
+        <option value="1" <?php if($grado_escolar=="1"){ echo "selected";}?>>1er Año</option>
+        <option value="2" <?php if($grado_escolar=="2"){ echo "selected";}?>>2do Año</option>
+        <option value="3" <?php if($grado_escolar=="3"){ echo "selected";}?>>3er Año</option>
+        <option value="4" <?php if($grado_escolar=="4"){ echo "selected";}?>>4to Año</option>
+        <option value="5" <?php if($grado_escolar=="5"){ echo "selected";}?>>5to Año</option>
+        <option value="6" <?php if($grado_escolar=="6"){ echo "selected";}?>>6to Año</option>
+      </select>
       <strong class="obligatorio">Los campos resaltados en rojo son obligatorios</strong>
     </div>
     <br>
@@ -64,6 +76,7 @@ else{
        <td>Código </td>
        <td>Materia</td>
        <td>Unidad Curricular</td>
+       <td>Grado Escolar</td>
      </tr>
      <?php
 
@@ -71,7 +84,9 @@ else{
 require_once("../clases/class_bd.php");
 $mysql=new Conexion();
 //Sentencia sql (sin limit) 
-$_pagi_sql = "SELECT * FROM tmateria where fecha_desactivacion is null order by codigo_materia desc";
+$_pagi_sql = "SELECT codigo_materia,descripcion,unidad_curricular,
+CASE grado_escolar WHEN '1' THEN '1er Año' WHEN '2' THEN '2do Año' WHEN '3' THEN '3er Año' WHEN '4' THEN '4to Año' WHEN '5' THEN '5to Año' WHEN '6' THEN '6to Año' END AS grado_escolar
+FROM tmateria where fecha_desactivacion is null order by codigo_materia desc";
 //cantidad de resultados por página (opcional, por defecto 20) 
 $_pagi_cuantos = 10; 
 //Cadena que separa los enlaces numéricos en la barra de navegación entre páginas.
@@ -80,14 +95,28 @@ $_pagi_separador = " ";
 $_pagi_nav_num_enlaces=5;
 //Incluipos el script de paginación. Éste ya ejecuta la consulta automáticamente 
 @include("../librerias/paginador/paginator.inc.php"); 
-
 //Leemos y escribimos los registros de la página actual 
-     while($row = mysql_fetch_array($_pagi_result)){ 
-      echo "<tr><td style='width:20%;'>".$row['codigo_materia']."</td><td align='left'>".$row['descripcion']."</td><td align='left'>".$row['unidad_curricular']."</td></tr>"; 
-    } 
+    while($row = mysql_fetch_array($_pagi_result)){ 
+      echo "<tr style='cursor: pointer;' id='".$row['codigo_materia']."' onclick='enviarForm(this.id)'>
+      <td style='width:20%;'>".$row['codigo_materia']."</td>
+      <td align='left'>".$row['descripcion']."</td>
+      <td align='left'>".$row['unidad_curricular']."</td>
+      <td align='left'>".$row['grado_escolar']."</td>
+      </tr>"; 
+    }
 //Incluimos la barra de navegación 
     ?>
   </table>
+<script type="text/javascript">
+function enviarForm(value){
+  document.getElementById('campo_oculto').value=value;
+  document.getElementById('form1').submit();
+}
+</script>
+<form id="form1" method="POST" action="../controladores/cont_materia.php">
+  <input type="hidden" name="codigo_materia" id="campo_oculto" value="" />
+  <input type="hidden" name="operacion" id="operacion" value="Consultar" />
+</form>
   <div class="pagination">
    <ul>
      <?php echo"<li>".$_pagi_navegacion."</li>";?>

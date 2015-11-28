@@ -13,7 +13,7 @@ class Inscripcion {
   private $nombres; 
   private $apellidos;
   private $peso;
-  private $talla;
+  private $estatura;
   private $fecha_nacimiento;
   private $lugar_nacimiento;
   private $direccion;
@@ -243,12 +243,12 @@ class Inscripcion {
   }
   }
 
-  public function talla(){
+  public function estatura(){
   $Num_Parametro=func_num_args();
-  if($Num_Parametro==0) return $this->talla;
+  if($Num_Parametro==0) return $this->estatura;
 
   if($Num_Parametro>0){
-  $this->talla=func_get_arg(0);
+  $this->estatura=func_get_arg(0);
   }
   }
 
@@ -721,26 +721,26 @@ class Inscripcion {
   }
 
   public function RegistrarInscripcionManual(){
-    $sql="INSERT INTO tproceso_inscripcion (codigo_inscripcion,fecha_inscripcion,codigo_ano_academico,cedula_estudiante,
-    peso,talla,plantel_procedencia,primerafi,cedula_docente,seccion,cedula_representante,codigo_parentesco) VALUES ((SELECT MAX(codigo_inscripcion) FROM tinscripcion WHERE fecha_desactivacion IS NULL),
-    CURDATE(),(SELECT MAX(codigo_ano_academico) FROM tano_academico WHERE fecha_desactivacion IS NULL),'$this->cedula_estudiante','$this->peso','$this->talla','$this->plantel_procedencia',CURDATE(),
-    '$this->cedula_docente','$this->seccion','$this->cedula_representante','$this->codigo_parentesco');";
+    $sql="INSERT INTO tproceso_inscripcion (codigo_inscripcion,fecha_inscripcion,codigo_ano_academico,cedula_estudiante,";
+    $sql.="plantel_procedencia,primerafi,cedula_docente,seccion,cedula_representante,codigo_parentesco) VALUES ((SELECT MAX(codigo_inscripcion) FROM tinscripcion WHERE fecha_desactivacion IS NULL),";
+    $sql.="CURDATE(),(SELECT MAX(codigo_ano_academico) FROM tano_academico WHERE fecha_desactivacion IS NULL),'$this->cedula_estudiante','$this->plantel_procedencia',CURDATE(),";
+    $sql.="'$this->cedula_docente','$this->seccion','$this->cedula_representante','$this->codigo_parentesco');";
     if($this->mysql->Ejecutar($sql)!=null)
       return true;
     else{
-      $this->error(mysql_error());
+      $this->error($this->mysql->Error());
       return false;
     }
   }
 
   public function ActualizarInscripcionManual(){
-    $sql="UPDATE tproceso_inscripcion SET peso='$this->peso',talla='$this->talla',plantel_procedencia='$this->plantel_procedencia',
-    cedula_docente='$this->cedula_docente',seccion='$this->seccion',cedula_representante='$this->cedula_representante',
-    codigo_parentesco='$this->codigo_parentesco' WHERE cedula_estudiante='$this->cedula_estudiante';";
+    $sql="UPDATE tproceso_inscripcion SET plantel_procedencia='$this->plantel_procedencia',cedula_docente='$this->cedula_docente',";
+    $sql.="seccion='$this->seccion',cedula_representante='$this->cedula_representante',codigo_parentesco='$this->codigo_parentesco' ";
+    $sql.="WHERE cedula_estudiante='$this->cedula_estudiante';";
     if($this->mysql->Ejecutar($sql)!=null)
       return true;
     else{
-      $this->error(mysql_error());
+      $this->error($this->mysql->Error());
       return false;
     }
   }
@@ -767,14 +767,14 @@ class Inscripcion {
     $this->persona->codigo_plantel(NULL);
     if(!$this->persona->Comprobar()){
       if($this->persona->Registrar()){
-        $sql="INSERT INTO tproceso_inscripcion (codigo_inscripcion,fecha_inscripcion,codigo_ano_academico,cedula_estudiante,
-        cedula_escolar,codigo_canaima,peso,talla,plantel_procedencia,primerafi) VALUES ((SELECT MAX(codigo_inscripcion) FROM tinscripcion WHERE fecha_desactivacion IS NULL),
-        CURDATE(),(SELECT MAX(codigo_ano_academico) FROM tano_academico WHERE fecha_desactivacion IS NULL),'$this->cedula_estudiante','$this->cedula_escolar',
-        '$this->codigo_canaima','$this->peso','$this->talla','$this->plantel_procedencia',CURDATE());";
+        $sql="INSERT INTO tproceso_inscripcion (codigo_inscripcion,fecha_inscripcion,codigo_ano_academico,cedula_estudiante,";
+        $sql.="cedula_escolar,codigo_canaima,peso,estatura,plantel_procedencia,primerafi) VALUES ((SELECT MAX(codigo_inscripcion) FROM tinscripcion WHERE fecha_desactivacion IS NULL),";
+        $sql.="CURDATE(),(SELECT MAX(codigo_ano_academico) FROM tano_academico WHERE fecha_desactivacion IS NULL),'$this->cedula_estudiante','$this->cedula_escolar',";
+        $sql.="'$this->codigo_canaima','$this->peso','$this->estatura','$this->plantel_procedencia',CURDATE());";
         if($this->mysql->Ejecutar($sql)!=null)
           return true;
         else{
-          $this->error(mysql_error());
+          $this->error($this->mysql->Error());
           return false;
         }
       }
@@ -819,12 +819,12 @@ class Inscripcion {
     $this->persona->carga_horaria(NULL);
     $this->persona->codigo_plantel(NULL);
     if($this->persona->Actualizar()){
-      $sql="UPDATE tproceso_inscripcion SET cedula_escolar='$this->cedula_escolar',codigo_canaima='$this->codigo_canaima',
-      peso=$this->peso,talla='$this->talla',plantel_procedencia='$this->plantel_procedencia' WHERE cedula_estudiante ='$this->cedula_estudiante';";
+      $sql="UPDATE tproceso_inscripcion SET cedula_escolar='$this->cedula_escolar',codigo_canaima='$this->codigo_canaima',";
+      $sql.="peso=$this->peso,estatura='$this->estatura',plantel_procedencia='$this->plantel_procedencia' WHERE cedula_estudiante ='$this->cedula_estudiante';";
       if($this->mysql->Ejecutar($sql)!=null)
         return true;
       else{
-        $this->error(mysql_error());
+        $this->error($this->mysql->Error());
         return false;
       }
     }
@@ -858,12 +858,11 @@ class Inscripcion {
       $this->persona->codigo_plantel(NULL);
       if(!$this->persona->Comprobar()){
         if($this->persona->Registrar()){
-          $sql="UPDATE tproceso_inscripcion SET cedula_madre='$this->cedula_madre'
-          WHERE cedula_estudiante='$this->cedula_estudiante';";
+          $sql="UPDATE tproceso_inscripcion SET cedula_madre='$this->cedula_madre' WHERE cedula_estudiante='$this->cedula_estudiante';";
           if($this->mysql->Ejecutar($sql)!=null)
             $logico=true;
           else{
-            $this->error(mysql_error());
+            $this->error($this->mysql->Error());
             $logico=false;
           }
         }
@@ -874,12 +873,11 @@ class Inscripcion {
       }else{
         if($this->persona->fecha_desactivacion()==null){
           if($this->persona->Actualizar()){
-            $sql="UPDATE tproceso_inscripcion SET cedula_madre='$this->cedula_madre'
-            WHERE cedula_estudiante='$this->cedula_estudiante';";
+            $sql="UPDATE tproceso_inscripcion SET cedula_madre='$this->cedula_madre' WHERE cedula_estudiante='$this->cedula_estudiante';";
             if($this->mysql->Ejecutar($sql)!=null)
               $logico=true;
             else{
-              $this->error(mysql_error());
+              $this->error($this->mysql->Error());
               $logico=false;
             }
           }
@@ -916,12 +914,11 @@ class Inscripcion {
       $this->persona->codigo_plantel(NULL);
       if(!$this->persona->Comprobar()){
         if($this->persona->Registrar()){
-          $sql="UPDATE tproceso_inscripcion SET cedula_padre='$this->cedula_padre'
-          WHERE cedula_estudiante='$this->cedula_estudiante';";
+          $sql="UPDATE tproceso_inscripcion SET cedula_padre='$this->cedula_padre' WHERE cedula_estudiante='$this->cedula_estudiante';";
           if($this->mysql->Ejecutar($sql)!=null)
             $logico=true;
           else{
-            $this->error(mysql_error());
+            $this->error($this->mysql->Error());
             $logico=false;
           }
         }
@@ -932,12 +929,11 @@ class Inscripcion {
       }else{
         if($this->persona->fecha_desactivacion()==null){
           if($this->persona->Actualizar()){
-            $sql="UPDATE tproceso_inscripcion SET cedula_padre='$this->cedula_padre'
-            WHERE cedula_estudiante='$this->cedula_estudiante';";
+            $sql="UPDATE tproceso_inscripcion SET cedula_padre='$this->cedula_padre' WHERE cedula_estudiante='$this->cedula_estudiante';";
             if($this->mysql->Ejecutar($sql)!=null)
               $logico=true;
             else{
-              $this->error(mysql_error());
+              $this->error($this->mysql->Error());
               $logico=false;
             }
           }
@@ -964,15 +960,17 @@ class Inscripcion {
   }
   
   public function InsertarDocumentosConsignados(){
-    $sql="UPDATE tproceso_inscripcion SET certificado_sextogrado='$this->certificado_sextogrado',notascertificadas='$this->notascertificadas',
-    cartabuenaconducta='$this->cartabuenaconducta',fotoestudiante='$this->fotoestudiante',fotorepresentante='$this->fotorepresentante',
-    fotocopia_ciestudiante='$this->fotocopia_ciestudiante',fotocopia_cirepresentante='$this->fotocopia_cirepresentante',
-    fotocopia_pnestudiante='$this->fotocopia_pnestudiante',kitscomedor='$this->kitscomedor',becado='$this->becado',tipobeca='$this->tipobeca' 
-    WHERE cedula_estudiante = '$this->cedula_estudiante'";
+    $sql="UPDATE tproceso_inscripcion SET certificado_sextogrado='$this->certificado_sextogrado',notascertificadas='$this->notascertificadas',";
+    $sql.="cartabuenaconducta='$this->cartabuenaconducta',fotoestudiante='$this->fotoestudiante',fotorepresentante='$this->fotorepresentante',";
+    $sql.="fotocopia_ciestudiante='$this->fotocopia_ciestudiante',fotocopia_cirepresentante='$this->fotocopia_cirepresentante',";
+    $sql.="fotocopia_pnestudiante='$this->fotocopia_pnestudiante',kitscomedor='$this->kitscomedor',becado='$this->becado',tipobeca='$this->tipobeca' ";
+    $sql.="WHERE cedula_estudiante = '$this->cedula_estudiante'";
     if($this->mysql->Ejecutar($sql)!=null)
       return true;
-    else
-      return false;
+    else{
+        $this->error($this->mysql->Error());
+        return false;
+    }
   }
   
   public function InsertarDatosRepresentante(){
@@ -998,13 +996,13 @@ class Inscripcion {
     $this->persona->codigo_plantel(NULL);
     if(!$this->persona->Comprobar()){
       if($this->persona->Registrar()){
-        $sql="UPDATE tproceso_inscripcion SET cedula_docente='$this->cedula_docente',cedula_representante='$this->cedula_representante',
-        codigo_parentesco='$this->codigo_parentesco',lugar_trabajo='$this->lugar_trabajo',proceso_completado='Y'
-        WHERE cedula_estudiante='$this->cedula_estudiante';";
+        $sql="UPDATE tproceso_inscripcion SET cedula_docente='$this->cedula_docente',cedula_representante='$this->cedula_representante',";
+        $sql.="codigo_parentesco='$this->codigo_parentesco',lugar_trabajo='$this->lugar_trabajo',proceso_completado='Y'";
+        $sql.="WHERE cedula_estudiante='$this->cedula_estudiante';";
         if($this->mysql->Ejecutar($sql)!=null)
           $logico=true;
         else{
-          $this->error(mysql_error());
+          $this->error($this->mysql->Error());
           $logico=false;
         }
       }
@@ -1015,13 +1013,13 @@ class Inscripcion {
     }else{
       if($this->persona->fecha_desactivacion()==null){
         if($this->persona->Actualizar()){
-          $sql="UPDATE tproceso_inscripcion SET cedula_docente='$this->cedula_docente',cedula_representante='$this->cedula_representante',
-          codigo_parentesco='$this->codigo_parentesco',lugar_trabajo='$this->lugar_trabajo',proceso_completado='Y'
-          WHERE cedula_estudiante='$this->cedula_estudiante';";
+          $sql="UPDATE tproceso_inscripcion SET cedula_docente='$this->cedula_docente',cedula_representante='$this->cedula_representante',";
+          $sql.="codigo_parentesco='$this->codigo_parentesco',lugar_trabajo='$this->lugar_trabajo',proceso_completado='Y'";
+          $sql.="WHERE cedula_estudiante='$this->cedula_estudiante';";
           if($this->mysql->Ejecutar($sql)!=null)
             $logico=true;
           else{
-            $this->error(mysql_error());
+            $this->error($this->mysql->Error());
             $logico=false;
           }
         }
@@ -1047,20 +1045,20 @@ class Inscripcion {
     if($this->mysql->Ejecutar($sql)!=null)
       return true;
     else{
-      $this->error(mysql_error());
+      $this->error($this->mysql->Error());
       return false;
     }
   }
 
   public function Consultar(){
-    $sql="SELECT p.cedula,p.genero,i.cedula_escolar,i.codigo_canaima,p.nombres,p.apellidos,i.peso,i.talla,
-    DATE_FORMAT(p.fecha_nacimiento,'%d/%m/%Y') fecha_nacimiento,CONCAT(p.lugar_nacimiento,'_',pa.descripcion) AS lugar_nacimiento,
-    p.direccion,p.telefono_habitacion,p.email,i.plantel_procedencia,p.fecha_desactivacion,
-    CASE WHEN p.fecha_desactivacion IS NULL THEN 'Activo' ELSE 'Desactivado' END AS estatus 
-    FROM tpersona p 
-    INNER JOIN tproceso_inscripcion i ON p.cedula = i.cedula_estudiante 
-    INNER JOIN tparroquia pa ON p.lugar_nacimiento = pa.codigo_parroquia 
-    WHERE p.cedula='$this->cedula_estudiante'";
+    $sql="SELECT p.cedula,p.genero,i.cedula_escolar,i.codigo_canaima,p.nombres,p.apellidos,i.peso,i.estatura,";
+    $sql.="DATE_FORMAT(p.fecha_nacimiento,'%d/%m/%Y') fecha_nacimiento,CONCAT(p.lugar_nacimiento,'_',pa.descripcion) AS lugar_nacimiento,";
+    $sql.="p.direccion,p.telefono_habitacion,p.email,i.plantel_procedencia,p.fecha_desactivacion,";
+    $sql.="CASE WHEN p.fecha_desactivacion IS NULL THEN 'Activo' ELSE 'Desactivado' END AS estatus ";
+    $sql.="FROM tpersona p ";
+    $sql.="INNER JOIN tproceso_inscripcion i ON p.cedula = i.cedula_estudiante ";
+    $sql.="INNER JOIN tparroquia pa ON p.lugar_nacimiento = pa.codigo_parroquia ";
+    $sql.="WHERE p.cedula='$this->cedula_estudiante'";
     $query=$this->mysql->Ejecutar($sql);
     if($this->mysql->Total_Filas($query)!=0){
       $tinscripcion=$this->mysql->Respuesta($query);
@@ -1071,7 +1069,7 @@ class Inscripcion {
       $this->nombres($tinscripcion['nombres']);
       $this->apellidos($tinscripcion['apellidos']);
       $this->peso($tinscripcion['peso']);
-      $this->talla($tinscripcion['talla']);
+      $this->estatura($tinscripcion['estatura']);
       $this->fecha_nacimiento($tinscripcion['fecha_nacimiento']);
       $this->lugar_nacimiento($tinscripcion['lugar_nacimiento']);
       $this->direccion($tinscripcion['direccion']);
@@ -1083,24 +1081,25 @@ class Inscripcion {
       return true;
     }
     else{
-      $this->error(mysql_error());
+      $this->error($this->mysql->Error());
       return false;
     }
   }
 
   public function Comprobar(){
-    $sql="SELECT *,CASE WHEN fecha_desactivacion IS NULL THEN 'Activo' ELSE 'Desactivado' END AS estatus 
-    FROM tproceso_inscripcion
-    WHERE cedula_estudiante='$this->cedula_estudiante' AND fecha_desactivacion IS NULL";
+    $sql="SELECT *,CASE WHEN fecha_desactivacion IS NULL THEN 'Activo' ELSE 'Desactivado' END AS estatus ";
+    $sql.="FROM tproceso_inscripcion ";
+    $sql.="WHERE cedula_estudiante='$this->cedula_estudiante' AND fecha_desactivacion IS NULL";
     $query=$this->mysql->Ejecutar($sql);
     if($this->mysql->Total_Filas($query)!=0){
       $tproceso_inscripcion=$this->mysql->Respuesta($query);
       $this->cedula_estudiante($tproceso_inscripcion['cedula_estudiante']);
       $this->estatus($tproceso_inscripcion['estatus']);
+      $this->error("El registro ya existe !");
       return true;
     }
     else{
-      $this->error(mysql_error());
+      $this->error($this->mysql->Error());
       return false;
     }
   }

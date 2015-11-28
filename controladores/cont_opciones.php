@@ -39,7 +39,7 @@ if($operacion=='Registrar'){
     $_SESSION['datos']['mensaje']="La opción ha sido registrada con éxito !";
     header("Location: ../vistas/?botones");
    }else{
-    $_SESSION['datos']['mensaje']="Se presentó un error al registrar la opción.";
+    $_SESSION['datos']['mensaje']="Se presentó un error al registrar la opción.<br><b>Error: ".utf8_encode($opciones->error())."</b>";
     header("Location: ../vistas/?botones");
   }
 }
@@ -57,7 +57,7 @@ if($operacion=='Modificar'){
     $_SESSION['datos']['mensaje']="La opción ha sido modificada con éxito !";
     header("Location: ../vistas/?botones");
   }else{
-    $_SESSION['datos']['mensaje']="Problema al modificar la opción.";
+    $_SESSION['datos']['mensaje']="Se presentó un error al modificar la opción.<br><b>Error: ".utf8_encode($opciones->error())."</b>";
     header("Location: ../vistas/?botones");
   }
 }
@@ -77,7 +77,7 @@ if($operacion=='Desactivar'){
     $_SESSION['datos']['mensaje']="La opción ha sido desactivada con éxito";
     header("Location: ../vistas/?botones");
   }else{
-    $_SESSION['datos']['mensaje']="Problema al desactivar la opción.";
+    $_SESSION['datos']['mensaje']="Se presentó un error al desactivar la opción.<br><b>Error: ".utf8_encode($opciones->error())."</b>";
     header("Location: ../vistas/?botones");
   }
 }
@@ -97,7 +97,7 @@ if($operacion=='Activar'){
     $_SESSION['datos']['mensaje']="La opción ha sido activada con éxito";
     header("Location: ../vistas/?botones");
   }else{
-    $_SESSION['datos']['mensaje']="Problema al activar la opción.";
+    $_SESSION['datos']['mensaje']="Se presentó un error al activar la opción.<br><b>Error: ".utf8_encode($opciones->error())."</b>";
     header("Location: ../vistas/?botones");
   }
 }
@@ -113,7 +113,12 @@ if($operacion=='Consultar'){
     $_SESSION['datos']['orden']=$opciones->orden();
     header("Location: ../vistas/?botones");
   }else{
-    $_SESSION['datos']['mensaje']="No se han encontrado resultados para tu búsqueda(".$descripcion.")";
+    $error="";
+    if($opciones->error()!=null)
+      $error="Se presentó un error al realizar la búsqueda.<br><b>Error: ".utf8_encode($opciones->error())."</b>";
+    else 
+      $error="No se han encontrado resultados para tu búsqueda(".$codigo_opciones.")";
+    $_SESSION['datos']['mensaje']=$error;
     header("Location: ../vistas/?botones");
   }
 }

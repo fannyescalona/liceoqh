@@ -46,16 +46,10 @@ if(isset($_POST['telefono_movil']))
 $telefono_movil=ucfirst(trim($_POST['telefono_movil']));
 
 if(isset($_POST['email']))
-$email=ucfirst(trim($_POST['email']));
+$email=trim($_POST['email']);
 
 if(isset($_POST['plantel_procedencia']))
 $plantel_procedencia=ucfirst(trim($_POST['plantel_procedencia']));
-
-if(isset($_POST['peso']))
-$peso=ucfirst(trim($_POST['peso']));
-
-if(isset($_POST['talla']))
-$talla=ucfirst(trim($_POST['talla']));
 
 if(isset($_POST['cedula_representante'])){
   $cedularepresentante=explode("_",trim($_POST['cedula_representante']));
@@ -86,8 +80,6 @@ if($operacion=='Registrar'){
   $persona->telefono_movil($telefono_movil);
   $persona->email($email);
   $inscripcion->plantel_procedencia($plantel_procedencia);
-  $inscripcion->peso($peso);
-  $inscripcion->talla($talla);
   $inscripcion->cedula_representante($cedula_representante);
   $inscripcion->codigo_parentesco($codigo_parentesco);
   $inscripcion->cedula_estudiante($cedula);
@@ -117,7 +109,12 @@ if($operacion=='Registrar'){
     header("Location: ../vistas/?estudiante");
    }else{
     $inscripcion->Transaccion('cancelado');
-    $_SESSION['datos']['mensaje']="Se presentó un error al registrar el estudiante.";
+    $error="";
+    if($persona->error()!=null)
+      $error = $persona->error();
+    else if($inscripcion->error()!=null)
+      $error = $inscripcion->error();
+    $_SESSION['datos']['mensaje']="Se presentó un error al registrar el estudiante.<br><b>Error: ".utf8_encode($error)."</b>";
     header("Location: ../vistas/?estudiante");
   }
 }
@@ -136,8 +133,6 @@ if($operacion=='Modificar'){
   $persona->telefono_movil($telefono_movil);
   $persona->email($email);
   $inscripcion->plantel_procedencia($plantel_procedencia);
-  $inscripcion->peso($peso);
-  $inscripcion->talla($talla);
   $inscripcion->cedula_representante($cedula_representante);
   $inscripcion->codigo_parentesco($codigo_parentesco);
   $inscripcion->cedula_estudiante($cedula);
@@ -158,7 +153,12 @@ if($operacion=='Modificar'){
     header("Location: ../vistas/?estudiante");
   }else{
     $inscripcion->Transaccion('cancelado');
-    $_SESSION['datos']['mensaje']="Problema al modificar el estudiante.";
+    $error="";
+    if($persona->error()!=null)
+      $error = $persona->error();
+    else if($inscripcion->error()!=null)
+      $error = $inscripcion->error();
+    $_SESSION['datos']['mensaje']="Se presentó un error al modificar el estudiante.<br><b>Error: ".utf8_encode($error)."</b>";
     header("Location: ../vistas/?estudiante");
   }
 }
@@ -178,7 +178,12 @@ if($operacion=='Desactivar'){
     $_SESSION['datos']['mensaje']="El estudiante ha sido desactivado con éxito";
     header("Location: ../vistas/?estudiante");
   }else{
-    $_SESSION['datos']['mensaje']="Problema al desactivar el estudiante.";
+    $error="";
+    if($persona->error()!=null)
+      $error = $persona->error();
+    else if($inscripcion->error()!=null)
+      $error = $inscripcion->error();
+    $_SESSION['datos']['mensaje']="Se presentó un error al desactivar el estudiante.<br><b>Error: ".utf8_encode($error)."</b>";
     header("Location: ../vistas/?estudiante");
   }
 }
@@ -198,7 +203,12 @@ if($operacion=='Activar'){
     $_SESSION['datos']['mensaje']="El estudiante ha sido activado con éxito";
     header("Location: ../vistas/?estudiante");
   }else{
-    $_SESSION['datos']['mensaje']="Problema al desactivar el estudiante.";
+    $error="";
+    if($persona->error()!=null)
+      $error = $persona->error();
+    else if($inscripcion->error()!=null)
+      $error = $inscripcion->error();
+    $_SESSION['datos']['mensaje']="Se presentó un error al desactivar el estudiante.<br><b>Error: ".utf8_encode($error)."</b>";
     header("Location: ../vistas/?estudiante");
   }
 }
@@ -219,15 +229,18 @@ if($operacion=='Consultar'){
     $_SESSION['datos']['telefono_movil']=$persona->telefono_movil();
     $_SESSION['datos']['email']=$persona->email();
     $_SESSION['datos']['plantel_procedencia']=$persona->plantel_procedencia();
-    $_SESSION['datos']['peso']=$persona->peso();
-    $_SESSION['datos']['talla']=$persona->talla();
     $_SESSION['datos']['cedula_representante']=$persona->cedula_representante();
     $_SESSION['datos']['codigo_parentesco']=$persona->codigo_parentesco();
     $_SESSION['datos']['esestudiante']=$persona->esestudiante("Y");
     $_SESSION['datos']['estatus']=$persona->estatus();
     header("Location: ../vistas/?estudiante");
   }else{
-    $_SESSION['datos']['mensaje']="No se han encontrado resultados para tu búsqueda(".$cedula.")";
+    $error="";
+    if($persona->error()!=null)
+      $error="Se presentó un error al realizar la búsqueda.<br><b>Error: ".utf8_encode($persona->error())."</b>";
+    else 
+      $error="No se han encontrado resultados para tu búsqueda(".$cedula.")";
+    $_SESSION['datos']['mensaje']=$error;
     header("Location: ../vistas/?estudiante");
   }
 }

@@ -8,6 +8,7 @@
      private $orden;
      private $estatus;
      private $fecha_desactivacion; 
+     private $error;
      private $mysql; 
 	 
    public function __construct(){
@@ -15,6 +16,7 @@
      $this->descripcion=null;
      $this->icono=null;
      $this->orden=null;
+     $this->error=null;
 	 $this->mysql=new Conexion();
    }
    
@@ -79,42 +81,56 @@
 	 }
    }
    
+   public function error(){
+      $Num_Parametro=func_num_args();
+	 if($Num_Parametro==0) return $this->error;
+     
+	 if($Num_Parametro>0){
+	   $this->error=func_get_arg(0);
+	 }
+   }   
 
    public function Registrar(){
     $sql="insert into tmodulo (descripcion,icono,orden) values ('$this->descripcion','$this->icono','$this->orden');";
     if($this->mysql->Ejecutar($sql)!=null)
 	return true;
-	else
-	return false;
+	else{
+		$this->error($this->mysql->Error());
+		return false;
+	}
    }
    
      public function Activar(){
     $sql="update tmodulo set fecha_desactivacion=NULL where (codigo_modulo='$this->codigo_modulo');";
     if($this->mysql->Ejecutar($sql)!=null)
 	return true;
-	else
-	return false;
+	else{
+		$this->error($this->mysql->Error());
+		return false;
+	}
    }
     public function Desactivar(){
     $sql="update tmodulo set fecha_desactivacion=CURDATE() where (codigo_modulo='$this->codigo_modulo');";
     if($this->mysql->Ejecutar($sql)!=null)
 	return true;
-	else
-	return false;
+	else{
+		$this->error($this->mysql->Error());
+		return false;
+	}
    }
    
     public function Actualizar(){
     $sql="update tmodulo set descripcion='$this->descripcion',icono='$this->icono',orden='$this->orden' where (codigo_modulo='$this->codigo_modulo');";
     if($this->mysql->Ejecutar($sql)!=null)
 	return true;
-	else
-	return false;
+	else{
+		$this->error($this->mysql->Error());
+		return false;
+	}
    }
    
    public function Consultar(){
-    $sql="select *,
-    (CASE WHEN fecha_desactivacion IS NULL THEN  'Activo' 
-    	ELSE 'Desactivado' END) AS estatus from tmodulo where descripcion='$this->descripcion'";
+    $sql="select *,(CASE WHEN fecha_desactivacion IS NULL THEN  'Activo' ELSE 'Desactivado' END) AS estatus from tmodulo where descripcion='$this->descripcion'";
 	$query=$this->mysql->Ejecutar($sql);
     if($this->mysql->Total_Filas($query)!=0){
 	$tmodulo=$this->mysql->Respuesta($query);
@@ -127,7 +143,8 @@
 	return true;
 	}
 	else{
-	return false;
+		$this->error($this->mysql->Error());
+		return false;
 	}
    }
    public function Comprobar(){
@@ -138,10 +155,12 @@
 	$this->codigo_modulo($tmodulo['codigo_modulo']);
 	$this->descripcion($tmodulo['descripcion']);
 	$this->fecha_desactivacion($tmodulo['fecha_desactivacion']);
+    $this->error("El registro ya existe !");
 	return true;
 	}
 	else{
-	return false;
+		$this->error($this->mysql->Error());
+		return false;
 	}
    }
 }

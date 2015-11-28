@@ -78,8 +78,7 @@ function init(){
         buttonImage: '../images/calendario.png',
         buttonImageOnly: true,
         onClose: function (selectedDate) {
-            $("#fecha_inicio").datepicker("option", "maxDate", selectedDate)
-            $("#fecha_fin").datepicker("option", "minDate", selectedDate)
+            $("#fecha_cierre").datepicker("option", "minDate", selectedDate)
         }
     });
     //Agregar Objeto Calendario al input fecha_cierre.

@@ -35,7 +35,7 @@ if($confirmacion==1){
   $_SESSION['datos']['mensaje']="El Año Académico ha sido registrado con éxito !";
   header("Location: ../vistas/?ano_academico");
  }else{
-  $_SESSION['datos']['mensaje']="Se presentó un error al registrar el Año Académico.";
+  $_SESSION['datos']['mensaje']="Se presentó un error al registrar el Año Académico.<br><b>Error: ".utf8_encode($ano_academico->error())."</b>";
   header("Location: ../vistas/?ano_academico");
 }
 }
@@ -51,7 +51,7 @@ if($operacion=='Modificar'){
     $_SESSION['datos']['mensaje']="El Año Académico ha sido modificado con éxito !";
     header("Location: ../vistas/?ano_academico");
   }else{
-    $_SESSION['datos']['mensaje']="Problema al modificar el Año Académico.";
+    $_SESSION['datos']['mensaje']="Problema al modificar el Año Académico.<br><b>Error: ".utf8_encode($ano_academico->error())."</b>";
     header("Location: ../vistas/?ano_academico");
   }
 }
@@ -71,7 +71,7 @@ if($operacion=='Desactivar'){
     $_SESSION['datos']['mensaje']="El Año Académico ha sido desactivado con éxito";
     header("Location: ../vistas/?ano_academico");
    }else{
-    $_SESSION['datos']['mensaje']="Problema al desactivar el Año Académico.";
+    $_SESSION['datos']['mensaje']="Problema al desactivar el Año Académico.<br><b>Error: ".utf8_encode($ano_academico->error())."</b>";
     header("Location: ../vistas/?ano_academico");
     }
 }
@@ -91,7 +91,7 @@ if($operacion=='Activar'){
     $_SESSION['datos']['mensaje']="El Año Académico ha sido desactivado con éxito";
     header("Location: ../vistas/?ano_academico");
    }else{
-    $_SESSION['datos']['mensaje']="Problema al desactivar el Año Académico.";
+    $_SESSION['datos']['mensaje']="Problema al desactivar el Año Académico.<br><b>Error: ".utf8_encode($ano_academico->error())."</b>";
     header("Location: ../vistas/?ano_academico");
     }
 }
@@ -105,7 +105,12 @@ if($operacion=='Consultar'){
     $_SESSION['datos']['estatus']=$ano_academico->estatus();
     header("Location: ../vistas/?ano_academico");
   }else{
-   $_SESSION['datos']['mensaje']="No se han encontrado resultados para tu búsqueda(".$descripcion.")";
+    $error="";
+    if($ano_academico->error()!=null)
+      $error="Se presentó un error al realizar la búsqueda.<br><b>Error: ".utf8_encode($ano_academico->error())."</b>";
+    else 
+      $error="No se han encontrado resultados para tu búsqueda(".$descripcion.")";
+    $_SESSION['datos']['mensaje']=$error;
    header("Location: ../vistas/?ano_academico");
   }
 }     

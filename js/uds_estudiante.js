@@ -41,12 +41,10 @@ function validar_formulario(param){
 	valor8=document.getElementById('telefono_habitacion').value;
 	valor9=document.getElementById('telefono_movil').value;
 	valor10=document.getElementById('email').value;
-	valor11=document.getElementById('peso').value;
-	valor12=document.getElementById('talla').value;
-	valor13=document.getElementById('cedula_representante').value;
-	valor14=document.getElementById('codigo_parentesco').value;
-	valor15=document.getElementById('seccion').value;
-	valor16=document.getElementById('plantel_procedencia').value;
+	valor11=document.getElementById('cedula_representante').value;
+	valor12=document.getElementById('codigo_parentesco').value;
+	valor13=document.getElementById('seccion').value;
+	valor14=document.getElementById('plantel_procedencia').value;
 	//Utilizamos una expresion regular para validar email
 	var regex = /[\w-\.]{2,}@([\w-]{2,}\.)*([\w-]{2,}\.)[\w-]{2,4}/;
 	if(devuelve_boton(param)=="Registrar" || devuelve_boton(param)=="Modificar"){
@@ -54,7 +52,7 @@ function validar_formulario(param){
 			alert('Ingrese la cédula del docente')
 			permitido=false;
 		}
-		else if(valor15.replace(/^\s+|\s+$/gi,"").length==0){ //para no permitir que se quede en blanco
+		else if(valor13.replace(/^\s+|\s+$/gi,"").length==0){ //para no permitir que se quede en blanco
 			alert('Ingrese la sección a la cual asignará al estudiante')
 			permitido=false;
 		}
@@ -90,31 +88,23 @@ function validar_formulario(param){
 			alert('Ingrese el teléfono de movil del estudiante')
 			permitido=false;
 		}
-		else if(valor10.replace(/^\s+|\s+$/gi,"").length==0){ //para no permitir que se quede en blanco
+		/*else if(valor10.replace(/^\s+|\s+$/gi,"").length==0){ //para no permitir que se quede en blanco
 			alert('Ingrese el correo electrónico del estudiante')
 			permitido=false;
-		}
-		else if(!regex.test(valor10.trim())){
+		}*/
+		else if(valor10.replace(/^\s+|\s+$/gi,"").length!=0 && !regex.test(valor10.trim())){
 			alert('La direccion de correo electrónico no es válida, la forma correcta sería por ejemplo pedroperez@gmail.com');
 			permitido = false;
 		}
 		else if(valor11.replace(/^\s+|\s+$/gi,"").length==0){ //para no permitir que se quede en blanco
-			alert('Ingrese el peso del estudiante')
-			permitido=false;
-		}
-		else if(valor12.replace(/^\s+|\s+$/gi,"").length==0){ //para no permitir que se quede en blanco
-			alert('Seleccione la talla del estudiante')
-			permitido=false;
-		}
-		else if(valor13.replace(/^\s+|\s+$/gi,"").length==0){ //para no permitir que se quede en blanco
 			alert('Ingrese la cédula del representante')
 			permitido=false;
 		}
-		else if(valor14.replace(/^\s+|\s+$/gi,"").length==0){ //para no permitir que se quede en blanco
+		else if(valor12.replace(/^\s+|\s+$/gi,"").length==0){ //para no permitir que se quede en blanco
 			alert('Ingrese el parentesco del representante con el estudiante')
 			permitido=false;
 		}
-		else if(valor16.replace(/^\s+|\s+$/gi,"").length==0){ //para no permitir que se quede en blanco
+		else if(valor14.replace(/^\s+|\s+$/gi,"").length==0){ //para no permitir que se quede en blanco
 			alert('Ingrese el plantel de procedencia del estudiante')
 			permitido=false;
 		}
