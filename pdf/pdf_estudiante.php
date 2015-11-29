@@ -15,12 +15,12 @@
       $this->Cell(0,6,"UNIDAD EDUCATIVA NACIONAL QUEBRADA HONDA",0,1,"C");
       $this->Cell(0,6,"\"Sistema de Ingreso Estudiantes y Contol de Notas\"",0,1,"C");
        $this->Ln(15); 
-   $this->Cell(0,6,'LISTADO DEL PERSONAL',0,1,"C");
+   $this->Cell(0,6,'LISTADO DE ESTUDIANTES',0,1,"C");
    $this->Ln(5);
     
     
      $this->SetFillColor(0,0,140); 
-         $avnzar=15;
+         $avnzar=35;
          $altura=7;
          $anchura=10;
          $color_fondo=false;
@@ -33,8 +33,8 @@
                   $this->Cell($anchura*4,$altura,'NOMBRE COMPLETO',1,0,'L',$color_fondo);
                   $this->Cell($anchura*3,$altura,utf8_decode('GÉNERO'),1,0,'L',$color_fondo);
                   $this->Cell($anchura*4,$altura,'FECHA DE NAC.',1,0,'L',$color_fondo); 
-                  $this->Cell($anchura*5,$altura,utf8_decode('CÓD DE DEPENDENCIA'),1,0,'L',$color_fondo); 
-                  $this->Cell($anchura*4,$altura,'CARGO',1,0,'L',$color_fondo);
+                  $this->Cell($anchura*5,$altura,utf8_decode('DIRECCIÓN'),1,0,'L',$color_fondo); 
+                 // $this->Cell($anchura*4,$altura,'CARGO',1,0,'L',$color_fondo);
                   $this->Cell($anchura*2+6,$altura,'ESTATUS',1,1,'L',$color_fondo);  
                   $this->Cell($avnzar); 
                   }
@@ -188,22 +188,22 @@ function NbLines($w,$txt)
    
     $lobjPdf->SetFont('Arial','',12);
    //Table with 20 rows and 5 columns
-      $lobjPdf->SetWidths(array(20,40,30,40,50,40,26));
+      $lobjPdf->SetWidths(array(20,40,30,40,50,26));
   require_once("../clases/class_bd.php");
   $mysql=new Conexion();
-    $sql="SELECT p.cedula cedula, 
-    CONCAT(p.nombres,' ',p.apellidos) nomape, CASE p.genero WHEN 'F' THEN 'FEMENINO' ELSE 'MASCULINO' END genero, 
-    DATE_FORMAT(p.fecha_nacimiento,'%d/%m/%Y') fecha_nacimiento,
-    p.codigo_dependencia, c.descripcion AS cargo,
-    (CASE WHEN p.fecha_desactivacion IS NULL THEN  'Activo' ELSE 'Desactivado' END) AS estatus
-    FROM tpersona p 
-    INNER JOIN tcargo c ON p.codigo_cargo = c.codigo_cargo 
-    WHERE p.esestudiante = 'N'";
+    $sql= "SELECT p.cedula cedula, CONCAT(p.nombres,' ',p.apellidos) nomape, 
+          CASE p.genero WHEN 'F' THEN 'FEMENINO' ELSE 'MASCULINO' END genero, 
+          DATE_FORMAT(p.fecha_nacimiento,'%d/%m/%Y') fecha_nacimiento,
+          p.codigo_dependencia, p.direccion,
+          (CASE WHEN p.fecha_desactivacion IS NULL THEN  'Activo' ELSE 'Desactivado' END) AS estatus
+          FROM tpersona p 
+          
+          WHERE p.esestudiante = 'Y'";
   $i=-1;
   $data=$mysql->Ejecutar($sql);
     if($mysql->Total_Filas($data)!=0){
          $lobjPdf->SetFillColor(0,0,140); 
-         $avnzar=15;
+         $avnzar=35;
          $altura=7;
          $anchura=10;
          $color_fondo=false;
@@ -219,8 +219,8 @@ function NbLines($w,$txt)
         utf8_decode(ucwords($tperfil['nomape'])),
         utf8_decode(ucwords($tperfil['genero'])),
         utf8_decode(ucwords($tperfil['fecha_nacimiento'])),
-        utf8_decode(ucwords($tperfil['codigo_dependencia'])),
-        utf8_decode(ucwords($tperfil['cargo'])),
+        utf8_decode(ucwords($tperfil['direccion'])),
+        //utf8_decode(ucwords($tperfil['cargo'])),
         utf8_decode(ucwords($tperfil['estatus']))));
           $lobjPdf->Cell($avnzar);         
          }

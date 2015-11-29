@@ -11,10 +11,10 @@ $tbHtml = "<table>
             </header>";
 
 $mysql = new Conexion();
-$sql = "SELECT * FROM tmodulos where fecha_desactivacion is null order by cod_modulo desc";
+$sql = "SELECT * FROM tmodulos where fecha_desactivacion is null order by codigo_modulo desc";
 $query = $mysql->Ejecutar($sql);
 while ($row = $mysql->Respuesta($query)){
-	$tbHtml .= "<tr><td>".$row['cod_modulo']."</td><td>".$row['nombre_modulo']."</td><td>".$row['icono']."</td></tr>";
+	$tbHtml .= "<tr><td>".$row['codigo_modulo']."</td><td>".$row['descripcion']."</td><td>".$row['icono']."</td></tr>";
 }
 
 $tbHtml .= "</table>";

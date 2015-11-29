@@ -1,5 +1,6 @@
 <?php
-  require_once("../librerias/fpdf/fpdf.php");
+  
+      require_once("../librerias/fpdf/fpdf.php");
       $servicio=$_GET['serv'];
    session_start();
   class clsFpdf extends FPDF {
@@ -8,19 +9,18 @@
    //Cabecera de página
     public function Header()
     {
-     $this->Image("../images/UDS.jpg" , 10 ,15, 40 , 40, "JPG" ,$_SERVER['HTTP_HOST']."/udesur/vistas/");
-      $this->Image("../images/cintillo.jpg" , 10 ,5, 270 , 8, "JPG" ,$_SERVER['HTTP_HOST']."/udesur/vistas/");
-      $this->Ln(15);  
-   $this->SetFont('Arial','B',12);  
-  $this->Cell(0,6,"UNIVERSIDAD DEPORTIVA DEL SUR",0,1,"C");
-    $this->Cell(0,6,"\"Sistema de Ingreso Estudiantes y Horarios\"",0,1,"C");
+      $this->Image("../images/cintillo_reportes.jpg" , 10 ,5, 270 , 25, "JPG" ,$_SERVER['HTTP_HOST']."/liceoqh/vistas/");
+      $this->Ln(25);  
+      $this->SetFont('Arial','B',12);  
+      $this->Cell(0,6,"UNIDAD EDUCATIVA NACIONAL QUEBRADA HONDA",0,1,"C");
+      $this->Cell(0,6,"\"Sistema de Ingreso Estudiantes y Contol de Notas\"",0,1,"C");
        $this->Ln(15); 
-   $this->Cell(0,6,utf8_decode('LISTADO DE LOS MÓDULOS'),0,1,"C");
+   $this->Cell(0,6,'LISTADO DE LOS PAISES',0,1,"C");
    $this->Ln(5);
     
     
      $this->SetFillColor(0,0,140); 
-         $avnzar=85;
+         $avnzar=95;
          $altura=7;
          $anchura=10;
          $color_fondo=false;
@@ -28,10 +28,11 @@
          //$this->Row(array("N°","Codigo","Perfil","Estatus"));
          $this->SetTextColor(0,0,0);
                 $this->Cell($avnzar);
-                $this->Cell($anchura*2,$altura,utf8_decode('CÓDIGO'),1,0,'L',$color_fondo); 
-                $this->Cell($anchura*4,$altura,utf8_decode('NOMBRE MÓDULO'),1,0,'L',$color_fondo); 
-                $this->Cell($anchura*2+6,$altura,'ESTATUS',1,1,'L',$color_fondo); 
-                $this->SetFont('Arial','',12);
+                   //$lobjPdf->Cell($anchura*2,$altura,utf8_decode('N°'),1,0,'T',$color_fondo); 
+      $this->Cell($anchura*2,$altura,utf8_decode('CÓDIGO'),1,0,'L',$color_fondo); 
+      $this->Cell($anchura*4,$altura,utf8_decode('MODULOS'),1,0,'L',$color_fondo); 
+      $this->Cell($anchura*3,$altura,'ESTATUS',1,1,'L',$color_fondo); 
+      
                   $this->Cell($avnzar); 
                   }
 
@@ -60,9 +61,9 @@
         $this->SetFont("Arial","I",6);
           $avanzar=23;
       $this->Cell($avanzar);  
-      $uni="Universidad Deportiva del Sur. Consolidando el Sistema Bolivariano del Deporte.";
-      $dir="Dirección: Vía Manrique, Av. Universidad, Km. 2 (Villa Deportiva), San Carlos Estado Cojedes,República Bolivariana de Venezuela.";
-      $tel="Teléfono: (+58) 0258-4330349 (Control de Estudio), 4331518 (Rectorado)";
+      $uni="Unidad Educativa Nacional Quebrada Honda.";
+      $dir="Dirección: Calle 03 Centro Poblado B Quebrado Honda, Agua Blanca Estado Portuguesa,República Bolivariana de Venezuela.";
+      $tel="Teléfono: (+58) 0255-8084598";
       $this->Cell(130,4,utf8_decode($uni),0,1,"L");
       $this->Cell($avanzar);  
       $this->Cell(130,4,utf8_decode($dir),0,1,"L");
@@ -184,17 +185,17 @@ function NbLines($w,$txt)
    
     $lobjPdf->SetFont('Arial','',12);
    //Table with 20 rows and 5 columns
-      $lobjPdf->SetWidths(array(20,40,26));
-    require_once("../clases/class_bd.php");
-    $mysql=new Conexion();
-    $sql="select *,
+      $lobjPdf->SetWidths(array(20,40,30));
+  require_once("../clases/class_bd.php");
+  $mysql=new Conexion();
+    $sql="select codigo_modulo, descripcion,
     (CASE WHEN fecha_desactivacion IS NULL THEN  'Activo' 
-    ELSE 'Desactivado' END) AS estatus from tmodulos";
-  $i=-1;
+    ELSE 'Desactivado' END) AS estatus from tmodulo";
+   $i=-1;
   $data=$mysql->Ejecutar($sql);
     if($mysql->Total_Filas($data)!=0){
          $lobjPdf->SetFillColor(0,0,140); 
-         $avnzar=85;
+         $avnzar=95;
          $altura=7;
          $anchura=10;
          $color_fondo=false;
@@ -206,10 +207,9 @@ function NbLines($w,$txt)
          $xxxx=0;
          while($tperfil=$mysql->Respuesta($data)){
          $lobjPdf->Row(array(
-
-        utf8_decode(ucwords(strtolower(@utf8_decode($tperfil['cod_modulo'])))),
-       utf8_decode(ucwords(strtolower(@utf8_decode($tperfil['nombre_modulo'])))),
-       utf8_decode(ucwords(strtolower(@utf8_decode($tperfil['estatus']))))));
+         utf8_decode(ucwords($tperfil['codigo_modulo'])),
+         utf8_decode(ucwords($tperfil['descripcion'])),
+         utf8_decode(ucwords($tperfil['estatus']))));
           $lobjPdf->Cell($avnzar);         
          }
          
