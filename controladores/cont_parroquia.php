@@ -15,7 +15,6 @@ $descripcion=ucfirst(trim($_POST['descripcion']));
 if(isset($_POST['codigo_municipio']))
 $codigo_municipio=ucfirst(trim($_POST['codigo_municipio']));
 
-
 include_once("../clases/class_parroquia.php");
 $parroquia=new Parroquia();
 if($operacion=='Registrar'){
@@ -39,7 +38,7 @@ if($operacion=='Registrar'){
     $_SESSION['datos']['mensaje']="La parroquia ha sido registrada con éxito !";
     header("Location: ../vistas/?parroquia");
    }else{
-    $_SESSION['datos']['mensaje']="Se presentó un error al registrar la parroquia.";
+    $_SESSION['datos']['mensaje']="Se presentó un error al registrar la parroquia.<br><b>Error: ".utf8_encode($parroquia->error())."</b>";
     header("Location: ../vistas/?parroquia");
   }
 }
@@ -56,7 +55,7 @@ if($operacion=='Modificar'){
     $_SESSION['datos']['mensaje']="La parroquia ha sido modificada con éxito !";
     header("Location: ../vistas/?parroquia");
   }else{
-    $_SESSION['datos']['mensaje']="Problema al modificar la parroquia.";
+    $_SESSION['datos']['mensaje']="Se presentó un error al modificar la parroquia.<br><b>Error: ".utf8_encode($parroquia->error())."</b>";
     header("Location: ../vistas/?parroquia");
   }
 }
@@ -77,7 +76,7 @@ if($operacion=='Desactivar'){
     $_SESSION['datos']['mensaje']="La parroquia ha sido desactivada con éxito";
     header("Location: ../vistas/?parroquia");
   }else{
-    $_SESSION['datos']['mensaje']="Problema al desactivar la parroquia.";
+    $_SESSION['datos']['mensaje']="Se presentó un error al desactivar la parroquia.<br><b>Error: ".utf8_encode($parroquia->error())."</b>";
     header("Location: ../vistas/?parroquia");
   }
 }
@@ -98,7 +97,7 @@ if($operacion=='Activar'){
     $_SESSION['datos']['mensaje']="La parroquia ha sido desactivada con éxito";
     header("Location: ../vistas/?parroquia");
   }else{
-    $_SESSION['datos']['mensaje']="Problema al desactivar la parroquia.";
+    $_SESSION['datos']['mensaje']="Se presentó un error al desactivar la parroquia.<br><b>Error: ".utf8_encode($parroquia->error())."</b>";
     header("Location: ../vistas/?parroquia");
   }
 }
@@ -113,7 +112,12 @@ if($operacion=='Consultar'){
     $_SESSION['datos']['estatus']=$parroquia->estatus_parroquia();
     header("Location: ../vistas/?parroquia");
   }else{
-    $_SESSION['datos']['mensaje']=utf8_encode("No se han encontrado resultados para tu búsqueda(".$descripcion.")");
+    $error="";
+    if($parroquia->error()!=null)
+      $error="Se presentó un error al realizar la búsqueda.<br><b>Error: ".utf8_encode($parroquia->error())."</b>";
+    else 
+      $error="No se han encontrado resultados para tu búsqueda(".$descripcion.")";
+    $_SESSION['datos']['mensaje']=$error;
     header("Location: ../vistas/?parroquia");
   }
 }    

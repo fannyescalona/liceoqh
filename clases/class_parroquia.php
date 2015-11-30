@@ -7,12 +7,14 @@
      private $codigo_municipio;
      private $estatus_parroquia;
      private $fecha_desactivacion; 
+     private $error;
      private $mysql; 
 	 
    public function __construct(){
      $this->descripcion=null;
      $this->codigo_parroquia=null;
      $this->codigo_municipio=null;
+     $this->error=null;
 	 $this->mysql=new Conexion();
    }
    
@@ -68,42 +70,56 @@
 	 }
    }
    
+   public function error(){
+      $Num_Parametro=func_num_args();
+	 if($Num_Parametro==0) return $this->error;
+     
+	 if($Num_Parametro>0){
+	   $this->error=func_get_arg(0);
+	 }
+   }     
 
    public function Registrar(){
     $sql="insert into tparroquia (descripcion,codigo_municipio) values ('$this->descripcion','$this->codigo_municipio');";
     if($this->mysql->Ejecutar($sql)!=null)
 	return true;
-	else
-	return false;
+	else{
+		$this->error($this->mysql->Error());
+		return false;
+	}
    }
    
      public function Activar(){
     $sql="update tparroquia set fecha_desactivacion=NULL where (codigo_parroquia='$this->codigo_parroquia');";
     if($this->mysql->Ejecutar($sql)!=null)
 	return true;
-	else
-	return false;
+	else{
+		$this->error($this->mysql->Error());
+		return false;
+	}
    }
     public function Desactivar(){
     $sql="update tparroquia set fecha_desactivacion=CURDATE() where (codigo_parroquia='$this->codigo_parroquia');";
     if($this->mysql->Ejecutar($sql)!=null)
 	return true;
-	else
-	return false;
+	else{
+		$this->error($this->mysql->Error());
+		return false;
+	}
    }
    
     public function Actualizar(){
     $sql="update tparroquia set descripcion='$this->descripcion',codigo_municipio='$this->codigo_municipio' where (codigo_parroquia='$this->codigo_parroquia');";
     if($this->mysql->Ejecutar($sql)!=null)
 	return true;
-	else
-	return false;
+	else{
+		$this->error($this->mysql->Error());
+		return false;
+	}
    }
    
    public function Consultar(){
-    $sql="select *,
-    (CASE WHEN fecha_desactivacion IS NULL THEN  'Activo' 
-    	ELSE 'Desactivado' END) AS estatus_parroquia from tparroquia where descripcion='$this->descripcion'";
+    $sql="select *,(CASE WHEN fecha_desactivacion IS NULL THEN  'Activo' ELSE 'Desactivado' END) AS estatus_parroquia from tparroquia where descripcion='$this->descripcion'";
 	$query=$this->mysql->Ejecutar($sql);
     if($this->mysql->Total_Filas($query)!=0){
 	$tparroquia=$this->mysql->Respuesta($query);
@@ -115,7 +131,8 @@
 	return true;
 	}
 	else{
-	return false;
+		$this->error($this->mysql->Error());
+		return false;
 	}
    }
    public function Comprobar(){
@@ -127,10 +144,12 @@
 	$this->descripcion($tparroquia['descripcion']);
 	$this->codigo_municipio($tparroquia['codigo_municipio']);
 	$this->fecha_desactivacion($tparroquia['fecha_desactivacion']);
+    $this->error("El registro ya existe !");
 	return true;
 	}
 	else{
-	return false;
+		$this->error($this->mysql->Error());
+		return false;
 	}
    }
 }

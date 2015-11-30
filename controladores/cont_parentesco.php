@@ -35,7 +35,7 @@ if($confirmacion==1){
   $_SESSION['datos']['mensaje']="El parentesco ha sido registrado con éxito !";
   header("Location: ../vistas/?parentesco");
  }else{
-  $_SESSION['datos']['mensaje']="Se presentó un error al registrar el parentesco.";
+  $_SESSION['datos']['mensaje']="Se presentó un error al registrar el parentesco.<br><b>Error: ".utf8_encode($parentesco->error())."</b>";
   header("Location: ../vistas/?parentesco");
 }
 }
@@ -51,7 +51,7 @@ if($operacion=='Modificar'){
     $_SESSION['datos']['mensaje']="El parentesco ha sido modificado con éxito !";
     header("Location: ../vistas/?parentesco");
   }else{
-    $_SESSION['datos']['mensaje']="Problema al modificar el parentesco.";
+    $_SESSION['datos']['mensaje']="Se presentó un error al modificar el parentesco.<br><b>Error: ".utf8_encode($parentesco->error())."</b>";
     header("Location: ../vistas/?parentesco");
   }
 }
@@ -71,7 +71,7 @@ if($operacion=='Desactivar'){
     $_SESSION['datos']['mensaje']="El parentesco ha sido desactivado con éxito";
     header("Location: ../vistas/?parentesco");
    }else{
-    $_SESSION['datos']['mensaje']="Problema al desactivar el parentesco.";
+    $_SESSION['datos']['mensaje']="Se presentó un error al desactivar el parentesco.<br><b>Error: ".utf8_encode($parentesco->error())."</b>";
     header("Location: ../vistas/?parentesco");
     }
 }
@@ -91,7 +91,7 @@ if($operacion=='Activar'){
     $_SESSION['datos']['mensaje']="El parentesco ha sido desactivado con éxito";
     header("Location: ../vistas/?parentesco");
    }else{
-    $_SESSION['datos']['mensaje']="Problema al desactivar el parentesco.";
+    $_SESSION['datos']['mensaje']="Se presentó un error al desactivar el parentesco.<br><b>Error: ".utf8_encode($parentesco->error())."</b>";
     header("Location: ../vistas/?parentesco");
     }
 }
@@ -105,7 +105,12 @@ if($operacion=='Consultar'){
     $_SESSION['datos']['estatus']=$parentesco->estatus_parentesco();
     header("Location: ../vistas/?parentesco");
   }else{
-   $_SESSION['datos']['mensaje']="No se han encontrado resultados para tu búsqueda(".$descripcion.")";
+    $error="";
+    if($parentesco->error()!=null)
+      $error="Se presentó un error al realizar la búsqueda.<br><b>Error: ".utf8_encode($parentesco->error())."</b>";
+    else 
+      $error="No se han encontrado resultados para tu búsqueda(".$descripcion.")";
+    $_SESSION['datos']['mensaje']=$error;
    header("Location: ../vistas/?parentesco");
   }
 }		  

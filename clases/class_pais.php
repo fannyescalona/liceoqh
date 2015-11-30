@@ -6,11 +6,13 @@
      private $descripcion;
      private $estatus_pais; 
      private $fecha_desactivacion; 
+     private $error;
      private $mysql; 
 	 
    public function __construct(){
      $this->descripcion=null;
      $this->codigo_pais=null;
+     $this->error=null;
 	 $this->mysql=new Conexion();
    }
    
@@ -59,42 +61,56 @@
 	 }
    }
    
+   public function error(){
+      $Num_Parametro=func_num_args();
+	 if($Num_Parametro==0) return $this->error;
+     
+	 if($Num_Parametro>0){
+	   $this->error=func_get_arg(0);
+	 }
+   }      
 
    public function Registrar(){
     $sql="insert into tpais (descripcion) values ('$this->descripcion');";
     if($this->mysql->Ejecutar($sql)!=null)
 	return true;
-	else
-	return false;
+	else{
+		$this->error($this->mysql->Error());
+		return false;
+	}
    }
    
      public function Activar(){
     $sql="update tpais set fecha_desactivacion=NULL where (codigo_pais='$this->codigo_pais');";
     if($this->mysql->Ejecutar($sql)!=null)
 	return true;
-	else
-	return false;
+	else{
+		$this->error($this->mysql->Error());
+		return false;
+	}
    }
     public function Desactivar(){
     $sql="update tpais set fecha_desactivacion=CURDATE() where (codigo_pais='$this->codigo_pais');";
     if($this->mysql->Ejecutar($sql)!=null)
 	return true;
-	else
-	return false;
+	else{
+		$this->error($this->mysql->Error());
+		return false;
+	}
    }
    
     public function Actualizar(){
     $sql="update tpais set descripcion='$this->descripcion' where (codigo_pais='$this->codigo_pais');";
     if($this->mysql->Ejecutar($sql)!=null)
 	return true;
-	else
-	return false;
+	else{
+		$this->error($this->mysql->Error());
+		return false;
+	}
    }
    
    public function Consultar(){
-    $sql="select *,
-    (CASE WHEN fecha_desactivacion IS NULL THEN  'Activo' 
-    	ELSE 'Desactivado' END) AS estatus_pais from tpais where descripcion='$this->descripcion'";
+    $sql="select *,(CASE WHEN fecha_desactivacion IS NULL THEN  'Activo' ELSE 'Desactivado' END) AS estatus_pais from tpais where descripcion='$this->descripcion'";
 	$query=$this->mysql->Ejecutar($sql);
     if($this->mysql->Total_Filas($query)!=0){
 	$tpais=$this->mysql->Respuesta($query);
@@ -105,7 +121,8 @@
 	return true;
 	}
 	else{
-	return false;
+		$this->error($this->mysql->Error());
+		return false;
 	}
    }
    public function Comprobar(){
@@ -116,10 +133,12 @@
 	$this->codigo_pais($tpais['codigo_pais']);
 	$this->descripcion($tpais['descripcion']);
 	$this->fecha_desactivacion($tpais['fecha_desactivacion']);
+    $this->error("El registro ya existe !");
 	return true;
 	}
 	else{
-	return false;
+		$this->error($this->mysql->Error());
+		return false;
 	}
    }
 }

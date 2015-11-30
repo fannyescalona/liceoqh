@@ -117,7 +117,7 @@ if($operacion=='Consultar'){
     if($opciones->error()!=null)
       $error="Se presentó un error al realizar la búsqueda.<br><b>Error: ".utf8_encode($opciones->error())."</b>";
     else 
-      $error="No se han encontrado resultados para tu búsqueda(".$codigo_opciones.")";
+      $error="No se han encontrado resultados para tu búsqueda(".$descripcion.")";
     $_SESSION['datos']['mensaje']=$error;
     header("Location: ../vistas/?botones");
   }

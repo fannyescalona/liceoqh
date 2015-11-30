@@ -46,7 +46,7 @@ if($operacion=='Registrar'){
     $_SESSION['datos']['mensaje']="El servicio ha sido registrado con éxito !";
     header("Location: ../vistas/?servicio");
    }else{
-    $_SESSION['datos']['mensaje']="Se presentó un error al registrar el servicio.";
+    $_SESSION['datos']['mensaje']="Se presentó un error al registrar el servicio.<br><b>Error: ".utf8_encode($servicios->error())."</b>";
     header("Location: ../vistas/?servicio");
   }
 }
@@ -65,7 +65,7 @@ if($operacion=='Modificar'){
     $_SESSION['datos']['mensaje']="El servicio ha sido modificado con éxito !";
     header("Location: ../vistas/?servicio");
   }else{
-    $_SESSION['datos']['mensaje']="Problema al modificar el servicio.";
+    $_SESSION['datos']['mensaje']="Se presentó un error al modificar el servicio.<br><b>Error: ".utf8_encode($servicios->error())."</b>";
     header("Location: ../vistas/?servicio");
   }
 }
@@ -85,7 +85,7 @@ if($operacion=='Desactivar'){
     $_SESSION['datos']['mensaje']="El servicio ha sido desactivado con éxito";
     header("Location: ../vistas/?servicio");
   }else{
-    $_SESSION['datos']['mensaje']="Problema al desactivar el servicio.";
+    $_SESSION['datos']['mensaje']="Se presentó un error al desactivar el servicio.<br><b>Error: ".utf8_encode($servicios->error())."</b>";
     header("Location: ../vistas/?servicio");
   }
 }
@@ -105,7 +105,7 @@ if($operacion=='Activar'){
     $_SESSION['datos']['mensaje']="El servicio ha sido desactivado con éxito";
     header("Location: ../vistas/?servicio");
   }else{
-    $_SESSION['datos']['mensaje']="Problema al desactivar el servicio.";
+    $_SESSION['datos']['mensaje']="Se presentó un error al desactivar el servicio.";
     header("Location: ../vistas/?servicio");
   }
 }
@@ -122,7 +122,12 @@ if($operacion=='Consultar'){
     $_SESSION['datos']['estatus']=$servicios->estatus();
     header("Location: ../vistas/?servicio");
   }else{
-    $_SESSION['datos']['mensaje']=utf8_encode("No se han encontrado resultados para tu búsqueda(".$descripcion.")");
+    $error="";
+    if($servicios->error()!=null)
+      $error="Se presentó un error al realizar la búsqueda.<br><b>Error: ".utf8_encode($servicios->error())."</b>";
+    else 
+      $error="No se han encontrado resultados para tu búsqueda(".$descripcion.")";
+    $_SESSION['datos']['mensaje']=$error;
     header("Location: ../vistas/?servicio");
   }
 }    

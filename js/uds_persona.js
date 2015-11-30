@@ -7,8 +7,14 @@ function init(){
 		minLength:1
 	});
 	//	Ocultar Elementos references al personal de la institución
-	$('#personal1').hide();
-	$('#personal2').hide();
+	if($('input:radio[name=espersonalinstitucion]:checked').val()=='Y'){
+		$('#personal1').show();
+		$('#personal2').show();
+	}
+	else if($('input:radio[name=espersonalinstitucion]:checked').val()=='N'){
+		$('#personal1').hide();
+		$('#personal2').hide();
+	}
 	// Ocultar/Mostrar Elementos references al personal de la institución
 	$('input[name=espersonalinstitucion]').change(function(){
 		if($('input:radio[name=espersonalinstitucion]:checked').val()=='Y'){
@@ -71,11 +77,11 @@ function validar_formulario(param){
 			alert('Ingrese el teléfono de movil')
 			permitido=false;
 		}
-		else if(valor10.replace(/^\s+|\s+$/gi,"").length==0){ //para no permitir que se quede en blanco
+		/*else if(valor10.replace(/^\s+|\s+$/gi,"").length==0){ //para no permitir que se quede en blanco
 			alert('Ingrese el correo electrónico')
 			permitido=false;
-		}
-		else if(!regex.test(valor10.trim())){
+		}*/
+		else if(valor10.replace(/^\s+|\s+$/gi,"").length!=0 && !regex.test(valor10.trim())){
 			alert('La direccion de correo electrónico no es válida, la forma correcta sería por ejemplo pedroperez@gmail.com');
 			permitido = false;
 		}

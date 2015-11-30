@@ -103,16 +103,28 @@ else{
  $_pagi_nav_num_enlaces=5;
 //Incluimos el script de paginación. Éste ya ejecuta la consulta automáticamente 
  @include("../librerias/paginador/paginator.inc.php"); 
-
 //Leemos y escribimos los registros de la página actual 
  while($row = mysql_fetch_array($_pagi_result)){ 
-  echo "<tr><td style='width:20%;'>".$row['codigo_servicio']."</td><td align='left'>".$row['servicio']."</td>
-  <td align='left'>".$row['url']."</td><td align='left'>".$row['modulo']."</td>
+  echo "<tr style='cursor: pointer;' id='".$row['servicio']."' onclick='enviarForm(this.id)'>
+  <td style='width:20%;'>".$row['codigo_servicio']."</td>
+  <td align='left'>".$row['servicio']."</td>
+  <td align='left'>".$row['url']."</td>
+  <td align='left'>".$row['modulo']."</td>
     <td align='left'>".$row['orden']."</td></tr>"; 
 } 
 //Incluimos la barra de navegación 
 ?>
 </table>
+<script type="text/javascript">
+function enviarForm(value){
+  document.getElementById('campo_oculto').value=value;
+  document.getElementById('form1').submit();
+}
+</script>
+<form id="form1" method="POST" action="../controladores/cont_servicio.php">
+  <input type="hidden" name="descripcion" id="campo_oculto" value="" />
+  <input type="hidden" name="operacion" id="operacion" value="Consultar" />
+</form>
 <div class="pagination">
  <ul>
    <?php echo"<li>".$_pagi_navegacion."</li>";?>

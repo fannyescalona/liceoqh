@@ -5,6 +5,7 @@
      private $seccion; 
      private $descripcion;
      private $turno;  
+     private $grado_escolar;  
      private $capacidad_min;
      private $capacidad_max; 
      private $estatus; 
@@ -17,6 +18,7 @@
      $this->seccion=null;
      $this->descripcion=null;
      $this->turno=null;
+     $this->grado_escolar=null;
      $this->capacidad_min=null;
      $this->capacidad_max=null;
      $this->error=null;
@@ -55,6 +57,15 @@
      
 	 if($Num_Parametro>0){
 	   $this->turno=func_get_arg(0);
+	 }
+   }
+
+   public function grado_escolar(){
+   $Num_Parametro=func_num_args();
+	 if($Num_Parametro==0) return $this->grado_escolar;
+     
+	 if($Num_Parametro>0){
+	   $this->grado_escolar=func_get_arg(0);
 	 }
    }
 
@@ -108,9 +119,9 @@
 		if($this->mysql->Ejecutar($sql)!=null)
 			return true;
 		else{
-	    	$this->error(pg_last_error());
-	    	return false;
-	    }
+	      $this->error($this->mysql->Error());
+	      return false;
+	    } 
 	} 
 
 	public function InsertarMateriasDocentes($materias,$docentes){
@@ -128,18 +139,20 @@
 	    if($this->mysql->Ejecutar($sql)!=null)
 	      return true;
 	    else{
-	    	$this->error(mysql_error());
-	    	return false;
-	    }
+	      $this->error($this->mysql->Error());
+	      return false;
+	    } 
     }
 
    public function Registrar(){
-    $sql="insert into tseccion (seccion,descripcion,turno,capacidad_min,capacidad_max) values 
-    ('$this->seccion','$this->descripcion','$this->turno','$this->capacidad_min','$this->capacidad_max');";
+    $sql="insert into tseccion (seccion,descripcion,turno,grado_escolar,capacidad_min,capacidad_max) values ";
+    $sql.="('$this->seccion','$this->descripcion','$this->turno','$this->grado_escolar','$this->capacidad_min','$this->capacidad_max');";
     if($this->mysql->Ejecutar($sql)!=null)
 	return true;
-	else
-	return false;
+	else{
+      $this->error($this->mysql->Error());
+      return false;
+    } 
    }
 
    
@@ -147,36 +160,41 @@
     $sql="update tseccion set fecha_desactivacion=NULL where (seccion='$this->seccion');";
     if($this->mysql->Ejecutar($sql)!=null)
 	return true;
-	else
-	return false;
+	else{
+      $this->error($this->mysql->Error());
+      return false;
+    } 
    }
     public function Desactivar(){
     $sql="update tseccion set fecha_desactivacion=CURDATE() where (seccion='$this->seccion');";
     if($this->mysql->Ejecutar($sql)!=null)
 	return true;
-	else
-	return false;
+	else{
+      $this->error($this->mysql->Error());
+      return false;
+    } 
    }
    
     public function Actualizar(){
-    $sql="update tseccion set seccion='$this->seccion',descripcion='$this->descripcion',turno='$this->turno',capacidad_min='$this->capacidad_min',
-    capacidad_max='$this->capacidad_max' where (seccion='$this->seccion');";
+    $sql="update tseccion set seccion='$this->seccion',descripcion='$this->descripcion',turno='$this->turno',grado_escolar='$this->grado_escolar', ";
+    $sql.="capacidad_min='$this->capacidad_min',capacidad_max='$this->capacidad_max' where (seccion='$this->seccion');";
     if($this->mysql->Ejecutar($sql)!=null)
 	return true;
-	else
-	return false;
+	else{
+      $this->error($this->mysql->Error());
+      return false;
+    } 
    }
    
    public function Consultar(){
-    $sql="SELECT *,
-    (CASE WHEN fecha_desactivacion IS NULL THEN  'Activo' 
-    	ELSE 'Desactivado' END) AS estatus FROM tseccion WHERE seccion='$this->seccion'";
+    $sql="SELECT *,(CASE WHEN fecha_desactivacion IS NULL THEN  'Activo' ELSE 'Desactivado' END) AS estatus FROM tseccion WHERE seccion='$this->seccion'";
 	$query=$this->mysql->Ejecutar($sql);
     if($this->mysql->Total_Filas($query)!=0){
 	$tseccion=$this->mysql->Respuesta($query);
 	$this->seccion($tseccion['seccion']);
 	$this->descripcion($tseccion['descripcion']);
 	$this->turno($tseccion['turno']);
+	$this->grado_escolar($tseccion['grado_escolar']);
 	$this->capacidad_min($tseccion['capacidad_min']);
 	$this->capacidad_max($tseccion['capacidad_max']);
 	$this->estatus($tseccion['estatus']);
@@ -184,8 +202,9 @@
 	return true;
 	}
 	else{
-	return false;
-	}
+      $this->error($this->mysql->Error());
+      return false;
+    } 
    }
    public function Comprobar(){
     $sql="select * from tseccion where seccion='$this->seccion'";
@@ -199,33 +218,33 @@
 	$this->capacidad_max($tseccion['capacidad_max']);
 	$this->estatus($tseccion['estatus']);
 	$this->fecha_desactivacion($tseccion['fecha_desactivacion']);
+    $this->error("El registro ya existe !");
 	return true;
 	}
 	else{
-	return false;
-	}
+      $this->error($this->mysql->Error());
+      return false;
+    } 
    }
 
   public function Eliminar_Notas($msd,$estudiante,$lapso){
-    $sql="DELETE FROM tcontrol_notas 
-    WHERE codigo_msd=$msd AND cedula_estudiante='$estudiante' AND codigo_lapso=$lapso;";
+    $sql="DELETE FROM tcontrol_notas WHERE codigo_msd=$msd AND cedula_estudiante='$estudiante' AND codigo_lapso=$lapso;";
     if($this->mysql->Ejecutar($sql)!=null)
       return true;
     else{
-      $this->error(mysql_error());
+      $this->error($this->mysql->Error());
       return false;
-    }
+    } 
   }
 
   public function Asignar_Notas($msd,$estudiante,$lapso,$nota){
-    $sql="INSERT INTO tcontrol_notas (codigo_msd,cedula_estudiante,codigo_lapso,notafinal) VALUES 
-    ($msd,'$estudiante',$lapso,$nota);";
+    $sql="INSERT INTO tcontrol_notas (codigo_msd,cedula_estudiante,codigo_lapso,notafinal) VALUES ($msd,'$estudiante',$lapso,$nota);";
     if($this->mysql->Ejecutar($sql)!=null)
       return true;
     else{
-      $this->error(mysql_error());
+      $this->error($this->mysql->Error());
       return false;
-    }
+    } 
   }
 }
 ?>

@@ -51,7 +51,7 @@
               <label>Cédula:</label>
               <input tabindex=1 onKeyUp="this.value=this.value.toUpperCase()" title="Ingrese el número de cédula del representante" maxlength=10 name="cedula_representante" id="cedula_representante" type="text" size="10" value="<?=$row['cedula_representante'];?>" placeholder="Ingrese el número de Cédula del representante" class="campoTexto" required />
               <label>Nombre(s):</label>
-              <input tabindex=3 title="Ingrese el(los) nombre(s) del representante" onKeyUp="this.value=this.value.toUpperCase()" name="nombre_representante" id="nombre_representante" type="text" size="50" value="<?=$row['nombre_representante'];?>" placeholder="Ingrese el(los) Nombre(s) del representante" class="campoTexto" required />
+              <input tabindex=3 title="Ingrese el(los) nombre(s) del representante" onKeyPress="return isCharKey(event)" onKeyUp="this.value=this.value.toUpperCase()" name="nombre_representante" id="nombre_representante" type="text" size="50" value="<?=$row['nombre_representante'];?>" placeholder="Ingrese el(los) Nombre(s) del representante" class="campoTexto" required />
               <label>Fecha de Nacimiento:</label>
               <input tabindex=5 title="Seleccione el fecha de Nacimiento del representante" name="fecha_nacimiento_representante" id="fecha_nacimiento_representante" type="text" size="50" value="<?=$row['fn_representante'];?>" placeholder="Ingrese la Fecha de Nacimiento del representante" class="campoTexto" readonly required />
               <label>Dirección:</label>
@@ -69,7 +69,7 @@
                 <option value="M" <?php if($row['genero_representante']=="M"){ echo "selected";}?>>Masculino</option>
               </select>
               <label>Apellido(s):</label>
-              <input tabindex=4 title="Ingrese el(los) apellido(s) del representante" onKeyUp="this.value=this.value.toUpperCase()" name="apellido_representante" id="apellido_representante" type="text" size="50" value="<?=$row['apellido_representante'];?>" placeholder="Ingrese el(los) Apellido(s) del representante" class="campoTexto" required />
+              <input tabindex=4 title="Ingrese el(los) apellido(s) del representante" onKeyPress="return isCharKey(event)" onKeyUp="this.value=this.value.toUpperCase()" name="apellido_representante" id="apellido_representante" type="text" size="50" value="<?=$row['apellido_representante'];?>" placeholder="Ingrese el(los) Apellido(s) del representante" class="campoTexto" required />
               <label>Lugar de Nacimiento:</label>
               <input tabindex=6 title="Seleccione una Parroquia" onKeyUp="this.value=this.value.toUpperCase()" name="lugar_nacimiento_representante" id="lugar_nacimiento_representante" type="text" size="50" value="<?=$row['ln_representante'];?>" placeholder="Seleccione una Parroquia" class="campoTexto" required />
               <label>Teléfono de Habitación:</label>

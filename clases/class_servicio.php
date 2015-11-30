@@ -9,6 +9,7 @@
      private $codigo_modulo;
      private $estatus;
      private $fecha_desactivacion; 
+     private $error; 
      private $mysql; 
 	 
    public function __construct(){
@@ -17,6 +18,7 @@
      $this->codigo_modulo=null;
      $this->url=null;
      $this->orden=null;
+     $this->error=null;
 	 $this->mysql=new Conexion();
    }
    
@@ -87,44 +89,57 @@ public function url(){
 	   $this->fecha_desactivacion=func_get_arg(0);
 	 }
    }
+
+   public function error(){
+      $Num_Parametro=func_num_args();
+	 if($Num_Parametro==0) return $this->error;
+     
+	 if($Num_Parametro>0){
+	   $this->error=func_get_arg(0);
+	 }
+   }
    
    public function Registrar(){
-    $sql="insert into tservicio (descripcion,url,orden,codigo_modulo) values ('$this->descripcion','$this->url',
-    '$this->orden','$this->codigo_modulo');";
+    $sql="insert into tservicio (descripcion,url,orden,codigo_modulo) values ('$this->descripcion','$this->url','$this->orden','$this->codigo_modulo');";
     if($this->mysql->Ejecutar($sql)!=null)
 	return true;
-	else
-	return false;
+	else{
+      $this->error($this->mysql->Error());
+      return false;
+    } 
    }
    
      public function Activar(){
     $sql="update tservicio set fecha_desactivacion=NULL where (codigo_servicio='$this->codigo_servicio');";
     if($this->mysql->Ejecutar($sql)!=null)
 	return true;
-	else
-	return false;
+	else{
+      $this->error($this->mysql->Error());
+      return false;
+    } 
    }
     public function Desactivar(){
     $sql="update tservicio set fecha_desactivacion=CURDATE() where (codigo_servicio='$this->codigo_servicio');";
     if($this->mysql->Ejecutar($sql)!=null)
 	return true;
-	else
-	return false;
+	else{
+      $this->error($this->mysql->Error());
+      return false;
+    } 
    }
    
     public function Actualizar(){
-    $sql="update tservicio set descripcion='$this->descripcion',url='$this->url',
-    orden='$this->orden',codigo_modulo='$this->codigo_modulo' where (codigo_servicio='$this->codigo_servicio');";
+    $sql="update tservicio set descripcion='$this->descripcion',url='$this->url',orden='$this->orden',codigo_modulo='$this->codigo_modulo' where (codigo_servicio='$this->codigo_servicio');";
     if($this->mysql->Ejecutar($sql)!=null)
 	return true;
-	else
-	return false;
+	else{
+      $this->error($this->mysql->Error());
+      return false;
+    } 
    }
    
    public function Consultar(){
-    $sql="select *,
-    (CASE WHEN fecha_desactivacion IS NULL THEN  'Activo' 
-    	ELSE 'Desactivado' END) AS estatus from tservicio where descripcion='$this->descripcion'";
+    $sql="select *,(CASE WHEN fecha_desactivacion IS NULL THEN  'Activo' ELSE 'Desactivado' END) AS estatus from tservicio where descripcion='$this->descripcion'";
 	$query=$this->mysql->Ejecutar($sql);
     if($this->mysql->Total_Filas($query)!=0){
 	$tservicio=$this->mysql->Respuesta($query);
@@ -138,8 +153,9 @@ public function url(){
 	return true;
 	}
 	else{
-	return false;
-	}
+      $this->error($this->mysql->Error());
+      return false;
+    } 
    }
 
    public function Comprobar(){
@@ -153,11 +169,13 @@ public function url(){
 	$this->orden($tservicio['orden']);
 	$this->codigo_modulo($tservicio['codigo_modulo']);
 	$this->fecha_desactivacion($tservicio['fecha_desactivacion']);
+    $this->error("El registro ya existe !");
 	return true;
 	}
 	else{
-	return false;
-	}
+      $this->error($this->mysql->Error());
+      return false;
+    } 
    }
 }
 ?>

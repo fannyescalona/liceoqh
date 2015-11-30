@@ -42,7 +42,7 @@
               <label>Cédula:</label>
               <input tabindex=1 onKeyUp="this.value=this.value.toUpperCase()" title="Ingrese el número de cédula de la madre" maxlength=10 name="cedula_madre" id="cedula_madre" type="text" size="10" value="<?=$row['cedula_madre'];?>" placeholder="Ingrese el número de Cédula de la Madre" class="campoTexto" />
               <label>Nombre(s):</label>
-              <input tabindex=3 title="Ingrese el(los) nombre(s) de la Madre" onKeyUp="this.value=this.value.toUpperCase()" name="nombre_madre" id="nombre_madre" type="text" size="50" value="<?=$row['nombre_madre'];?>" placeholder="Ingrese el(los) Nombre(s) de la Madre" class="campoTexto" />
+              <input tabindex=3 title="Ingrese el(los) nombre(s) de la Madre" onKeyPress="return isCharKey(event)" onKeyUp="this.value=this.value.toUpperCase()" name="nombre_madre" id="nombre_madre" type="text" size="50" value="<?=$row['nombre_madre'];?>" placeholder="Ingrese el(los) Nombre(s) de la Madre" class="campoTexto" />
               <label>Fecha de Nacimiento:</label>
               <input tabindex=5 title="Seleccione el fecha de Nacimiento de la Madre" name="fecha_nacimiento_madre" id="fecha_nacimiento_madre" type="text" size="50" value="<?=$row['fn_madre'];?>" placeholder="Ingrese la Fecha de Nacimiento de la Madre" class="campoTexto" readonly />
               <label>Dirección:</label>
@@ -52,7 +52,7 @@
               <label>Correo Electrónico:</label>
               <input tabindex=2 title="Ingrese el correo electrónico de la madre" onKeyPress="return isEmail(event,this.value)" onKeyUp="this.value=this.value.toLowerCase()" name="email_madre" id="email_madre" type="text" size="50" value="<?=$row['email_madre'];?>" placeholder="Ingrese el Correo Electrónico de la Madre" class="campoTexto" />
               <label>Apellido(s):</label>
-              <input tabindex=4 title="Ingrese el(los) apellido(s) de la Madre" onKeyUp="this.value=this.value.toUpperCase()" name="apellido_madre" id="apellido_madre" type="text" size="50" value="<?=$row['apellido_madre'];?>" placeholder="Ingrese el(los) Apellido(s) de la Madre" class="campoTexto" />
+              <input tabindex=4 title="Ingrese el(los) apellido(s) de la Madre" onKeyPress="return isCharKey(event)" onKeyUp="this.value=this.value.toUpperCase()" name="apellido_madre" id="apellido_madre" type="text" size="50" value="<?=$row['apellido_madre'];?>" placeholder="Ingrese el(los) Apellido(s) de la Madre" class="campoTexto" />
               <label>Lugar de Nacimiento:</label>
               <input tabindex=6 title="Seleccione una Parroquia" onKeyUp="this.value=this.value.toUpperCase()" name="lugar_nacimiento_madre" id="lugar_nacimiento_madre" type="text" size="50" value="<?=$row['ln_madre'];?>" placeholder="Seleccione una Parroquia" class="campoTexto" />
               <label>Teléfono de Habitación:</label>
@@ -67,7 +67,7 @@
               <label>Cédula:</label>
               <input tabindex=10 onKeyUp="this.value=this.value.toUpperCase()" title="Ingrese el número de cédula del padre" maxlength=10 name="cedula_padre" id="cedula_padre" type="text" size="10" value="<?=$row['cedula_padre'];?>" placeholder="Ingrese el número de Cédula del Padre" class="campoTexto" />
               <label>Nombre(s):</label>
-              <input tabindex=12 title="Ingrese el(los) nombre(s) del Padre" onKeyUp="this.value=this.value.toUpperCase()" name="nombre_padre" id="nombre_padre" type="text" size="50" value="<?=$row['nombre_padre'];?>" placeholder="Ingrese el(los) Nombre(s) del Padre" class="campoTexto" />
+              <input tabindex=12 title="Ingrese el(los) nombre(s) del Padre" onKeyPress="return isCharKey(event)" onKeyUp="this.value=this.value.toUpperCase()" name="nombre_padre" id="nombre_padre" type="text" size="50" value="<?=$row['nombre_padre'];?>" placeholder="Ingrese el(los) Nombre(s) del Padre" class="campoTexto" />
               <label>Fecha de Nacimiento:</label>
               <input tabindex=14 title="Seleccione el fecha de Nacimiento del Padre" name="fecha_nacimiento_padre" id="fecha_nacimiento_padre" type="text" size="50" value="<?=$row['fn_padre'];?>" placeholder="Ingrese la Fecha de Nacimiento del Padre" class="campoTexto" readonly />
               <label>Dirección:</label>
@@ -77,7 +77,7 @@
               <label>Correo Electrónico:</label>
               <input tabindex=11 title="Ingrese el correo electrónico del padre" onKeyPress="return isEmail(event,this.value)" onKeyUp="this.value=this.value.toLowerCase()" name="email_padre" id="email_padre" type="text" size="50" value="<?=$row['email_padre'];?>" placeholder="Ingrese el Correo Electrónico del Padre" class="campoTexto" />
               <label>Apellido(s):</label>
-              <input tabindex=13 title="Ingrese el(los) apellido(s) del Padre" onKeyUp="this.value=this.value.toUpperCase()" name="apellido_padre" id="apellido_padre" type="text" size="50" value="<?=$row['apellido_padre'];?>" placeholder="Ingrese el(los) Apellido(s) del Padre" class="campoTexto" />
+              <input tabindex=13 title="Ingrese el(los) apellido(s) del Padre" onKeyPress="return isCharKey(event)" onKeyUp="this.value=this.value.toUpperCase()" name="apellido_padre" id="apellido_padre" type="text" size="50" value="<?=$row['apellido_padre'];?>" placeholder="Ingrese el(los) Apellido(s) del Padre" class="campoTexto" />
               <label>Lugar de Nacimiento:</label>
               <input tabindex=15 title="Seleccione una Parroquia" onKeyUp="this.value=this.value.toUpperCase()" name="lugar_nacimiento_padre" id="lugar_nacimiento_padre" type="text" size="50" value="<?=$row['ln_padre'];?>" placeholder="Seleccione una Parroquia" class="campoTexto" />
               <label>Teléfono de Habitación:</label>

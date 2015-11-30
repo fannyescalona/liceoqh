@@ -14,6 +14,7 @@
       @$seccion=$_SESSION['datos']['seccion'];
       @$descripcion=$_SESSION['datos']['descripcion'];
       @$turno=$_SESSION['datos']['turno'];
+      @$grado_escolar=$_SESSION['datos']['grado_escolar'];
       @$capacidad_min=$_SESSION['datos']['capacidad_min'];
       @$capacidad_max=$_SESSION['datos']['capacidad_max'];
       @$estatus=$_SESSION['datos']['estatus'];
@@ -22,6 +23,7 @@
       @$seccion=null;
       @$descripcion=null;
       @$turno=null;
+      @$grado_escolar=null;
       @$capacidad_min=null;
       @$capacidad_max=null;
       @$estatus=null;
@@ -44,6 +46,16 @@
             <option value='0'>Seleccione un Turno</option>
             <option value='M' <?php if($turno=='M'){ echo 'selected'; }?>> Mañana</option>
             <option value='T' <?php if($turno=='T'){ echo 'selected'; }?>> Tarde</option>
+          </select>
+          <label>Grado Escolar:</label>
+          <select tabindex=4 name="grado_escolar" id="grado_escolar" title="Seleccione el Grado Escolar" class='lista' required >
+            <option value="">Selecione una opción</option>
+            <option value="1" <?php if($grado_escolar=="1"){ echo "selected";}?>>1er Año</option>
+            <option value="2" <?php if($grado_escolar=="2"){ echo "selected";}?>>2do Año</option>
+            <option value="3" <?php if($grado_escolar=="3"){ echo "selected";}?>>3er Año</option>
+            <option value="4" <?php if($grado_escolar=="4"){ echo "selected";}?>>4to Año</option>
+            <option value="5" <?php if($grado_escolar=="5"){ echo "selected";}?>>5to Año</option>
+            <option value="6" <?php if($grado_escolar=="6"){ echo "selected";}?>>6to Año</option>
           </select>
           <label>Capacidad Mínima de la Sección:</label>
           <input title="Ingrese la capacidad mínima de la sección" onKeyPress="return isNumberKey(event)" name="capacidad_min" id="capacidad_min" maxlength=2 type="text" size="50" value="<?= $capacidad_min;?>" placeholder="Ingrese la Capacidad Mínima" class="campoTexto" required />
@@ -127,6 +139,7 @@
         <td>Código Sección</td>
         <td>Sección</td>
         <td>Turno</td>
+        <td>Grado Escolar</td>
         <td>Capacidad Mínima</td>
         <td>Capacidad Máxima</td>
       </tr>
@@ -136,7 +149,8 @@
         $mysql=new Conexion();
         //Sentencia sql (sin limit) 
         $_pagi_sql = "SELECT seccion,descripcion,CASE turno WHEN 'M' THEN 'MAÑANA' ELSE 'TARDE' END AS turno, 
-        capacidad_max,capacidad_min 
+        capacidad_max,capacidad_min,
+        CASE grado_escolar WHEN '1' THEN '1er Año' WHEN '2' THEN '2do Año' WHEN '3' THEN '3er Año' WHEN '4' THEN '4to Año' WHEN '5' THEN '5to Año' WHEN '6' THEN '6to Año' END AS grado_escolar
         FROM tseccion where fecha_desactivacion is null order by seccion desc";  
         //Booleano. Define si se utiliza pg_num_rows() (true) o COUNT(*) (false).
         $_pagi_conteo_alternativo = true;
@@ -150,15 +164,27 @@
         @include("../librerias/paginador/paginator.inc.php"); 
         //Leemos y escribimos los registros de la página actual 
         while($row = mysql_fetch_array($_pagi_result)){ 
-          echo "<tr><td style='width:20%;'>".$row['seccion']."</td>
+          echo "<tr style='cursor: pointer;' id='".$row['seccion']."' onclick='enviarForm(this.id)'>
+          <td style='width:20%;'>".$row['seccion']."</td>
           <td align='left'>".$row['descripcion']."</td>
           <td align='left'>".$row['turno']."</td>
+          <td align='left'>".$row['grado_escolar']."</td>
           <td align='left'>".$row['capacidad_min']."</td>
           <td align='left'>".$row['capacidad_max']."</td></tr>"; 
         } 
         //Incluimos la barra de navegación 
       ?>
     </table>
+    <script type="text/javascript">
+    function enviarForm(value){
+      document.getElementById('campo_oculto').value=value;
+      document.getElementById('form1').submit();
+    }
+    </script>
+    <form id="form1" method="POST" action="../controladores/cont_seccion.php">
+      <input type="hidden" name="seccion" id="campo_oculto" value="" />
+      <input type="hidden" name="operacion" id="operacion" value="Consultar" />
+    </form>
     <div class="pagination">
       <ul>
         <?php echo"<li>".$_pagi_navegacion."</li>";?>

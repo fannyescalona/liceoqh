@@ -26,8 +26,8 @@ $apellidos=trim($_POST['apellidos']);
 if(isset($_POST['peso']))
 $peso=trim($_POST['peso']);
 
-if(isset($_POST['talla']))
-$talla=trim($_POST['talla']);
+if(isset($_POST['estatura']))
+$estatura=trim($_POST['estatura']);
 
 if(isset($_POST['fecha_nacimiento_estudiante']))
 $fecha_nacimiento=trim($_POST['fecha_nacimiento_estudiante']);
@@ -209,7 +209,7 @@ if($operacion=='Registrar'){
   $inscripcion->nombres($nombres);
   $inscripcion->apellidos($apellidos);
   $inscripcion->peso($peso);
-  $inscripcion->talla($talla);
+  $inscripcion->estatura($estatura);
   $inscripcion->fecha_nacimiento($fecha_nacimiento);
   $inscripcion->lugar_nacimiento($lugar_nacimiento);
   $inscripcion->direccion($direccion);
@@ -234,8 +234,7 @@ if($operacion=='Registrar'){
     header("Location: ../vistas/?proceso_inscripcion#datospadres");
   }else{
     $inscripcion->Transaccion('cancelado');
-    $inscripcion->error(); die();
-    $_SESSION['datos']['mensaje']="Se presentó un error al registrar los datos del estudiante";
+    $_SESSION['datos']['mensaje']="Se presentó un error al registrar los datos del estudiante.<br><b>Error: ".utf8_encode($inscripcion->error())."</b>";
     header("Location: ../vistas/?proceso_inscripcion#datosestudiantes");
   }
 }
@@ -248,7 +247,7 @@ if($operacion=='Modificar'){
   $inscripcion->nombres($nombres);
   $inscripcion->apellidos($apellidos);
   $inscripcion->peso($peso);
-  $inscripcion->talla($talla);
+  $inscripcion->estatura($estatura);
   $inscripcion->fecha_nacimiento($fecha_nacimiento);
   $inscripcion->lugar_nacimiento($lugar_nacimiento);
   $inscripcion->direccion($direccion);
@@ -264,10 +263,10 @@ if($operacion=='Modificar'){
   if($confirmacion==1){
     $inscripcion->Transaccion('finalizado');
     $_SESSION['datos']['mensaje']="Los datos del estudiante se han modificados con éxito!";
-    header("Location: ../vistas/?proceso_inscripcion#datospadres");
+    header("Location: ../vistas/?proceso_inscripcion#datosestudiantes");
   }else{
     $inscripcion->Transaccion('cancelado');
-    $_SESSION['datos']['mensaje']="Se presentó un error al modificar los datos del estudiante";
+    $_SESSION['datos']['mensaje']="Se presentó un error al modificar los datos del estudiante.<br><b>Error: ".utf8_encode($inscripcion->error())."</b>";
     header("Location: ../vistas/?proceso_inscripcion#datosestudiantes");
   }
 }
@@ -305,7 +304,7 @@ if($operacion=="Paso2"){
     header("Location: ../vistas/?proceso_inscripcion#documentosconsignados");
   }else{
     $inscripcion->Transaccion('cancelado');
-    $_SESSION['datos']['mensaje']="Se presentó un error al cargar los datos de los padres.";
+    $_SESSION['datos']['mensaje']="Se presentó un error al cargar los datos de los padres.<br><b>Error: ".utf8_encode($inscripcion->error())."</b>";
     header("Location: ../vistas/?proceso_inscripcion#datospadres");
   }
 }
@@ -336,7 +335,7 @@ if($operacion=="Paso3"){
     header("Location: ../vistas/?proceso_inscripcion#datosrepresentante");
   }else{
     $inscripcion->Transaccion('cancelado');
-    $_SESSION['datos']['mensaje']="Se presentó un error al cargar los documentos consignados.";
+    $_SESSION['datos']['mensaje']="Se presentó un error al cargar los documentos consignados.<br><b>Error: ".utf8_encode($inscripcion->error())."</b>";
     header("Location: ../vistas/?proceso_inscripcion#documentosconsignados");
   }
 }
@@ -368,7 +367,7 @@ if($operacion=="Paso4"){
     header("Location: ../vistas/?proceso_inscripcion");
   }else{
     $inscripcion->Transaccion('cancelado');
-    $_SESSION['datos']['mensaje']="Se presentó un error al modificar los datos del representante.";
+    $_SESSION['datos']['mensaje']="Se presentó un error al modificar los datos del representante.<br><b>Error: ".utf8_encode($inscripcion->error())."</b>";
     header("Location: ../vistas/?proceso_inscripcion#datosrepresentante");
   }
 }
@@ -383,7 +382,7 @@ if($operacion=='Consultar'){
     $_SESSION['datos']['nombres']=$inscripcion->nombres();
     $_SESSION['datos']['apellidos']=$inscripcion->apellidos();
     $_SESSION['datos']['peso']=$inscripcion->peso();
-    $_SESSION['datos']['talla']=$inscripcion->talla();
+    $_SESSION['datos']['estatura']=$inscripcion->estatura();
     $_SESSION['datos']['fecha_nacimiento']=$inscripcion->fecha_nacimiento();
     $_SESSION['datos']['lugar_nacimiento']=$inscripcion->lugar_nacimiento();
     $_SESSION['datos']['direccion']=$inscripcion->direccion();
@@ -393,7 +392,12 @@ if($operacion=='Consultar'){
     $_SESSION['datos']['estatus']=$inscripcion->estatus();
     header("Location: ../vistas/?proceso_inscripcion#datosestudiantes");
   }else{
-    $_SESSION['datos']['mensaje']="No se han encontrado resultados para tu búsqueda(".$cedula_estudiante.")";
+    $error="";
+    if($inscripcion->error()!=null)
+      $error="Se presentó un error al realizar la búsqueda.<br><b>Error: ".utf8_encode($inscripcion->error())."</b>";
+    else 
+      $error="No se han encontrado resultados para tu búsqueda(".$cedula_estudiante.")";
+    $_SESSION['datos']['mensaje']=$error;
     header("Location: ../vistas/?proceso_inscripcion#datosestudiantes");
   }                              
 }

@@ -26,7 +26,6 @@ if(isset($_POST['codigo_municipio'])){
   $codigo_municipio=$municipio[0];
 }
 
-
 include_once("../clases/class_plantel.php");
 $plantel=new plantel();
 if($operacion=='Registrar'){
@@ -53,7 +52,7 @@ if($operacion=='Registrar'){
     $_SESSION['datos']['mensaje']="El plantel ha sido registrado con éxito !";
     header("Location: ../vistas/?plantel");
    }else{
-    $_SESSION['datos']['mensaje']="Se presentó un error al registrar plantel.";
+    $_SESSION['datos']['mensaje']="Se presentó un error al registrar plantel.<br><b>Error: ".utf8_encode($plantel->error())."</b>";
     header("Location: ../vistas/?plantel");
   }
 }
@@ -73,7 +72,7 @@ if($operacion=='Modificar'){
     $_SESSION['datos']['mensaje']="El plantel ha sido modificado con éxito !";
     header("Location: ../vistas/?plantel");
   }else{
-    $_SESSION['datos']['mensaje']="Ocurrió un Problema al modificar el plantel.";
+    $_SESSION['datos']['mensaje']="Se presentó un error al modificar el plantel.<br><b>Error: ".utf8_encode($plantel->error())."</b>";
     header("Location: ../vistas/?plantel");
   }
 }
@@ -93,7 +92,7 @@ if($operacion=='Desactivar'){
     $_SESSION['datos']['mensaje']="El plantel ha sido desactivado con éxito";
     header("Location: ../vistas/?plantel");
   }else{
-    $_SESSION['datos']['mensaje']="Problema al desactivar el plantel.";
+    $_SESSION['datos']['mensaje']="Se presentó un error al desactivar el plantel.<br><b>Error: ".utf8_encode($plantel->error())."</b>";
     header("Location: ../vistas/?plantel");
   }
 }
@@ -113,7 +112,7 @@ if($operacion=='Activar'){
     $_SESSION['datos']['mensaje']="El plantel ha sido desactivado con éxito";
     header("Location: ../vistas/?plantel");
   }else{
-    $_SESSION['datos']['mensaje']="Problema al desactivar el plantel.";
+    $_SESSION['datos']['mensaje']="Se presentó un error al desactivar el plantel.<br><b>Error: ".utf8_encode($plantel->error())."</b>";
     header("Location: ../vistas/?plantel");
   }
 }
@@ -131,7 +130,12 @@ if($operacion=='Consultar'){
     $_SESSION['datos']['estatus']=$plantel->estatus_plantel();
     header("Location: ../vistas/?plantel");
   }else{
-    $_SESSION['datos']['mensaje']="No se han encontrado resultados para tu búsqueda(".$nombre.")";
+    $error="";
+    if($plantel->error()!=null)
+      $error="Se presentó un error al realizar la búsqueda.<br><b>Error: ".utf8_encode($plantel->error())."</b>";
+    else 
+      $error="No se han encontrado resultados para tu búsqueda(".$nombre.")";
+    $_SESSION['datos']['mensaje']=$error;
     header("Location: ../vistas/?plantel");
   }
 }		  

@@ -35,7 +35,7 @@ if($confirmacion==1){
   $_SESSION['datos']['mensaje']="El país ha sido registrado con éxito !";
   header("Location: ../vistas/?pais");
  }else{
-  $_SESSION['datos']['mensaje']="Se presentó un error al registrar el país.";
+  $_SESSION['datos']['mensaje']="Se presentó un error al registrar el país.<br><b>Error: ".utf8_encode($pais->error())."</b>";
   header("Location: ../vistas/?pais");
 }
 }
@@ -51,7 +51,7 @@ if($operacion=='Modificar'){
     $_SESSION['datos']['mensaje']="El país ha sido modificado con éxito !";
     header("Location: ../vistas/?pais");
   }else{
-    $_SESSION['datos']['mensaje']="Problema al modificar el país.";
+    $_SESSION['datos']['mensaje']="Se presentó un error al modificar el país.<br><b>Error: ".utf8_encode($pais->error())."</b>";
     header("Location: ../vistas/?pais");
   }
 }
@@ -71,7 +71,7 @@ if($operacion=='Desactivar'){
     $_SESSION['datos']['mensaje']="El país ha sido desactivado con éxito";
     header("Location: ../vistas/?pais");
    }else{
-    $_SESSION['datos']['mensaje']="Problema al desactivar el país.";
+    $_SESSION['datos']['mensaje']="Se presentó un error al desactivar el país.<br><b>Error: ".utf8_encode($pais->error())."</b>";
     header("Location: ../vistas/?pais");
     }
 }
@@ -91,7 +91,7 @@ if($operacion=='Activar'){
     $_SESSION['datos']['mensaje']="El país ha sido desactivado con éxito";
     header("Location: ../vistas/?pais");
    }else{
-    $_SESSION['datos']['mensaje']="Problema al desactivar el país.";
+    $_SESSION['datos']['mensaje']="Se presentó un error al desactivar el país.<br><b>Error: ".utf8_encode($pais->error())."</b>";
     header("Location: ../vistas/?pais");
     }
 }
@@ -105,7 +105,12 @@ if($operacion=='Consultar'){
     $_SESSION['datos']['estatus']=$pais->estatus_pais();
     header("Location: ../vistas/?pais");
   }else{
-   $_SESSION['datos']['mensaje']="No se han encontrado resultados para tu búsqueda(".$descripcion.")";
+    $error="";
+    if($pais->error()!=null)
+      $error="Se presentó un error al realizar la búsqueda.<br><b>Error: ".utf8_encode($pais->error())."</b>";
+    else 
+      $error="No se han encontrado resultados para tu búsqueda(".$descripcion.")";
+    $_SESSION['datos']['mensaje']=$error;
    header("Location: ../vistas/?pais");
   }
 }		  

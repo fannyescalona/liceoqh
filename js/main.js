@@ -107,7 +107,7 @@ function init(){
     //Agregar Objeto Calendario al input fecha_nacimiento.
     $('#fecha_nacimiento').datepicker({
         minDate: '-82y',
-        maxDate: '-18y',
+        maxDate: '-15y',
         showOn: 'both',
         numberOfMonths: 1,
         buttonImage: '../images/calendario.png',

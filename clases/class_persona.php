@@ -17,6 +17,7 @@ class Persona {
   private $fecha_ingreso; 
   private $codigo_cargo; 
   private $codigo_dependencia; 
+  private $codigo_dependencia_anterior; 
   private $condicion_cargo; 
   private $nivel_academico; 
   private $carga_horaria; 
@@ -45,6 +46,7 @@ class Persona {
     $this->fecha_ingreso=null;
     $this->codigo_cargo=null;
     $this->codigo_dependencia=null;
+    $this->codigo_dependencia_anterior=null;
     $this->condicion_cargo=null;
     $this->nivel_academico=null;
     $this->carga_horaria=null;
@@ -206,6 +208,15 @@ class Persona {
     }
   }
 
+  public function codigo_dependencia_anterior(){
+    $Num_Parametro=func_num_args();
+    if($Num_Parametro==0) return $this->codigo_dependencia_anterior;
+
+    if($Num_Parametro>0){
+      $this->codigo_dependencia_anterior=func_get_arg(0);
+    }
+  }
+
   public function condicion_cargo(){
     $Num_Parametro=func_num_args();
     if($Num_Parametro==0) return $this->condicion_cargo;
@@ -335,10 +346,10 @@ class Persona {
   public function Registrar(){
     if($this->espersonalinstitucion=="Y"){
       $sql="INSERT INTO tpersona (cedula,nombres,apellidos,genero,fecha_nacimiento,lugar_nacimiento,direccion,telefono_habitacion,telefono_movil,";
-      $sql.="email,esestudiante,esrepresentante,espersonalinstitucion,fecha_ingreso,codigo_cargo,codigo_dependencia,condicion_cargo,nivel_academico,carga_horaria,codigo_plantel) ";
+      $sql.="email,esestudiante,esrepresentante,espersonalinstitucion,fecha_ingreso,codigo_cargo,codigo_dependencia,codigo_dependencia_anterior,condicion_cargo,nivel_academico,carga_horaria,codigo_plantel) ";
       $sql.="VALUES ('$this->cedula','$this->nombres','$this->apellidos','$this->genero',STR_TO_DATE('$this->fecha_nacimiento','%d/%m/%Y'),'$this->lugar_nacimiento',";
       $sql.="'$this->direccion','$this->telefono_habitacion','$this->telefono_movil','$this->email','$this->esestudiante','$this->esrepresentante','$this->espersonalinstitucion',";
-      $sql.="STR_TO_DATE('$this->fecha_ingreso','%d/%m/%Y'),$this->codigo_cargo,'$this->codigo_dependencia','$this->condicion_cargo','$this->nivel_academico','$this->carga_horaria','$this->codigo_plantel');"; 
+      $sql.="STR_TO_DATE('$this->fecha_ingreso','%d/%m/%Y'),$this->codigo_cargo,'$this->codigo_dependencia','$this->codigo_dependencia_anterior','$this->condicion_cargo','$this->nivel_academico','$this->carga_horaria','$this->codigo_plantel');"; 
     }
     else{
       $sql="INSERT INTO tpersona (cedula,nombres,apellidos,genero,fecha_nacimiento,lugar_nacimiento,direccion,telefono_habitacion,telefono_movil,email,esestudiante,esrepresentante,";
@@ -380,7 +391,7 @@ class Persona {
       $sql.="fecha_nacimiento=STR_TO_DATE('$this->fecha_nacimiento','%d/%m/%Y'),lugar_nacimiento='$this->lugar_nacimiento',direccion='$this->direccion',telefono_habitacion='$this->telefono_habitacion',";
       $sql.="telefono_movil='$this->telefono_movil',email='$this->email',esestudiante='$this->esestudiante',esrepresentante='$this->esrepresentante',";
       $sql.="espersonalinstitucion='$this->espersonalinstitucion',codigo_cargo=$this->codigo_cargo,fecha_ingreso=STR_TO_DATE('$this->fecha_ingreso','%d/%m/%Y'),";
-      $sql.="codigo_dependencia='$this->codigo_dependencia',condicion_cargo='$this->condicion_cargo',nivel_academico='$this->nivel_academico',";
+      $sql.="codigo_dependencia='$this->codigo_dependencia',codigo_dependencia_anterior='$this->codigo_dependencia_anterior',condicion_cargo='$this->condicion_cargo',nivel_academico='$this->nivel_academico',";
       $sql.="carga_horaria='$this->carga_horaria',codigo_plantel='$this->codigo_plantel' ";
       $sql.="WHERE cedula='$this->cedula';";
     }else{
@@ -401,7 +412,7 @@ class Persona {
     $sql="SELECT p.cedula,p.nombres,p.apellidos,p.genero,date_format(p.fecha_nacimiento,'%d/%m/%Y') AS fecha_nacimiento, ";
     $sql.="CONCAT(p.lugar_nacimiento,'_',par.descripcion) AS lugar_nacimiento,p.direccion,p.telefono_habitacion,p.telefono_movil,";
     $sql.="p.email, p.esestudiante,p.esrepresentante,p.espersonalinstitucion,(CASE WHEN p.fecha_desactivacion IS NULL THEN 'Activo' ELSE 'Desactivado' END) AS estatus,";
-    $sql.="date_format(p.fecha_ingreso,'%d/%m/%Y') AS fecha_ingreso,p.codigo_cargo,p.codigo_dependencia,p.condicion_cargo,";
+    $sql.="date_format(p.fecha_ingreso,'%d/%m/%Y') AS fecha_ingreso,p.codigo_cargo,p.codigo_dependencia,p.codigo_dependencia_anterior,p.condicion_cargo,";
     $sql.="p.nivel_academico,p.carga_horaria,p.codigo_plantel ";
     $sql.="FROM tpersona p ";
     $sql.="INNER JOIN tparroquia par ON p.lugar_nacimiento = par.codigo_parroquia ";
@@ -425,6 +436,7 @@ class Persona {
       $this->fecha_ingreso($tpersona['fecha_ingreso']);
       $this->codigo_cargo($tpersona['codigo_cargo']);
       $this->codigo_dependencia($tpersona['codigo_dependencia']);
+      $this->codigo_dependencia_anterior($tpersona['codigo_dependencia_anterior']);
       $this->condicion_cargo($tpersona['condicion_cargo']);
       $this->nivel_academico($tpersona['nivel_academico']);
       $this->carga_horaria($tpersona['carga_horaria']);
@@ -442,7 +454,7 @@ class Persona {
     $sql="SELECT p.cedula,p.nombres,p.apellidos,p.genero,Date_Format(p.fecha_nacimiento,'%d/%m/%Y') AS fecha_nacimiento, 
     p.lugar_nacimiento,p.direccion,p.telefono_habitacion,p.telefono_movil,p.email, p.esestudiante,p.esrepresentante,
     p.espersonalinstitucion,(CASE WHEN p.fecha_desactivacion IS NULL THEN 'Activo' ELSE 'Desactivado' END) AS estatus,
-    Date_Format(p.fecha_ingreso,'%d/%m/%Y') AS fecha_ingreso,p.codigo_cargo,p.codigo_dependencia,
+    Date_Format(p.fecha_ingreso,'%d/%m/%Y') AS fecha_ingreso,p.codigo_cargo,p.codigo_dependencia,p.codigo_dependencia_anterior,
     p.condicion_cargo, p.nivel_academico,p.carga_horaria,p.codigo_plantel,p.fecha_desactivacion 
     FROM tpersona p 
     INNER JOIN tparroquia par ON p.lugar_nacimiento = par.codigo_parroquia 
@@ -466,6 +478,7 @@ class Persona {
       $this->fecha_ingreso($tpersona['fecha_ingreso']);
       $this->codigo_cargo($tpersona['codigo_cargo']);
       $this->codigo_dependencia($tpersona['codigo_dependencia']);
+      $this->codigo_dependencia_anterior($tpersona['codigo_dependencia_anterior']);
       $this->condicion_cargo($tpersona['condicion_cargo']);
       $this->nivel_academico($tpersona['nivel_academico']);
       $this->carga_horaria($tpersona['carga_horaria']);

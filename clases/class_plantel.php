@@ -10,6 +10,7 @@
      private $codigo_municipio; 
      private $estatus_plantel; 
      private $fecha_desactivacion; 
+  	 private $error; 
      private $mysql; 
 	 
    public function __construct(){
@@ -19,6 +20,7 @@
      $this->telefono_habitacion=null;
      $this->localidad=null;
      $this->codigo_municipio=null;
+     $this->error=null;
 	 $this->mysql=new Conexion();
    }
    
@@ -92,7 +94,6 @@
 	   $this->codigo_municipio=func_get_arg(0);
 	 }
    }
-
    
    public function fecha_desactivacion(){
       $Num_Parametro=func_num_args();
@@ -103,48 +104,60 @@
 	 }
    }
 
+  public function error(){
+    $Num_Parametro=func_num_args();
+    if($Num_Parametro==0) return $this->error;
+
+    if($Num_Parametro>0){
+      $this->error=func_get_arg(0);
+    }
+  }
+
    public function Registrar(){
-    $sql="insert into tplantel (codigo_plantel,nombre,direccion,telefono_habitacion,localidad,codigo_municipio) values 
-    ('$this->codigo_plantel','$this->nombre','$this->direccion','$this->telefono_habitacion','$this->localidad','$this->codigo_municipio');";
+    $sql="INSERT INTO tplantel (codigo_plantel,nombre,direccion,telefono_habitacion,localidad,codigo_municipio) ";
+    $sql.="VALUES ('$this->codigo_plantel','$this->nombre','$this->direccion','$this->telefono_habitacion','$this->localidad','$this->codigo_municipio');";
     if($this->mysql->Ejecutar($sql)!=null)
 	return true;
-	else
-	return false;
+	else{
+      $this->error($this->mysql->Error());
+      return false;
+    } 
    }
    
      public function Activar(){
     $sql="update tplantel set fecha_desactivacion=NULL where (codigo_plantel='$this->codigo_plantel');";
     if($this->mysql->Ejecutar($sql)!=null)
 	return true;
-	else
-	return false;
+	else{
+      $this->error($this->mysql->Error());
+      return false;
+    } 
    }
     public function Desactivar(){
     $sql="update tplantel set fecha_desactivacion=CURDATE() where (codigo_plantel='$this->codigo_plantel');";
     if($this->mysql->Ejecutar($sql)!=null)
 	return true;
-	else
-	return false;
+	else{
+      $this->error($this->mysql->Error());
+      return false;
+    } 
    }
    
     public function Actualizar(){
-    $sql="update tplantel set nombre='$this->nombre',direccion='$this->direccion',telefono_habitacion='$this->telefono_habitacion',
-    localidad='$this->localidad',codigo_municipio='$this->codigo_municipio' where (codigo_plantel='$this->codigo_plantel');";
+    $sql="UPDATE tplantel SET nombre='$this->nombre',direccion='$this->direccion',telefono_habitacion='$this->telefono_habitacion', ";
+    $sql.="localidad='$this->localidad',codigo_municipio='$this->codigo_municipio' where (codigo_plantel='$this->codigo_plantel');";
     if($this->mysql->Ejecutar($sql)!=null)
 	return true;
-	else
-	return false;
+	else{
+      $this->error($this->mysql->Error());
+      return false;
+    } 
    }
    
    public function Consultar(){
-    $sql="SELECT p.codigo_plantel,p.nombre,p.direccion,p.telefono_habitacion,p.localidad,
-    CONCAT(p.codigo_municipio,'_',m.descripcion) AS codigo_municipio,
-    ( CASE 
-        WHEN p.fecha_desactivacion IS NULL THEN  'Activo'
-        ELSE 'Desactivado' END) AS estatus_plantel 
-	FROM tplantel p 
-	INNER JOIN tmunicipio m ON p.codigo_municipio = m.codigo_municipio 
-	WHERE (codigo_plantel='$this->codigo_plantel')";
+    $sql="SELECT p.codigo_plantel,p.nombre,p.direccion,p.telefono_habitacion,p.localidad,CONCAT(p.codigo_municipio,'_',m.descripcion) AS codigo_municipio, ";
+    $sql.="(CASE WHEN p.fecha_desactivacion IS NULL THEN  'Activo' ELSE 'Desactivado' END) AS estatus_plantel ";
+	$sql.="FROM tplantel p INNER JOIN tmunicipio m ON p.codigo_municipio = m.codigo_municipio WHERE (codigo_plantel='$this->codigo_plantel')";
 	$query=$this->mysql->Ejecutar($sql);
     if($this->mysql->Total_Filas($query)!=0){
 	$tplantel=$this->mysql->Respuesta($query);
@@ -159,8 +172,9 @@
 	return true;
 	}
 	else{
-	return false;
-	}
+      $this->error($this->mysql->Error());
+      return false;
+    } 
    }
    public function Comprobar(){
     $sql="select * from tplantel where codigo_plantel='$this->codigo_plantel'";
@@ -174,11 +188,13 @@
 	$this->localidad($tplantel['localidad']);
 	$this->codigo_municipio($tplantel['codigo_municipio']);
 	$this->fecha_desactivacion($tplantel['fecha_desactivacion']);
+    $this->error("El registro ya existe !");
 	return true;
 	}
 	else{
-	return false;
-	}
+      $this->error($this->mysql->Error());
+      return false;
+    } 
    }
 }
 ?>

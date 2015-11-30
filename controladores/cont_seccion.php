@@ -15,6 +15,9 @@ $descripcion=ucfirst(trim($_POST['descripcion']));
 if(isset($_POST['turno']))
 $turno=ucfirst(trim($_POST['turno']));
 
+if(isset($_POST['grado_escolar']))
+$grado_escolar=ucfirst(trim($_POST['grado_escolar']));
+
 if(isset($_POST['capacidad_min']))
 $capacidad_min=ucfirst(trim($_POST['capacidad_min']));
 
@@ -27,6 +30,7 @@ if($operacion=='Registrar'){
   $seccion->seccion($id);
   $seccion->descripcion($descripcion);
   $seccion->turno($turno);
+  $seccion->grado_escolar($grado_escolar);
   $seccion->capacidad_min($capacidad_min);
   $seccion->capacidad_max($capacidad_max);
   if(!$seccion->Comprobar()){
@@ -51,7 +55,7 @@ if($operacion=='Registrar'){
     $_SESSION['datos']['mensaje']="La sección ha sido registrado con éxito !";
     header("Location: ../vistas/?seccion");
    }else{
-    $_SESSION['datos']['mensaje']="Se presentó un error al registrar la sección.";
+    $_SESSION['datos']['mensaje']="Se presentó un error al registrar la sección.<br><b>Error: ".utf8_encode($seccion->error())."</b>";
     header("Location: ../vistas/?seccion");
   }
 }
@@ -60,6 +64,7 @@ if($operacion=='Modificar'){
   $seccion->seccion($id);
   $seccion->descripcion($descripcion);
   $seccion->turno($turno);
+  $seccion->grado_escolar($grado_escolar);
   $seccion->capacidad_min($capacidad_min);
   $seccion->capacidad_max($capacidad_max);
   if($seccion->Actualizar()){
@@ -75,7 +80,7 @@ if($operacion=='Modificar'){
     $_SESSION['datos']['mensaje']="La sección ha sido modificado con éxito !";
     header("Location: ../vistas/?seccion");
   }else{
-    $_SESSION['datos']['mensaje']="Problema al modificar la sección.";
+    $_SESSION['datos']['mensaje']="Se presentó un error al modificar la sección.<br><b>Error: ".utf8_encode($seccion->error())."</b>";
     header("Location: ../vistas/?seccion");
   }
 }
@@ -95,7 +100,7 @@ if($operacion=='Desactivar'){
     $_SESSION['datos']['mensaje']="La sección ha sido desactivado con éxito";
     header("Location: ../vistas/?seccion");
   }else{
-    $_SESSION['datos']['mensaje']="Problema al desactivar la sección.";
+    $_SESSION['datos']['mensaje']="Se presentó un error al desactivar la sección.<br><b>Error: ".utf8_encode($seccion->error())."</b>";
     header("Location: ../vistas/?seccion");
   }
 }
@@ -115,7 +120,7 @@ if($operacion=='Activar'){
     $_SESSION['datos']['mensaje']="La sección ha sido desactivado con éxito";
     header("Location: ../vistas/?seccion");
   }else{
-    $_SESSION['datos']['mensaje']="Problema al desactivar la sección.";
+    $_SESSION['datos']['mensaje']="Se presentó un error al desactivar la sección.<br><b>Error: ".utf8_encode($seccion->error())."</b>";
     header("Location: ../vistas/?seccion");
   }
 }
@@ -127,12 +132,18 @@ if($operacion=='Consultar'){
     $_SESSION['datos']['seccion']=$seccion->seccion();
     $_SESSION['datos']['descripcion']=$seccion->descripcion();
     $_SESSION['datos']['turno']=$seccion->turno();
+    $_SESSION['datos']['grado_escolar']=$seccion->grado_escolar();
     $_SESSION['datos']['capacidad_min']=$seccion->capacidad_min();
     $_SESSION['datos']['capacidad_max']=$seccion->capacidad_max();
     $_SESSION['datos']['estatus']=$seccion->estatus();
     header("Location: ../vistas/?seccion");
   }else{
-    $_SESSION['datos']['mensaje']=utf8_encode("No se han encontrado resultados para tu búsqueda(".$descripcion.")");
+    $error="";
+    if($seccion->error()!=null)
+      $error="Se presentó un error al realizar la búsqueda.<br><b>Error: ".utf8_encode($seccion->error())."</b>";
+    else 
+      $error="No se han encontrado resultados para tu búsqueda(".$id.")";
+    $_SESSION['datos']['mensaje']=$error;
     header("Location: ../vistas/?seccion");
   }
 }

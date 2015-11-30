@@ -81,11 +81,23 @@ else{
 
 //Leemos y escribimos los registros de la página actual 
    while($row = mysql_fetch_array($_pagi_result)){ 
-    echo "<tr><td style='width:20%;'>".$row['codigo_parentesco']."</td><td align='left'>".$row['descripcion']."</td></tr>"; 
+    echo "<tr style='cursor: pointer;' id='".$row['descripcion']."' onclick='enviarForm(this.id)'>
+    <td style='width:20%;'>".$row['codigo_parentesco']."</td>
+    <td align='left'>".$row['descripcion']."</td></tr>"; 
   } 
 //Incluimos la barra de navegación 
   ?>
 </table>
+<script type="text/javascript">
+function enviarForm(value){
+  document.getElementById('campo_oculto').value=value;
+  document.getElementById('form1').submit();
+}
+</script>
+<form id="form1" method="POST" action="../controladores/cont_parentesco.php">
+  <input type="hidden" name="descripcion" id="campo_oculto" value="" />
+  <input type="hidden" name="operacion" id="operacion" value="Consultar" />
+</form>
 <div class="pagination">
  <ul>
    <?php echo"<li>".$_pagi_navegacion."</li>";?>

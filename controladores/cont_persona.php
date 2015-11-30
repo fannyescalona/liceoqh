@@ -56,6 +56,9 @@ $codigo_cargo=ucfirst(trim($_POST['codigo_cargo']));
 if(isset($_POST['codigo_dependencia']))
 $codigo_dependencia=ucfirst(trim($_POST['codigo_dependencia']));
 
+if(isset($_POST['codigo_dependencia_anterior']))
+$codigo_dependencia_anterior=ucfirst(trim($_POST['codigo_dependencia_anterior']));
+
 if(isset($_POST['condicion_cargo']))
 $condicion_cargo=ucfirst(trim($_POST['condicion_cargo']));
 
@@ -88,6 +91,7 @@ if($operacion=='Registrar'){
   $persona->fecha_ingreso($fecha_ingreso);
   $persona->codigo_cargo($codigo_cargo);
   $persona->codigo_dependencia($codigo_dependencia);
+  $persona->codigo_dependencia_anterior($codigo_dependencia_anterior);
   $persona->condicion_cargo($condicion_cargo);
   $persona->nivel_academico($nivel_academico);
   $persona->carga_horaria($carga_horaria);
@@ -109,7 +113,7 @@ if($operacion=='Registrar'){
     $_SESSION['datos']['mensaje']="La persona ha sido registrada con éxito !";
     header("Location: ../vistas/?persona");
    }else{
-    $_SESSION['datos']['mensaje']="Se presentó un error al registrar la persona.";
+    $_SESSION['datos']['mensaje']="Se presentó un error al registrar la persona.<br><b>Error: ".utf8_encode($persona->error())."</b>";
     header("Location: ../vistas/?persona");
   }
 }
@@ -131,6 +135,7 @@ if($operacion=='Modificar'){
   $persona->fecha_ingreso($fecha_ingreso);
   $persona->codigo_cargo($codigo_cargo);
   $persona->codigo_dependencia($codigo_dependencia);
+  $persona->codigo_dependencia_anterior($codigo_dependencia_anterior);
   $persona->condicion_cargo($condicion_cargo);
   $persona->nivel_academico($nivel_academico);
   $persona->carga_horaria($carga_horaria);
@@ -143,7 +148,7 @@ if($operacion=='Modificar'){
     $_SESSION['datos']['mensaje']="La persona ha sido modificada con éxito !";
     header("Location: ../vistas/?persona");
   }else{
-    $_SESSION['datos']['mensaje']="Problema al modificar la persona.";
+    $_SESSION['datos']['mensaje']="Se presentó un error al modificar la persona.<br><b>Error: ".utf8_encode($persona->error())."</b>";
     header("Location: ../vistas/?persona");
   }
 }
@@ -163,7 +168,7 @@ if($operacion=='Desactivar'){
     $_SESSION['datos']['mensaje']="La persona ha sido desactivada con éxito";
     header("Location: ../vistas/?persona");
   }else{
-    $_SESSION['datos']['mensaje']="Problema al desactivar la persona.";
+    $_SESSION['datos']['mensaje']="Se presentó un error al desactivar la persona.<br><b>Error: ".utf8_encode($persona->error())."</b>";
     header("Location: ../vistas/?persona");
   }
 }
@@ -183,7 +188,7 @@ if($operacion=='Activar'){
     $_SESSION['datos']['mensaje']="La persona ha sido activada con éxito";
     header("Location: ../vistas/?persona");
   }else{
-    $_SESSION['datos']['mensaje']="Problema al desactivar la persona.";
+    $_SESSION['datos']['mensaje']="Se presentó un error al desactivar la persona.<br><b>Error: ".utf8_encode($persona->error())."</b>";
     header("Location: ../vistas/?persona");
   }
 }
@@ -207,6 +212,7 @@ if($operacion=='Consultar'){
     $_SESSION['datos']['fecha_ingreso']=$persona->fecha_ingreso();
     $_SESSION['datos']['codigo_cargo']=$persona->codigo_cargo();
     $_SESSION['datos']['codigo_dependencia']=$persona->codigo_dependencia();
+    $_SESSION['datos']['codigo_dependencia_anterior']=$persona->codigo_dependencia_anterior();
     $_SESSION['datos']['condicion_cargo']=$persona->condicion_cargo();
     $_SESSION['datos']['nivel_academico']=$persona->nivel_academico();
     $_SESSION['datos']['carga_horaria']=$persona->carga_horaria();
@@ -214,7 +220,12 @@ if($operacion=='Consultar'){
     $_SESSION['datos']['estatus']=$persona->estatus();
     header("Location: ../vistas/?persona");
   }else{
-    $_SESSION['datos']['mensaje']="No se han encontrado resultados para tu búsqueda(".$descripcion.")";
+    $error="";
+    if($persona->error()!=null)
+      $error="Se presentó un error al realizar la búsqueda.<br><b>Error: ".utf8_encode($persona->error())."</b>";
+    else 
+      $error="No se han encontrado resultados para tu búsqueda(".$cedula.")";
+    $_SESSION['datos']['mensaje']=$error;
     header("Location: ../vistas/?persona");
   }
 }

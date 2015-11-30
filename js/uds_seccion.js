@@ -7,6 +7,7 @@ function validar_formulario(param){
 	valor1=document.getElementById('turno').value;
 	valor2=document.getElementById('capacidad_min').value;
 	valor3=document.getElementById('capacidad_max').value;
+	valor4=document.getElementById('grado_escolar').value;
 	materias = document.getElementsByName('materias[]');
 	docentes = document.getElementsByName('docentes[]');
 	if(devuelve_boton(param)=="Registrar" || devuelve_boton(param)=="Modificar"){
@@ -16,8 +17,11 @@ function validar_formulario(param){
 		}else if(valor0.replace(/^\s+|\s+$/gi,"").length==0){ //para no permitir que se quede en blanco
 			alert('Ingrese el nombre de la sección')
 			permitido=false;
-			}else if(valor1==0){
+		}else if(valor1==0){
 			alert('Seleccione un Turno')
+			permitido=false;
+		}else if(valor4==0){
+			alert('Seleccione un Grado Escolar')
 			permitido=false;
 		}else if(valor2.replace(/^\s+|\s+$/gi,"").length==0){ //para no permitir que se quede en blanco
 			alert('Ingrese la capacidad mínima de la sección')

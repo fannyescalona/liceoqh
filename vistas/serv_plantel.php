@@ -38,7 +38,7 @@ else{
       <label>Código:</label>
       <input title="Ingrese el código del plantel educativo" onKeyUp="this.value=this.value.toUpperCase()" name="codigo_plantel" id="codigo_plantel" type="text" size="10"  value="<?= $codigo_plantel;?>" placeholder="Ingrese el código del plantel" class="campoTexto" required />
       <label>Nombre del Plantel Educativo:</label>
-      <input title="Ingrese el nombre del plantel educativo" onKeyUp="this.value=this.value.toUpperCase()" name="nombre" id="nombre" type="text" size="50" value="<?= $nombre;?>" placeholder="Ingrese el nombre del plantel educativo" class="campoTexto" required />
+      <input title="Ingrese el nombre del plantel educativo" onKeyPress="return isCharKey(event)" onKeyUp="this.value=this.value.toUpperCase()" name="nombre" id="nombre" type="text" size="50" value="<?= $nombre;?>" placeholder="Ingrese el nombre del plantel educativo" class="campoTexto" required />
       <label>Dirección del Plantel Educativo:</label>
       <textarea onKeyUp="this.value=this.value.toUpperCase()" title="Ingrese la dirección del plantel educativo" name="direccion" id="direccion" placeholder="Ingrese la Dirección" rows=5 required /><?php echo $direccion;?></textarea>
       <label>Teléfono:</label>
@@ -50,7 +50,7 @@ else{
       <strong class="obligatorio">Los campos resaltados en rojo son obligatorios</strong>
     </div>    
     <br>
-    <?php echo '<tr><td colspan="2" class="'.$estatus.'" id="estatus_registro">'.$estatus.'</td></tr>'; ?>
+      <?php echo '<p class="'.$estatus.'" id="estatus_registro">'.$estatus.'</p>'; ?>
     <?php
     imprimir_boton($disabledRC,$disabledMD,$estatus,$servicios);
     ?>      
@@ -95,11 +95,26 @@ $_pagi_nav_num_enlaces=5;
 @include("../librerias/paginador/paginator.inc.php"); 
 //Leemos y escribimos los registros de la página actual 
    while($row = mysql_fetch_array($_pagi_result)){ 
-    echo "<tr><td style='width:20%;'>".$row['codigo_plantel']."</td><td align='left'>".$row['nombre']."</td><td align='left'>".$row['telefono_habitacion']."</td><td align='left'>".$row['localidad']."</td><td align='left'>".$row['municipio']."</td></tr>"; 
+    echo "<tr style='cursor: pointer;' id='".$row['codigo_plantel']."' onclick='enviarForm(this.id)'>
+    <td style='width:20%;'>".$row['codigo_plantel']."</td>
+    <td align='left'>".$row['nombre']."</td>
+    <td align='left'>".$row['telefono_habitacion']."</td>
+    <td align='left'>".$row['localidad']."</td>
+    <td align='left'>".$row['municipio']."</td></tr>"; 
   } 
 //Incluimos la barra de navegación 
   ?>
 </table>
+<script type="text/javascript">
+function enviarForm(value){
+  document.getElementById('campo_oculto').value=value;
+  document.getElementById('form1').submit();
+}
+</script>
+<form id="form1" method="POST" action="../controladores/cont_plantel.php">
+  <input type="hidden" name="codigo_plantel" id="campo_oculto" value="" />
+  <input type="hidden" name="operacion" id="operacion" value="Consultar" />
+</form>
 <div class="pagination">
  <ul>
    <?php echo"<li>".$_pagi_navegacion."</li>";?>

@@ -25,6 +25,7 @@ if(isset($_SESSION['datos'])){
   @$fecha_ingreso=$_SESSION['datos']['fecha_ingreso'];
   @$codigo_cargo=$_SESSION['datos']['codigo_cargo'];
   @$codigo_dependencia=$_SESSION['datos']['codigo_dependencia'];
+  @$codigo_dependencia_anterior=$_SESSION['datos']['codigo_dependencia_anterior'];
   @$condicion_cargo=$_SESSION['datos']['condicion_cargo'];
   @$nivel_academico=$_SESSION['datos']['nivel_academico'];
   @$carga_horaria=$_SESSION['datos']['carga_horaria'];
@@ -48,6 +49,7 @@ else{
   @$fecha_ingreso=null;
   @$codigo_cargo=null;
   @$codigo_dependencia=null;
+  @$codigo_dependencia_anterior=null;
   @$condicion_cargo=null;
   @$nivel_academico=null;
   @$carga_horaria=null;
@@ -68,18 +70,18 @@ else{
             <label>Cédula:</label>
             <input tabindex=1 onKeyPress="return isRif(event,this.value)" onKeyUp="this.value=this.value.toUpperCase()" title="Ingrese el número de cédula" maxlength=10 name="cedula" id="cedula" type="text" size="10" value="<?= $cedula;?>" placeholder="Ingrese el número de Cédula" class="campoTexto" required />
             <label>Nombre(s):</label>
-            <input tabindex=3 title="Ingrese el(los) nombre(s) de la Persona" onKeyUp="this.value=this.value.toUpperCase()" name="nombres" id="nombres" type="text" size="50" value="<?= $nombres;?>" placeholder="Ingrese el Nombre" class="campoTexto" required />
+            <input tabindex=3 title="Ingrese el(los) nombre(s) de la Persona" onKeyPress="return isCharKey(event)" onKeyUp="this.value=this.value.toUpperCase()" name="nombres" id="nombres" type="text" size="50" value="<?= $nombres;?>" placeholder="Ingrese el Nombre" class="campoTexto" required />
             <label>Fecha de Nacimiento:</label>
             <input tabindex=5 title="Seleccione el fecha de Nacimiento" name="fecha_nacimiento" id="fecha_nacimiento" type="text" size="50" value="<?= $fecha_nacimiento;?>" placeholder="Ingrese la Fecha de Nacimiento" class="campoTexto" readonly required />
             <label>Dirección:</label>
             <textarea tabindex=7 onKeyUp="this.value=this.value.toUpperCase()" title="Ingrese la dirección del persona" name="direccion" id="direccion" rows=5 placeholder="Ingrese la Dirección" required /><?php echo $direccion;?></textarea>
             <label>Correo Electrónico:</label>
-            <input tabindex=10 title="Ingrese el correo electrónico del persona" onKeyPress="return isEmail(event,this.value)" onKeyUp="this.value=this.value.toLowerCase()" name="email" id="email" type="text" size="50" value="<?= $email;?>" placeholder="Ingrese el Correo Electrónico" class="campoTexto" required />
+            <input tabindex=10 title="Ingrese el correo electrónico del persona" onKeyPress="return isEmail(event,this.value)" onKeyUp="this.value=this.value.toLowerCase()" name="email" id="email" type="text" size="50" value="<?= $email;?>" placeholder="Ingrese el Correo Electrónico" class="campoTexto" />
             <label>Personal del Plantel:</label>
             <input tabindex=12 type="radio" name="espersonalinstitucion" id="epiSI" value="Y" <?php if($espersonalinstitucion=="Y"){echo "checked"; }?>> SÍ <input type="radio" name="espersonalinstitucion" id="epiNO" value="N" <?php if($espersonalinstitucion=="N" || $espersonalinstitucion==NULL){echo "checked"; }?>> NO
             <div id="personal1">
-              <label>Fecha de Ingreso:</label>
-              <input tabindex=14 title="Seleccione el fecha de Ingreso" name="fecha_ingreso" id="fecha_ingreso" type="text" size="50" value="<?= $fecha_ingreso;?>" placeholder="Ingrese la Fecha de Ingreso" class="campoTexto" readonly required />
+              <label>Código de Dependencia Anterior:</label>
+              <input tabindex=14 maxlength=10 title="Ingrese el Código de Dependencia Anterior" onKeyUp="this.value=this.value.toUpperCase()" name="codigo_dependencia_anterior" id="codigo_dependencia_anterior" type="text" size="50" value="<?= $codigo_dependencia_anterior;?>" placeholder="Ingrese el Código de Dependencia Anterior" class="campoTexto" />
               <label>Cargo:</label>
               <select tabindex=16 id="codigo_cargo" name="codigo_cargo" title="Seleccione un Cargo" placeholder="Seleccione un Cargo" class="lista">
               <option value=NULL selected>Seleccione un Cargo</option>
@@ -98,7 +100,16 @@ else{
               ?>
               </select>
               <label>Nivel Acádemico:</label>
-              <input tabindex=18 title="Ingrese el Nivel Acádemico de la persona" onKeyUp="this.value=this.value.toUpperCase()" name="nivel_academico" id="nivel_academico" type="text" size="50" value="<?= $nivel_academico;?>" placeholder="Ingrese el Nivel Acádemico" class="campoTexto" />
+              <select tabindex=18 name="nivel_academico" id="nivel_academico" title="Seleccione el Nivel Acádemico" class='lista' >
+                <option value="">Selecione el Nivel Acádemico</option>
+                <option value="Bachiller" <?php if($nivel_academico=="Bachiller"){ echo "selected";}?>>Bachiller</option>
+                <option value="T.S.U." <?php if($nivel_academico=="T.S.U."){ echo "selected";}?>>T.S.U.</option>
+                <option value="Licenciado" <?php if($nivel_academico=="Licenciado"){ echo "selected";}?>>Licenciado</option>
+                <option value="Ingeniero" <?php if($nivel_academico=="Ingeniero"){ echo "selected";}?>>Ingeniero</option>
+                <option value="Doctorado" <?php if($nivel_academico=="Doctorado"){ echo "selected";}?>>Doctorado</option>
+              </select>
+              <label>Fecha de Ingreso:</label>
+              <input tabindex=20 title="Seleccione el fecha de Ingreso" name="fecha_ingreso" id="fecha_ingreso" type="text" size="50" value="<?= $fecha_ingreso;?>" placeholder="Ingrese la Fecha de Ingreso" class="campoTexto" readonly required />
             </div>
           </div>
           <div class="span6">
@@ -109,7 +120,7 @@ else{
               <option value="M" <?php if($genero=="M"){ echo "selected";}?>>Masculino</option>
             </select>
             <label>Apellido(s):</label>
-            <input tabindex=4 title="Ingrese el(los) apellido(s) de la Persona" onKeyUp="this.value=this.value.toUpperCase()" name="apellidos" id="apellidos" type="text" size="50" value="<?= $apellidos;?>" placeholder="Ingrese el Apellido" class="campoTexto" required />
+            <input tabindex=4 title="Ingrese el(los) apellido(s) de la Persona" onKeyPress="return isCharKey(event)" onKeyUp="this.value=this.value.toUpperCase()" name="apellidos" id="apellidos" type="text" size="50" value="<?= $apellidos;?>" placeholder="Ingrese el Apellido" class="campoTexto" required />
             <label>Lugar de Nacimiento:</label>
             <input tabindex=6 title="Seleccione una Parroquia" onKeyUp="this.value=this.value.toUpperCase()" name="lugar_nacimiento" id="lugar_nacimiento" type="text" size="50" value="<?= $lugar_nacimiento;?>" placeholder="Seleccione una parroquia" class="campoTexto" required />
             <label>Teléfono de Habitación:</label>
@@ -141,18 +152,18 @@ else{
               <label>Condición del Cargo:</label>
               <select tabindex=17 name="condicion_cargo" id="condicion_cargo" title="Seleccione la Condición del Cargo" class='lista' >
                 <option value="">Selecione una opción</option>
-                <option value="F" <?php if($genero=="C"){ echo "selected";}?>>Contratado</option>
-                <option value="M" <?php if($genero=="T"){ echo "selected";}?>>Fijo</option>
+                <option value="C" <?php if($genero=="C"){ echo "selected";}?>>Contratado</option>
+                <option value="F" <?php if($genero=="F"){ echo "selected";}?>>Fijo</option>
               </select>
               <label>Carga Horaria:</label>
-              <input tabindex=19 maxlength=2 title="Ingrese la carga horaria" onKeyPress="return isNumberKey(event)" name="carga_horaria" id="carga_horaria" type="text" size="50" value="<?= $telefono_movil;?>" placeholder="Ingrese la carga horaria" class="campoTexto" required />
+              <input tabindex=19 maxlength=2 title="Ingrese la carga horaria" onKeyPress="return isNumberKey(event)" name="carga_horaria" id="carga_horaria" type="text" size="50" value="<?= $carga_horaria;?>" placeholder="Ingrese la carga horaria" class="campoTexto" required />
             </div>
           </div> 
         </div>    
           <strong class="obligatorio">Los campos resaltados en rojo son obligatorios</strong>
       </div>    
       <br><br>
-      <?php echo '<tr><td colspan="2" class="'.$estatus.'" id="estatus_registro">'.$estatus.'</td></tr>'; ?>
+      <?php echo '<p class="'.$estatus.'" id="estatus_registro">'.$estatus.'</p>'; ?>
       <?php
         imprimir_boton($disabledRC,$disabledMD,$estatus,$servicios);
       ?>
@@ -202,11 +213,26 @@ else{
       @include("../librerias/paginador/paginator.inc.php"); 
       //Leemos y escribimos los registros de la página actual 
       while($row = mysql_fetch_array($_pagi_result)){ 
-      echo "<tr><td style='width:10%;'>".$row['cedula']."</td><td align='left'>".$row['nomape']."</td><td align='left'>".$row['genero']."</td><td style='width:15%;' align='left'>".$row['fecha_nacimiento']."</td><td align='left'>".$row['descripcion']."</td></tr>"; 
+      echo "<tr style='cursor: pointer;' id='".$row['cedula']."' onclick='enviarForm(this.id)'>
+      <td style='width:10%;'>".$row['cedula']."</td>
+      <td align='left'>".$row['nomape']."</td>
+      <td align='left'>".$row['genero']."</td>
+      <td style='width:15%;' align='left'>".$row['fecha_nacimiento']."</td>
+      <td align='left'>".$row['descripcion']."</td></tr>"; 
       } 
       //Incluimos la barra de navegación 
     ?>
   </table>
+<script type="text/javascript">
+function enviarForm(value){
+  document.getElementById('campo_oculto').value=value;
+  document.getElementById('form1').submit();
+}
+</script>
+<form id="form1" method="POST" action="../controladores/cont_persona.php">
+  <input type="hidden" name="cedula" id="campo_oculto" value="" />
+  <input type="hidden" name="operacion" id="operacion" value="Consultar" />
+</form>
   <div class="pagination">
     <ul>
       <?php echo"<li>".$_pagi_navegacion."</li>";?>

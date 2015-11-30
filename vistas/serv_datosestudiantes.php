@@ -17,7 +17,7 @@
   @$apellidos=$_SESSION['datos']['apellidos'];
   @$genero=$_SESSION['datos']['genero'];
   @$peso=$_SESSION['datos']['peso'];
-  @$talla=$_SESSION['datos']['talla'];
+  @$estatura=$_SESSION['datos']['estatura'];
   @$fecha_nacimiento=$_SESSION['datos']['fecha_nacimiento'];
   @$lugar_nacimiento=$_SESSION['datos']['lugar_nacimiento'];
   @$direccion=$_SESSION['datos']['direccion'];
@@ -34,7 +34,7 @@
     @$apellidos=null;
     @$genero=null;
     @$peso=null;
-    @$talla=null;
+    @$estatura=null;
     @$fecha_nacimiento=null;
     @$lugar_nacimiento=null;
     @$direccion=null;
@@ -57,7 +57,7 @@
               <label>Cédula Escolar:</label>
               <input tabindex=3 onKeyPress="return isRif(event,this.value)" onKeyUp="this.value=this.value.toUpperCase()" title="Ingrese el número de cédula escolar" maxlength=10 name="cedula_escolar" id="cedula_escolar" type="text" size="10" value="<?= $cedula_escolar;?>" placeholder="Ingrese el número de Cédula Escolar" class="campoTexto" />
               <label>Nombre(s):</label>
-              <input tabindex=5 title="Ingrese el(los) nombre(s) del Estudiante" onKeyUp="this.value=this.value.toUpperCase()" name="nombres" id="nombres" type="text" size="50" value="<?= $nombres;?>" placeholder="Ingrese el Nombre" class="campoTexto" required />
+              <input tabindex=5 title="Ingrese el(los) nombre(s) del Estudiante" onKeyPress="return isCharKey(event)" onKeyUp="this.value=this.value.toUpperCase()" name="nombres" id="nombres" type="text" size="50" value="<?= $nombres;?>" placeholder="Ingrese el Nombre" class="campoTexto" required />
               <label>Peso (Kg):</label>
               <input tabindex=7 maxlength=5 title="Ingrese el peso del estudiante expresado en kg" onKeyPress="return isNumberKey(event)" name="peso" id="peso" type="text" size="50" value="<?= $peso;?>" placeholder="Ingreso el Peso del Estudiante expresado en Kg" class="campoTexto" required />
               <label>Fecha de Nacimiento:</label>
@@ -77,15 +77,9 @@
               <label>Código de la Canaima:</label>
               <input tabindex=4 onKeyUp="this.value=this.value.toUpperCase()" title="Ingrese el código de la canaima asignada" maxlength=20 name="codigo_canaima" id="codigo_canaima" type="text" size="10" value="<?= $codigo_canaima;?>" placeholder="Ingrese el código de la canaima" class="campoTexto" />
               <label>Apellido(s):</label>
-              <input tabindex=6 title="Ingrese el(los) apellido(s) del Estudiante" onKeyUp="this.value=this.value.toUpperCase()" name="apellidos" id="apellidos" type="text" size="50" value="<?= $apellidos;?>" placeholder="Ingrese el Apellido" class="campoTexto" required />
-              <label>Talla:</label>
-              <select tabindex=8 name="talla" id="talla" title="Seleccione una Talla" class='lista' required >
-                <option value="">Selecione una opción</option>
-                <option value="S" <?php if($genero=="S"){ echo "selected";}?>>Pequeña (S)</option>
-                <option value="M" <?php if($genero=="M"){ echo "selected";}?>>Mediana (M)</option>
-                <option value="L" <?php if($genero=="L"){ echo "selected";}?>>Larga (L)</option>
-                <option value="XL" <?php if($genero=="XL"){ echo "selected";}?>>Extra Larga (XL)</option>
-              </select>
+              <input tabindex=6 title="Ingrese el(los) apellido(s) del Estudiante" onKeyPress="return isCharKey(event)" onKeyUp="this.value=this.value.toUpperCase()" name="apellidos" id="apellidos" type="text" size="50" value="<?= $apellidos;?>" placeholder="Ingrese el Apellido" class="campoTexto" required />
+              <label>Estatura (Cm):</label>
+              <input tabindex=8 maxlength=5 title="Ingrese la estatura del estudiante expresado en cm" onKeyPress="return isNumberKey(event)" name="estatura" id="estatura" type="text" size="50" value="<?= $estatura;?>" placeholder="Ingreso la Estatura del Estudiante expresado en Cm" class="campoTexto" required />
               <label>Lugar de Nacimiento:</label>
               <input tabindex=10 title="Seleccione un Municipio" onKeyUp="this.value=this.value.toUpperCase()" name="lugar_nacimiento" id="lugar_nacimiento" type="text" size="50" value="<?= $lugar_nacimiento;?>" placeholder="Seleccione un municipio" class="campoTexto" required />
               <label>Teléfono de Habitación:</label>
@@ -97,7 +91,7 @@
             <strong class="obligatorio">Los campos resaltados en rojo son obligatorios</strong>
         </div>    
         <br><br>
-        <?php echo '<tr><td colspan="2" class="'.$estatus.'" id="estatus_registro">'.$estatus.'</td></tr>'; ?>
+      <?php echo '<p class="'.$estatus.'" id="estatus_registro">'.$estatus.'</p>'; ?>
         <?php
           imprimir_boton($disabledRC,$disabledMD,$estatus,$servicios);
         ?>
@@ -142,7 +136,8 @@
 
       //Leemos y escribimos los registros de la página actual 
       while($row = mysql_fetch_array($_pagi_result)){ 
-      echo "<tr><td style='width:5%;'>".$row['codigo_inscripcion']."</td>
+      echo "<tr style='cursor: pointer;' id='".$row['cedula']."' onclick='enviarForm(this.id)'>
+      <td style='width:5%;'>".$row['codigo_inscripcion']."</td>
       <td align='left'>".$row['descripcion']."</td>
       <td align='left'>".$row['fecha_inscripcion']."</td>
       <td align='left'>".$row['cedula']."</td>
@@ -153,6 +148,16 @@
       //Incluimos la barra de navegación 
       ?>
     </table>
+    <script type="text/javascript">
+    function enviarForm(value){
+      document.getElementById('campo_oculto').value=value;
+      document.getElementById('form1').submit();
+    }
+    </script>
+    <form id="form1" method="POST" action="../controladores/cont_procesoinscripcion.php">
+      <input type="hidden" name="cedula_estudiante" id="campo_oculto" value="" />
+      <input type="hidden" name="operacion" id="operacion" value="Consultar" />
+    </form>
     <div class="pagination">
       <ul>
         <?php echo"<li>".$_pagi_navegacion."</li>";?>

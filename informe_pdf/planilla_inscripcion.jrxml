@@ -8,7 +8,7 @@
 	</parameter>
 	<queryString>
 		<![CDATA[SELECT aa.descripcion AS ano_escolar,TIMESTAMPDIFF(YEAR, e.fecha_nacimiento, CURDATE()) AS edad,ROUND(pi.peso,2) AS peso,
-	pi.talla,CONCAT(e.nombres,' ',e.apellidos) AS estudiante,pi.cedula_estudiante,pi.cedula_escolar,pi.codigo_canaima,
+	pi.estatura AS talla,CONCAT(e.nombres,' ',e.apellidos) AS estudiante,pi.cedula_estudiante,pi.cedula_escolar,pi.codigo_canaima,
 	CASE e.genero WHEN 'F' THEN 'X' ELSE '' END AS genero_f,CASE e.genero WHEN 'M' THEN 'X' ELSE '' END AS genero_m,
 	DATE_FORMAT(e.fecha_nacimiento,'%d/%m/%Y') AS fecha_nacimiento,pe.descripcion AS lugar_nacimiento,
 	ee.descripcion AS estado,e.direccion,pi.plantel_procedencia,e.telefono_habitacion,e.email AS email_estudiante,

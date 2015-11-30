@@ -33,7 +33,7 @@ if($operacion=='Registrar'){
     $_SESSION['datos']['mensaje']="El perfil ha sido registrado con éxito !";
     header("Location: ../vistas/?perfiles");
   }else{
-    $_SESSION['datos']['mensaje']="Se presentó un error al registrar el perfil.";
+    $_SESSION['datos']['mensaje']="Se presentó un error al registrar el perfil.<br><b>Error: ".utf8_encode($perfil->error())."</b>";
     header("Location: ../vistas/?perfiles");
   }
 }
@@ -64,14 +64,11 @@ if($operacion=='Modificar'){
   }
   else
     $confirmacion=-1;
-  /*  }else{
-  $confirmacion=0;
-  }*/
   if($confirmacion==1){
     $_SESSION['datos']['mensaje']="El perfil ha sido modificado con éxito !";
     header("Location: ../vistas/?perfiles");
   }else{
-    $_SESSION['datos']['mensaje']="Problema al modificar el perfil.";
+    $_SESSION['datos']['mensaje']="Se presentó un error al modificar el perfil.<br><b>Error: ".utf8_encode($perfil->error())."</b>";
     header("Location: ../vistas/?perfiles");
   }
 }
@@ -91,7 +88,7 @@ if($operacion=='Desactivar'){
     $_SESSION['datos']['mensaje']="El perfil ha sido desactivado con éxito";
     header("Location: ../vistas/?perfiles");
   }else{
-    $_SESSION['datos']['mensaje']="Problema al desactivar el perfil.";
+    $_SESSION['datos']['mensaje']="Se presentó un error al desactivar el perfil.<br><b>Error: ".utf8_encode($perfil->error())."</b>";
     header("Location: ../vistas/?perfiles");
   }
 }
@@ -111,7 +108,7 @@ if($operacion=='Activar'){
     $_SESSION['datos']['mensaje']="El perfil ha sido desactivado con éxito";
     header("Location: ../vistas/?perfiles");
   }else{
-    $_SESSION['datos']['mensaje']="Problema al desactivar el perfil.";
+    $_SESSION['datos']['mensaje']="Se presentó un error al desactivar el perfil.<br><b>Error: ".utf8_encode($perfil->error())."</b>";
     header("Location: ../vistas/?perfiles");
   }
 }		
@@ -125,7 +122,12 @@ if($operacion=='Consultar'){
     $_SESSION['datos']['estatus']=$perfil->estatus_perfil();
     header("Location: ../vistas/?perfiles");
   }else{
-    $_SESSION['datos']['mensaje']="No se han encontrado resultados para tu búsqueda(".$descripcion.")";
+    $error="";
+    if($perfil->error()!=null)
+      $error="Se presentó un error al realizar la búsqueda.<br><b>Error: ".utf8_encode($perfil->error())."</b>";
+    else 
+      $error="No se han encontrado resultados para tu búsqueda(".$descripcion.")";
+    $_SESSION['datos']['mensaje']=$error;
     header("Location: ../vistas/?perfiles");
   }
 }		  

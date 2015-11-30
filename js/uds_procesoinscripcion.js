@@ -204,7 +204,7 @@ function validar_formulario(param){
 	valor4=document.getElementById('apellidos').value;
 	valor5=document.getElementById('genero').value;
 	valor6=document.getElementById('peso').value;
-	valor7=document.getElementById('talla').value;
+	valor7=document.getElementById('estatura').value;
 	valor8=document.getElementById('fecha_nacimiento_estudiante').value;
 	valor9=document.getElementById('lugar_nacimiento').value;
 	valor10=document.getElementById('direccion').value;
@@ -235,7 +235,7 @@ function validar_formulario(param){
 			permitido=false;
 		}
 		else if(valor7.replace(/^\s+|\s+$/gi,"").length==0){ //para no permitir que se quede en blanco
-			alert('Seleccione la talla del estudiante')
+			alert('Seleccione la estatura del estudiante expresado en Cm')
 			permitido=false;
 		}
 		else if(valor8.replace(/^\s+|\s+$/gi,"").length==0){ //para no permitir que se quede en blanco
