@@ -1,5 +1,109 @@
 --
 --
+-- create function f_fecha_spanish;
+--
+
+DROP FUNCTION IF EXISTS f_fecha_spanish;
+DELIMITER //
+CREATE FUNCTION f_fecha_spanish(v_fecha DATE,v_tipo int (3)) RETURNS varchar(50)
+BEGIN
+declare v_dia varchar(20);
+declare v_mes varchar(20);
+declare t_fecha varchar(60);
+case v_tipo
+  when 1 then
+    case date_format(v_fecha,'%w')
+      when 0 then
+        set t_fecha = 'Domingo';
+      when 1 then
+        set t_fecha = 'Lunes';
+      when 2 then
+        set t_fecha = 'Martes';
+      when 3 then
+        set t_fecha = 'Miercoles';
+      when 4 then
+        set t_fecha = 'Jueves';
+      when 5 then
+        set t_fecha = 'Viernes';
+      when 6 then
+        set t_fecha = 'Sábado';
+    end case;
+  when 2 then
+    case date_format(v_fecha,'%m')
+      when '01' then
+        set t_fecha = 'Enero';
+      when '02' then
+        set t_fecha = 'Febrero';
+      when '03' then
+        set t_fecha = 'Marzo';
+      when '04' then
+        set t_fecha = 'Abril';
+      when '05' then
+        set t_fecha = 'Mayo';
+      when '06' then
+        set t_fecha = 'Junio';
+      when '07' then
+        set t_fecha = 'Julio';
+      when '08' then
+        set t_fecha = 'Agosto';
+      when '09' then
+        set t_fecha = 'Septiembre';
+      when '10' then
+        set t_fecha = 'Octubre';
+      when '11' then
+        set t_fecha = 'Noviembre';
+      when '12' then
+        set t_fecha = 'Diciembre';
+    end case;
+  when 3 then
+    case date_format(v_fecha,'%w')
+      when 0 then
+        set t_fecha = 'Domingo';
+      when 1 then
+        set t_fecha = 'Lunes';
+      when 2 then
+        set t_fecha = 'Martes';
+      when 3 then
+        set t_fecha = 'Miercoles';
+      when 4 then
+        set t_fecha = 'Jueves';
+      when 5 then
+        set t_fecha = 'Viernes';
+      when 6 then
+        set t_fecha = 'Sábado';
+    end case;
+    case date_format(v_fecha,'%m')
+      when '01' then
+        set t_fecha = concat(t_fecha,' ',day(v_fecha), ' de Enero del Año ',year(v_fecha));
+      when '02' then
+        set t_fecha = concat(t_fecha,' ',day(v_fecha), ' de Febrero del Año ',year(v_fecha));
+      when '03' then
+        set t_fecha = concat(t_fecha,' ',day(v_fecha), ' de Marzo del Año ',year(v_fecha));
+      when '04' then
+        set t_fecha = concat(t_fecha,' ',day(v_fecha), ' de Abril del Año ',year(v_fecha));
+      when '05' then
+        set t_fecha = concat(t_fecha,' ',day(v_fecha), ' de Mayo del Año ',year(v_fecha));
+      when '06' then
+        set t_fecha = concat(t_fecha,' ',day(v_fecha), ' de Junio del Año ',year(v_fecha));
+      when '07' then
+        set t_fecha = concat(t_fecha,' ',day(v_fecha), ' de Julio del Año ',year(v_fecha));
+      when '08' then
+        set t_fecha = concat(t_fecha,' ',day(v_fecha), ' de Agosto del Año ',year(v_fecha));
+      when '09' then
+        set t_fecha = concat(t_fecha,' ',day(v_fecha), ' de Septiembre del Año ',year(v_fecha));
+      when '10' then
+        set t_fecha = concat(t_fecha,' ',day(v_fecha), ' de Octubre del Año ',year(v_fecha));
+      when '11' then
+        set t_fecha = concat(t_fecha,' ',day(v_fecha), ' de Noviembre del Año ',year(v_fecha));
+      when '12' then
+        set t_fecha = concat(t_fecha,' ',day(v_fecha), ' de Diciembre del Año ',year(v_fecha));
+    end case;
+end case;
+return t_fecha;
+END //
+
+--
+--
 -- Table structure for table tano_academico
 --
 
@@ -267,6 +371,7 @@ CREATE TABLE tplantel (
   direccion varchar(255) COLLATE utf8_spanish_ci NOT NULL,
   telefono_habitacion varchar(11) NOT NULL,
   localidad varchar(20),
+  email varchar(150),
   codigo_municipio int(11) NOT NULL,
   fecha_desactivacion varchar(45) COLLATE utf8_spanish_ci DEFAULT NULL,
   PRIMARY KEY (codigo_plantel),
