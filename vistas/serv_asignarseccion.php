@@ -22,7 +22,7 @@
           //Sentencia sql (sin limit) 
           $_pagi_sql = "SELECT pi.cedula_estudiante,CONCAT(pi.cedula_estudiante,' - ',p.nombres,' ',p.apellidos) AS estudiante,
           TIMESTAMPDIFF(YEAR, p.fecha_nacimiento, CURDATE()) AS edad,CASE p.genero WHEN 'F' THEN 'FEMENINO' ELSE 'MASCULINO' END AS genero,
-          pi.peso,pi.talla 
+          pi.peso,pi.estatura AS talla  
           FROM tproceso_inscripcion pi 
           INNER JOIN tpersona p ON pi.cedula_estudiante = p.cedula  
           WHERE pi.seccion IS NULL 

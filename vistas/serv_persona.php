@@ -104,9 +104,9 @@ else{
                 <option value="">Selecione el Nivel Acádemico</option>
                 <option value="Bachiller" <?php if($nivel_academico=="Bachiller"){ echo "selected";}?>>Bachiller</option>
                 <option value="T.S.U." <?php if($nivel_academico=="T.S.U."){ echo "selected";}?>>T.S.U.</option>
-                <option value="Licenciado" <?php if($nivel_academico=="Licenciado"){ echo "selected";}?>>Licenciado</option>
-                <option value="Ingeniero" <?php if($nivel_academico=="Ingeniero"){ echo "selected";}?>>Ingeniero</option>
-                <option value="Doctorado" <?php if($nivel_academico=="Doctorado"){ echo "selected";}?>>Doctorado</option>
+                <option value="LCDO(A)." <?php if($nivel_academico=="LCDO(A)."){ echo "selected";}?>>LCDO(A).</option>
+                <option value="ING." <?php if($nivel_academico=="ING."){ echo "selected";}?>>ING.</option>
+                <option value="DR(A)." <?php if($nivel_academico=="DR(A)."){ echo "selected";}?>>DR(A).</option>
               </select>
               <label>Fecha de Ingreso:</label>
               <input tabindex=20 title="Seleccione el fecha de Ingreso" name="fecha_ingreso" id="fecha_ingreso" type="text" size="50" value="<?= $fecha_ingreso;?>" placeholder="Ingrese la Fecha de Ingreso" class="campoTexto" readonly required />

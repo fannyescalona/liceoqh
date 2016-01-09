@@ -66,7 +66,7 @@
           <div class="input-prepend">
             <span class="add-on"><i class="icon-user"></i></span>
 
-            <input name="usuario" type="text" id="Usuario"  placeholder="Usuario" title="Por favor coloque su nombre de Usuario" required />                      
+            <input name="usuario" type="text" id="Usuario" onKeyUp="this.value=this.value.toUpperCase()" placeholder="Usuario" title="Por favor coloque su nombre de Usuario" required />                      
           </div><br>
           <div class="input-prepend">
             <span class="add-on"><i class="icon-lock"></i></span>
@@ -100,7 +100,7 @@
 <!-- IDENTIFICAR USUARIO!-->
     <div class="input-prepend">
      <span class="add-on"><i class="icon-user"></i></span>                  
-      <input name="user_name" type="text" id="Usuario"  placeholder="Usuario" title="Por favor coloque su nombre de Usuario" required/>                      
+      <input name="user_name" type="text" id="Usuario" onKeyUp="this.value=this.value.toUpperCase()"  placeholder="Usuario" title="Por favor coloque su nombre de Usuario" required/>                      
           </div>
        <br>
              <?php } ?>
@@ -120,7 +120,7 @@
 	   ?>?
 	   </H5>
        <span class="add-on"><i class="icon-user"></i></span>
-            <input name="user_name" type="text" id="respuesta"  placeholder="Ingresa la respuesta..." title="Por favor ingrese la respuesta" size="18" required/>                      
+            <input name="user_name" type="text" id="respuesta" onKeyUp="this.value=this.value.toUpperCase()"  placeholder="Ingresa la respuesta..." title="Por favor ingrese la respuesta" size="18" required/>                      
           </div>
        <br>
              <?php } ?>

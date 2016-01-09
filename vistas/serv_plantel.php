@@ -15,6 +15,7 @@
   @$telefono_habitacion=$_SESSION['datos']['telefono_habitacion'];
   @$localidad=$_SESSION['datos']['localidad'];
   @$codigo_municipio=$_SESSION['datos']['codigo_municipio'];
+  @$email=$_SESSION['datos']['email'];
   @$estatus=$_SESSION['datos']['estatus'];
 }
 else{
@@ -24,6 +25,7 @@ else{
   @$telefono_habitacion=null;
   @$localidad=null;
   @$codigo_municipio=null;
+  @$email=null;
   @$estatus=null;
 }
 ?>
@@ -47,6 +49,8 @@ else{
       <input title="Ingrese la localidad del plantel educativo" onKeyUp="this.value=this.value.toUpperCase()" name="localidad" id="localidad" type="text" size="50" value="<?= $localidad;?>" placeholder="Ingrese la localidad del plantel educativo" class="campoTexto" required />
       <label>Municipio:</label>
       <input title="Seleccione un Municipio" onKeyUp="this.value=this.value.toUpperCase()" name="codigo_municipio" id="codigo_municipio" type="text" size="50" value="<?= $codigo_municipio;?>" placeholder="Seleccione un municipio" class="campoTexto" required />
+      <label>Correo Electrónico:</label>
+      <input title="Ingrese el correo electrónico del plantel" onKeyPress="return isEmail(event,this.value)" onKeyUp="this.value=this.value.toLowerCase()" name="email" id="email" type="text" size="50" value="<?= $email;?>" placeholder="Ingrese el Correo Electrónico" class="campoTexto" />
       <strong class="obligatorio">Los campos resaltados en rojo son obligatorios</strong>
     </div>    
     <br>

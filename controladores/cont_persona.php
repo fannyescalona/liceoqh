@@ -36,7 +36,7 @@ if(isset($_POST['telefono_movil']))
 $telefono_movil=ucfirst(trim($_POST['telefono_movil']));
 
 if(isset($_POST['email']))
-$email=ucfirst(trim($_POST['email']));
+$email=trim($_POST['email']);
 
 if(isset($_POST['esestudiante']))
 $esestudiante=ucfirst(trim($_POST['esestudiante']));

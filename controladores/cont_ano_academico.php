@@ -113,5 +113,26 @@ if($operacion=='Consultar'){
     $_SESSION['datos']['mensaje']=$error;
    header("Location: ../vistas/?ano_academico");
   }
+
+if($operacion=='CerrarAñoEscolar'){  
+  $confirmacion=false;
+  $ano_academico->Transaccion('iniciando');
+  $ano_academico->codigo_ano_academico($id);
+  if($ano_academico->Cerrar())
+    if($ano_academico->ActualizarInscripciones())
+      $confirmacion=1;
+    else
+      $confirmacion=-1;
+  else
+    $confirmacion=-1;
+  if($confirmacion==1){
+    $ano_academico->Transaccion('finalizado');
+    $_SESSION['datos']['mensaje']="El Año Académico ha sido cerrado con éxito";
+    header("Location: ../vistas/?cerrar_anoacademico");
+  }else{
+    $ano_academico->Transaccion('cancelado');
+    $_SESSION['datos']['mensaje']="Problema al cerrar el Año Académico.<br><b>Error: ".utf8_encode($ano_academico->error())."</b>";
+    header("Location: ../vistas/?cerrar_anoacademico");
+  }
 }     
 ?>

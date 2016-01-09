@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="listado_docentes" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="722" leftMargin="60" rightMargin="60" topMargin="60" bottomMargin="60" uuid="ec800097-d881-4576-be91-16136bcc5a19">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="codigo_materia" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT p.cedula,CONCAT(p.nombres,' ',p.apellidos) AS docente,COALESCE(p.telefono_movil,p.telefono_habitacion) AS telefono,p.email,
+GROUP_CONCAT(DISTINCT m.descripcion separator ',') AS materia
+FROM tpersona p
+INNER JOIN tcargo c ON p.codigo_cargo = c.codigo_cargo
+LEFT JOIN tmateria_seccion_docente msd ON p.cedula = msd.cedula_docente
+LEFT JOIN tmateria m ON msd.codigo_materia = m.codigo_materia
+WHERE c.descripcion LIKE '%DOCENTE%'
+AND (m.codigo_materia = $P{codigo_materia} OR $P{codigo_materia} IS NULL)
+GROUP BY p.cedula,p.nombres,p.apellidos,p.telefono_movil,p.telefono_habitacion,p.email
+ORDER BY p.cedula ASC]]>
+	</queryString>
+	<field name="cedula" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="docente" class="java.lang.String"/>
+	<field name="telefono" class="java.lang.String"/>
+	<field name="email" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="materia" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="153" splitType="Stretch">
+			<image>
+				<reportElement x="48" y="17" width="622" height="70" uuid="56ec8833-da5a-499c-a5cc-7baf68541775"/>
+				<imageExpression><![CDATA["/var/www/html/liceoqh/images/cintillo_reportes.jpg"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="217" y="112" width="270" height="20" uuid="28990231-640d-4ee7-9e44-a7d52123d025"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[LISTADO DE DOCENTES]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="81" height="20" uuid="b217b68e-89d7-448a-bcec-7bfd23dcba39"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["CÉDULA"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="81" y="0" width="136" height="20" uuid="c7649c2f-45bf-4219-bf02-961526ba3c37"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["DOCENTE"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="419" y="0" width="303" height="20" uuid="3f2b8241-d2c1-4487-ae78-f7d0be76d834"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["GENERO"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="217" y="0" width="67" height="20" uuid="0f1e88f3-1c7a-4f75-9a5c-0107d1068a42"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["TELÉFONO"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="284" y="0" width="135" height="20" uuid="edde9597-faff-401d-b62c-fccecb57d717"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["CORREO ELECTRÓNICO"]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement x="419" y="0" width="303" height="20" uuid="9ca5b70c-127d-4c49-a1b3-61c77e8d6256"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{materia}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="0" width="81" height="20" uuid="ebb42798-2b4e-4cb4-bfd8-01b980b2b629"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cedula}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="284" y="0" width="135" height="20" uuid="152473ec-4cb1-4c84-bfc6-6f0612eca182"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{email}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="81" y="0" width="136" height="20" uuid="14f701f2-f159-4ee6-95c4-7dbb5077fc06"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{docente}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="217" y="0" width="67" height="20" uuid="98bef021-64f7-45d7-9398-71c80af44e4d"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{telefono}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="30" splitType="Stretch">
+			<line>
+				<reportElement x="0" y="0" width="722" height="1" forecolor="#ECE7E7" uuid="e837782a-0ec2-4b7e-a895-fcd56be154cf"/>
+			</line>
+			<staticText>
+				<reportElement x="61" y="0" width="270" height="10" uuid="5b606cd4-40f7-465f-9c00-451c221b6c24"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="7" isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[Unidad Educativa Nacional Quebrada Honda.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="61" y="10" width="522" height="10" uuid="8af46b09-99fd-4a7a-bf16-28e8b6d97d73"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="7" isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[Dirección: Calle 03 Centro Poblado B Quebrado Honda, Agua Blanca Estado Portuguesa,República Bolivariana de Venezuela.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="61" y="20" width="522" height="10" uuid="aa5f3c45-edd0-4eb6-b5cb-9d7c2ffa1f31"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="7" isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[Teléfono: (+58) 0255-8084598]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+</jasperReport>

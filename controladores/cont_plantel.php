@@ -26,6 +26,9 @@ if(isset($_POST['codigo_municipio'])){
   $codigo_municipio=$municipio[0];
 }
 
+if(isset($_POST['email']))
+$email=trim($_POST['email']);
+
 include_once("../clases/class_plantel.php");
 $plantel=new plantel();
 if($operacion=='Registrar'){
@@ -35,6 +38,7 @@ if($operacion=='Registrar'){
   $plantel->telefono_habitacion($telefono_habitacion);
   $plantel->localidad($localidad);
   $plantel->codigo_municipio($codigo_municipio);
+  $plantel->email($email);
   if(!$plantel->Comprobar()){
     if($plantel->Registrar())
       $confirmacion=1;
@@ -64,6 +68,7 @@ if($operacion=='Modificar'){
   $plantel->telefono_habitacion($telefono_habitacion);
   $plantel->localidad($localidad);
   $plantel->codigo_municipio($codigo_municipio);
+  $plantel->email($email);
   if($plantel->Actualizar())
     $confirmacion=1;
   else
@@ -127,6 +132,7 @@ if($operacion=='Consultar'){
     $_SESSION['datos']['telefono_habitacion']=$plantel->telefono_habitacion();
     $_SESSION['datos']['localidad']=$plantel->localidad();
     $_SESSION['datos']['codigo_municipio']=$plantel->codigo_municipio();
+    $_SESSION['datos']['email']=$plantel->email();
     $_SESSION['datos']['estatus']=$plantel->estatus_plantel();
     header("Location: ../vistas/?plantel");
   }else{

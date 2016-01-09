@@ -1,5 +1,5 @@
 <div class="form_externo" >
-  <form action="../controladores/cont_pais.php" method="post" id="form" class="form-horizontal">
+  <form method="post" id="form" class="form-horizontal">
     <fieldset>
       <legend>Ficha de Inscripción</legend>
       <div id="contenedorFormulario">
@@ -22,7 +22,6 @@
         cedula = $('#cedula').val();
         cedula = cedula.split('_');
         cedula = cedula[0];
-        console.log(cedula);
         url = "../informe_pdf/ficha_inscripcion.php?cedula_estudiante="+cedula;
         window.open(url, '_blank'); 
       }
@@ -31,4 +30,4 @@
       }
     })
   </script>
-</di>
+</div>

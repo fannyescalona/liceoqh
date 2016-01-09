@@ -1,0 +1,458 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="historial_del_personal" language="groovy" pageWidth="595" pageHeight="842" columnWidth="475" leftMargin="60" rightMargin="60" topMargin="20" bottomMargin="60" uuid="acadb384-72cc-4549-ae99-61746b0b9163">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="cedula" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT CONCAT(p.nombres,' ',p.apellidos) AS personal, p.cedula, DATE_FORMAT(p.fecha_nacimiento,'%d/%m/%Y') AS fecha_nacimiento,
+p.direccion, p.telefono_movil, p.email, DATE_FORMAT(p.fecha_ingreso,'%d/%m/%Y') AS fecha_ingreso, c.descripcion AS cargo,
+CASE p.condicion_cargo WHEN 'F' THEN 'FIJO' ELSE 'CONTRATADO' END AS condicion_cargo,p.nivel_academico,p.carga_horaria,
+pl.nombre AS plantel, p.codigo_dependencia,pl.telefono_habitacion,pl.direccion AS dir_plantel,pl.email AS email_plantel,
+TIMESTAMPDIFF(YEAR, p.fecha_ingreso, CURDATE()) AS anio_servicio,((TIMESTAMPDIFF(MONTH,p.fecha_ingreso,CURDATE())) - (TIMESTAMPDIFF(YEAR,p.fecha_ingreso,CURDATE()) * 12)) AS mes_servicio,
+DATE_FORMAT(CURDATE(),'%d/%m/%Y') AS fecha
+FROM tpersona p
+INNER JOIN tcargo c ON p.codigo_cargo = c.codigo_cargo
+INNER JOIN tplantel pl ON p.codigo_plantel = pl.codigo_plantel
+WHERE p.espersonalinstitucion = 'Y' AND p.cedula = $P{cedula}]]>
+	</queryString>
+	<field name="personal" class="java.lang.String"/>
+	<field name="cedula" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="fecha_nacimiento" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="direccion" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="telefono_movil" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="email" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="fecha_ingreso" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="cargo" class="java.lang.String"/>
+	<field name="condicion_cargo" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nivel_academico" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="carga_horaria" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="plantel" class="java.lang.String"/>
+	<field name="codigo_dependencia" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="telefono_habitacion" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="dir_plantel" class="java.lang.String"/>
+	<field name="email_plantel" class="java.lang.String"/>
+	<field name="anio_servicio" class="java.lang.Long"/>
+	<field name="mes_servicio" class="java.lang.Long"/>
+	<field name="fecha" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="155" splitType="Stretch">
+			<staticText>
+				<reportElement x="107" y="103" width="253" height="20" uuid="60b94d02-850d-4412-8851-a77f0c43b1d3"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[HISTORIAL DEL PERSONAL ADMINISTRATIVO]]></text>
+			</staticText>
+			<image>
+				<reportElement x="0" y="0" width="475" height="70" uuid="9bdc4c97-01ac-4672-bb3f-86ba1400d281"/>
+				<imageExpression><![CDATA["/var/www/html/liceoqh/images/cintillo_reportes.jpg"]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<detail>
+		<band height="284" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="145" height="20" uuid="cc7bbccb-157b-47c8-8344-0587b1dcd211"/>
+				<textElement verticalAlignment="Bottom">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["NOMBRES Y APELLIDOS: "]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="129" y="0" width="346" height="20" uuid="fc0d793e-3dfe-48dc-9ec8-3ae8670a3ad4"/>
+				<box>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Bottom">
+					<font isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{personal}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="19" width="38" height="20" uuid="65aa94ff-3d03-4059-91e0-41b0862bff6f"/>
+				<textElement verticalAlignment="Bottom">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["C.I: "]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="22" y="19" width="63" height="20" uuid="9aea8dda-11c9-4510-bcb3-b1db9a7ce737"/>
+				<box>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Bottom">
+					<font isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cedula}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="84" y="19" width="38" height="20" uuid="1061d0fc-2cdf-4203-b7a3-d07f70a23382"/>
+				<textElement verticalAlignment="Bottom">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["F.N: "]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="107" y="19" width="50" height="20" uuid="2e90a94c-5437-42b2-82b9-2f5f4ad9d4b0"/>
+				<box>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Bottom">
+					<font isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fecha_nacimiento}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="156" y="19" width="82" height="20" uuid="b2c70c47-b1f3-48a5-8e99-56276872b7d3"/>
+				<textElement verticalAlignment="Bottom">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["DIRECCIÓN: "]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="222" y="19" width="253" height="20" uuid="9d76ba58-6176-419d-a69b-c8689727c28a"/>
+				<box>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Bottom">
+					<font isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{direccion}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="38" width="72" height="20" uuid="9d1ba4a9-d577-434d-9af9-ff7b7d88ed61"/>
+				<textElement verticalAlignment="Bottom">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["TELÉFONO: "]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="65" y="38" width="72" height="20" uuid="50d429cb-673a-4206-bb6d-a7270a8ae173"/>
+				<box>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Bottom">
+					<font isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{telefono_movil}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="136" y="39" width="146" height="20" uuid="b79297f0-1a69-4fc1-92fb-5c8ccfcf88b3"/>
+				<textElement verticalAlignment="Bottom">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["CORREO ELECTRÓNICO: "]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="268" y="38" width="207" height="20" uuid="71dcf2c6-e407-4d5d-b8e0-02ffd6288c76"/>
+				<box>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Bottom">
+					<font isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{email}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="57" width="85" height="20" uuid="e2261e45-7795-4db6-89c1-1268b08e5bba"/>
+				<textElement verticalAlignment="Bottom">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["F. INGRESO: "]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="68" y="58" width="51" height="20" uuid="07b7600f-ded0-454d-89b0-83a5980223f2"/>
+				<box>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Bottom">
+					<font isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fecha_ingreso}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="118" y="58" width="50" height="20" uuid="ed3ecf66-b7d7-4729-9b52-58880b29a1f9"/>
+				<textElement verticalAlignment="Bottom">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["CARGO: "]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="160" y="58" width="135" height="20" uuid="fde5c262-a431-44b4-aeca-d6a57a0af9bf"/>
+				<box>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Bottom">
+					<font isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cargo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="294" y="58" width="119" height="20" uuid="98c431c9-9661-4224-91e7-e10423f3fff8"/>
+				<textElement verticalAlignment="Bottom">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["COND. DEL CARGO: "]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="395" y="58" width="80" height="20" uuid="d69ca0b7-5294-4fe7-b4d4-9088f1a4810b"/>
+				<box>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Bottom">
+					<font isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{condicion_cargo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="76" width="118" height="20" uuid="ae0dc4d6-de19-4fd7-ab9c-9abb84d53637"/>
+				<textElement verticalAlignment="Bottom">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["NIVEL ACÁDEMICO: "]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="107" y="77" width="61" height="20" uuid="8b86a331-bc91-4f62-a6a3-8b91d04b112b"/>
+				<box>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Bottom">
+					<font isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nivel_academico}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="167" y="77" width="111" height="20" uuid="d9185982-6894-4a10-b4db-374f5fd83a2e"/>
+				<textElement verticalAlignment="Bottom">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["CARGA HORARIA: "]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="267" y="77" width="28" height="20" uuid="836d0855-3b77-4aa9-b5f0-9e79978d9a81"/>
+				<box>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Bottom">
+					<font isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{carga_horaria}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="95" width="156" height="20" uuid="dc3bf421-207d-4295-b53a-0dcb8676a76b"/>
+				<textElement verticalAlignment="Bottom">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["PLANTEL DONDE TRABAJA: "]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="145" y="96" width="330" height="20" uuid="67675426-65fe-490d-923e-f056b431625e"/>
+				<box>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Bottom">
+					<font isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{plantel}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="114" width="95" height="20" uuid="33fc8fcd-a1b3-4968-8da5-e63711178629"/>
+				<textElement verticalAlignment="Bottom">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["CÓDIGO DEP.: "]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="72" y="114" width="84" height="20" uuid="8b2d2079-2943-4c76-a7b7-e2766c77a0e9"/>
+				<box>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Bottom">
+					<font isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{codigo_dependencia}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="155" y="114" width="77" height="20" uuid="221b9ab1-9237-4c84-beab-0e6c71ece5c4"/>
+				<textElement verticalAlignment="Bottom">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["TELÉFONO: "]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="219" y="114" width="76" height="20" uuid="7cd6aa4c-f650-4dcd-ad3c-dc714a20d1a6"/>
+				<box>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Bottom">
+					<font isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{telefono_habitacion}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="294" y="114" width="66" height="20" uuid="8884e271-7e46-495a-b692-88d5e1b87034"/>
+				<textElement verticalAlignment="Bottom">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["CORREO: "]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="345" y="114" width="130" height="20" uuid="8e595180-7a6a-4b97-99d0-56734e2c0c27"/>
+				<box>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Bottom">
+					<font isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{email_plantel}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="133" width="73" height="20" uuid="9f334ef8-eaff-4355-b277-97f0b14287ef"/>
+				<textElement verticalAlignment="Bottom">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["DIRECCIÓN: "]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="68" y="133" width="407" height="20" uuid="34940c3d-f5a0-415e-b47c-f97ae649b8f2"/>
+				<box>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Bottom">
+					<font isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{dir_plantel}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="1" y="189" width="294" height="40" uuid="06a8bd98-8104-4e57-b933-9c7dcd689985"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["TIEMPO DE SERVICIOS "]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="294" y="189" width="101" height="20" uuid="821093b3-0988-40bb-b1b7-a8d933c491b2"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["AÑOS "]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="395" y="189" width="80" height="20" uuid="f1d30259-426f-4fe5-a371-d2c8270b9a7f"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["MESES "]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="294" y="209" width="101" height="20" uuid="f9b84559-8629-45dc-b4ed-a5787014182c"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{anio_servicio}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="395" y="209" width="80" height="20" uuid="cbd5759e-4d72-4de5-9a0d-e11072f3cb35"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{mes_servicio}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="264" width="122" height="20" uuid="eaa450a6-215f-4583-bb39-b19b4a7b239f"/>
+				<textElement verticalAlignment="Bottom">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["QUEBRADA HONDA, "]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="107" y="264" width="84" height="20" uuid="83dc1bef-3a98-4a7a-9318-1e9ebf207794"/>
+				<box>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Bottom">
+					<font isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fecha}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="20">
+			<textField>
+				<reportElement x="0" y="0" width="122" height="20" uuid="99d4b33c-1235-440b-857e-9fefd47a1365"/>
+				<textElement verticalAlignment="Bottom">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["FIRMA DIRECTOR (E) "]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="353" y="0" width="122" height="20" uuid="759c7d08-0ce7-4842-99e2-12d1d5be084e"/>
+				<textElement verticalAlignment="Bottom">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["FIRMA SECRETARIA "]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>

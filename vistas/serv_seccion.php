@@ -55,7 +55,6 @@
             <option value="3" <?php if($grado_escolar=="3"){ echo "selected";}?>>3er Año</option>
             <option value="4" <?php if($grado_escolar=="4"){ echo "selected";}?>>4to Año</option>
             <option value="5" <?php if($grado_escolar=="5"){ echo "selected";}?>>5to Año</option>
-            <option value="6" <?php if($grado_escolar=="6"){ echo "selected";}?>>6to Año</option>
           </select>
           <label>Capacidad Mínima de la Sección:</label>
           <input title="Ingrese la capacidad mínima de la sección" onKeyPress="return isNumberKey(event)" name="capacidad_min" id="capacidad_min" maxlength=2 type="text" size="50" value="<?= $capacidad_min;?>" placeholder="Ingrese la Capacidad Mínima" class="campoTexto" required />

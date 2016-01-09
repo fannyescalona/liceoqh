@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="planilla_inscripcion" language="groovy" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="planilla_inscripcion" language="groovy" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="230a6877-1832-43a9-bed6-3bff5aba4c9c">
 	<property name="ireport.zoom" value="2.0"/>
-	<property name="ireport.x" value="37"/>
-	<property name="ireport.y" value="1111"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="39"/>
 	<parameter name="cedula_estudiante" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
@@ -33,10 +33,10 @@
 	CONCAT(d.nombres,' ',d.apellidos) AS docente,DATE_FORMAT(pi.fecha_inscripcion,'%d/%m/%Y') AS fecha_inscripcion,
 	COALESCE((SELECT CASE WHEN AVG(notafinal) >= 10 THEN 'X' ELSE NULL END FROM tcontrol_notas cn WHERE cn.cedula_estudiante = pi.cedula_estudiante),'X') AS estudiante_regular,
 	COALESCE((SELECT CASE WHEN AVG(notafinal) < 10 THEN 'X' ELSE NULL END FROM tcontrol_notas cn WHERE cn.cedula_estudiante = pi.cedula_estudiante),'') AS estudiante_repitiente,
-	(SELECT GROUP_CONCAT(m.descripcion,',') FROM tcontrol_notas ctn 
+	(SELECT GROUP_CONCAT(m.descripcion,',') FROM tcontrol_notas ctn
 	INNER JOIN tmateria_seccion_docente msd ON ctn.codigo_msd = msd.codigo_msd
 	INNER JOIN tmateria m ON msd.codigo_materia = m.codigo_materia
-	WHERE ctn.notafinal < 10 AND ctn.cedula_estudiante = pi.cedula_estudiante 
+	WHERE ctn.notafinal < 10 AND ctn.cedula_estudiante = pi.cedula_estudiante
 	ORDER BY ctn.codigo_lapso ASC) AS asignaturas_pendientes
 	FROM tproceso_inscripcion pi
 	INNER JOIN tano_academico aa ON pi.codigo_ano_academico = aa.codigo_ano_academico
@@ -155,893 +155,1052 @@
 	<pageHeader>
 		<band height="752">
 			<staticText>
-				<reportElement x="184" y="85" width="210" height="20"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle" lineSpacing="Single">
+				<reportElement x="184" y="85" width="210" height="20" uuid="d6af3a46-95df-4b74-8177-ffefe16e57c2"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font isBold="true"/>
+					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[PLANILLA DE INSCRIPCIÓN]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="433" y="85" width="70" height="21"/>
-				<textElement textAlignment="Right" verticalAlignment="Bottom" lineSpacing="Single">
+				<reportElement x="433" y="85" width="70" height="21" uuid="d193f7b1-b4cf-4f1c-b70c-f21566e8e0a8"/>
+				<textElement textAlignment="Right" verticalAlignment="Bottom">
 					<font isBold="true"/>
+					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[Edad:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="502" y="85" width="70" height="20"/>
+				<reportElement x="502" y="85" width="70" height="20" uuid="86a6502a-0016-4caa-93d1-ede644dc6264"/>
 				<box>
 					<bottomPen lineWidth="1.0"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Bottom" lineSpacing="Single"/>
-				<textFieldExpression class="java.lang.Long"><![CDATA[$F{edad}]]></textFieldExpression>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{edad}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="433" y="106" width="69" height="20"/>
-				<textElement textAlignment="Right" verticalAlignment="Bottom" lineSpacing="Single">
+				<reportElement x="433" y="106" width="69" height="20" uuid="45a19758-7c09-4b65-9f77-6a9add2dedd7"/>
+				<textElement textAlignment="Right" verticalAlignment="Bottom">
 					<font isBold="true"/>
+					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[Peso:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="502" y="105" width="70" height="20"/>
+				<reportElement x="502" y="105" width="70" height="20" uuid="89347d45-16e0-46eb-8ad1-3af9cfa42881"/>
 				<box>
 					<bottomPen lineWidth="1.0"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Bottom" lineSpacing="Single"/>
-				<textFieldExpression class="java.lang.Long"><![CDATA[$F{peso}]]></textFieldExpression>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{peso}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="433" y="126" width="69" height="20"/>
-				<textElement textAlignment="Right" verticalAlignment="Bottom" lineSpacing="Single">
+				<reportElement x="433" y="126" width="69" height="20" uuid="3f2c0962-dbf2-42b8-82d8-9ef16f4c08ba"/>
+				<textElement textAlignment="Right" verticalAlignment="Bottom">
 					<font isBold="true"/>
+					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[Talla:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="502" y="125" width="70" height="20"/>
+				<reportElement x="502" y="125" width="70" height="20" uuid="696d902f-c9f5-43b4-aa65-41983a0f5ccc"/>
 				<box>
 					<bottomPen lineWidth="1.0"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Bottom" lineSpacing="Single"/>
-				<textFieldExpression class="java.lang.Long"><![CDATA[$F{talla}]]></textFieldExpression>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{talla}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="184" y="126" width="112" height="20"/>
-				<textElement textAlignment="Right" verticalAlignment="Middle" lineSpacing="Single">
+				<reportElement x="184" y="126" width="112" height="20" uuid="a8406a49-70ab-447d-9ed4-9be00fe6289d"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font isBold="true"/>
+					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[AÑO ESCOLAR:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="296" y="126" width="98" height="20"/>
+				<reportElement x="296" y="126" width="98" height="20" uuid="f1f5a67f-a1c0-448b-be6f-7795c093daf6"/>
 				<box>
 					<bottomPen lineWidth="1.0"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Bottom" lineSpacing="Single"/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{ano_escolar}]]></textFieldExpression>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ano_escolar}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="0" y="146" width="184" height="20"/>
-				<textElement verticalAlignment="Middle" lineSpacing="Single">
+				<reportElement x="0" y="146" width="184" height="20" uuid="ab5be5c9-1528-41d5-a8ff-7fb9633e33cc"/>
+				<textElement verticalAlignment="Middle">
 					<font isBold="true" isItalic="false" isUnderline="true"/>
+					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[DATOS DEL ESTUDIANTE:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="165" width="129" height="20"/>
-				<textElement verticalAlignment="Bottom" lineSpacing="Single">
+				<reportElement x="0" y="165" width="129" height="20" uuid="8a64b69e-42af-4d61-8874-05738fe66fe8"/>
+				<textElement verticalAlignment="Bottom">
 					<font isBold="true"/>
+					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[Apellidos y Nombres:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="97" y="165" width="240" height="20"/>
+				<reportElement x="97" y="165" width="240" height="20" uuid="f1260f67-6e9e-4c2d-af1c-fd9bd1294c16"/>
 				<box>
 					<bottomPen lineWidth="1.0"/>
 				</box>
-				<textElement verticalAlignment="Bottom" lineSpacing="Single"/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{estudiante}]]></textFieldExpression>
+				<textElement verticalAlignment="Bottom">
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{estudiante}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="337" y="165" width="120" height="20"/>
-				<textElement verticalAlignment="Bottom" lineSpacing="Single">
+				<reportElement x="337" y="165" width="120" height="20" uuid="ad39ad17-a18a-42c3-bc57-b9f2ed3603d8"/>
+				<textElement verticalAlignment="Bottom">
 					<font isBold="true"/>
+					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[Cédula de Identidad:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="433" y="165" width="139" height="20"/>
+				<reportElement x="433" y="165" width="139" height="20" uuid="8ee39139-cd71-48d9-b530-9a5a946de391"/>
 				<box>
 					<bottomPen lineWidth="1.0"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Bottom" lineSpacing="Single"/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{cedula_estudiante}]]></textFieldExpression>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cedula_estudiante}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="0" y="185" width="91" height="20"/>
-				<textElement verticalAlignment="Bottom" lineSpacing="Single">
+				<reportElement x="0" y="185" width="91" height="20" uuid="0dfcbc1b-3145-42c1-adef-5d2b5001c409"/>
+				<textElement verticalAlignment="Bottom">
 					<font isBold="true"/>
+					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[Cédula Escolar:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="73" y="185" width="236" height="20"/>
+				<reportElement x="73" y="185" width="236" height="20" uuid="a3af5964-d078-417b-8add-21172f726193"/>
 				<box>
 					<bottomPen lineWidth="1.0"/>
 				</box>
-				<textElement verticalAlignment="Bottom" lineSpacing="Single"/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{cedula_escolar}]]></textFieldExpression>
+				<textElement verticalAlignment="Bottom">
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cedula_escolar}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="337" y="185" width="96" height="20"/>
-				<textElement verticalAlignment="Bottom" lineSpacing="Single">
+				<reportElement x="337" y="185" width="96" height="20" uuid="fbd74e0c-b1fe-44d1-a1fd-d3a88b941d3f"/>
+				<textElement verticalAlignment="Bottom">
 					<font isBold="true"/>
+					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[Código Canaima:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="416" y="185" width="156" height="20"/>
+				<reportElement x="416" y="185" width="156" height="20" uuid="a17cbb64-21ae-4845-b9d6-431338a00dfa"/>
 				<box>
 					<bottomPen lineWidth="1.0"/>
 				</box>
-				<textElement verticalAlignment="Bottom" lineSpacing="Single"/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{codigo_canaima}]]></textFieldExpression>
+				<textElement verticalAlignment="Bottom">
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{codigo_canaima}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="0" y="204" width="35" height="20"/>
-				<textElement verticalAlignment="Bottom" lineSpacing="Single">
+				<reportElement x="0" y="204" width="35" height="20" uuid="b094aceb-c9df-457c-80a0-fe347de36924"/>
+				<textElement verticalAlignment="Bottom">
 					<font isBold="true"/>
+					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[Sexo:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="34" y="204" width="20" height="20"/>
-				<textElement textAlignment="Center" verticalAlignment="Bottom" lineSpacing="Single">
+				<reportElement x="34" y="204" width="20" height="20" uuid="814a91a1-d6db-41f9-9395-d46cf39db1ad"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
 					<font isBold="true"/>
+					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[F]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="72" y="204" width="20" height="20"/>
-				<textElement textAlignment="Center" verticalAlignment="Bottom" lineSpacing="Single">
+				<reportElement x="72" y="204" width="20" height="20" uuid="9ab128cf-6d56-4451-821e-7da172bfae0b"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
 					<font isBold="true"/>
+					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[M]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="110" y="205" width="131" height="20"/>
-				<textElement verticalAlignment="Bottom" lineSpacing="Single">
+				<reportElement x="110" y="205" width="131" height="20" uuid="e5b6618e-9eb9-4189-9121-dd86ff71e3d8"/>
+				<textElement verticalAlignment="Bottom">
 					<font isBold="true"/>
+					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[Fecha de Nacimiento:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="218" y="205" width="91" height="20"/>
+				<reportElement x="218" y="205" width="91" height="20" uuid="eac8ed8b-568e-4c64-8324-10484dba78f7"/>
 				<box>
 					<bottomPen lineWidth="1.0"/>
 				</box>
-				<textElement verticalAlignment="Bottom" lineSpacing="Single"/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{fecha_nacimiento}]]></textFieldExpression>
+				<textElement verticalAlignment="Bottom">
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fecha_nacimiento}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="308" y="205" width="125" height="20"/>
-				<textElement verticalAlignment="Bottom" lineSpacing="Single">
+				<reportElement x="308" y="205" width="125" height="20" uuid="5ad5528a-bff4-4e2d-b06d-0460618b3df1"/>
+				<textElement verticalAlignment="Bottom">
 					<font isBold="true"/>
+					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[Lugar de Nacimiento:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="416" y="205" width="156" height="20"/>
+				<reportElement x="416" y="205" width="156" height="20" uuid="4ffaf441-cefd-4b32-abec-349fa8e5715e"/>
 				<box>
 					<bottomPen lineWidth="1.0"/>
 				</box>
-				<textElement verticalAlignment="Bottom" lineSpacing="Single"/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{lugar_nacimiento}]]></textFieldExpression>
+				<textElement verticalAlignment="Bottom">
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{lugar_nacimiento}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="0" y="223" width="45" height="20"/>
-				<textElement verticalAlignment="Bottom" lineSpacing="Single">
+				<reportElement x="0" y="223" width="45" height="20" uuid="85e7562c-6b4b-4422-80ec-18f989b0cf25"/>
+				<textElement verticalAlignment="Bottom">
 					<font isBold="true"/>
+					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[Estado:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="44" y="223" width="96" height="20"/>
+				<reportElement x="44" y="223" width="96" height="20" uuid="ce54b714-3419-4694-8456-262c3eb4cf8d"/>
 				<box>
 					<bottomPen lineWidth="1.0"/>
 				</box>
-				<textElement verticalAlignment="Bottom" lineSpacing="Single"/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{estado}]]></textFieldExpression>
+				<textElement verticalAlignment="Bottom">
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{estado}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="139" y="223" width="141" height="20"/>
-				<textElement verticalAlignment="Bottom" lineSpacing="Single">
+				<reportElement x="139" y="223" width="141" height="20" uuid="15d4bf6f-2495-40a6-aa89-3993f186327a"/>
+				<textElement verticalAlignment="Bottom">
 					<font isBold="true"/>
+					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[Dirección de Habitación:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="262" y="223" width="310" height="20"/>
+				<reportElement x="262" y="223" width="310" height="20" uuid="6a00bfc2-cbda-407f-9b16-069667e049e3"/>
 				<box>
 					<bottomPen lineWidth="1.0"/>
 				</box>
-				<textElement verticalAlignment="Bottom" lineSpacing="Single"/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{direccion}]]></textFieldExpression>
+				<textElement verticalAlignment="Bottom">
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{direccion}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="0" y="242" width="139" height="20"/>
-				<textElement verticalAlignment="Bottom" lineSpacing="Single">
+				<reportElement x="0" y="242" width="139" height="20" uuid="19380f87-13ea-4799-89d8-4d0d01b7aa11"/>
+				<textElement verticalAlignment="Bottom">
 					<font isBold="true"/>
+					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[Plantel de Procedencia:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="110" y="242" width="462" height="20"/>
+				<reportElement x="110" y="242" width="462" height="20" uuid="97724977-482c-4d95-9787-43ce767682d3"/>
 				<box>
 					<bottomPen lineWidth="1.0"/>
 				</box>
-				<textElement verticalAlignment="Bottom" lineSpacing="Single"/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{plantel_procedencia}]]></textFieldExpression>
+				<textElement verticalAlignment="Bottom">
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{plantel_procedencia}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="0" y="261" width="54" height="20"/>
+				<reportElement x="0" y="261" width="54" height="20" uuid="f4603a40-b367-4725-9fd7-83b14c0cf88d"/>
 				<box>
 					<bottomPen lineWidth="0.0"/>
 				</box>
-				<textElement verticalAlignment="Bottom" lineSpacing="Single">
+				<textElement verticalAlignment="Bottom">
 					<font isBold="true"/>
+					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[Teléfono:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="54" y="261" width="87" height="20"/>
+				<reportElement x="54" y="261" width="87" height="20" uuid="b6096a74-1aba-43d6-97b4-92f44f0a8c14"/>
 				<box>
 					<bottomPen lineWidth="0.0"/>
 				</box>
-				<textElement verticalAlignment="Bottom" lineSpacing="Single"/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{telefono_habitacion}]]></textFieldExpression>
+				<textElement verticalAlignment="Bottom">
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{telefono_habitacion}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="140" y="261" width="50" height="20"/>
+				<reportElement x="140" y="261" width="50" height="20" uuid="51f4d0f9-823c-4e16-a52f-77b9de2c3398"/>
 				<box>
 					<bottomPen lineWidth="0.0"/>
 				</box>
-				<textElement verticalAlignment="Bottom" lineSpacing="Single">
+				<textElement verticalAlignment="Bottom">
 					<font isBold="true"/>
+					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[Email:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="184" y="261" width="388" height="20"/>
+				<reportElement x="184" y="261" width="388" height="20" uuid="9e47141a-0ddf-419c-bc0b-cfb00da045a9"/>
 				<box>
 					<bottomPen lineWidth="0.0"/>
 				</box>
-				<textElement verticalAlignment="Bottom" lineSpacing="Single"/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{email_estudiante}]]></textFieldExpression>
+				<textElement verticalAlignment="Bottom">
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{email_estudiante}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="53" y="208" width="20" height="15"/>
+				<reportElement x="53" y="208" width="20" height="15" uuid="bd2db286-f58d-4cde-bcd0-365a31e28175"/>
 				<box>
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
 					<bottomPen lineWidth="1.0"/>
 					<rightPen lineWidth="1.0"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Bottom" lineSpacing="Single"/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{genero_f}]]></textFieldExpression>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{genero_f}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="92" y="208" width="18" height="15"/>
+				<reportElement x="92" y="208" width="18" height="15" uuid="f9122ac7-d82f-497f-a708-2be48fb991c4"/>
 				<box>
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
 					<bottomPen lineWidth="1.0"/>
 					<rightPen lineWidth="1.0"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Bottom" lineSpacing="Single"/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{genero_m}]]></textFieldExpression>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{genero_m}]]></textFieldExpression>
 			</textField>
 			<image>
-				<reportElement x="0" y="0" width="570" height="70"/>
-				<imageExpression class="java.lang.String"><![CDATA["/var/www/html/liceoqh/images/cintillo_reportes.jpg"]]></imageExpression>
+				<reportElement x="0" y="0" width="570" height="70" uuid="5d7b426c-4a05-4e4d-939f-07b5de52cb97"/>
+				<imageExpression><![CDATA["/var/www/html/liceoqh/images/cintillo_reportes.jpg"]]></imageExpression>
 			</image>
 			<line>
-				<reportElement x="0" y="282" width="572" height="1"/>
+				<reportElement x="0" y="282" width="572" height="1" uuid="76bd2af0-a97f-4ff7-b2c6-7c32451420b1"/>
 				<graphicElement>
 					<pen lineWidth="2.0"/>
 				</graphicElement>
 			</line>
 			<staticText>
-				<reportElement x="0" y="290" width="184" height="20"/>
-				<textElement verticalAlignment="Middle" lineSpacing="Single">
+				<reportElement x="0" y="290" width="184" height="20" uuid="8af5f50d-5b49-4c7a-9d08-56f0cbd73163"/>
+				<textElement verticalAlignment="Middle">
 					<font isBold="true" isItalic="false" isUnderline="true"/>
+					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[DATOS DE LOS PADRES:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="-1" y="309" width="191" height="20"/>
-				<textElement verticalAlignment="Bottom" lineSpacing="Single">
+				<reportElement x="-1" y="309" width="191" height="20" uuid="c4644e45-5cf1-4206-842e-614a33dc84c8"/>
+				<textElement verticalAlignment="Bottom">
 					<font isBold="true"/>
+					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[Apellidos y Nombres de la Madre:]]></text>
 			</staticText>
 			<textField isBlankWhenNull="true">
-				<reportElement x="155" y="309" width="273" height="20"/>
+				<reportElement x="155" y="309" width="273" height="20" uuid="d023752f-ec67-4ca8-899a-df4392496642"/>
 				<box>
 					<bottomPen lineWidth="1.0"/>
 				</box>
-				<textElement verticalAlignment="Bottom" lineSpacing="Single"/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{madre}]]></textFieldExpression>
+				<textElement verticalAlignment="Bottom">
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{madre}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="455" y="309" width="117" height="20"/>
+				<reportElement x="455" y="309" width="117" height="20" uuid="eb90eeed-9e79-46f4-b8a5-e456009d781a"/>
 				<box>
 					<bottomPen lineWidth="1.0"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Bottom" lineSpacing="Single"/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{cedula_madre}]]></textFieldExpression>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cedula_madre}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="427" y="309" width="29" height="20"/>
-				<textElement verticalAlignment="Bottom" lineSpacing="Single">
+				<reportElement x="427" y="309" width="29" height="20" uuid="710b7562-6fe1-4946-92ac-2cff7832dde1"/>
+				<textElement verticalAlignment="Bottom">
 					<font isBold="true"/>
+					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[C.I:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="328" width="191" height="20"/>
-				<textElement verticalAlignment="Bottom" lineSpacing="Single">
+				<reportElement x="0" y="328" width="191" height="20" uuid="29c16c1c-ebb9-48bf-b81d-bbc9e60f4949"/>
+				<textElement verticalAlignment="Bottom">
 					<font isBold="true"/>
+					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[Apellidos y Nombres del Padre:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="427" y="328" width="29" height="20"/>
-				<textElement verticalAlignment="Bottom" lineSpacing="Single">
+				<reportElement x="427" y="328" width="29" height="20" uuid="79f739ff-38e5-45f1-b8d9-8580b6f3c7f2"/>
+				<textElement verticalAlignment="Bottom">
 					<font isBold="true"/>
+					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[C.I:]]></text>
 			</staticText>
 			<textField isBlankWhenNull="true">
-				<reportElement x="141" y="327" width="288" height="20"/>
+				<reportElement x="141" y="327" width="288" height="20" uuid="acd14e86-0c27-41c2-ab93-4226c7cdc807"/>
 				<box>
 					<bottomPen lineWidth="1.0"/>
 				</box>
-				<textElement verticalAlignment="Bottom" lineSpacing="Single"/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{padre}]]></textFieldExpression>
+				<textElement verticalAlignment="Bottom">
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{padre}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="455" y="327" width="117" height="20"/>
+				<reportElement x="455" y="327" width="117" height="20" uuid="f33b39e3-9f9d-4e65-8631-b1842ce1f370"/>
 				<box>
 					<bottomPen lineWidth="1.0"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Bottom" lineSpacing="Single"/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{cedula_padre}]]></textFieldExpression>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cedula_padre}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="0" y="347" width="72" height="20"/>
-				<textElement verticalAlignment="Bottom" lineSpacing="Single">
+				<reportElement x="0" y="347" width="72" height="20" uuid="169ed58b-c711-41aa-8327-b760e89de872"/>
+				<textElement verticalAlignment="Bottom">
 					<font isBold="true"/>
+					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[Dirección:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="54" y="347" width="518" height="20"/>
+				<reportElement x="54" y="347" width="518" height="20" uuid="7438d49b-bcc7-4fb2-b68a-41ad6c9226fa"/>
 				<box>
 					<bottomPen lineWidth="1.0"/>
 				</box>
-				<textElement verticalAlignment="Bottom" lineSpacing="Single"/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{direccion_padres}]]></textFieldExpression>
+				<textElement verticalAlignment="Bottom">
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{direccion_padres}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="54" y="365" width="87" height="20"/>
+				<reportElement x="54" y="365" width="87" height="20" uuid="734fb01e-0098-4ed7-9ca0-894594fdd329"/>
 				<box>
 					<bottomPen lineWidth="0.0"/>
 				</box>
-				<textElement verticalAlignment="Bottom" lineSpacing="Single"/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{telefono_habitacion}]]></textFieldExpression>
+				<textElement verticalAlignment="Bottom">
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{telefono_habitacion}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="0" y="365" width="54" height="20"/>
+				<reportElement x="0" y="365" width="54" height="20" uuid="c0bc2944-bcdb-4a4f-b235-9e62dab45c23"/>
 				<box>
 					<bottomPen lineWidth="0.0"/>
 				</box>
-				<textElement verticalAlignment="Bottom" lineSpacing="Single">
+				<textElement verticalAlignment="Bottom">
 					<font isBold="true"/>
+					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[Teléfono:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="184" y="365" width="388" height="20"/>
+				<reportElement x="184" y="365" width="388" height="20" uuid="b451d72a-db3c-4338-8f01-cf656f4b44e3"/>
 				<box>
 					<bottomPen lineWidth="0.0"/>
 				</box>
-				<textElement verticalAlignment="Bottom" lineSpacing="Single"/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{email_estudiante}]]></textFieldExpression>
+				<textElement verticalAlignment="Bottom">
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{email_estudiante}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="140" y="365" width="50" height="20"/>
+				<reportElement x="140" y="365" width="50" height="20" uuid="d678a950-11f0-4c8f-90fa-98242033d675"/>
 				<box>
 					<bottomPen lineWidth="0.0"/>
 				</box>
-				<textElement verticalAlignment="Bottom" lineSpacing="Single">
+				<textElement verticalAlignment="Bottom">
 					<font isBold="true"/>
+					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[Email:]]></text>
 			</staticText>
 			<line>
-				<reportElement x="1" y="386" width="572" height="1"/>
+				<reportElement x="1" y="386" width="572" height="1" uuid="82de126a-20c2-4940-bce2-911b561a820a"/>
 				<graphicElement>
 					<pen lineWidth="2.0"/>
 				</graphicElement>
 			</line>
 			<staticText>
-				<reportElement x="0" y="395" width="184" height="20"/>
-				<textElement verticalAlignment="Middle" lineSpacing="Single">
+				<reportElement x="0" y="395" width="184" height="20" uuid="dd0e58f6-0b75-4e0e-b45e-4a0e744c137e"/>
+				<textElement verticalAlignment="Middle">
 					<font isBold="true" isItalic="false" isUnderline="true"/>
+					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[CONDICIÓN ESCOLAR:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="414" width="129" height="20"/>
-				<textElement verticalAlignment="Bottom" lineSpacing="Single">
+				<reportElement x="0" y="414" width="129" height="20" uuid="4fff70ff-8bc2-4ee0-8d69-1d6d66f8099e"/>
+				<textElement verticalAlignment="Bottom">
 					<font isBold="true"/>
+					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[Estudiante Regular:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="110" y="419" width="20" height="15"/>
+				<reportElement x="110" y="419" width="20" height="15" uuid="62e75d9c-9a5b-41a5-87ab-6f2f6549d811"/>
 				<box>
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
 					<bottomPen lineWidth="1.0"/>
 					<rightPen lineWidth="1.0"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Bottom" lineSpacing="Single"/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{estudiante_regular}]]></textFieldExpression>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{estudiante_regular}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="296" y="414" width="129" height="20"/>
-				<textElement verticalAlignment="Bottom" lineSpacing="Single">
+				<reportElement x="296" y="414" width="129" height="20" uuid="b5d14805-5091-4142-a72c-9b53a0713661"/>
+				<textElement verticalAlignment="Bottom">
 					<font isBold="true"/>
+					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[Estudiante Repitiente:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="405" y="419" width="20" height="15"/>
+				<reportElement x="405" y="419" width="20" height="15" uuid="cacefdaf-8b56-4deb-8fc4-8cbb70b81f73"/>
 				<box>
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
 					<bottomPen lineWidth="1.0"/>
 					<rightPen lineWidth="1.0"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Bottom" lineSpacing="Single"/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{estudiante_repitiente}]]></textFieldExpression>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{estudiante_repitiente}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="0" y="433" width="71" height="20"/>
-				<textElement verticalAlignment="Bottom" lineSpacing="Single">
+				<reportElement x="0" y="433" width="71" height="20" uuid="68c17b1b-c4c1-4cc8-8c9a-7687843fd7ff"/>
+				<textElement verticalAlignment="Bottom">
 					<font isBold="true"/>
+					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[Asignatura:]]></text>
 			</staticText>
 			<textField isBlankWhenNull="true">
-				<reportElement x="57" y="433" width="515" height="20"/>
+				<reportElement x="57" y="433" width="515" height="20" uuid="875ad58f-2e1c-4727-be06-d97720d08b07"/>
 				<box>
 					<bottomPen lineWidth="1.0"/>
 				</box>
-				<textElement verticalAlignment="Bottom" lineSpacing="Single"/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{asignaturas_pendientes}]]></textFieldExpression>
+				<textElement verticalAlignment="Bottom">
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{asignaturas_pendientes}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="0" y="460" width="184" height="20"/>
-				<textElement verticalAlignment="Middle" lineSpacing="Single">
+				<reportElement x="0" y="460" width="184" height="20" uuid="227f71f6-003b-4ac7-aa22-f72789ca9164"/>
+				<textElement verticalAlignment="Middle">
 					<font isBold="true" isItalic="false" isUnderline="true"/>
+					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[DOCUMENTOS CONSIGNADOS:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="20" y="479" width="155" height="20"/>
-				<textElement verticalAlignment="Bottom" lineSpacing="Single">
+				<reportElement x="20" y="479" width="155" height="20" uuid="eb2f4c9c-adc0-45fb-be6b-00859a656085"/>
+				<textElement verticalAlignment="Bottom">
 					<font isBold="true"/>
+					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[Certificado de 6to Grado]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="0" y="483" width="20" height="15"/>
+				<reportElement x="0" y="483" width="20" height="15" uuid="4ec98450-e03c-4be6-9cdf-703b4256b511"/>
 				<box>
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
 					<bottomPen lineWidth="1.0"/>
 					<rightPen lineWidth="1.0"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Bottom" lineSpacing="Single"/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{certificado_sextogrado}]]></textFieldExpression>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{certificado_sextogrado}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="241" y="480" width="126" height="20"/>
-				<textElement verticalAlignment="Bottom" lineSpacing="Single">
+				<reportElement x="241" y="480" width="126" height="20" uuid="0df39948-75c5-4174-a27e-582d5960c8a7"/>
+				<textElement verticalAlignment="Bottom">
 					<font isBold="true"/>
+					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[Notas Certificadas]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="221" y="483" width="20" height="15"/>
+				<reportElement x="221" y="483" width="20" height="15" uuid="d9a3d9b1-155e-4e0a-8ec6-58977eab09bb"/>
 				<box>
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
 					<bottomPen lineWidth="1.0"/>
 					<rightPen lineWidth="1.0"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Bottom" lineSpacing="Single"/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{notascertificadas}]]></textFieldExpression>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{notascertificadas}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="413" y="480" width="159" height="20"/>
-				<textElement verticalAlignment="Bottom" lineSpacing="Single">
+				<reportElement x="413" y="480" width="159" height="20" uuid="e05f82a4-81e1-45e3-9098-c94548a970ec"/>
+				<textElement verticalAlignment="Bottom">
 					<font isBold="true"/>
+					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[Carta de Buena Conducta]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="394" y="484" width="20" height="15"/>
+				<reportElement x="394" y="484" width="20" height="15" uuid="43ef43d3-08d7-4051-9a7f-4229db7996ec"/>
 				<box>
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
 					<bottomPen lineWidth="1.0"/>
 					<rightPen lineWidth="1.0"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Bottom" lineSpacing="Single"/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{cartabuenaconducta}]]></textFieldExpression>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cartabuenaconducta}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="20" y="498" width="127" height="20"/>
-				<textElement verticalAlignment="Bottom" lineSpacing="Single">
+				<reportElement x="20" y="498" width="127" height="20" uuid="809119bd-bd1b-4de8-a112-f55f4450e44d"/>
+				<textElement verticalAlignment="Bottom">
 					<font isBold="true"/>
+					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[Foto del Estudiante]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="0" y="502" width="20" height="15"/>
+				<reportElement x="0" y="502" width="20" height="15" uuid="be409541-0c99-4bb7-8806-4ded4663f459"/>
 				<box>
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
 					<bottomPen lineWidth="1.0"/>
 					<rightPen lineWidth="1.0"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Bottom" lineSpacing="Single"/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{fotoestudiante}]]></textFieldExpression>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fotoestudiante}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="221" y="503" width="20" height="15"/>
+				<reportElement x="221" y="503" width="20" height="15" uuid="14eab3e7-606b-4093-9544-03bd7fb23356"/>
 				<box>
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
 					<bottomPen lineWidth="1.0"/>
 					<rightPen lineWidth="1.0"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Bottom" lineSpacing="Single"/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{fotocopia_ciestudiante}]]></textFieldExpression>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fotocopia_ciestudiante}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="241" y="499" width="153" height="20"/>
-				<textElement verticalAlignment="Bottom" lineSpacing="Single">
+				<reportElement x="241" y="499" width="153" height="20" uuid="e1fab02c-a42d-4a0a-8d58-8eec62ee354e"/>
+				<textElement verticalAlignment="Bottom">
 					<font isBold="true"/>
+					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[Fotocopia de C.I. del Est.]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="394" y="503" width="20" height="15"/>
+				<reportElement x="394" y="503" width="20" height="15" uuid="d02482e4-4392-4c2c-9e08-1a0151bb9819"/>
 				<box>
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
 					<bottomPen lineWidth="1.0"/>
 					<rightPen lineWidth="1.0"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Bottom" lineSpacing="Single"/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{fotocopia_pnestudiante}]]></textFieldExpression>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fotocopia_pnestudiante}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="414" y="499" width="158" height="20"/>
-				<textElement verticalAlignment="Bottom" lineSpacing="Single">
+				<reportElement x="414" y="499" width="158" height="20" uuid="e4426abc-0957-44bd-bd10-4b01c24bf39c"/>
+				<textElement verticalAlignment="Bottom">
 					<font isBold="true"/>
+					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[Fotocopia de P.N. del Est.]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="20" y="517" width="155" height="20"/>
-				<textElement verticalAlignment="Bottom" lineSpacing="Single">
+				<reportElement x="20" y="517" width="155" height="20" uuid="42f017e3-f7fc-467f-bece-fa89e972bd4f"/>
+				<textElement verticalAlignment="Bottom">
 					<font isBold="true"/>
+					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[Foto del Representante]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="0" y="521" width="20" height="15"/>
+				<reportElement x="0" y="521" width="20" height="15" uuid="c41fe06f-288d-4f7a-b091-707a6af43283"/>
 				<box>
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
 					<bottomPen lineWidth="1.0"/>
 					<rightPen lineWidth="1.0"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Bottom" lineSpacing="Single"/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{fotorepresentante}]]></textFieldExpression>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fotorepresentante}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="241" y="518" width="153" height="20"/>
-				<textElement verticalAlignment="Bottom" lineSpacing="Single">
+				<reportElement x="241" y="518" width="153" height="20" uuid="c017e0dd-79db-4305-9abf-6322b9d7217a"/>
+				<textElement verticalAlignment="Bottom">
 					<font isBold="true"/>
+					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[Fotocopia de C.I. del Rep.]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="221" y="522" width="20" height="15"/>
+				<reportElement x="221" y="522" width="20" height="15" uuid="5f44ec31-edf3-4392-92f2-bf3fc38dc036"/>
 				<box>
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
 					<bottomPen lineWidth="1.0"/>
 					<rightPen lineWidth="1.0"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Bottom" lineSpacing="Single"/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{fotocopia_cirepresentante}]]></textFieldExpression>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fotocopia_cirepresentante}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="394" y="522" width="20" height="15"/>
+				<reportElement x="394" y="522" width="20" height="15" uuid="34ef777f-b6ac-40ae-8086-8ebd82b71dc7"/>
 				<box>
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
 					<bottomPen lineWidth="1.0"/>
 					<rightPen lineWidth="1.0"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Bottom" lineSpacing="Single"/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{kitscomedor}]]></textFieldExpression>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{kitscomedor}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="414" y="518" width="158" height="20"/>
-				<textElement verticalAlignment="Bottom" lineSpacing="Single">
+				<reportElement x="414" y="518" width="158" height="20" uuid="b332d26e-bacd-4d77-9ed9-4d430ef58849"/>
+				<textElement verticalAlignment="Bottom">
 					<font isBold="true"/>
+					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[Kits para el Comedor]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="568" width="221" height="20"/>
-				<textElement verticalAlignment="Middle" lineSpacing="Single">
+				<reportElement x="0" y="568" width="221" height="20" uuid="aac312fd-b70a-4568-8638-8887a7d0cc6b"/>
+				<textElement verticalAlignment="Middle">
 					<font isBold="true" isItalic="false" isUnderline="true"/>
+					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[DATOS DEL REPRESENTANTE LEGAL:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="587" width="129" height="20"/>
-				<textElement verticalAlignment="Bottom" lineSpacing="Single">
+				<reportElement x="0" y="587" width="129" height="20" uuid="24ca9d1d-8193-4867-b3f2-d0c7da8ba013"/>
+				<textElement verticalAlignment="Bottom">
 					<font isBold="true"/>
+					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[Apellidos y Nombres:]]></text>
 			</staticText>
 			<textField isBlankWhenNull="true">
-				<reportElement x="99" y="587" width="239" height="20"/>
+				<reportElement x="99" y="587" width="239" height="20" uuid="1ec1e7c8-bba5-4762-a29a-9ed0803a05ee"/>
 				<box>
 					<bottomPen lineWidth="1.0"/>
 				</box>
-				<textElement verticalAlignment="Bottom" lineSpacing="Single"/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{representante}]]></textFieldExpression>
+				<textElement verticalAlignment="Bottom">
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{representante}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="0" y="536" width="72" height="20"/>
-				<textElement verticalAlignment="Bottom" lineSpacing="Single">
+				<reportElement x="0" y="536" width="72" height="20" uuid="0f58a046-32ea-4cf1-8844-72540e45dc1d"/>
+				<textElement verticalAlignment="Bottom">
 					<font isBold="true"/>
+					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[Posee Beca:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="54" y="536" width="20" height="20"/>
-				<textElement textAlignment="Center" verticalAlignment="Bottom" lineSpacing="Single">
+				<reportElement x="54" y="536" width="20" height="20" uuid="4fd5f1d6-1511-4d41-96fc-1200f2250397"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
 					<font isBold="true"/>
+					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[SI]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="74" y="541" width="20" height="15"/>
+				<reportElement x="74" y="541" width="20" height="15" uuid="d3d5da03-e546-49db-86c0-d5db3db81c01"/>
 				<box>
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
 					<bottomPen lineWidth="1.0"/>
 					<rightPen lineWidth="1.0"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Bottom" lineSpacing="Single"/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{becado_si}]]></textFieldExpression>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{becado_si}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="94" y="536" width="21" height="20"/>
-				<textElement textAlignment="Center" verticalAlignment="Bottom" lineSpacing="Single">
+				<reportElement x="94" y="536" width="21" height="20" uuid="53214790-cf2e-4447-a25a-3f8fc38e57ce"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
 					<font isBold="true"/>
+					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[NO]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="115" y="541" width="20" height="15"/>
+				<reportElement x="115" y="541" width="20" height="15" uuid="631f72af-3101-4953-895e-752b2406d6b7"/>
 				<box>
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
 					<bottomPen lineWidth="1.0"/>
 					<rightPen lineWidth="1.0"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Bottom" lineSpacing="Single"/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{becado_no}]]></textFieldExpression>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{becado_no}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="220" y="537" width="60" height="20"/>
-				<textElement verticalAlignment="Bottom" lineSpacing="Single">
+				<reportElement x="220" y="537" width="60" height="20" uuid="eff9e182-15b9-49c0-9104-69409b3295d5"/>
+				<textElement verticalAlignment="Bottom">
 					<font isBold="true"/>
+					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[Tipo Beca:]]></text>
 			</staticText>
 			<textField isBlankWhenNull="true">
-				<reportElement x="274" y="537" width="298" height="20"/>
+				<reportElement x="274" y="537" width="298" height="20" uuid="9f2bbddc-2f05-4889-a614-89007d18af8c"/>
 				<box>
 					<bottomPen lineWidth="1.0"/>
 				</box>
-				<textElement verticalAlignment="Bottom" lineSpacing="Single"/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{tipobeca}]]></textFieldExpression>
+				<textElement verticalAlignment="Bottom">
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tipobeca}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="433" y="587" width="139" height="20"/>
+				<reportElement x="433" y="587" width="139" height="20" uuid="7b6e5241-62f2-41e5-9560-5a00757a5c45"/>
 				<box>
 					<bottomPen lineWidth="1.0"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Bottom" lineSpacing="Single"/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{cedula_representante}]]></textFieldExpression>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cedula_representante}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="337" y="587" width="120" height="20"/>
-				<textElement verticalAlignment="Bottom" lineSpacing="Single">
+				<reportElement x="337" y="587" width="120" height="20" uuid="8d4c3fae-a130-441e-bfef-fbf5279310ca"/>
+				<textElement verticalAlignment="Bottom">
 					<font isBold="true"/>
+					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[Cédula de Identidad:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="606" width="71" height="20"/>
-				<textElement verticalAlignment="Bottom" lineSpacing="Single">
+				<reportElement x="0" y="606" width="71" height="20" uuid="d3f1a9c4-8c8c-4df7-9774-5d7af75a03e3"/>
+				<textElement verticalAlignment="Bottom">
 					<font isBold="true"/>
+					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[Dirección:]]></text>
 			</staticText>
 			<textField isBlankWhenNull="true">
-				<reportElement x="54" y="606" width="333" height="20"/>
+				<reportElement x="54" y="606" width="333" height="20" uuid="efd45da1-ca3b-4e62-99a3-245c8f80d01e"/>
 				<box>
 					<bottomPen lineWidth="1.0"/>
 				</box>
-				<textElement verticalAlignment="Bottom" lineSpacing="Single"/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{direccion_representante}]]></textFieldExpression>
+				<textElement verticalAlignment="Bottom">
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{direccion_representante}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="386" y="606" width="71" height="20"/>
-				<textElement verticalAlignment="Bottom" lineSpacing="Single">
+				<reportElement x="386" y="606" width="71" height="20" uuid="4faa0877-29e6-486b-bf8c-7e532799e908"/>
+				<textElement verticalAlignment="Bottom">
 					<font isBold="true"/>
+					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[Parentesco:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="444" y="606" width="128" height="20"/>
+				<reportElement x="444" y="606" width="128" height="20" uuid="ec286b61-30e1-47d9-8685-1fb2170dc447"/>
 				<box>
 					<bottomPen lineWidth="1.0"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Bottom" lineSpacing="Single"/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{parentesco}]]></textFieldExpression>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{parentesco}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="0" y="625" width="71" height="20"/>
-				<textElement verticalAlignment="Bottom" lineSpacing="Single">
+				<reportElement x="0" y="625" width="71" height="20" uuid="46816aa1-7b3f-49d7-9dab-bb85059a4938"/>
+				<textElement verticalAlignment="Bottom">
 					<font isBold="true"/>
+					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[Teléfono:]]></text>
 			</staticText>
 			<textField isBlankWhenNull="true">
-				<reportElement x="54" y="625" width="81" height="20"/>
+				<reportElement x="54" y="625" width="81" height="20" uuid="8768adba-76e5-4bad-a6ad-dcc5c501bba5"/>
 				<box>
 					<bottomPen lineWidth="1.0"/>
 				</box>
-				<textElement verticalAlignment="Bottom" lineSpacing="Single"/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{telefono_representante}]]></textFieldExpression>
+				<textElement verticalAlignment="Bottom">
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{telefono_representante}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="134" y="626" width="107" height="20"/>
-				<textElement verticalAlignment="Bottom" lineSpacing="Single">
+				<reportElement x="134" y="626" width="107" height="20" uuid="4d89afaa-2a27-405f-82e8-3c374f96c682"/>
+				<textElement verticalAlignment="Bottom">
 					<font isBold="true"/>
+					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[Lugar de Trabajo:]]></text>
 			</staticText>
 			<textField isBlankWhenNull="true">
-				<reportElement x="221" y="626" width="351" height="20"/>
+				<reportElement x="221" y="626" width="351" height="20" uuid="f17ef800-7aaf-4528-a7f1-de4514101ca8"/>
 				<box>
 					<bottomPen lineWidth="1.0"/>
 				</box>
-				<textElement verticalAlignment="Bottom" lineSpacing="Single"/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{lugar_trabajo}]]></textFieldExpression>
+				<textElement verticalAlignment="Bottom">
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{lugar_trabajo}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="0" y="660" width="155" height="20"/>
-				<textElement verticalAlignment="Bottom" lineSpacing="Single">
+				<reportElement x="0" y="660" width="155" height="20" uuid="59a57da2-1331-4b9c-82f0-231deacd93a9"/>
+				<textElement verticalAlignment="Bottom">
 					<font isBold="true"/>
+					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[1era Fecha de Inscripción:]]></text>
 			</staticText>
 			<textField isBlankWhenNull="true">
-				<reportElement x="115" y="660" width="62" height="20"/>
+				<reportElement x="115" y="660" width="62" height="20" uuid="f27bd4a0-5dc5-47ba-9659-af748dd35b39"/>
 				<box>
 					<bottomPen lineWidth="1.0"/>
 				</box>
-				<textElement verticalAlignment="Bottom" lineSpacing="Single"/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{primerafi}]]></textFieldExpression>
+				<textElement verticalAlignment="Bottom">
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{primerafi}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="177" y="660" width="27" height="20"/>
-				<textElement verticalAlignment="Bottom" lineSpacing="Single">
+				<reportElement x="177" y="660" width="27" height="20" uuid="aaceb246-1134-4399-97bd-c735070edcee"/>
+				<textElement verticalAlignment="Bottom">
 					<font isBold="true"/>
+					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[Año:]]></text>
 			</staticText>
 			<textField isBlankWhenNull="true">
-				<reportElement x="203" y="660" width="31" height="20"/>
+				<reportElement x="203" y="660" width="31" height="20" uuid="c18065e8-9bd4-4ae1-8405-c428de656fb4"/>
 				<box>
 					<bottomPen lineWidth="1.0"/>
 				</box>
-				<textElement verticalAlignment="Bottom" lineSpacing="Single"/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{anofi}]]></textFieldExpression>
+				<textElement verticalAlignment="Bottom">
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{anofi}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="233" y="660" width="107" height="20"/>
-				<textElement verticalAlignment="Bottom" lineSpacing="Single">
+				<reportElement x="233" y="660" width="107" height="20" uuid="4ec56b62-bb02-4d88-9035-36fbc1f79aea"/>
+				<textElement verticalAlignment="Bottom">
 					<font isBold="true"/>
+					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[Representante:]]></text>
 			</staticText>
 			<textField isBlankWhenNull="true">
-				<reportElement x="309" y="660" width="263" height="20"/>
+				<reportElement x="309" y="660" width="263" height="20" uuid="f1171b83-3381-4060-931e-cd665978982c"/>
 				<box>
 					<bottomPen lineWidth="1.0"/>
 				</box>
-				<textElement verticalAlignment="Bottom" lineSpacing="Single"/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{representante}]]></textFieldExpression>
+				<textElement verticalAlignment="Bottom">
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{representante}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="0" y="679" width="214" height="20"/>
-				<textElement verticalAlignment="Bottom" lineSpacing="Single">
+				<reportElement x="0" y="679" width="214" height="20" uuid="d9547984-625e-4d00-aebf-5213621b808c"/>
+				<textElement verticalAlignment="Bottom">
 					<font isBold="true"/>
+					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[Apellidos y Nombres del Docente:]]></text>
 			</staticText>
 			<textField isBlankWhenNull="true">
-				<reportElement x="155" y="679" width="239" height="20"/>
+				<reportElement x="155" y="679" width="239" height="20" uuid="56bb3766-cc7b-4587-8d7a-7f9b34eb8198"/>
 				<box>
 					<bottomPen lineWidth="1.0"/>
 				</box>
-				<textElement verticalAlignment="Bottom" lineSpacing="Single"/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{docente}]]></textFieldExpression>
+				<textElement verticalAlignment="Bottom">
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{docente}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="393" y="679" width="51" height="20"/>
-				<textElement verticalAlignment="Bottom" lineSpacing="Single">
+				<reportElement x="393" y="679" width="51" height="20" uuid="6485ec58-c99b-4374-9b53-e97ce2057964"/>
+				<textElement verticalAlignment="Bottom">
 					<font isBold="true"/>
+					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[Fecha:]]></text>
 			</staticText>
 			<textField isBlankWhenNull="true">
-				<reportElement x="427" y="680" width="145" height="20"/>
+				<reportElement x="427" y="680" width="145" height="20" uuid="9a68d6f4-6bb8-4bee-924d-2952ff937bef"/>
 				<box>
 					<bottomPen lineWidth="1.0"/>
 				</box>
-				<textElement verticalAlignment="Bottom" lineSpacing="Single"/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{fecha_inscripcion}]]></textFieldExpression>
+				<textElement verticalAlignment="Bottom">
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fecha_inscripcion}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="248" y="723" width="146" height="20"/>
-				<textElement verticalAlignment="Bottom" lineSpacing="Single">
+				<reportElement x="248" y="723" width="146" height="20" uuid="ca221fa2-5842-4bf5-9254-7f87b0e4e4be"/>
+				<textElement verticalAlignment="Bottom">
 					<font isBold="true"/>
+					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[Firma del Representante:]]></text>
 			</staticText>
 			<line>
-				<reportElement x="367" y="742" width="205" height="1"/>
+				<reportElement x="367" y="742" width="205" height="1" uuid="0afaa1d6-55e7-4c7e-943c-6e1ca195d6b6"/>
 			</line>
 		</band>
 	</pageHeader>

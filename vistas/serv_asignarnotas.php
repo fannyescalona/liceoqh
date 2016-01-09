@@ -31,6 +31,7 @@
           INNER JOIN tproceso_inscripcion pi ON msd.seccion = pi.seccion 
           INNER JOIN tpersona p ON pi.cedula_estudiante = p.cedula 
           LEFT JOIN tcontrol_notas cn ON msd.codigo_msd = cn.codigo_msd 
+          WHERE msd.cedula_docente = '".$_SESSION['user_cedula']."' 
           ORDER BY msd.codigo_msd,s.seccion,m.descripcion,p.cedula ASC"; 
           //cantidad de resultados por página (opcional, por defecto 20) 
           $_pagi_cuantos = 10; 
