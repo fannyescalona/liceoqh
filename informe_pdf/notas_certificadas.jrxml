@@ -249,7 +249,7 @@ WHERE c.descripcion LIKE '%DIRECTOR%') AS director]]>
 		<band height="197" splitType="Stretch">
 			<image>
 				<reportElement x="0" y="0" width="320" height="71" uuid="b4915292-7a22-440f-a7d1-0b5b6c0ccc9d"/>
-				<imageExpression><![CDATA["/var/www/html/liceoqh/images/cintillo_reportes.jpg"]]></imageExpression>
+				<imageExpression><![CDATA["../images/cintillo_reportes.jpg"]]></imageExpression>
 			</image>
 			<textField>
 				<reportElement x="320" y="0" width="235" height="15" uuid="3d2f3423-62a1-4c62-a27f-20ec1b9f1297"/>

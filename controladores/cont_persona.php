@@ -6,6 +6,9 @@ session_start();
 if(isset($_POST['operacion']))
 $operacion=ucfirst(trim($_POST['operacion']));
 
+if(isset($_POST['oldci']))
+$oldci=ucfirst(trim($_POST['oldci']));
+
 if(isset($_POST['cedula']))
 $cedula=ucfirst(trim($_POST['cedula']));
 
@@ -140,7 +143,7 @@ if($operacion=='Modificar'){
   $persona->nivel_academico($nivel_academico);
   $persona->carga_horaria($carga_horaria);
   $persona->codigo_plantel($codigo_plantel);
-    if($persona->Actualizar())
+    if($persona->Actualizar($oldci))
      $confirmacion=1;
     else
      $confirmacion=-1;

@@ -3,6 +3,9 @@
     <fieldset>
       <legend>Asignación de Secciones</legend>
       <input type="hidden" name="operacion" value="Asignar_Seccion" id="operacion" />
+      <label>Sección</label>
+      <input title='Seleccione una sección' onKeyPress='return ACDataGrid(this.id,"seccion.php")' onKeyUp='this.value=this.value.toUpperCase()' name='allsecc' id='allsecc' type='text' placeholder='Seleccione una sección'/>
+      <br>
       Todos&nbsp;&nbsp;<input onclick=seleccionar_todos(true) type='checkbox' name='todos' id='todos'/> 
       / Ninguno&nbsp;&nbsp;<input onclick=seleccionar_todos(false) type='checkbox' name='ninguno' id='ninguno'/>
       <table class="table table-striped table-bordered table-condensed">
@@ -26,7 +29,7 @@
           FROM tproceso_inscripcion pi 
           INNER JOIN tpersona p ON pi.cedula_estudiante = p.cedula  
           WHERE pi.seccion IS NULL 
-          ORDER BY codigo_procesoinscripcion ASC"; 
+          ORDER BY TIMESTAMPDIFF(YEAR, p.fecha_nacimiento, CURDATE()),pi.peso,pi.estatura ASC"; 
           //cantidad de resultados por página (opcional, por defecto 20) 
           $_pagi_cuantos = 10; 
           //Cadena que separa los enlaces numéricos en la barra de navegación entre páginas.
@@ -40,7 +43,7 @@
           while($row = mysql_fetch_array($_pagi_result)){ 
           echo "<tr>
           <td style='width: 5%; text-align:center;'><input id='estudiante_".$con."' type='checkbox' name='estudiantes[]' value='".$row['cedula_estudiante']."'></td>
-          <td style='width: 10%'><input title='Seleccione una sección' onKeyPress='return ACDataGrid(this.id,\"seccion.php\")' onKeyUp='this.value=this.value.toUpperCase()' name='secciones[]' id='seccion_".$con."' type='text' placeholder='Seleccione una sección'/></td>
+          <td style='width: 10%'><input type='hidden' name='hideseccion[]' id='hideseccion_".$con."' value='".$con."' /><input title='Seleccione una sección' onKeyPress='return ACDataGrid(this.id,\"seccion.php\")' onKeyUp='this.value=this.value.toUpperCase()' name='secciones[".$row['cedula_estudiante']."][]' id='seccion_".$con."' type='text' placeholder='Seleccione una sección'/></td>
           <td align='left'>".$row['estudiante']."</td>
           <td align='left'>".$row['genero']."</td>
           <td align='left'>".$row['edad']."</td>
@@ -63,15 +66,22 @@
   <script type="text/javascript">
     function seleccionar_todos(param){
       var t=document.getElementsByTagName('input');
+      var e=document.getElementsByName('hideseccion[]');
       for(i=0;i<t.length;i++){
         if(t[i].type=='checkbox')
-          t[i].checked=param; 
+          t[i].checked=param;
+      }
+      for(j=0;j<e.length;j++){
+        document.getElementById('seccion_'+j).value=document.getElementById('allsecc').value;
       }
       document.getElementById('todos').checked=true;
       if(param==true){
         document.getElementById('todos').checked=true;
         document.getElementById('ninguno').checked=false;
       }else{
+        for(j=0;j<e.length;j++){
+          document.getElementById('seccion_'+j).value="";
+        }
         document.getElementById('todos').checked=false;
         document.getElementById('ninguno').checked=true;
       }         

@@ -22,7 +22,7 @@ if(isset($_SESSION['datos'])){
   @$telefono_movil=$_SESSION['datos']['telefono_movil'];
   @$email=$_SESSION['datos']['email'];
   @$esestudiante=$_SESSION['datos']['esestudiante'];
-  @$plantel_procedencia=$_SESSION['datos']['plantel_procedencia'];
+  @$codigo_plantel=$_SESSION['datos']['codigo_plantel'];
   @$cedula_representante=$_SESSION['datos']['cedula_representante'];
   @$codigo_parentesco=$_SESSION['datos']['codigo_parentesco'];
   @$estatus=$_SESSION['datos']['estatus'];
@@ -41,7 +41,7 @@ else{
   @$telefono_movil=null;
   @$email=null;
   @$esestudiante=null;
-  @$plantel_procedencia=null;
+  @$codigo_plantel=null;
   @$cedula_representante=null;
   @$codigo_parentesco=null;
   @$estatus=null;
@@ -56,14 +56,16 @@ else{
   CASE WHEN datediff(fecha_cierre,now()) >0 THEN 'Y' ELSE 'N' END AS actualizable 
   FROM tinscripcion WHERE fecha_desactivacion IS NULL";
   $query = $mysql->Ejecutar($sql);
+  if($mysql->Total_Filas($query)==0)
+    $actualizable='N';
   while ($row = $mysql->Respuesta($query)){
     echo "<span style='font-weight: bold;'> \"".$row['descripcion']."  FECHA DE INICIO: </span>".$row['fecha_inicio']." <span style='font-weight: bold;'>FECHA DE CIERRE: </span>".$row['fecha_cierre']."<span style='font-weight: bold;'> \"</span><br /><br />";
     $actualizable=$row['actualizable'];
   }
-  if($actualizable=="N"){
-    echo "<strong class='obligatorio'>No es posible cargar el formulario, ya que termino el período de Inscripción</strong>";
+  /*if($actualizable=="N"){
+    echo "<strong class='obligatorio'>¡No es posible cargar el formulario, ya que termino el período de Inscripción terminó o no existe!</strong>";
   }
-  else{
+  else{*/
   ?>
 <div class="form_externo" >
   <script src="../js/uds_estudiante.js"> </script>
@@ -76,7 +78,7 @@ else{
             <label>Cédula Docente:</label>
             <input tabindex=1 onKeyUp="this.value=this.value.toUpperCase()" title="Ingrese el número de cédula del docente" name="cedula_docente" id="cedula_docente" type="text" size="10" value="<?= $cedula_docente;?>" placeholder="Ingrese el número de Cédula del Docente" class="campoTexto" required />
             <label>Cédula:</label>
-            <input tabindex=3 onKeyPress="return isRif(event,this.value)" maxlength=10 onKeyUp="this.value=this.value.toUpperCase()" title="Ingrese el número de cédula del docente" name="cedula" id="cedula" type="text" size="10" value="<?= $cedula;?>" placeholder="Ingrese el número de Cédula" class="campoTexto" required />
+            <input tabindex=3 maxlength="10" onKeyPress="return isRif(event,this.value)" maxlength=10 onKeyUp="this.value=this.value.toUpperCase()" title="Ingrese el número de cédula del docente" name="cedula" id="cedula" type="text" size="10" value="<?= $cedula;?>" placeholder="Ingrese el número de Cédula" class="campoTexto" required />
             <label>Nombre(s):</label>
             <input tabindex=5 title="Ingrese el(los) nombre(s) de la estudiante" onKeyPress="return isCharKey(event)" onKeyUp="this.value=this.value.toUpperCase()" name="nombres" id="nombres" type="text" size="50" value="<?= $nombres;?>" placeholder="Ingrese el Nombre" class="campoTexto" required />
             <label>Fecha de Nacimiento:</label>
@@ -102,11 +104,26 @@ else{
             <label>Lugar de Nacimiento:</label>
             <input tabindex=8 title="Seleccione una Parroquia" onKeyUp="this.value=this.value.toUpperCase()" name="lugar_nacimiento" id="lugar_nacimiento" type="text" size="50" value="<?= $lugar_nacimiento;?>" placeholder="Seleccione una parroquia" class="campoTexto" required />
             <label>Teléfono de Habitación:</label>
-            <input tabindex=10 maxlength=11 title="Ingrese el número de habitación" onKeyPress="return isNumberKey(event)" name="telefono_habitacion" id="telefono_habitacion" type="text" size="50" value="<?= $telefono_habitacion;?>" placeholder="Ingreso el Número de Habitación" class="campoTexto" required />
+            <input tabindex=10 maxlength=11 title="Ingrese el número de habitación" onKeyPress="return isNumberKey(event)" name="telefono_habitacion" id="telefono_habitacion" type="text" size="50" value="<?= $telefono_habitacion;?>" placeholder="Ingreso el Número de Habitación" class="campoTexto" />
             <label>Teléfono Celular:</label>
-            <input tabindex=11 maxlength=11 title="Ingrese el número de celular" onKeyPress="return isNumberKey(event)" name="telefono_movil" id="telefono_movil" type="text" size="50" value="<?= $telefono_movil;?>" placeholder="Ingrese el Número Celular" class="campoTexto" required />
+            <input tabindex=11 maxlength=11 title="Ingrese el número de celular" onKeyPress="return isNumberKey(event)" name="telefono_movil" id="telefono_movil" type="text" size="50" value="<?= $telefono_movil;?>" placeholder="Ingrese el Número Celular" class="campoTexto" />
             <label>Plantel Procedencia:</label>
-            <input tabindex=13 title="Ingrese un plantel de procedencia" onKeyUp="this.value=this.value.toUpperCase()" name="plantel_procedencia" id="plantel_procedencia" type="text" size="50" value="<?= $plantel_procedencia;?>" placeholder="Ingrese un plantel de procedencia" class="campoTexto" />
+            <select tabindex=13 id="codigo_plantel" name="codigo_plantel" title="Seleccione un Plantel" class="lista" required >
+              <option value="" selected>Seleccione un Plantel</option>
+              <?php
+                require_once("../clases/class_bd.php");
+                $mysql=new Conexion();
+                $sql = "SELECT codigo_plantel,nombre FROM tplantel WHERE fecha_desactivacion IS NULL ORDER BY codigo_plantel ASC";
+                $query = $mysql->Ejecutar($sql);
+                while ($row = $mysql->Respuesta($query)){
+                  if($row['codigo_plantel']==$codigo_plantel){
+                    echo "<option value='".$row['codigo_plantel']."' selected>".$row['nombre']."</option>";
+                  }else{
+                    echo "<option value='".$row['codigo_plantel']."'>".$row['nombre']."</option>";
+                  }
+                }
+              ?>
+              </select>
             <label>Parentesco:</label>
             <input tabindex=15 onKeyUp="this.value=this.value.toUpperCase()" title="Ingrese el parentesco del representante" name="codigo_parentesco" id="codigo_parentesco" type="text" size="10" value="<?= $codigo_parentesco;?>" placeholder="Ingrese el parentesco del representante" class="campoTexto" required />
           </div> 
@@ -120,7 +137,7 @@ else{
     </fieldset>
   </form>
 </div>
-  <?php }
+  <?php //}
     }else{ 
     require_once("../clases/class_perfil.php");
     $perfil=new Perfil();

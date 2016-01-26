@@ -44,7 +44,7 @@ function validar_formulario(param){
 	valor11=document.getElementById('cedula_representante').value;
 	valor12=document.getElementById('codigo_parentesco').value;
 	valor13=document.getElementById('seccion').value;
-	valor14=document.getElementById('plantel_procedencia').value;
+	valor14=document.getElementById('codigo_plantel').value;
 	//Utilizamos una expresion regular para validar email
 	var regex = /[\w-\.]{2,}@([\w-]{2,}\.)*([\w-]{2,}\.)[\w-]{2,4}/;
 	if(devuelve_boton(param)=="Registrar" || devuelve_boton(param)=="Modificar"){
@@ -58,6 +58,10 @@ function validar_formulario(param){
 		}
 		else if(valor1.replace(/^\s+|\s+$/gi,"").length==0){ //para no permitir que se quede en blanco
 			alert('Ingrese la cédula del estudiante')
+			permitido=false;
+		}
+		else if(valor1.replace(/^\s+|\s+$/gi,"").length<=6){ //para no permitir que se quede en blanco
+			alert('La cédula ingresada debe ser mayor a 5 digitos')
 			permitido=false;
 		}
 		else if(valor2.replace(/^\s+|\s+$/gi,"").length==0){ //para no permitir que se quede en blanco
@@ -80,7 +84,7 @@ function validar_formulario(param){
 			alert('Ingrese la dirección del estudiante')
 			permitido=false;
 		}
-		else if(valor8.replace(/^\s+|\s+$/gi,"").length==0){ //para no permitir que se quede en blanco
+		/*else if(valor8.replace(/^\s+|\s+$/gi,"").length==0){ //para no permitir que se quede en blanco
 			alert('Ingrese el teléfono de habitación del estudiante')
 			permitido=false;
 		}
@@ -88,7 +92,7 @@ function validar_formulario(param){
 			alert('Ingrese el teléfono de movil del estudiante')
 			permitido=false;
 		}
-		/*else if(valor10.replace(/^\s+|\s+$/gi,"").length==0){ //para no permitir que se quede en blanco
+		else if(valor10.replace(/^\s+|\s+$/gi,"").length==0){ //para no permitir que se quede en blanco
 			alert('Ingrese el correo electrónico del estudiante')
 			permitido=false;
 		}*/

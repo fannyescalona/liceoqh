@@ -149,8 +149,10 @@
 		return false;
 	}
    }
+   
    public function Comprobar(){
-    $sql="select * from tmateria where codigo_materia='$this->codigo_materia'";
+    $sql="select * from tmateria where ((codigo_materia='$this->codigo_materia')
+    OR (descripcion='$this->descripcion' AND grado_escolar='$this->grado_escolar'))";
 	$query=$this->mysql->Ejecutar($sql);
     if($this->mysql->Total_Filas($query)!=0){
 	$tmateria=$this->mysql->Respuesta($query);

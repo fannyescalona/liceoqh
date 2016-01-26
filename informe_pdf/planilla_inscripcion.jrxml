@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="planilla_inscripcion" language="groovy" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="230a6877-1832-43a9-bed6-3bff5aba4c9c">
 	<property name="ireport.zoom" value="2.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="39"/>
+	<property name="ireport.y" value="489"/>
 	<parameter name="cedula_estudiante" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
@@ -11,9 +11,9 @@
 	pi.estatura AS talla,CONCAT(e.nombres,' ',e.apellidos) AS estudiante,pi.cedula_estudiante,pi.cedula_escolar,pi.codigo_canaima,
 	CASE e.genero WHEN 'F' THEN 'X' ELSE '' END AS genero_f,CASE e.genero WHEN 'M' THEN 'X' ELSE '' END AS genero_m,
 	DATE_FORMAT(e.fecha_nacimiento,'%d/%m/%Y') AS fecha_nacimiento,pe.descripcion AS lugar_nacimiento,
-	ee.descripcion AS estado,e.direccion,pi.plantel_procedencia,e.telefono_habitacion,e.email AS email_estudiante,
+	ee.descripcion AS estado,e.direccion,pl.nombre as plantel_procedencia,e.telefono_habitacion AS telefono_habitacion,e.email AS email_estudiante,
 	CONCAT(p.nombres,' ',p.apellidos) AS padre,pi.cedula_padre,CONCAT(m.nombres,' ',m.apellidos) AS madre,pi.cedula_madre,
-	COALESCE(p.direccion,m.direccion) AS direccion_padres,COALESCE(p.telefono_habitacion,m.telefono_habitacion) AS telefono_habitacion_padres,
+	COALESCE(p.direccion,m.direccion) AS direccion_padres,CASE WHEN p.telefono_habitacion<>'' THEN p.telefono_habitacion ELSE m.telefono_habitacion END AS telefono_habitacion_padres,
 	COALESCE(p.email,m.email) AS email_padres,
 	CASE pi.certificado_sextogrado WHEN 'Y' THEN 'X' ELSE '' END AS certificado_sextogrado,
 	CASE pi.notascertificadas WHEN 'Y' THEN 'X' ELSE '' END AS notascertificadas,
@@ -50,6 +50,7 @@
 	INNER JOIN tparroquia plt ON pi.lugar_trabajo = plt.codigo_parroquia
 	LEFT JOIN tpersona p ON pi.cedula_padre = p.cedula
 	LEFT JOIN tpersona m ON pi.cedula_madre = m.cedula
+	LEFT JOIN tplantel pl ON pi.codigo_plantel = pl.codigo_plantel
 	WHERE pi.cedula_estudiante = $P{cedula_estudiante}]]>
 	</queryString>
 	<field name="ano_escolar" class="java.lang.String"/>
@@ -83,9 +84,7 @@
 	<field name="plantel_procedencia" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="telefono_habitacion" class="java.lang.String">
-		<fieldDescription><![CDATA[]]></fieldDescription>
-	</field>
+	<field name="telefono_habitacion" class="java.lang.String"/>
 	<field name="email_estudiante" class="java.lang.String"/>
 	<field name="padre" class="java.lang.String"/>
 	<field name="cedula_padre" class="java.lang.String">
@@ -440,7 +439,7 @@
 				<text><![CDATA[Teléfono:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="54" y="261" width="87" height="20" uuid="b6096a74-1aba-43d6-97b4-92f44f0a8c14"/>
+				<reportElement x="54" y="261" width="100" height="20" uuid="b6096a74-1aba-43d6-97b4-92f44f0a8c14"/>
 				<box>
 					<bottomPen lineWidth="0.0"/>
 				</box>
@@ -498,7 +497,7 @@
 			</textField>
 			<image>
 				<reportElement x="0" y="0" width="570" height="70" uuid="5d7b426c-4a05-4e4d-939f-07b5de52cb97"/>
-				<imageExpression><![CDATA["/var/www/html/liceoqh/images/cintillo_reportes.jpg"]]></imageExpression>
+				<imageExpression><![CDATA["../images/cintillo_reportes.jpg"]]></imageExpression>
 			</image>
 			<line>
 				<reportElement x="0" y="282" width="572" height="1" uuid="76bd2af0-a97f-4ff7-b2c6-7c32451420b1"/>
@@ -612,7 +611,7 @@
 				<textElement verticalAlignment="Bottom">
 					<paragraph lineSpacing="Single"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{telefono_habitacion}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{telefono_habitacion_padres}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="0" y="365" width="54" height="20" uuid="c0bc2944-bcdb-4a4f-b235-9e62dab45c23"/>

@@ -49,6 +49,10 @@ function validar_formulario(param){
 			alert('Ingrese la cédula')
 			permitido=false;
 		}
+		else if(valor1.replace(/^\s+|\s+$/gi,"").length<=6){ //para no permitir que se quede en blanco
+			alert('La cédula ingresada debe ser mayor a 5 dígitos')
+			permitido=false;
+		}
 		else if(valor2.replace(/^\s+|\s+$/gi,"").length==0){ //para no permitir que se quede en blanco
 			alert('Ingrese el nombre')
 			permitido=false;
@@ -69,7 +73,7 @@ function validar_formulario(param){
 			alert('Ingrese la dirección')
 			permitido=false;
 		}
-		else if(valor8.replace(/^\s+|\s+$/gi,"").length==0){ //para no permitir que se quede en blanco
+		/*else if(valor8.replace(/^\s+|\s+$/gi,"").length==0){ //para no permitir que se quede en blanco
 			alert('Ingrese el teléfono de habitación')
 			permitido=false;
 		}
@@ -77,7 +81,7 @@ function validar_formulario(param){
 			alert('Ingrese el teléfono de movil')
 			permitido=false;
 		}
-		/*else if(valor10.replace(/^\s+|\s+$/gi,"").length==0){ //para no permitir que se quede en blanco
+		else if(valor10.replace(/^\s+|\s+$/gi,"").length==0){ //para no permitir que se quede en blanco
 			alert('Ingrese el correo electrónico')
 			permitido=false;
 		}*/

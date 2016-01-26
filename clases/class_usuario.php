@@ -98,13 +98,13 @@ class Usuario{
       
    
    public function Cambiar_password(){
-   $sqlx="update tcontrasena set estado=0 where (nombre_usuario='$this->user_name')";
-   $this->mysql->Ejecutar($sqlx);
-  $sql="insert into tcontrasena (contrasena,nombre_usuario,estado)values('$this->password','$this->user_name',1)";
+   	$sqlx="update tcontrasena set estado=0 where (nombre_usuario='$this->user_name')";
+   	$this->mysql->Ejecutar($sqlx);
+  	$sql="insert into tcontrasena (contrasena,nombre_usuario,estado)values('$this->password','$this->user_name',1)";
     if($this->mysql->Ejecutar($sql)!=null)
-	return true;
+		return true;
 	else
-	return false;
+		return false;
    }
      public function Actualizar($user){
     $sql="UPDATE tusuario SET 
@@ -113,10 +113,11 @@ class Usuario{
 	respuesta_1 =  '$this->r1',
 	pregunta_2 =  '$this->p2',
 	respuesta_2=  '$this->r2' WHERE (nombre_usuario='$user')";
+	echo $sql;
     if($this->mysql->Ejecutar($sql)!=null)
-	return true;
+		return true;
 	else
-	return false;
+		return false;
    }
         public function Actualizar2($user){
     $sql="UPDATE tusuario SET codigo_perfil='$this->rol' WHERE (nombre_usuario='$user')";

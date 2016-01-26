@@ -59,7 +59,6 @@ else{
   </form>
   <br>
   <?php }else{ 
-
     require_once("../clases/class_perfil.php");
     $perfil=new Perfil();
     $perfil->codigo_perfil(@$_SESSION['user_codigo_perfil']);
@@ -69,7 +68,6 @@ else{
     <a href="?materia" ><img src="../images/cerrar.png" alt="Cerrar" style="width:40px;heigth:40px;float:right;"></a>
     <a href="../excel/excel_materia.php" ><img src="../images/icon-excel.png" alt="Exportar a Excel" style="width:40px;heigth:40px;float:right;"></a>
     <a href="<?php echo  '../pdf/?serv='.$servicio_solicitado;?>" target="_blank"><img src="../images/icon-pdf.png" alt="Exportar a PDF" style="width:40px;heigth:40px;float:right;margin:0.3em;margin-left:1em;"></a>        
-    
     <table class="table table-striped table-bordered table-condensed">
      <tr> 
        <td>Código </td>
@@ -78,48 +76,46 @@ else{
        <td>Grado Escolar</td>
      </tr>
      <?php
-
-//Conexión a la base de datos 
-require_once("../clases/class_bd.php");
-$mysql=new Conexion();
-//Sentencia sql (sin limit) 
-$_pagi_sql = "SELECT codigo_materia,descripcion,unidad_curricular,
-CASE grado_escolar WHEN '1' THEN '1er Año' WHEN '2' THEN '2do Año' WHEN '3' THEN '3er Año' WHEN '4' THEN '4to Año' WHEN '5' THEN '5to Año' WHEN '6' THEN '6to Año' END AS grado_escolar
-FROM tmateria where fecha_desactivacion is null order by codigo_materia desc";
-//cantidad de resultados por página (opcional, por defecto 20) 
-$_pagi_cuantos = 10; 
-//Cadena que separa los enlaces numéricos en la barra de navegación entre páginas.
-$_pagi_separador = " ";
-//Cantidad de enlaces a los números de página que se mostrarán como máximo en la barra de navegación.
-$_pagi_nav_num_enlaces=5;
-//Incluipos el script de paginación. Éste ya ejecuta la consulta automáticamente 
-@include("../librerias/paginador/paginator.inc.php"); 
-//Leemos y escribimos los registros de la página actual 
+    //Conexión a la base de datos 
+    require_once("../clases/class_bd.php");
+    $mysql=new Conexion();
+    //Sentencia sql (sin limit) 
+    $_pagi_sql = "SELECT codigo_materia,descripcion,unidad_curricular,
+    CASE grado_escolar WHEN '1' THEN '1er Año' WHEN '2' THEN '2do Año' WHEN '3' THEN '3er Año' WHEN '4' THEN '4to Año' WHEN '5' THEN '5to Año' WHEN '6' THEN '6to Año' END AS grado_escolar
+    FROM tmateria where fecha_desactivacion is null order by codigo_materia desc";
+    //cantidad de resultados por página (opcional, por defecto 20) 
+    $_pagi_cuantos = 10; 
+    //Cadena que separa los enlaces numéricos en la barra de navegación entre páginas.
+    $_pagi_separador = " ";
+    //Cantidad de enlaces a los números de página que se mostrarán como máximo en la barra de navegación.
+    $_pagi_nav_num_enlaces=5;
+    //Incluipos el script de paginación. Éste ya ejecuta la consulta automáticamente 
+    @include("../librerias/paginador/paginator.inc.php"); 
+    //Leemos y escribimos los registros de la página actual 
     while($row = mysql_fetch_array($_pagi_result)){ 
       echo "<tr style='cursor: pointer;' id='".$row['codigo_materia']."' onclick='enviarForm(this.id)'>
       <td style='width:20%;'>".$row['codigo_materia']."</td>
       <td align='left'>".$row['descripcion']."</td>
       <td align='left'>".$row['unidad_curricular']."</td>
-      <td align='left'>".$row['grado_escolar']."</td>
-      </tr>"; 
+      <td align='left'>".$row['grado_escolar']."</td></tr>"; 
     }
-//Incluimos la barra de navegación 
+    //Incluimos la barra de navegación 
     ?>
   </table>
-<script type="text/javascript">
-function enviarForm(value){
-  document.getElementById('campo_oculto').value=value;
-  document.getElementById('form1').submit();
-}
-</script>
-<form id="form1" method="POST" action="../controladores/cont_materia.php">
-  <input type="hidden" name="codigo_materia" id="campo_oculto" value="" />
-  <input type="hidden" name="operacion" id="operacion" value="Consultar" />
-</form>
+  <script type="text/javascript">
+  function enviarForm(value){
+    document.getElementById('campo_oculto').value=value;
+    document.getElementById('form1').submit();
+  }
+  </script>
+  <form id="form1" method="POST" action="../controladores/cont_materia.php">
+    <input type="hidden" name="codigo_materia" id="campo_oculto" value="" />
+    <input type="hidden" name="operacion" id="operacion" value="Consultar" />
+  </form>
   <div class="pagination">
-   <ul>
-     <?php echo"<li>".$_pagi_navegacion."</li>";?>
-   </ul>
- </div>
+    <ul>
+      <?php echo"<li>".$_pagi_navegacion."</li>";?>
+    </ul>
+  </div>
 </div>
 <?php }?>

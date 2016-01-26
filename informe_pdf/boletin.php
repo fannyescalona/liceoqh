@@ -7,16 +7,15 @@ include_once('../librerias/phpjasperxml/class/tcpdf/tcpdf.php');
 include_once("../librerias/phpjasperxml/class/PHPJasperXML.inc.php");
 include_once ('../librerias/phpjasperxml/setting.php');
 
-$xml =  simplexml_load_file("listado_docentes.jrxml");
+$xml =  simplexml_load_file("boletin.jrxml");
 
-$codigo_materia = $_GET['codigo_materia'];
+$codigo_ano_academico = $_GET['codigo_ano_academico'];
+$cedula_estudiante = $_GET['cedula_estudiante'];
 
 $PHPJasperXML = new PHPJasperXML();
 //$PHPJasperXML->debugsql=true;
-if($codigo_materia!="null")
-	$PHPJasperXML->arrayParameter=array("codigo_materia"=>"'$codigo_materia'");
-else
-	$PHPJasperXML->arrayParameter=array("codigo_materia"=>"null");
+$PHPJasperXML->arrayParameter=array("codigo_ano_academico"=>"'$codigo_ano_academico'"
+	,"cedula_estudiante"=>"'$cedula_estudiante'");
 $PHPJasperXML->xml_dismantle($xml);
 
 $PHPJasperXML->transferDBtoArray($server,$user,$pass,$db);

@@ -113,6 +113,7 @@ if($operacion=='Consultar'){
     $_SESSION['datos']['mensaje']=$error;
    header("Location: ../vistas/?ano_academico");
   }
+}
 
 if($operacion=='CerrarAñoEscolar'){  
   $confirmacion=false;

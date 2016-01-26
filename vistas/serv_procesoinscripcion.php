@@ -6,12 +6,14 @@
   CASE WHEN datediff(fecha_cierre,now()) >0 THEN 'Y' ELSE 'N' END AS actualizable 
   FROM tinscripcion WHERE fecha_desactivacion IS NULL";
   $query = $mysql->Ejecutar($sql);
+  if($mysql->Total_Filas($query)==0)
+    $actualizable='N';
   while ($row = $mysql->Respuesta($query)){
     echo "<span style='font-weight: bold;'> \"".$row['descripcion']."  FECHA DE INICIO: </span>".$row['fecha_inicio']." <span style='font-weight: bold;'>FECHA DE CIERRE: </span>".$row['fecha_cierre']."<span style='font-weight: bold;'> \"</span><br /><br />";
     $actualizable=$row['actualizable'];
   }
   if($actualizable=="N"){
-    echo "<strong class='obligatorio'>No es posible cargar el formulario, ya que termino el período de Inscripción</strong>";
+    echo "<strong class='obligatorio'>¡No es posible cargar el formulario, ya que termino el período de Inscripción terminó o no existe!</strong>";
   }
   else{
 ?>

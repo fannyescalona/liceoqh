@@ -34,7 +34,7 @@ ORDER BY p.cedula ASC]]>
 		<band height="153" splitType="Stretch">
 			<image>
 				<reportElement x="48" y="17" width="622" height="70" uuid="56ec8833-da5a-499c-a5cc-7baf68541775"/>
-				<imageExpression><![CDATA["/var/www/html/liceoqh/images/cintillo_reportes.jpg"]]></imageExpression>
+				<imageExpression><![CDATA["../images/cintillo_reportes.jpg"]]></imageExpression>
 			</image>
 			<staticText>
 				<reportElement x="217" y="112" width="270" height="20" uuid="28990231-640d-4ee7-9e44-a7d52123d025"/>

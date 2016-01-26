@@ -29,6 +29,9 @@ function validar_formulario(param){
 		}else if(valor3.replace(/^\s+|\s+$/gi,"").length==0){ //para no permitir que se quede en blanco
 			alert('Ingrese la capacidad máxima de la sección')
 			permitido=false;
+		}else if(parseInt(valor2)>parseInt(valor3)){ //para no permitir que se quede en blanco
+			alert('La capacidad mínima debe ser mayor a la capacidad máxima');
+			permitido=false;
 		}
 		else if(materias && docentes){
 			arregloM = new Array();

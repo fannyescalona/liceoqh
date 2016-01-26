@@ -25,6 +25,23 @@ function init(){
 		source:'../autocomplete/parentesco.php', 
 		minLength:1
 	});
+	//Búsquedas de docente por autocompletar.
+	$('#seccion').autocomplete({
+		source: function(request, response) {
+			$.ajax({
+				url: "../autocomplete/seccionporgrado.php",
+				dataType: "json",
+				data: {
+					term : request.term,
+					grado_escolar : $("#grado_escolar").val()
+				},
+				success: function(data) {
+					response(data);
+				}
+			});
+		},
+		minLength: 1
+	});
 	//Búsquedas de padres por autocompletar.
 	$('#cedula_madre').autocomplete({
 		source:'../autocomplete/madre.php', 
@@ -210,12 +227,21 @@ function validar_formulario(param){
 	valor10=document.getElementById('direccion').value;
 	valor11=document.getElementById('telefono_habitacion').value;
 	valor12=document.getElementById('email').value;
+	valor13=document.getElementById('codigo_plantel').value;
 	//Utilizamos una expresion regular para validar email
 	var regex = /[\w-\.]{2,}@([\w-]{2,}\.)*([\w-]{2,}\.)[\w-]{2,4}/;
 	//Validamos los campos obligatorios
 	if(devuelve_boton(param)=="Registrar" || devuelve_boton(param)=="Modificar"){
 		if(valor1.replace(/^\s+|\s+$/gi,"").length==0 && valor2.replace(/^\s+|\s+$/gi,"").length==0){ //para no permitir que se quede en blanco
 			alert('Ingrese la cédula del estudiante o la cédula escolar')
+			permitido=false;
+		}
+		else if(valor1.replace(/^\s+|\s+$/gi,"").length!=0 && valor1.replace(/^\s+|\s+$/gi,"").length<=6){ //para no permitir que se quede en blanco
+			alert('La cédula del estudiante ingresada debe ser mayor a 5 digitos')
+			permitido=false;
+		}
+		else if(valor2.replace(/^\s+|\s+$/gi,"").length!=0 && valor2.replace(/^\s+|\s+$/gi,"").length<=6){ //para no permitir que se quede en blanco
+			alert('La cédula escolar ingresada debe ser mayor a 5 digitos')
 			permitido=false;
 		}
 		else if(valor5.replace(/^\s+|\s+$/gi,"").length==0){ //para no permitir que se quede en blanco
@@ -250,13 +276,17 @@ function validar_formulario(param){
 			alert('Ingrese la dirección del estudiante')
 			permitido=false;
 		}
-		else if(valor11.replace(/^\s+|\s+$/gi,"").length==0){ //para no permitir que se quede en blanco
+		/*else if(valor11.replace(/^\s+|\s+$/gi,"").length==0){ //para no permitir que se quede en blanco
 			alert('Ingrese el teléfono de habitación del estudiante')
 			permitido=false;
-		}
+		}*/
 		else if(valor12.replace(/^\s+|\s+$/gi,"").length!=0 && !regex.test(valor12.trim())){
 			alert('La direccion de correo electrónico no es válida, la forma correcta sería por ejemplo pedroperez@gmail.com');
 			permitido = false;
+		}
+		else if(valor13.replace(/^\s+|\s+$/gi,"").length==0){ //para no permitir que se quede en blanco
+			alert('Seleccione el plantel de procedencia')
+			permitido=false;
 		}
 	}
 		
@@ -296,8 +326,16 @@ function validar_formulario1(){
 	//Utilizamos una expresion regular para validar email
 	var regex = /[\w-\.]{2,}@([\w-]{2,}\.)*([\w-]{2,}\.)[\w-]{2,4}/;
 	//Validamos los campos obligatorios
-	if(valor0.replace(/^\s+|\s+$/gi,"").length!=0){
-		if(valor1.replace(/^\s+|\s+$/gi,"").length!=0 && !regex.test(valor1.trim())){
+	if((valor0.replace(/^\s+|\s+$/gi,"").length!=0 && valor8.replace(/^\s+|\s+$/gi,"").length!=0) && (valor0==valor8)){
+		alert(valor0+' '+valor8+' La cédula de la madre no puede ser igual que la cédula del padre');
+		permitido = false;
+	}
+	else if(valor0.replace(/^\s+|\s+$/gi,"").length!=0){
+		if(valor0.replace(/^\s+|\s+$/gi,"").length<=6){
+			alert('La cédula de la madre ingresada de ser mayor a 5 dígitos');
+			permitido = false;
+		}
+		else if(valor1.replace(/^\s+|\s+$/gi,"").length!=0 && !regex.test(valor1.trim())){
 			alert('La direccion de correo electrónico no es válida, la forma correcta sería por ejemplo pedroperez@gmail.com');
 			permitido = false;
 		}
@@ -321,13 +359,17 @@ function validar_formulario1(){
 			alert('Ingrese la direccion de la madre');
 			permitido = false;
 		}
-		else if(valor7.replace(/^\s+|\s+$/gi,"").length==0){
+		/*else if(valor7.replace(/^\s+|\s+$/gi,"").length==0){
 			alert('Ingrese el número telefónico de habitación de la madre');
 			permitido = false;
-		}
+		}*/
 	}
 	else if(valor8.replace(/^\s+|\s+$/gi,"").length!=0){
-		if(valor9.replace(/^\s+|\s+$/gi,"").length!=0 && !regex.test(valor9.trim())){
+		if(valor8.replace(/^\s+|\s+$/gi,"").length<=6){
+			alert('La cédula del padre ingresada de ser mayor a 5 dígitos');
+			permitido = false;
+		}
+		else if(valor9.replace(/^\s+|\s+$/gi,"").length!=0 && !regex.test(valor9.trim())){
 			alert('La direccion de correo electrónico no es válida, la forma correcta sería por ejemplo pedroperez@gmail.com');
 			permitido = false;
 		}
@@ -351,10 +393,10 @@ function validar_formulario1(){
 			alert('Ingrese la direccion de la padre');
 			permitido = false;
 		}
-		else if(valor15.replace(/^\s+|\s+$/gi,"").length==0){
+		/*else if(valor15.replace(/^\s+|\s+$/gi,"").length==0){
 			alert('Ingrese el número telefónico de habitación de la padre');
 			permitido = false;
-		}
+		}*/
 	}
 
 	document.getElementById("operacion_tab2").value="Paso2";
@@ -364,7 +406,7 @@ function validar_formulario1(){
 
 function validar_formulario2(){
 	permitido=true;
-	valor0=document.getElementById('becado').value;
+	valor0=document.getElementById('becado').checked==true ? document.getElementById('becado').value : null;
 	valor1=document.getElementById('tipobeca').value;
 
 	if(valor0=="Y" && valor1=="0"){
@@ -399,14 +441,18 @@ function validar_formulario3(){
 		alert('Ingrese un representante')
 		permitido=false;
 	}
-	else if(valor2.replace(/^\s+|\s+$/gi,"").length==0){ //para no permitir que se quede en blanco
+	else if(valor1.replace(/^\s+|\s+$/gi,"").length<=6){
+		alert('La cédula del representante ingresada de ser mayor a 5 dígitos')
+		permitido=false;
+	}
+	/*else if(valor2.replace(/^\s+|\s+$/gi,"").length==0){ //para no permitir que se quede en blanco
 		alert('Ingrese un correo electrónico')
 		permitido=false;
 	}
 	else if(!regex.test(valor2.trim())){ //para no permitir que se quede en blanco
 		alert('La direccion de correo electrónico no es válida, la forma correcta sería por ejemplo pedroperez@gmail.com');
 		permitido = false;
-	}
+	}*/
 	else if(valor3.replace(/^\s+|\s+$/gi,"").length==0){ //para no permitir que se quede en blanco
 		alert('Ingrese el nombre del representante')
 		permitido=false;
@@ -427,10 +473,10 @@ function validar_formulario3(){
 		alert('Ingrese la dirección del representante')
 		permitido=false;
 	}
-	else if(valor8.replace(/^\s+|\s+$/gi,"").length==0){ //para no permitir que se quede en blanco
+	/*else if(valor8.replace(/^\s+|\s+$/gi,"").length==0){ //para no permitir que se quede en blanco
 		alert('Ingrese el teléfono habitación del representante')
 		permitido=false;
-	}
+	}*/
 	else if(valor9.replace(/^\s+|\s+$/gi,"").length==0){ //para no permitir que se quede en blanco
 		alert('Ingrese el lugar de trabajo del representante')
 		permitido=false;

@@ -207,7 +207,7 @@
     } 
    }
    public function Comprobar(){
-    $sql="select * from tseccion where seccion='$this->seccion'";
+    $sql="select * from tseccion where (seccion='$this->seccion' OR descripcion='$this->descripcion')";
 	$query=$this->mysql->Ejecutar($sql);
     if($this->mysql->Total_Filas($query)!=0){
 	$tseccion=$this->mysql->Respuesta($query);

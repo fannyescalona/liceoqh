@@ -46,8 +46,17 @@ $telefono_habitacion=trim($_POST['telefono_habitacion']);
 if(isset($_POST['email']))
 $email=trim($_POST['email']);
 
-if(isset($_POST['plantel_procedencia']))
-$plantel_procedencia=trim($_POST['plantel_procedencia']);
+if(isset($_POST['grado_escolar']))
+$grado_escolar=trim($_POST['grado_escolar']);
+
+if(isset($_POST['seccion'])){
+  $seccionall=explode('_',trim($_POST['seccion']));
+  $seccion=$seccionall[0];
+}
+
+
+if(isset($_POST['codigo_plantel']))
+$codigo_plantel=trim($_POST['codigo_plantel']);
 
 //Pestaña 2
 
@@ -215,7 +224,9 @@ if($operacion=='Registrar'){
   $inscripcion->direccion($direccion);
   $inscripcion->telefono_habitacion($telefono_habitacion);
   $inscripcion->email($email);
-  $inscripcion->plantel_procedencia($plantel_procedencia);
+  $inscripcion->grado_escolar($grado_escolar);
+  $inscripcion->seccion($seccion);
+  $inscripcion->codigo_plantel($codigo_plantel);
   $confirmacion=false;
   $inscripcion->Transaccion('iniciando');
   if(!$inscripcion->Comprobar()){
@@ -253,7 +264,9 @@ if($operacion=='Modificar'){
   $inscripcion->direccion($direccion);
   $inscripcion->telefono_habitacion($telefono_habitacion);
   $inscripcion->email($email);
-  $inscripcion->plantel_procedencia($plantel_procedencia);
+  $inscripcion->grado_escolar($grado_escolar);
+  $inscripcion->seccion($seccion);
+  $inscripcion->codigo_plantel($codigo_plantel);
   $confirmacion=false;
   $inscripcion->Transaccion('iniciando');
   if($inscripcion->Actualizar())
@@ -298,12 +311,13 @@ if($operacion=="Paso2"){
   else
     $confirmacion=-1;
   if($confirmacion==1){
-    $inscripcion->Transaccion('finalizado');
+    $inscripcion->Transaccion('finalizado'); 
     $_SESSION['datos']['cedula']=$inscripcion->cedula_estudiante();
     $_SESSION['datos']['mensaje']="Los datos de los padres han sido cargados con éxito, por favor complete los datos del siguiente formulario.";
     header("Location: ../vistas/?proceso_inscripcion#documentosconsignados");
   }else{
     $inscripcion->Transaccion('cancelado');
+    $_SESSION['datos']['cedula']=$inscripcion->cedula_estudiante();
     $_SESSION['datos']['mensaje']="Se presentó un error al cargar los datos de los padres.<br><b>Error: ".utf8_encode($inscripcion->error())."</b>";
     header("Location: ../vistas/?proceso_inscripcion#datospadres");
   }
@@ -335,6 +349,7 @@ if($operacion=="Paso3"){
     header("Location: ../vistas/?proceso_inscripcion#datosrepresentante");
   }else{
     $inscripcion->Transaccion('cancelado');
+    $_SESSION['datos']['cedula']=$inscripcion->cedula_estudiante();
     $_SESSION['datos']['mensaje']="Se presentó un error al cargar los documentos consignados.<br><b>Error: ".utf8_encode($inscripcion->error())."</b>";
     header("Location: ../vistas/?proceso_inscripcion#documentosconsignados");
   }
@@ -367,6 +382,7 @@ if($operacion=="Paso4"){
     header("Location: ../vistas/?proceso_inscripcion");
   }else{
     $inscripcion->Transaccion('cancelado');
+    $_SESSION['datos']['cedula']=$inscripcion->cedula_estudiante();
     $_SESSION['datos']['mensaje']="Se presentó un error al modificar los datos del representante.<br><b>Error: ".utf8_encode($inscripcion->error())."</b>";
     header("Location: ../vistas/?proceso_inscripcion#datosrepresentante");
   }
@@ -388,7 +404,9 @@ if($operacion=='Consultar'){
     $_SESSION['datos']['direccion']=$inscripcion->direccion();
     $_SESSION['datos']['telefono_habitacion']=$inscripcion->telefono_habitacion();
     $_SESSION['datos']['email']=$inscripcion->email();
-    $_SESSION['datos']['plantel_procedencia']=$inscripcion->plantel_procedencia();
+    $_SESSION['datos']['grado_escolar']=$inscripcion->grado_escolar();
+    $_SESSION['datos']['seccion']=$inscripcion->seccion();
+    $_SESSION['datos']['codigo_plantel']=$inscripcion->codigo_plantel();
     $_SESSION['datos']['estatus']=$inscripcion->estatus();
     header("Location: ../vistas/?proceso_inscripcion#datosestudiantes");
   }else{
@@ -404,14 +422,19 @@ if($operacion=='Consultar'){
 
 if($operacion=='Asignar_Seccion'){
   $con=0;
-  if(isset($_POST['estudiantes']) && isset($_POST['secciones'])){
-    for($i=0;$i<count($_POST['estudiantes']);$i++){
-      if($inscripcion->Asignar_Seccion($_POST['estudiantes'][$i],$_POST['secciones'][$i]))
-        $con++;
+  if(isset($_POST['estudiantes'])){               
+    foreach($_POST['estudiantes'] as $indiceE => $valorE){                      
+      if(isset($_POST['secciones'])){              
+        foreach($_POST['secciones'][$valorE] as $indiceS => $valorS){
+          if($inscripcion->Asignar_Seccion($valorE,$valorS)){
+            $con++;
+          }
+        }                                 
+      }                                                        
     }
     $rest=count($_POST['estudiantes'])-$con;
   }
-  $_SESSION['datos']['mensaje']="Cantidad de Estudiantes Seleccionados: ".count($_POST['estudiantes']).", Cantidad Asignados: ".$con.", Cantidad Restantes: ".$rest;
+  $_SESSION['datos']['mensaje']="Cantidad de Estudiantes Seleccionados: ".count($_POST['estudiantes']).", Cantidad Asignados: ".$con.", Cantidad Restantes: ".$rest." <br>".$inscripcion->error();
   header("Location: ../vistas/?asignar_seccion");
 }
 ?>

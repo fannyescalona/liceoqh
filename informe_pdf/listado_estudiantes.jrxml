@@ -58,7 +58,7 @@ ORDER BY s.grado_escolar,s.seccion,p.fecha_nacimiento ASC]]>
 		<band height="155" splitType="Stretch">
 			<image>
 				<reportElement x="51" y="0" width="622" height="70" uuid="968abeac-7ef3-4517-a0ba-9d0a96e02db8"/>
-				<imageExpression><![CDATA["/var/www/html/liceoqh/images/cintillo_reportes.jpg"]]></imageExpression>
+				<imageExpression><![CDATA["../images/cintillo_reportes.jpg"]]></imageExpression>
 			</image>
 			<staticText>
 				<reportElement x="223" y="102" width="270" height="20" uuid="6550e3b1-daa8-42b0-9467-7c0861df7f91"/>

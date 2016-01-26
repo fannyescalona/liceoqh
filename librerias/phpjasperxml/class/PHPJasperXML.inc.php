@@ -54,7 +54,6 @@ class PHPJasperXML
         $this->db_or_dsn_name = $db_or_dsn_name;
         $this->cndriver       = $cndriver;
         if ($cndriver == "mysql") {
-            
             if (!$this->con) {
                 $this->myconn = @mysql_connect($db_host, $db_user, $db_pass);
                 if ($this->myconn) {
@@ -1891,7 +1890,7 @@ class PHPJasperXML
                 $this->m++;
             }
         } else {
-            //@mysql_query("set names 'utf8'");
+            @mysql_query("set names 'utf8'");
             $result = @mysql_query($this->sql); //query from db 
             if (!$result) {
                 die('Consulta no válida: ' . mysql_error());

@@ -48,8 +48,10 @@ if(isset($_POST['operacion']) and $_POST['operacion']=='Registrar'){
   if($Usuario->Consultar_personal()){
     $Usuario=new Usuario();
     $Usuario->rol(trim($_POST['rol']));
-    $Usuario->user_name(trim($_POST['cedula']));
-    $Usuario->cedula(trim($_POST['cedula']));
+    $user_name=explode('_',trim($_POST['cedula']));
+    $Usuario->user_name($user_name[0]);
+    $cedula=explode('_',trim($_POST['cedula']));
+    $Usuario->cedula($cedula[0]);
     $Usuario->password("12345678");
     if(!$Usuario->Registrar()){
       $_SESSION['datos']['mensaje']=utf8_encode("Lo sentimos, el usuario no se ha podido registrar. Intenta más tarde");

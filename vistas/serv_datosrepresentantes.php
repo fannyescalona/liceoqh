@@ -49,7 +49,7 @@
           <div class="row">
             <div class="span6">
               <label>Cédula:</label>
-              <input tabindex=1 onKeyUp="this.value=this.value.toUpperCase()" title="Ingrese el número de cédula del representante" maxlength=10 name="cedula_representante" id="cedula_representante" type="text" size="10" value="<?=$row['cedula_representante'];?>" placeholder="Ingrese el número de Cédula del representante" class="campoTexto" required />
+              <input tabindex=1 maxlength="10" onKeyUp="this.value=this.value.toUpperCase()" title="Ingrese el número de cédula del representante" maxlength=10 name="cedula_representante" id="cedula_representante" type="text" size="10" value="<?=$row['cedula_representante'];?>" placeholder="Ingrese el número de Cédula del representante" class="campoTexto" required />
               <label>Nombre(s):</label>
               <input tabindex=3 title="Ingrese el(los) nombre(s) del representante" onKeyPress="return isCharKey(event)" onKeyUp="this.value=this.value.toUpperCase()" name="nombre_representante" id="nombre_representante" type="text" size="50" value="<?=$row['nombre_representante'];?>" placeholder="Ingrese el(los) Nombre(s) del representante" class="campoTexto" required />
               <label>Fecha de Nacimiento:</label>
@@ -73,11 +73,11 @@
               <label>Lugar de Nacimiento:</label>
               <input tabindex=6 title="Seleccione una Parroquia" onKeyUp="this.value=this.value.toUpperCase()" name="lugar_nacimiento_representante" id="lugar_nacimiento_representante" type="text" size="50" value="<?=$row['ln_representante'];?>" placeholder="Seleccione una Parroquia" class="campoTexto" required />
               <label>Teléfono de Habitación:</label>
-              <input tabindex=8 maxlength=11 title="Ingrese el número de habitación del representante" onKeyPress="return isNumberKey(event)" name="telefono_habitacion_representante" id="telefono_habitacion_representante" type="text" size="50" value="<?=$row['th_representante'];?>" placeholder="Ingreso el Número Teléfonico de Habitación del representante" class="campoTexto" required />
+              <input tabindex=8 maxlength=11 title="Ingrese el número de habitación del representante" onKeyPress="return isNumberKey(event)" name="telefono_habitacion_representante" id="telefono_habitacion_representante" type="text" size="50" value="<?=$row['th_representante'];?>" placeholder="Ingreso el Número Teléfonico de Habitación del representante" class="campoTexto" />
               <label>Teléfono Celular:</label>
               <input tabindex=9 maxlength=11 title="Ingrese el número de celular del representante" onKeyPress="return isNumberKey(event)" name="telefono_movil_representante" id="telefono_movil_representante" type="text" size="50" value="<?=$row['tm_representante'];?>" placeholder="Ingrese el Número Celular del representante" class="campoTexto" />
               <label>Correo Electrónico:</label>
-              <input tabindex=11 title="Ingrese el correo electrónico del representante" onKeyPress="return isEmail(event,this.value)" onKeyUp="this.value=this.value.toLowerCase()" name="email_representante" id="email_representante" type="text" size="50" value="<?=$row['email_representante'];?>" placeholder="Ingrese el Correo Electrónico del representante" class="campoTexto" required />
+              <input tabindex=11 title="Ingrese el correo electrónico del representante" onKeyPress="return isEmail(event,this.value)" onKeyUp="this.value=this.value.toLowerCase()" name="email_representante" id="email_representante" type="text" size="50" value="<?=$row['email_representante'];?>" placeholder="Ingrese el Correo Electrónico del representante" class="campoTexto" />
             </div> 
           </div>    
           <strong class="obligatorio">Los campos resaltados en rojo son obligatorios</strong>
@@ -88,7 +88,7 @@
       <p>
         <label>
           <input type="hidden" name="operacion" value="" id="operacion_tab4" />
-          <input name="cmdRegistrar" type="button" id="cmdForm3" class="btn btn-large" value="Modificar" />
+          <input name="cmdRegistrar" type="button" id="cmdForm3" class="btn btn-large" value="Guardar" />
           <?php
             if($proceso_completado=="Y")
               echo "<input name='cmdImprimir' type='button' id='cmdImprimir' class='btn btn-large' value='Imprimir Ficha' />";

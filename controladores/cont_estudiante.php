@@ -48,8 +48,8 @@ $telefono_movil=ucfirst(trim($_POST['telefono_movil']));
 if(isset($_POST['email']))
 $email=trim($_POST['email']);
 
-if(isset($_POST['plantel_procedencia']))
-$plantel_procedencia=ucfirst(trim($_POST['plantel_procedencia']));
+if(isset($_POST['codigo_plantel']))
+$codigo_plantel=ucfirst(trim($_POST['codigo_plantel']));
 
 if(isset($_POST['cedula_representante'])){
   $cedularepresentante=explode("_",trim($_POST['cedula_representante']));
@@ -79,7 +79,7 @@ if($operacion=='Registrar'){
   $persona->telefono_habitacion($telefono_habitacion);
   $persona->telefono_movil($telefono_movil);
   $persona->email($email);
-  $inscripcion->plantel_procedencia($plantel_procedencia);
+  $inscripcion->codigo_plantel($codigo_plantel);
   $inscripcion->cedula_representante($cedula_representante);
   $inscripcion->codigo_parentesco($codigo_parentesco);
   $inscripcion->cedula_estudiante($cedula);
@@ -132,7 +132,7 @@ if($operacion=='Modificar'){
   $persona->telefono_habitacion($telefono_habitacion);
   $persona->telefono_movil($telefono_movil);
   $persona->email($email);
-  $inscripcion->plantel_procedencia($plantel_procedencia);
+  $inscripcion->codigo_plantel($codigo_plantel);
   $inscripcion->cedula_representante($cedula_representante);
   $inscripcion->codigo_parentesco($codigo_parentesco);
   $inscripcion->cedula_estudiante($cedula);
@@ -228,7 +228,7 @@ if($operacion=='Consultar'){
     $_SESSION['datos']['telefono_habitacion']=$persona->telefono_habitacion();
     $_SESSION['datos']['telefono_movil']=$persona->telefono_movil();
     $_SESSION['datos']['email']=$persona->email();
-    $_SESSION['datos']['plantel_procedencia']=$persona->plantel_procedencia();
+    $_SESSION['datos']['codigo_plantel']=$persona->codigo_plantel();
     $_SESSION['datos']['cedula_representante']=$persona->cedula_representante();
     $_SESSION['datos']['codigo_parentesco']=$persona->codigo_parentesco();
     $_SESSION['datos']['esestudiante']=$persona->esestudiante("Y");

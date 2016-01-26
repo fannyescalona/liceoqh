@@ -108,7 +108,6 @@ END //
 --
 
 DROP FUNCTION IF EXISTS letras;
-DELIMITER //
 CREATE FUNCTION letras(XNumero NUMERIC(20,2),  XMoneda VARCHAR(100)) RETURNS VARCHAR(512) 
 DETERMINISTIC 
 
@@ -225,7 +224,8 @@ SET Xresultado = CONCAT(RTRIM(XlcRetorno), ' CON ', LTRIM(XlnFraccion), '/100 ',
 
 RETURN Xresultado; 
 
-END //
+END
+//
 
 --
 --
@@ -573,7 +573,7 @@ CREATE TABLE tproceso_inscripcion (
   codigo_canaima varchar(20) NULL,
   peso float NOT NULL DEFAULT 0,
   estatura float NOT NULL DEFAULT 0,
-  plantel_procedencia varchar(50),
+  codigo_plantel int(11),
   certificado_sextogrado char(1) NOT NULL DEFAULT 'N',
   notascertificadas char(1) NOT NULL DEFAULT 'N',
   cartabuenaconducta char(1) NOT NULL DEFAULT 'N',
@@ -604,7 +604,8 @@ CREATE TABLE tproceso_inscripcion (
   CONSTRAINT fk_tpi_trepresentante FOREIGN KEY (cedula_representante) REFERENCES tpersona (cedula) ON UPDATE CASCADE,
   CONSTRAINT fk_tpi_tparentesco FOREIGN KEY (codigo_parentesco) REFERENCES tparentesco (codigo_parentesco) ON UPDATE CASCADE,
   CONSTRAINT fk_tpi_tlugartrabajo FOREIGN KEY (lugar_trabajo) REFERENCES tparroquia (codigo_parroquia) ON UPDATE CASCADE,
-  CONSTRAINT fk_tpi_tseccion FOREIGN KEY (seccion) REFERENCES tseccion (seccion) ON UPDATE CASCADE
+  CONSTRAINT fk_tpi_tseccion FOREIGN KEY (seccion) REFERENCES tseccion (seccion) ON UPDATE CASCADE,
+  CONSTRAINT fk_tpi_tplantel FOREIGN KEY (codigo_plantel) REFERENCES tplantel (codigo_plantel) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --

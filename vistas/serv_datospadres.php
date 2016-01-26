@@ -8,6 +8,7 @@
       }
       $mysql=new Conexion();
       $sql="SELECT pi.cedula_estudiante,CONCAT(est.nombres,' ',est.apellidos) AS estudiante,
+      Date_Format((est.fecha_nacimiento - interval 12 year),'%d/%m/%Y') AS fecha_nacimiento_estudiante,
       pad.cedula AS cedula_padre,pad.nombres AS nombre_padre,pad.apellidos AS apellido_padre,
       Date_Format(pad.fecha_nacimiento,'%d/%m/%Y') AS fn_padre,CONCAT(pad.lugar_nacimiento,'_',ppad.descripcion) AS ln_padre,
       pad.direccion AS dir_padre,pad.telefono_habitacion AS th_padre,pad.telefono_movil AS tm_padre,pad.email AS email_padre,
@@ -29,6 +30,7 @@
           <div class="row">
             <div class="span6">
               <label>Cédula Estudiante:</label>
+              <input type="hidden" id="fne" value="<?=$row['fecha_nacimiento_estudiante']?>">
               <input title="Cédula del Estudiante" name="cedula_estudiante" id="cedula" type="text" size="10" value="<?=$row['cedula_estudiante'];?>" class="campoTexto" readonly />
             </div>
             <div class="span6">
@@ -40,7 +42,7 @@
           <div class="row">
             <div class="span6">
               <label>Cédula:</label>
-              <input tabindex=1 onKeyUp="this.value=this.value.toUpperCase()" title="Ingrese el número de cédula de la madre" maxlength=10 name="cedula_madre" id="cedula_madre" type="text" size="10" value="<?=$row['cedula_madre'];?>" placeholder="Ingrese el número de Cédula de la Madre" class="campoTexto" />
+              <input tabindex=1 maxlength="10" onKeyUp="this.value=this.value.toUpperCase()" title="Ingrese el número de cédula de la madre" maxlength=10 name="cedula_madre" id="cedula_madre" type="text" size="10" value="<?=$row['cedula_madre'];?>" placeholder="Ingrese el número de Cédula de la Madre" class="campoTexto" />
               <label>Nombre(s):</label>
               <input tabindex=3 title="Ingrese el(los) nombre(s) de la Madre" onKeyPress="return isCharKey(event)" onKeyUp="this.value=this.value.toUpperCase()" name="nombre_madre" id="nombre_madre" type="text" size="50" value="<?=$row['nombre_madre'];?>" placeholder="Ingrese el(los) Nombre(s) de la Madre" class="campoTexto" />
               <label>Fecha de Nacimiento:</label>
@@ -65,7 +67,7 @@
           <div class="row">
             <div class="span6">
               <label>Cédula:</label>
-              <input tabindex=10 onKeyUp="this.value=this.value.toUpperCase()" title="Ingrese el número de cédula del padre" maxlength=10 name="cedula_padre" id="cedula_padre" type="text" size="10" value="<?=$row['cedula_padre'];?>" placeholder="Ingrese el número de Cédula del Padre" class="campoTexto" />
+              <input tabindex=10 maxlength="10" onKeyUp="this.value=this.value.toUpperCase()" title="Ingrese el número de cédula del padre" maxlength=10 name="cedula_padre" id="cedula_padre" type="text" size="10" value="<?=$row['cedula_padre'];?>" placeholder="Ingrese el número de Cédula del Padre" class="campoTexto" />
               <label>Nombre(s):</label>
               <input tabindex=12 title="Ingrese el(los) nombre(s) del Padre" onKeyPress="return isCharKey(event)" onKeyUp="this.value=this.value.toUpperCase()" name="nombre_padre" id="nombre_padre" type="text" size="50" value="<?=$row['nombre_padre'];?>" placeholder="Ingrese el(los) Nombre(s) del Padre" class="campoTexto" />
               <label>Fecha de Nacimiento:</label>
@@ -94,7 +96,7 @@
       <p>
         <label>
           <input type="hidden" name="operacion" value="" id="operacion_tab2" />
-          <input name="cmdRegistrar" type="button" id="cmdForm1" class="btn btn-large" value="Modificar" />
+          <input name="cmdRegistrar" type="button" id="cmdForm1" class="btn btn-large" value="Guardar" />
         </label>
       </p>
     </fieldset>

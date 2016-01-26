@@ -72,7 +72,7 @@ WHERE c.descripcion LIKE '%DIRECTOR%']]>
 			</staticText>
 			<image>
 				<reportElement x="0" y="0" width="435" height="70" uuid="8ed1bb3a-659c-4f1f-83c3-f43e2cb258b6"/>
-				<imageExpression><![CDATA["/var/www/html/liceoqh/images/cintillo_reportes.jpg"]]></imageExpression>
+				<imageExpression><![CDATA["../images/cintillo_reportes.jpg"]]></imageExpression>
 			</image>
 		</band>
 	</title>

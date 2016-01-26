@@ -72,7 +72,7 @@
       <p>
         <label>
           <input type="hidden" name="operacion" value="" id="operacion_tab3" />
-          <input name="cmdRegistrar" type="button" id="cmdForm2" class="btn btn-large" value="Modificar" />
+          <input name="cmdRegistrar" type="button" id="cmdForm2" class="btn btn-large" value="Guardar" />
         </label>
       </p>
     </fieldset>

@@ -10,8 +10,8 @@
 <div class="front-signin" style="background:none; margin:0 auto;">
 <center>  
 
-    <img src="/liceoqh/images/404.png" alt="" ><br>
-    <img src="/liceoqh/images/home.png" alt="" style="width:80px; height:80px;cursor:pointer" onclick="location.href='/liceoqh/'">   
+    <img src="../images/404.png" alt="" ><br>
+    <img src="../images/home.png" alt="" style="width:80px; height:80px;cursor:pointer" onclick="location.href='../index.php'">   
       <br>
 </center>
 </div>

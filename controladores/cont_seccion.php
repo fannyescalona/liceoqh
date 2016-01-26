@@ -40,6 +40,8 @@ if($operacion=='Registrar'){
         $seccion->InsertarMateriasDocentes($_POST['materias'],$_POST['docentes']);
         $confirmacion=1;
       }
+      else
+        $confirmacion=1;
     }
     else
        $confirmacion=-1;
@@ -73,6 +75,8 @@ if($operacion=='Modificar'){
       $seccion->InsertarMateriasDocentes($_POST['materias'],$_POST['docentes']);
       $confirmacion=1;
     }
+    else
+      $confirmacion=1;
   }
   else
    $confirmacion=-1;

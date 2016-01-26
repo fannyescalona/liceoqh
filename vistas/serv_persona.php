@@ -68,7 +68,8 @@ else{
         <div class="row">
           <div class="span6">
             <label>Cédula:</label>
-            <input tabindex=1 onKeyPress="return isRif(event,this.value)" onKeyUp="this.value=this.value.toUpperCase()" title="Ingrese el número de cédula" maxlength=10 name="cedula" id="cedula" type="text" size="10" value="<?= $cedula;?>" placeholder="Ingrese el número de Cédula" class="campoTexto" required />
+            <input type="hidden" name="oldci" value="<?= $cedula;?>">
+            <input tabindex=1 maxlength="10" onKeyPress="return isRif(event,this.value)" onKeyUp="this.value=this.value.toUpperCase()" title="Ingrese el número de cédula" maxlength=10 name="cedula" id="cedula" type="text" size="10" value="<?= $cedula;?>" placeholder="Ingrese el número de Cédula" class="campoTexto" required />
             <label>Nombre(s):</label>
             <input tabindex=3 title="Ingrese el(los) nombre(s) de la Persona" onKeyPress="return isCharKey(event)" onKeyUp="this.value=this.value.toUpperCase()" name="nombres" id="nombres" type="text" size="50" value="<?= $nombres;?>" placeholder="Ingrese el Nombre" class="campoTexto" required />
             <label>Fecha de Nacimiento:</label>
@@ -124,9 +125,9 @@ else{
             <label>Lugar de Nacimiento:</label>
             <input tabindex=6 title="Seleccione una Parroquia" onKeyUp="this.value=this.value.toUpperCase()" name="lugar_nacimiento" id="lugar_nacimiento" type="text" size="50" value="<?= $lugar_nacimiento;?>" placeholder="Seleccione una parroquia" class="campoTexto" required />
             <label>Teléfono de Habitación:</label>
-            <input tabindex=8 maxlength=11 title="Ingrese el número de habitación" onKeyPress="return isNumberKey(event)" name="telefono_habitacion" id="telefono_habitacion" type="text" size="50" value="<?= $telefono_habitacion;?>" placeholder="Ingreso el Número de Habitación" class="campoTexto" required />
+            <input tabindex=8 maxlength=11 title="Ingrese el número de habitación" onKeyPress="return isNumberKey(event)" name="telefono_habitacion" id="telefono_habitacion" type="text" size="50" value="<?= $telefono_habitacion;?>" placeholder="Ingreso el Número de Habitación" class="campoTexto" />
             <label>Teléfono Celular:</label>
-            <input tabindex=9 maxlength=11 title="Ingrese el número de celular" onKeyPress="return isNumberKey(event)" name="telefono_movil" id="telefono_movil" type="text" size="50" value="<?= $telefono_movil;?>" placeholder="Ingrese el Número Celular" class="campoTexto" required />
+            <input tabindex=9 maxlength=11 title="Ingrese el número de celular" onKeyPress="return isNumberKey(event)" name="telefono_movil" id="telefono_movil" type="text" size="50" value="<?= $telefono_movil;?>" placeholder="Ingrese el Número Celular" class="campoTexto" />
             <label>Representante:</label>
             <input tabindex=11 type="radio" name="esrepresentante" id="esrepresentante" value="Y" <?php if($esrepresentante=="Y"){echo "checked"; }?>> SÍ <input type="radio" name="esrepresentante" id="esrepresentante" value="N" <?php if($esrepresentante=="N" || $esrepresentante==NULL){echo "checked"; }?>> NO
             <div id="personal2">

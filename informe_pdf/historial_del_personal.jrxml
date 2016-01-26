@@ -75,7 +75,7 @@ WHERE p.espersonalinstitucion = 'Y' AND p.cedula = $P{cedula}]]>
 			</staticText>
 			<image>
 				<reportElement x="0" y="0" width="475" height="70" uuid="9bdc4c97-01ac-4672-bb3f-86ba1400d281"/>
-				<imageExpression><![CDATA["/var/www/html/liceoqh/images/cintillo_reportes.jpg"]]></imageExpression>
+				<imageExpression><![CDATA["../images/cintillo_reportes.jpg"]]></imageExpression>
 			</image>
 		</band>
 	</title>

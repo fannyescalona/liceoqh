@@ -115,7 +115,7 @@ function init(){
     });
     //Agregar Objeto Calendario al input fecha_nacimiento.
     $('#fecha_nacimiento_estudiante').datepicker({
-        minDate: '-18y',
+        minDate: '-17y',
         maxDate: '-10y',
         showOn: 'both',
         numberOfMonths: 1,
@@ -125,7 +125,7 @@ function init(){
     //Agregar Objeto Calendario al input fecha_nacimiento.
     $('#fecha_nacimiento_padre').datepicker({
         minDate: '-82y',
-        maxDate: '-18y',
+        maxDate: $('#fne').val(),
         showOn: 'both',
         numberOfMonths: 1,
         buttonImage: '../images/calendario.png',
@@ -134,7 +134,7 @@ function init(){
     //Agregar Objeto Calendario al input fecha_nacimiento.
     $('#fecha_nacimiento_madre').datepicker({
         minDate: '-82y',
-        maxDate: '-18y',
+        maxDate: $('#fne').val(),
         showOn: 'both',
         numberOfMonths: 1,
         buttonImage: '../images/calendario.png',
@@ -143,7 +143,7 @@ function init(){
     //Agregar Objeto Calendario al input fecha_nacimiento.
     $('#fecha_nacimiento_representante').datepicker({
         minDate: '-82y',
-        maxDate: '-18y',
+        maxDate: $('#fne').val(),
         showOn: 'both',
         numberOfMonths: 1,
         buttonImage: '../images/calendario.png',

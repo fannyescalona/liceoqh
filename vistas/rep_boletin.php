@@ -1,8 +1,21 @@
 <div class="form_externo" >
   <form method="post" id="form" class="form-horizontal">
     <fieldset>
-      <legend>Constancia de Estudio</legend>
+      <legend>Boletín de Notas</legend>
       <div id="contenedorFormulario">
+        <label>Año Escolar:</label>
+        <select name="codigo_ano_academico" id="codigo_ano_academico" title="Seleccione un año" required class="campoTexto"/>
+          <option value='0'>Seleccione un Año</option>
+          <?php
+            require_once("../clases/class_bd.php");
+            $mysql=new Conexion();
+            $sql = "SELECT codigo_ano_academico,upper(descripcion) descripcion FROM tano_academico WHERE fecha_desactivacion IS NULL ORDER BY codigo_ano_academico";
+            $query = $mysql->Ejecutar($sql);
+            while ($row = $mysql->Respuesta($query)){
+              echo "<option value='".$row['codigo_ano_academico']."'>".$row['descripcion']."</option>";
+            }
+          ?>
+        </select>
         <label>Cédula Estudiante:</label>
         <input title="Seleccione la cédula del estudiante" onKeyUp="this.value=this.value.toUpperCase()" name="cedula" id="cedula" type="text" size="10" placeholder="Seleccione la cédula del estudiante" class="campoTexto"/>
         <br>
@@ -13,7 +26,7 @@
   <script type="text/javascript">
     //  Buscar Estudiantes
     $('#cedula').autocomplete({
-      source:'../autocomplete/estudiante.php', 
+      source:'../autocomplete/estudiantesconnotas.php', 
       minLength:1
     });
     // Generar Reporte
@@ -22,7 +35,8 @@
         cedula = $('#cedula').val();
         cedula = cedula.split('_');
         cedula = cedula[0];
-        url = "../informe_pdf/constancia_estudio.php?cedula_estudiante="+cedula;
+        codigo_ano_academico = $('#codigo_ano_academico').val();
+        url = "../informe_pdf/boletin.php?codigo_ano_academico="+codigo_ano_academico+"&cedula_estudiante="+cedula;
         window.open(url, '_blank'); 
       }
       else{
