@@ -1,32 +1,44 @@
 <?php
 session_start();
 include("../clases/class_usuario.php");
+$preguntas=null;
+$respuestas=null;
 $Usuario=new Usuario();
 $Usuario->user_name(trim($_POST['usuario']));
 $Usuario->password(trim($_POST['contrasena']));
 $res=$Usuario->Buscar();
 if($res!=null){
-   $_SESSION['user_name']=$res['name'];
-   $_SESSION['fullname_user']=$res['fullname_user'];
-   $_SESSION['user_cedula']=$res['cedula'];
-   $_SESSION['user_p1']=$res['p1'];
-   $_SESSION['user_p2']=$res['p2'];
-   $_SESSION['user_r1']=$res['r1'];
-   $_SESSION['user_r2']=$res['r2'];
-   $_SESSION['user_password']=$res['contrasena'];
-   $_SESSION['user_perfil']=$res['perfil'];
-   $_SESSION['user_codigo_perfil']=$res['codigo_perfil'];
-   $_SESSION['user_estado']=$res['estado'];
-   if($res['activar_caducidad']==1)
-   $_SESSION['user_caducidad']=$res['caducidad'];
-   else 
-   $_SESSION['user_caducidad']=0;
-   	$Usuario->Intento_Fallido(false);
-   header("Location: ../vistas/");
+   if($res[0]['estado']==4){
+      $_SESSION['datos']['mensaje']="Usuario bloqueado, contacte al administrador!";
+      header("Location: ../");
+   }else{
+      $_SESSION['user_name']=$res[0]['name'];
+      $_SESSION['fullname_user']=$res[0]['fullname_user'];
+      $_SESSION['user_cedula']=$res[0]['cedula'];
+      $_SESSION['user_pregunta']=$preguntas;
+      $_SESSION['user_respuesta']=$respuestas;
+      $_SESSION['user_password']=$res[0]['contrasena'];
+      $_SESSION['user_perfil']=$res[0]['perfil'];
+      $_SESSION['user_codigo_perfil']=$res[0]['codigo_perfil'];
+      $_SESSION['user_caducidad']=$res[0]['caducidad'];
+      $_SESSION['user_diasaviso']=$res[0]['dias_aviso'];
+      $_SESSION['user_preguntas']=$res[0]['numero_preguntas'];
+      $_SESSION['user_respuestas']=$res[0]['numero_preguntasaresponder'];
+      $_SESSION['user_estado']=$res[0]['estado'];
+      $_SESSION['vigencia_clave']=$res[0]['dias_vigenciaclave'];
+      for($i=0;$i<$res[0]['numero_preguntas'];$i++){
+         $preguntas[]=$res[$i]['preguntas'];
+         $respuestas[]=$res[$i]['respuestas'];
+      }
+      $_SESSION['user_pregunta']=$preguntas;
+      $_SESSION['user_respuesta']=$respuestas;
+      $Usuario->Intento_Fallido(false);
+      header("Location: ../vistas/");
+   }
 }else{
-	$Usuario->Intento_Fallido(true);
-	$Usuario->Desactivar_clave();
-   $_SESSION['datos']['mensaje']="Usuario/Clave Incorrecto!";
+   $Usuario->Intento_Fallido(true);
+   $Usuario->Bloquear_Usuario();
+   $_SESSION['datos']['mensaje']="Usuario/Clave incorrecto!";
    header("Location: ../");
 }
 ?>

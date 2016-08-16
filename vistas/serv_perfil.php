@@ -10,11 +10,13 @@ if(isset($_SESSION['datos']['descripcion'])){
 if(isset($_SESSION['datos'])){
             @$descripcion=$_SESSION['datos']['descripcion'];
             @$codigo_perfil=$_SESSION['datos']['codigo_perfil'];
+            @$codigo_configuracion=$_SESSION['datos']['codigo_configuracion'];
             @$estatus=$_SESSION['datos']['estatus'];
             }
        else{
             $descripcion=null;
             $codigo_perfil=null;
+            $codigo_configuracion=null;
             $estatus=null;
             }
 ?>
@@ -30,6 +32,23 @@ if(isset($_SESSION['datos'])){
         <label>Nombre del Perfil:</label>
         <input title="Ingrese el nombre del perfil de usuario" onKeyUp="this.value=this.value.toUpperCase()" name="descripcion" 
         id="descripcion" type="text" size="20" value="<?= $descripcion;?>"placeholder="Ingrese el Perfil de Usuario" class="campoTexto" required />
+        <label>Seleccione una Configuración:</label>
+        <select name="codigo_configuracion" id="codigo_configuracion" title="Seleccione una Configuración" class="campoTexto" required="">
+          <option value='0'>Seleccione una Configuración</option>
+          <?php
+          require_once("../clases/class_bd.php");
+          $mysql=new Conexion();
+          $sql = "SELECT codigo_configuracion,upper(descripcion) descripcion FROM tconfiguracion WHERE fecha_desactivacion IS NULL ORDER BY codigo_configuracion";
+          $query = $mysql->Ejecutar($sql);
+          while ($row = $mysql->Respuesta($query)){
+            if($row['codigo_configuracion']==$codigo_configuracion){
+              echo "<option value='".$row['codigo_configuracion']."' selected>".$row['descripcion']."</option>";
+            }else{
+              echo "<option value='".$row['codigo_configuracion']."'>".$row['descripcion']."</option>";
+            }
+          }
+          ?>
+        </select> 
         <strong class="obligatorio">Los campos resaltados en rojo son obligatorios</strong>
       </div>    
       <br>
@@ -62,6 +81,7 @@ $servicio_solicitado=strtolower(preg_replace('/(serv_)|(\.php)/','',basename(__F
            <tr> 
                <td> Codigo </td>
                <td>Perfil de usuario</td>
+               <td>Configuración del Perfil</td>
            </tr>
          <?php
 
@@ -70,7 +90,10 @@ $servicio_solicitado=strtolower(preg_replace('/(serv_)|(\.php)/','',basename(__F
   $mysql=new Conexion();
 
 //Sentencia sql (sin limit) 
-$_pagi_sql = "SELECT * FROM tperfil where fecha_desactivacion is null order by codigo_perfil desc"; 
+$_pagi_sql = "SELECT p.codigo_perfil,p.descripcion,c.descripcion AS configuracion 
+FROM tperfil p 
+INNER JOIN tconfiguracion c ON p.codigo_configuracion = c.codigo_configuracion 
+WHERE p.fecha_desactivacion IS NULL ORDER BY p.codigo_perfil DESC"; 
 //cantidad de resultados por página (opcional, por defecto 20) 
 $_pagi_cuantos = 10; 
 //Cadena que separa los enlaces numéricos en la barra de navegación entre páginas.
@@ -84,7 +107,8 @@ $_pagi_nav_num_enlaces=5;
 while($row = mysql_fetch_array($_pagi_result)){ 
     echo "<tr style='cursor: pointer;' id='".$row['descripcion']."' onclick='enviarForm(this.id)'>
     <td style='width:20%;'>".$row['codigo_perfil']."</td>
-    <td align='left'>".$row['descripcion']."</td></tr>"; 
+    <td align='left'>".$row['descripcion']."</td> 
+    <td align='left'>".$row['configuracion']."</td></tr>"; 
 } 
 //Incluimos la barra de navegación 
          ?>

@@ -18,6 +18,7 @@ if(isset($_SESSION['datos'])){
 }
 else{
   @$codigo_inscripcion=null;
+  @$descripcion=null;
   @$fecha_inicio=null;
   @$fecha_fin=null;
   @$fecha_cierre=null;

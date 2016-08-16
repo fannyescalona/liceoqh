@@ -8,6 +8,7 @@
      private $codigo_modulo; 
      private $codigo_opcion; 
      private $descripcion; 
+     private $codigo_configuracion;
      private $fecha_desactivacion; 
      private $estatus_perfil; 
      private $error;
@@ -16,6 +17,7 @@
    public function __construct(){
      $this->descripcion=null;
      $this->codigo_perfil=null;
+     $this->codigo_configuracion=null;
      $this->error=null;
 	 $this->mysql=new Conexion();
    }
@@ -87,8 +89,16 @@
 	   $this->descripcion=func_get_arg(0);
 	 }
    }
-
    
+   public function codigo_configuracion(){
+   $Num_Parametro=func_num_args();
+   if($Num_Parametro==0) return $this->codigo_configuracion;
+     
+   if($Num_Parametro>0){
+     $this->codigo_configuracion=func_get_arg(0);
+   }
+   }
+
    public function fecha_desactivacion(){
       $Num_Parametro=func_num_args();
 	 if($Num_Parametro==0) return $this->fecha_desactivacion;
@@ -108,7 +118,7 @@
    }        
 
    public function Registrar(){
-    $sql="insert into tperfil (descripcion) values ('$this->descripcion');";
+    $sql="insert into tperfil (descripcion,codigo_configuracion) values ('$this->descripcion',$this->codigo_configuracion);";
     if($this->mysql->Ejecutar($sql)!=null)
 	return true;
 	else{
@@ -137,7 +147,7 @@
    }
    
     public function Actualizar(){
-    $sql="update tperfil set descripcion='$this->descripcion' where (codigo_perfil='$this->codigo_perfil');";
+    $sql="update tperfil set descripcion='$this->descripcion',codigo_configuracion=$this->codigo_configuracion where (codigo_perfil='$this->codigo_perfil');";
     if($this->mysql->Ejecutar($sql)!=null)
 	return true;
 	else{
@@ -153,7 +163,8 @@
 	$tperfil=$this->mysql->Respuesta($query);
 	$this->codigo_perfil($tperfil['codigo_perfil']);
 	$this->descripcion($tperfil['descripcion']);
-   $this->estatus_perfil($tperfil['estatus_perfil']);
+  $this->codigo_configuracion($tperfil['codigo_configuracion']);
+  $this->estatus_perfil($tperfil['estatus_perfil']);
 	$this->fecha_desactivacion($tperfil['fecha_desactivacion']);
 	return true;
 	}
@@ -163,7 +174,6 @@
   }
    }
    
-
    public function ELIMINAR_OPCION_SERVICIO_PERFIL(){
     $sql="DELETE FROM tservicio_usuario_opcion where (codigo_perfil='$this->codigo_perfil');";
     if($this->mysql->Ejecutar($sql)!=null)
@@ -172,34 +182,28 @@
     $this->error($this->mysql->Error());
     return false;
   }
-   } 
-   
-   public function INSERTAR_OPCION_SERVICIO_PERFIL(){
-    $sql1="SELECT * FROM tservicio_usuario_opcion WHERE codigo_perfil='$this->codigo_perfil' AND codigo_servicio='$this->codigo_servicio' AND codigo_opcion='$this->codigo_opcion'";
-    $sql="INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES ('$this->codigo_perfil','$this->codigo_servicio','$this->codigo_opcion')";
-    $query=$this->mysql->Ejecutar($sql1);
-    if($this->mysql->Total_Filas($query)==0){
-      if($this->mysql->Ejecutar($sql)!=null)
-        return true;
-      else{
-        $this->error($this->mysql->Error());
-        return false;
+   }
+
+  public function INSERTAR_OPCION_SERVICIO_PERFIL($modulo,$servicio,$opcion){
+    $sql="INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES ";
+    foreach ($servicio as $keyS => $valueS) {
+      if(!empty($opcion[$valueS])){
+        foreach ($opcion[$valueS] as $keyO => $valueO) {
+          $sql.="('$this->codigo_perfil',$valueS,$valueO),";
+        }
+      }else{
+        $sql.="('$this->codigo_perfil',$valueS,NULL),";
       }
-    }else{
+    }
+    $sql=substr($sql,0,-1);
+    $sql=$sql.";";
+    if($this->mysql->Ejecutar($sql)!=null)
+      return true;
+    else{
       $this->error($this->mysql->Error());
       return false;
     }
-   }
-     
-       public function INSERTAR_SERVICIO_PERFIL(){
-    $sql="INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES ('$this->codigo_perfil','$this->codigo_servicio',NULL)";
-    if($this->mysql->Ejecutar($sql)!=null)
-	return true;
-	else{
-    $this->error($this->mysql->Error());
-    return false;
   }
-   }
       public function Consultar_SERVICIOS(){
    $sql="SELECT * FROM tservicio_usuario_opcion tsuo INNER JOIN tperfil tper on tper.codigo_perfil=tsuo.codigo_perfil ";
    $sql.="INNER JOIN tservicio tser on tser.codigo_servicio=tsuo.codigo_servicio ";

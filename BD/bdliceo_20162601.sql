@@ -19,226 +19,228 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `bdliceo`
 --
+DROP DATABASE IF EXISTS bdliceo;
+CREATE DATABASE bdliceo;
+USE bdliceo;
 
-DELIMITER $$
---
--- Funciones
---
-CREATE DEFINER=`admin`@`%` FUNCTION `f_fecha_spanish`(v_fecha DATE,v_tipo int (3)) RETURNS varchar(50) CHARSET latin1
+DROP FUNCTION IF EXISTS f_fecha_spanish;
+DELIMITER //
+CREATE FUNCTION f_fecha_spanish(v_fecha DATE,v_tipo int (3)) RETURNS varchar(50)
 BEGIN
-declare v_dia varchar(20);
-declare v_mes varchar(20);
-declare t_fecha varchar(60);
-case v_tipo
-  when 1 then
-    case date_format(v_fecha,'%w')
-      when 0 then
-        set t_fecha = 'Domingo';
-      when 1 then
-        set t_fecha = 'Lunes';
-      when 2 then
-        set t_fecha = 'Martes';
-      when 3 then
-        set t_fecha = 'Miercoles';
-      when 4 then
-        set t_fecha = 'Jueves';
-      when 5 then
-        set t_fecha = 'Viernes';
-      when 6 then
-        set t_fecha = 'Sábado';
-    end case;
-  when 2 then
-    case date_format(v_fecha,'%m')
-      when '01' then
-        set t_fecha = 'Enero';
-      when '02' then
-        set t_fecha = 'Febrero';
-      when '03' then
-        set t_fecha = 'Marzo';
-      when '04' then
-        set t_fecha = 'Abril';
-      when '05' then
-        set t_fecha = 'Mayo';
-      when '06' then
-        set t_fecha = 'Junio';
-      when '07' then
-        set t_fecha = 'Julio';
-      when '08' then
-        set t_fecha = 'Agosto';
-      when '09' then
-        set t_fecha = 'Septiembre';
-      when '10' then
-        set t_fecha = 'Octubre';
-      when '11' then
-        set t_fecha = 'Noviembre';
-      when '12' then
-        set t_fecha = 'Diciembre';
-    end case;
-  when 3 then
-    case date_format(v_fecha,'%w')
-      when 0 then
-        set t_fecha = 'Domingo';
-      when 1 then
-        set t_fecha = 'Lunes';
-      when 2 then
-        set t_fecha = 'Martes';
-      when 3 then
-        set t_fecha = 'Miercoles';
-      when 4 then
-        set t_fecha = 'Jueves';
-      when 5 then
-        set t_fecha = 'Viernes';
-      when 6 then
-        set t_fecha = 'Sábado';
-    end case;
-    case date_format(v_fecha,'%m')
-      when '01' then
-        set t_fecha = concat(t_fecha,' ',day(v_fecha), ' de Enero del Año ',year(v_fecha));
-      when '02' then
-        set t_fecha = concat(t_fecha,' ',day(v_fecha), ' de Febrero del Año ',year(v_fecha));
-      when '03' then
-        set t_fecha = concat(t_fecha,' ',day(v_fecha), ' de Marzo del Año ',year(v_fecha));
-      when '04' then
-        set t_fecha = concat(t_fecha,' ',day(v_fecha), ' de Abril del Año ',year(v_fecha));
-      when '05' then
-        set t_fecha = concat(t_fecha,' ',day(v_fecha), ' de Mayo del Año ',year(v_fecha));
-      when '06' then
-        set t_fecha = concat(t_fecha,' ',day(v_fecha), ' de Junio del Año ',year(v_fecha));
-      when '07' then
-        set t_fecha = concat(t_fecha,' ',day(v_fecha), ' de Julio del Año ',year(v_fecha));
-      when '08' then
-        set t_fecha = concat(t_fecha,' ',day(v_fecha), ' de Agosto del Año ',year(v_fecha));
-      when '09' then
-        set t_fecha = concat(t_fecha,' ',day(v_fecha), ' de Septiembre del Año ',year(v_fecha));
-      when '10' then
-        set t_fecha = concat(t_fecha,' ',day(v_fecha), ' de Octubre del Año ',year(v_fecha));
-      when '11' then
-        set t_fecha = concat(t_fecha,' ',day(v_fecha), ' de Noviembre del Año ',year(v_fecha));
-      when '12' then
-        set t_fecha = concat(t_fecha,' ',day(v_fecha), ' de Diciembre del Año ',year(v_fecha));
-    end case;
-end case;
-return t_fecha;
-END$$
+  declare v_dia varchar(20);
+  declare v_mes varchar(20);
+  declare t_fecha varchar(60);
+  case v_tipo
+    when 1 then
+      case date_format(v_fecha,'%w')
+        when 0 then
+          set t_fecha = 'Domingo';
+        when 1 then
+          set t_fecha = 'Lunes';
+        when 2 then
+          set t_fecha = 'Martes';
+        when 3 then
+          set t_fecha = 'Miercoles';
+        when 4 then
+          set t_fecha = 'Jueves';
+        when 5 then
+          set t_fecha = 'Viernes';
+        when 6 then
+          set t_fecha = 'Sábado';
+      end case;
+    when 2 then
+      case date_format(v_fecha,'%m')
+        when '01' then
+          set t_fecha = 'Enero';
+        when '02' then
+          set t_fecha = 'Febrero';
+        when '03' then
+          set t_fecha = 'Marzo';
+        when '04' then
+          set t_fecha = 'Abril';
+        when '05' then
+          set t_fecha = 'Mayo';
+        when '06' then
+          set t_fecha = 'Junio';
+        when '07' then
+          set t_fecha = 'Julio';
+        when '08' then
+          set t_fecha = 'Agosto';
+        when '09' then
+          set t_fecha = 'Septiembre';
+        when '10' then
+          set t_fecha = 'Octubre';
+        when '11' then
+          set t_fecha = 'Noviembre';
+        when '12' then
+          set t_fecha = 'Diciembre';
+      end case;
+    when 3 then
+      case date_format(v_fecha,'%w')
+        when 0 then
+          set t_fecha = 'Domingo';
+        when 1 then
+          set t_fecha = 'Lunes';
+        when 2 then
+          set t_fecha = 'Martes';
+        when 3 then
+          set t_fecha = 'Miercoles';
+        when 4 then
+          set t_fecha = 'Jueves';
+        when 5 then
+          set t_fecha = 'Viernes';
+        when 6 then
+          set t_fecha = 'Sábado';
+      end case;
+      case date_format(v_fecha,'%m')
+        when '01' then
+          set t_fecha = concat(t_fecha,' ',day(v_fecha), ' de Enero del Año ',year(v_fecha));
+        when '02' then
+          set t_fecha = concat(t_fecha,' ',day(v_fecha), ' de Febrero del Año ',year(v_fecha));
+        when '03' then
+          set t_fecha = concat(t_fecha,' ',day(v_fecha), ' de Marzo del Año ',year(v_fecha));
+        when '04' then
+          set t_fecha = concat(t_fecha,' ',day(v_fecha), ' de Abril del Año ',year(v_fecha));
+        when '05' then
+          set t_fecha = concat(t_fecha,' ',day(v_fecha), ' de Mayo del Año ',year(v_fecha));
+        when '06' then
+          set t_fecha = concat(t_fecha,' ',day(v_fecha), ' de Junio del Año ',year(v_fecha));
+        when '07' then
+          set t_fecha = concat(t_fecha,' ',day(v_fecha), ' de Julio del Año ',year(v_fecha));
+        when '08' then
+          set t_fecha = concat(t_fecha,' ',day(v_fecha), ' de Agosto del Año ',year(v_fecha));
+        when '09' then
+          set t_fecha = concat(t_fecha,' ',day(v_fecha), ' de Septiembre del Año ',year(v_fecha));
+        when '10' then
+          set t_fecha = concat(t_fecha,' ',day(v_fecha), ' de Octubre del Año ',year(v_fecha));
+        when '11' then
+          set t_fecha = concat(t_fecha,' ',day(v_fecha), ' de Noviembre del Año ',year(v_fecha));
+        when '12' then
+          set t_fecha = concat(t_fecha,' ',day(v_fecha), ' de Diciembre del Año ',year(v_fecha));
+      end case;
+  end case;
+  return t_fecha;
+END
 
-CREATE DEFINER=`admin`@`%` FUNCTION `letras`(XNumero NUMERIC(20,2),  XMoneda VARCHAR(100)) RETURNS varchar(512) CHARSET latin1
-    DETERMINISTIC
+--
+--
+-- create function letras;
+--
+
+DROP FUNCTION IF EXISTS letras;
+CREATE FUNCTION letras(XNumero NUMERIC(20,2),  XMoneda VARCHAR(100)) RETURNS VARCHAR(512) 
+DETERMINISTIC 
+
 BEGIN 
-DECLARE XlnEntero INT; 
-DECLARE XlcRetorno VARCHAR(512); 
-DECLARE XlnTerna INT; 
-DECLARE XlcMiles VARCHAR(512); 
-DECLARE XlcCadena VARCHAR(512); 
-DECLARE XlnUnidades INT; 
-DECLARE XlnDecenas INT; 
-DECLARE XlnCentenas INT; 
-DECLARE XlnFraccion INT; 
-DECLARE Xresultado varchar(512); 
+  DECLARE XlnEntero INT; 
+  DECLARE XlcRetorno VARCHAR(512); 
+  DECLARE XlnTerna INT; 
+  DECLARE XlcMiles VARCHAR(512); 
+  DECLARE XlcCadena VARCHAR(512); 
+  DECLARE XlnUnidades INT; 
+  DECLARE XlnDecenas INT; 
+  DECLARE XlnCentenas INT; 
+  DECLARE XlnFraccion INT; 
+  DECLARE Xresultado varchar(512); 
 
-SET XlnEntero = FLOOR(XNumero); 
-SET XlnFraccion = (XNumero - XlnEntero) * 100; 
-SET XlcRetorno = ''; 
-SET XlnTerna = 1 ; 
-    WHILE( XlnEntero > 0) DO 
+  SET XlnEntero = FLOOR(XNumero); 
+  SET XlnFraccion = (XNumero - XlnEntero) * 100; 
+  SET XlcRetorno = ''; 
+  SET XlnTerna = 1 ; 
+      WHILE( XlnEntero > 0) DO 
 
-        
-        SET XlcCadena = ''; 
-        SET XlnUnidades = XlnEntero MOD 10; 
-        SET XlnEntero = FLOOR(XlnEntero/10); 
-        SET XlnDecenas = XlnEntero MOD 10; 
-        SET XlnEntero = FLOOR(XlnEntero/10); 
-        SET XlnCentenas = XlnEntero MOD 10; 
-        SET XlnEntero = FLOOR(XlnEntero/10); 
+          #Recorro terna por terna 
+          SET XlcCadena = ''; 
+          SET XlnUnidades = XlnEntero MOD 10; 
+          SET XlnEntero = FLOOR(XlnEntero/10); 
+          SET XlnDecenas = XlnEntero MOD 10; 
+          SET XlnEntero = FLOOR(XlnEntero/10); 
+          SET XlnCentenas = XlnEntero MOD 10; 
+          SET XlnEntero = FLOOR(XlnEntero/10); 
 
-        
-        SET XlcCadena = 
-            CASE 
-                WHEN XlnUnidades = 1 AND XlnTerna = 1 THEN CONCAT('UNO ', XlcCadena) 
-                WHEN XlnUnidades = 1 AND XlnTerna <> 1 THEN CONCAT('UN ', XlcCadena) 
-                WHEN XlnUnidades = 2 THEN CONCAT('DOS ', XlcCadena) 
-                WHEN XlnUnidades = 3 THEN CONCAT('TRES ', XlcCadena) 
-                WHEN XlnUnidades = 4 THEN CONCAT('CUATRO ', XlcCadena) 
-                WHEN XlnUnidades = 5 THEN CONCAT('CINCO ', XlcCadena) 
-                WHEN XlnUnidades = 6 THEN CONCAT('SEIS ', XlcCadena) 
-                WHEN XlnUnidades = 7 THEN CONCAT('SIETE ', XlcCadena) 
-                WHEN XlnUnidades = 8 THEN CONCAT('OCHO ', XlcCadena) 
-                WHEN XlnUnidades = 9 THEN CONCAT('NUEVE ', XlcCadena) 
-                ELSE XlcCadena 
-            END; 
+          #Analizo las unidades 
+          SET XlcCadena = 
+              CASE # UNIDADES 
+                  WHEN XlnUnidades = 1 AND XlnTerna = 1 THEN CONCAT('UNO ', XlcCadena) 
+                  WHEN XlnUnidades = 1 AND XlnTerna <> 1 THEN CONCAT('UN ', XlcCadena) 
+                  WHEN XlnUnidades = 2 THEN CONCAT('DOS ', XlcCadena) 
+                  WHEN XlnUnidades = 3 THEN CONCAT('TRES ', XlcCadena) 
+                  WHEN XlnUnidades = 4 THEN CONCAT('CUATRO ', XlcCadena) 
+                  WHEN XlnUnidades = 5 THEN CONCAT('CINCO ', XlcCadena) 
+                  WHEN XlnUnidades = 6 THEN CONCAT('SEIS ', XlcCadena) 
+                  WHEN XlnUnidades = 7 THEN CONCAT('SIETE ', XlcCadena) 
+                  WHEN XlnUnidades = 8 THEN CONCAT('OCHO ', XlcCadena) 
+                  WHEN XlnUnidades = 9 THEN CONCAT('NUEVE ', XlcCadena) 
+                  ELSE XlcCadena 
+              END; #UNIDADES 
 
-        
-        SET XlcCadena = 
-            CASE 
-                WHEN XlnDecenas = 1 THEN 
-                    CASE XlnUnidades 
-                        WHEN 0 THEN 'DIEZ ' 
-                        WHEN 1 THEN 'ONCE ' 
-                        WHEN 2 THEN 'DOCE ' 
-                        WHEN 3 THEN 'TRECE ' 
-                        WHEN 4 THEN 'CATORCE ' 
-                        WHEN 5 THEN 'QUINCE' 
-                        ELSE CONCAT('DIECI', XlcCadena) 
-                    END 
-                WHEN XlnDecenas = 2 AND XlnUnidades = 0 THEN CONCAT('VEINTE ', XlcCadena) 
-                WHEN XlnDecenas = 2 AND XlnUnidades <> 0 THEN CONCAT('VEINTI', XlcCadena) 
-                WHEN XlnDecenas = 3 AND XlnUnidades = 0 THEN CONCAT('TREINTA ', XlcCadena) 
-                WHEN XlnDecenas = 3 AND XlnUnidades <> 0 THEN CONCAT('TREINTA Y ', XlcCadena) 
-                WHEN XlnDecenas = 4 AND XlnUnidades = 0 THEN CONCAT('CUARENTA ', XlcCadena) 
-                WHEN XlnDecenas = 4 AND XlnUnidades <> 0 THEN CONCAT('CUARENTA Y ', XlcCadena) 
-                WHEN XlnDecenas = 5 AND XlnUnidades = 0 THEN CONCAT('CINCUENTA ', XlcCadena) 
-                WHEN XlnDecenas = 5 AND XlnUnidades <> 0 THEN CONCAT('CINCUENTA Y ', XlcCadena) 
-                WHEN XlnDecenas = 6 AND XlnUnidades = 0 THEN CONCAT('SESENTA ', XlcCadena) 
-                WHEN XlnDecenas = 6 AND XlnUnidades <> 0 THEN CONCAT('SESENTA Y ', XlcCadena) 
-                WHEN XlnDecenas = 7 AND XlnUnidades = 0 THEN CONCAT('SETENTA ', XlcCadena) 
-                WHEN XlnDecenas = 7 AND XlnUnidades <> 0 THEN CONCAT('SETENTA Y ', XlcCadena) 
-                WHEN XlnDecenas = 8 AND XlnUnidades = 0 THEN CONCAT('OCHENTA ', XlcCadena) 
-                WHEN XlnDecenas = 8 AND XlnUnidades <> 0 THEN CONCAT('OCHENTA Y ', XlcCadena) 
-                WHEN XlnDecenas = 9 AND XlnUnidades = 0 THEN CONCAT('NOVENTA ', XlcCadena) 
-                WHEN XlnDecenas = 9 AND XlnUnidades <> 0 THEN CONCAT('NOVENTA Y ', XlcCadena) 
-                ELSE XlcCadena 
-            END; 
+          #Analizo las decenas 
+          SET XlcCadena = 
+              CASE #DECENAS 
+                  WHEN XlnDecenas = 1 THEN 
+                      CASE XlnUnidades 
+                          WHEN 0 THEN 'DIEZ ' 
+                          WHEN 1 THEN 'ONCE ' 
+                          WHEN 2 THEN 'DOCE ' 
+                          WHEN 3 THEN 'TRECE ' 
+                          WHEN 4 THEN 'CATORCE ' 
+                          WHEN 5 THEN 'QUINCE' 
+                          ELSE CONCAT('DIECI', XlcCadena) 
+                      END 
+                  WHEN XlnDecenas = 2 AND XlnUnidades = 0 THEN CONCAT('VEINTE ', XlcCadena) 
+                  WHEN XlnDecenas = 2 AND XlnUnidades <> 0 THEN CONCAT('VEINTI', XlcCadena) 
+                  WHEN XlnDecenas = 3 AND XlnUnidades = 0 THEN CONCAT('TREINTA ', XlcCadena) 
+                  WHEN XlnDecenas = 3 AND XlnUnidades <> 0 THEN CONCAT('TREINTA Y ', XlcCadena) 
+                  WHEN XlnDecenas = 4 AND XlnUnidades = 0 THEN CONCAT('CUARENTA ', XlcCadena) 
+                  WHEN XlnDecenas = 4 AND XlnUnidades <> 0 THEN CONCAT('CUARENTA Y ', XlcCadena) 
+                  WHEN XlnDecenas = 5 AND XlnUnidades = 0 THEN CONCAT('CINCUENTA ', XlcCadena) 
+                  WHEN XlnDecenas = 5 AND XlnUnidades <> 0 THEN CONCAT('CINCUENTA Y ', XlcCadena) 
+                  WHEN XlnDecenas = 6 AND XlnUnidades = 0 THEN CONCAT('SESENTA ', XlcCadena) 
+                  WHEN XlnDecenas = 6 AND XlnUnidades <> 0 THEN CONCAT('SESENTA Y ', XlcCadena) 
+                  WHEN XlnDecenas = 7 AND XlnUnidades = 0 THEN CONCAT('SETENTA ', XlcCadena) 
+                  WHEN XlnDecenas = 7 AND XlnUnidades <> 0 THEN CONCAT('SETENTA Y ', XlcCadena) 
+                  WHEN XlnDecenas = 8 AND XlnUnidades = 0 THEN CONCAT('OCHENTA ', XlcCadena) 
+                  WHEN XlnDecenas = 8 AND XlnUnidades <> 0 THEN CONCAT('OCHENTA Y ', XlcCadena) 
+                  WHEN XlnDecenas = 9 AND XlnUnidades = 0 THEN CONCAT('NOVENTA ', XlcCadena) 
+                  WHEN XlnDecenas = 9 AND XlnUnidades <> 0 THEN CONCAT('NOVENTA Y ', XlcCadena) 
+                  ELSE XlcCadena 
+              END; #DECENAS 
 
-        
-        SET XlcCadena = 
-            CASE 
-                WHEN XlnCentenas = 1 AND XlnUnidades = 0 AND XlnDecenas = 0 THEN CONCAT('CIEN ', XlcCadena) 
-                WHEN XlnCentenas = 1 AND NOT(XlnUnidades = 0 AND XlnDecenas = 0) THEN CONCAT('CIENTO ', XlcCadena) 
-                WHEN XlnCentenas = 2 THEN CONCAT('DOSCIENTOS ', XlcCadena) 
-                WHEN XlnCentenas = 3 THEN CONCAT('TRESCIENTOS ', XlcCadena) 
-                WHEN XlnCentenas = 4 THEN CONCAT('CUATROCIENTOS ', XlcCadena) 
-                WHEN XlnCentenas = 5 THEN CONCAT('QUINIENTOS ', XlcCadena) 
-                WHEN XlnCentenas = 6 THEN CONCAT('SEISCIENTOS ', XlcCadena) 
-                WHEN XlnCentenas = 7 THEN CONCAT('SETECIENTOS ', XlcCadena) 
-                WHEN XlnCentenas = 8 THEN CONCAT('OCHOCIENTOS ', XlcCadena) 
-                WHEN XlnCentenas = 9 THEN CONCAT('NOVECIENTOS ', XlcCadena) 
-                ELSE XlcCadena 
-            END; 
+          # Analizo las centenas 
+          SET XlcCadena = 
+              CASE # CENTENAS 
+                  WHEN XlnCentenas = 1 AND XlnUnidades = 0 AND XlnDecenas = 0 THEN CONCAT('CIEN ', XlcCadena) 
+                  WHEN XlnCentenas = 1 AND NOT(XlnUnidades = 0 AND XlnDecenas = 0) THEN CONCAT('CIENTO ', XlcCadena) 
+                  WHEN XlnCentenas = 2 THEN CONCAT('DOSCIENTOS ', XlcCadena) 
+                  WHEN XlnCentenas = 3 THEN CONCAT('TRESCIENTOS ', XlcCadena) 
+                  WHEN XlnCentenas = 4 THEN CONCAT('CUATROCIENTOS ', XlcCadena) 
+                  WHEN XlnCentenas = 5 THEN CONCAT('QUINIENTOS ', XlcCadena) 
+                  WHEN XlnCentenas = 6 THEN CONCAT('SEISCIENTOS ', XlcCadena) 
+                  WHEN XlnCentenas = 7 THEN CONCAT('SETECIENTOS ', XlcCadena) 
+                  WHEN XlnCentenas = 8 THEN CONCAT('OCHOCIENTOS ', XlcCadena) 
+                  WHEN XlnCentenas = 9 THEN CONCAT('NOVECIENTOS ', XlcCadena) 
+                  ELSE XlcCadena 
+              END; #CENTENAS 
 
-        
-        SET XlcCadena = 
-            CASE 
-                WHEN XlnTerna = 1 THEN XlcCadena 
-                WHEN XlnTerna = 2 AND (XlnUnidades + XlnDecenas + XlnCentenas <> 0) THEN CONCAT(XlcCadena,  'MIL ') 
-                WHEN XlnTerna = 3 AND (XlnUnidades + XlnDecenas + XlnCentenas <> 0) AND XlnUnidades = 1 AND XlnDecenas = 0 AND XlnCentenas = 0 THEN CONCAT(XlcCadena, 'MILLON ') 
-                WHEN XlnTerna = 3 AND (XlnUnidades + XlnDecenas + XlnCentenas <> 0) AND NOT (XlnUnidades = 1 AND XlnDecenas = 0 AND XlnCentenas = 0) THEN CONCAT(XlcCadena, 'MILLONES ') 
-                WHEN XlnTerna = 4 AND (XlnUnidades + XlnDecenas + XlnCentenas <> 0) THEN CONCAT(XlcCadena, 'MIL MILLONES ') 
-                ELSE '' 
-            END; 
+          # Analizo la terna 
+          SET XlcCadena = 
+              CASE # TERNA 
+                  WHEN XlnTerna = 1 THEN XlcCadena 
+                  WHEN XlnTerna = 2 AND (XlnUnidades + XlnDecenas + XlnCentenas <> 0) THEN CONCAT(XlcCadena,  'MIL ') 
+                  WHEN XlnTerna = 3 AND (XlnUnidades + XlnDecenas + XlnCentenas <> 0) AND XlnUnidades = 1 AND XlnDecenas = 0 AND XlnCentenas = 0 THEN CONCAT(XlcCadena, 'MILLON ') 
+                  WHEN XlnTerna = 3 AND (XlnUnidades + XlnDecenas + XlnCentenas <> 0) AND NOT (XlnUnidades = 1 AND XlnDecenas = 0 AND XlnCentenas = 0) THEN CONCAT(XlcCadena, 'MILLONES ') 
+                  WHEN XlnTerna = 4 AND (XlnUnidades + XlnDecenas + XlnCentenas <> 0) THEN CONCAT(XlcCadena, 'MIL MILLONES ') 
+                  ELSE '' 
+              END; #TERNA 
 
-        
-        SET XlcRetorno = CONCAT(XlcCadena, XlcRetorno); 
-        SET XlnTerna = XlnTerna + 1; 
-    END WHILE; 
-
-    IF XlnTerna = 1 THEN SET XlcRetorno = 'CERO'; END IF; 
-
-SET Xresultado = CONCAT(RTRIM(XlcRetorno), ' CON ', LTRIM(XlnFraccion), '/100 ', XMoneda); 
-
-RETURN Xresultado; 
-
-END$$
-
-DELIMITER ;
+          #Armo el retorno terna a terna 
+          SET XlcRetorno = CONCAT(XlcCadena, XlcRetorno); 
+          SET XlnTerna = XlnTerna + 1; 
+      END WHILE; # WHILE 
+      IF XlnTerna = 1 THEN SET XlcRetorno = 'CERO'; END IF; 
+  SET Xresultado = CONCAT(RTRIM(XlcRetorno), ' CON ', LTRIM(XlnFraccion), '/100 ', XMoneda); 
+  RETURN Xresultado; 
+END
 
 -- --------------------------------------------------------
 
@@ -2168,7 +2170,7 @@ INSERT INTO `tauditoria` (`id`, `ip`, `so`, `navigador`, `usuario_base_de_datos`
 (1884, '127.0.0.1', 'Linux', 'Google Chrome', 'root@localhost', 'V123456789', 'insert into tmateria (codigo_materia,descripcion,unidad_curricular,grado_escolar) values (''CST001'',''CIENCIAS DE LA TIERRA'',''5'',''5'');', '2016-01-19 02:32:14'),
 (1885, '127.0.0.1', 'Linux', 'Google Chrome', 'root@localhost', 'V123456789', 'insert into tmateria (codigo_materia,descripcion,unidad_curricular,grado_escolar) values (''IPM2'',''INSTRUCCION PREMILITAR'',''2'',''5'');', '2016-01-19 02:32:36'),
 (1886, '127.0.0.1', 'Linux', 'Google Chrome', 'root@localhost', 'V123456789', 'INSERT INTO tpersona (cedula,nombres,apellidos,genero,fecha_nacimiento,lugar_nacimiento,direccion,telefono_habitacion,telefono_movil,email,esestudiante,esrepresentante,espersonalinstitucion,fecha_ingreso,codigo_cargo,codigo_dependencia,codigo_dependencia_anterior,condicion_cargo,nivel_academico,carga_horaria,codigo_plantel) VALUES (''V5942165'',''ERNESTINA DEL CARMEN'',''ESCALONA'',''F'',STR_TO_DATE(''13/10/1961'',''%d/%m/%Y''),''6'',''ARAURE'',''02554564532'',''04121669007'',''ernerstinau@hotmail.com'',''N'',''N'',''Y'',STR_TO_DATE(''15/11/2002'',''%d/%m/%Y''),3,'''','''','''',''LCDO(A).'',''38'',''1249834983H'');', '2016-01-19 03:15:42'),
-(1887, '127.0.0.1', 'Linux', 'Google Chrome', 'root@localhost', 'V123456789', 'INSERT INTO tplantel (codigo_plantel,nombre,direccion,telefono_habitacion,localidad,codigo_municipio,email) VALUES (''OD00741801'',''LICEO BOLIVARIANO QUEBRADA HONDA'',''CALLE #3 CENTRO POBLADO "B" QUEBRADA HONDA'',''02558084598'','''',''2'',''llbqh@hotmail.com'');', '2016-01-19 03:23:38'),
+(1887, '127.0.0.1', 'Linux', 'Google Chrome', 'root@localhost', 'V123456789', 'INSERT INTO tplantel (codigo_plantel,nombre,direccion,telefono_habitacion,localidad,codigo_municipio,email) VALUES (''OD00741801'',''Unidad Educativa Nacional Quebrada Honda'',''CALLE #3 CENTRO POBLADO "B" QUEBRADA HONDA'',''02558084598'','''',''2'',''llbqh@hotmail.com'');', '2016-01-19 03:23:38'),
 (1888, '127.0.0.1', 'Linux', 'Google Chrome', 'root@localhost', 'V123456789', 'UPDATE tpersona SET cedula=''V5942165'',nombres=''ERNESTINA DEL CARMEN'',apellidos=''ESCALONA'',genero=''F'',fecha_nacimiento=STR_TO_DATE(''13/10/1961'',''%d/%m/%Y''),lugar_nacimiento=''6'',direccion=''ARAURE'',telefono_habitacion=''02554564532'',telefono_movil=''04121669007'',email=''ernerstinau@hotmail.com'',esestudiante=''N'',esrepresentante=''N'',espersonalinstitucion=''Y'',codigo_cargo=3,fecha_ingreso=STR_TO_DATE(''15/11/2002'',''%d/%m/%Y''),codigo_dependencia='''',codigo_dependencia_anterior='''',condicion_cargo=''F'',nivel_academico=''LCDO(A).'',carga_horaria=''38'',codigo_plantel=''OD00741801'' WHERE cedula=''V5942165'';', '2016-01-19 03:24:27'),
 (1889, '127.0.0.1', 'Linux', 'Google Chrome', 'root@localhost', 'V123456789', 'INSERT INTO tpersona (cedula,nombres,apellidos,genero,fecha_nacimiento,lugar_nacimiento,direccion,telefono_habitacion,telefono_movil,email,esestudiante,esrepresentante,espersonalinstitucion,fecha_ingreso,codigo_cargo,codigo_dependencia,codigo_dependencia_anterior,condicion_cargo,nivel_academico,carga_horaria,codigo_plantel) VALUES (''V9565053'',''GLADYS TIBISAY'',''SOTO COLMENAREZ'',''F'',STR_TO_DATE(''03/01/1967'',''%d/%m/%Y''),''1'',''ACARIGUA'',''02554565334'',''04167168710'','''',''N'',''N'',''Y'',STR_TO_DATE(''07/03/2007'',''%d/%m/%Y''),2,'''','''',''F'',''LCDO(A).'',''27'',''OD00741801'');', '2016-01-19 03:29:04'),
 (1890, '127.0.0.1', 'Linux', 'Google Chrome', 'root@localhost', 'V123456789', 'INSERT INTO tpersona (cedula,nombres,apellidos,genero,fecha_nacimiento,lugar_nacimiento,direccion,telefono_habitacion,telefono_movil,email,esestudiante,esrepresentante,espersonalinstitucion,fecha_ingreso,codigo_cargo,codigo_dependencia,codigo_dependencia_anterior,condicion_cargo,nivel_academico,carga_horaria,codigo_plantel) VALUES (''V18843196'',''AMANDA MARIA'',''ZERPA MENDOZA'',''F'',STR_TO_DATE(''06/07/1986'',''%d/%m/%Y''),''5'',''AGUA BLANCA'',''02557485569'',''04261986568'',''amanda.zerpa.7@hotmail.com'',''N'',''N'',''Y'',STR_TO_DATE(''01/04/2009'',''%d/%m/%Y''),2,'''','''',''C'',''T.S.U.'',''20'',''OD00741801'');', '2016-01-19 03:33:46'),
@@ -4161,7 +4163,7 @@ INSERT INTO `tplantel` (`codigo_plantel`, `nombre`, `direccion`, `telefono_habit
 ('12345645343', 'LICEO BOLIVARIANO TOCUYANO', 'CENTRO "I" TOCUYANO', '02556345678', 'TOCUYANO', '', 2, NULL),
 ('1249834983H', 'AGUA BLANCA', 'MUNICIPIO AGUA BLANCA', '02558765645', 'AGUA BLANCA', '', 2, NULL),
 ('21345687654', 'LICEO BOLIVARIANO PIRITAL', 'CENTRO POBLADO PIRITAL', '02553456784', 'PIRITAL', '', 2, NULL),
-('OD00741801', 'LICEO BOLIVARIANO QUEBRADA HONDA', 'CALLE #3 CENTRO POBLADO "B" QUEBRADA HONDA', '02558084598', '', 'llbqh@hotmail.com', 2, NULL);
+('OD00741801', 'Unidad Educativa Nacional Quebrada Honda', 'CALLE #3 CENTRO POBLADO "B" QUEBRADA HONDA', '02558084598', '', 'llbqh@hotmail.com', 2, NULL);
 
 -- --------------------------------------------------------
 

@@ -30,7 +30,7 @@
     fechah = document.getElementById('fecha_hasta').value;
     usuario = document.getElementById('usuario').value;
     operacion = document.getElementById('operacion').value;
-    location.href="index.php?auditoria&fecha_desde="+fechad+"&fecha_hasta="+fechah+"&usuario="+usuario+"&operacion="+operacion;
+    location.href="index.php?bitacora&fecha_desde="+fechad+"&fecha_hasta="+fechah+"&usuario="+usuario+"&operacion="+operacion;
   }
 </script>
 <fieldset>
@@ -46,13 +46,13 @@
               <?php
                 require_once("../clases/class_bd.php");
                 $mysql=new Conexion();
-                $sql = "SELECT nombre_usuarios FROM tusuarios WHERE fecha_desactivacion IS NULL ORDER BY nombre_usuarios";
+                $sql = "SELECT nombre_usuario FROM tusuario WHERE fecha_desactivacion IS NULL ORDER BY nombre_usuario";
                 $query = $mysql->Ejecutar($sql);
                 while ($row = $mysql->Respuesta($query)){
-                  if($row['nombre_usuarios']==$usuario){
-                    echo "<option value='".$row['nombre_usuarios']."' selected>".$row['nombre_usuarios']."</option>";
+                  if($row['nombre_usuario']==$usuario){
+                    echo "<option value='".$row['nombre_usuario']."' selected>".$row['nombre_usuario']."</option>";
                   }else{
-                    echo "<option value='".$row['nombre_usuarios']."'>".$row['nombre_usuarios']."</option>";
+                    echo "<option value='".$row['nombre_usuario']."'>".$row['nombre_usuario']."</option>";
                   }
                 }
               ?>
@@ -149,7 +149,6 @@ $_pagi_separador = " ";
 $_pagi_nav_num_enlaces=5;
 //Incluimos el script de paginación. Éste ya ejecuta la consulta automáticamente 
 @include("../librerias/paginador/paginator.inc.php"); 
-
 //Leemos y escribimos los registros de la página actual 
 while($row = mysql_fetch_array($_pagi_result)){ 
     echo "<tr><td>".$row['fecha']."</td>

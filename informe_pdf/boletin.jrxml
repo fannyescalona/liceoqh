@@ -280,7 +280,7 @@ ORDER BY l.descripcion,m.descripcion]]>
 				<textElement textAlignment="Center">
 					<font isBold="true"/>
 				</textElement>
-				<text><![CDATA[LICEO BOLIVARIANO QUEBRADA HONDA
+				<text><![CDATA[U.E.N. QUEBRADA HONDA 
 BOLENTIN DE CALIFICACIONES]]></text>
 			</staticText>
 		</band>

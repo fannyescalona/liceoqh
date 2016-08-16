@@ -9,16 +9,22 @@ $id=ucfirst(trim($_POST['codigo_perfil']));
 if(isset($_POST['descripcion']))
 $descripcion=ucfirst(trim($_POST['descripcion']));
 
+if(isset($_POST['codigo_configuracion']))
+$codigo_configuracion=ucfirst(trim($_POST['codigo_configuracion']));
 
 include_once("../clases/class_perfil.php");
 $perfil=new Perfil();
 if($operacion=='Registrar'){
   $perfil->codigo_perfil($id);
   $perfil->descripcion($descripcion);
+  $perfil->codigo_configuracion($codigo_configuracion);
   if(!$perfil->Comprobar()){
     if($perfil->Registrar()){
       $confirmacion=1;			                   			                   
-      $perfil->ELIMINAR_OPCION_SERVICIO_PERFIL();
+      if(isset($_POST['modulos']) && isset($_POST['servicios']) && isset($_POST['opciones'])){
+        $perfil->ELIMINAR_OPCION_SERVICIO_PERFIL();
+        $perfil->INSERTAR_OPCION_SERVICIO_PERFIL($_POST['modulos'],$_POST['servicios'],$_POST['opciones']);
+      }
     }else
       $confirmacion=-1;
   }else{
@@ -41,25 +47,13 @@ if($operacion=='Registrar'){
 if($operacion=='Modificar'){
   $perfil->codigo_perfil($id);
   $perfil->descripcion($descripcion);
+  $perfil->codigo_configuracion($codigo_configuracion);
   //if(!$perfil->Consultar()){
   if($perfil->Actualizar()){
     $confirmacion=1;
-    $perfil->ELIMINAR_OPCION_SERVICIO_PERFIL();
-    if(isset($_POST['modulos'])){
-      foreach($_POST['modulos'] as $indiceM => $valorM){
-        if(isset($_POST['servicios'])){ 				   	 	
-          foreach($_POST['servicios'] as $indiceS => $valorS){
-            $perfil->codigo_servicio($valorS);  
-            $perfil->INSERTAR_SERVICIO_PERFIL();           	       	
-            if(isset($_POST['opciones'])){ 				   	 			   	 	
-              foreach($_POST['opciones'][$valorS] as $indiceO => $valorO){
-                $perfil->codigo_opcion($valorO);            	       		   	 	
-                $perfil->INSERTAR_OPCION_SERVICIO_PERFIL();
-              }				   	 				   	 	        
-            }			   	 				   	 				   	 			   	 	           
-          }
-        }
-      }			   
+    if(isset($_POST['modulos']) && isset($_POST['servicios']) && isset($_POST['opciones'])){
+      $perfil->ELIMINAR_OPCION_SERVICIO_PERFIL();
+      $perfil->INSERTAR_OPCION_SERVICIO_PERFIL($_POST['modulos'],$_POST['servicios'],$_POST['opciones']);
     }
   }
   else
@@ -119,6 +113,7 @@ if($operacion=='Consultar'){
   if($perfil->Consultar()){
     $_SESSION['datos']['codigo_perfil']=$perfil->codigo_perfil();
     $_SESSION['datos']['descripcion']=$perfil->descripcion();
+    $_SESSION['datos']['codigo_configuracion']=$perfil->codigo_configuracion();
     $_SESSION['datos']['estatus']=$perfil->estatus_perfil();
     header("Location: ../vistas/?perfiles");
   }else{

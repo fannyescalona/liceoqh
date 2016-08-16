@@ -1,21 +1,9 @@
 <?php
 session_start(); 
-
 if(isset($_POST['cambiar_clave_con_logeo'])){
-  if(!(isset($_SESSION['user_name']) and isset($_SESSION['user_password']) and $_SESSION['user_perfil']))
-    header("Location: controladores/cont_desconectar.php");
-  else if($_SESSION['user_password']!=sha1(md5($_POST['contrasena']))){
-    $_SESSION['datos']['mensaje']=utf8_encode("Ud. ingresó una contraseña incorrecta!");
-    header("Location: ../vistas/");
-  }else if($_POST['nueva_contrasena']!=$_POST['confirmar_contrasena']){
+  if($_POST['nueva_contrasena']!=$_POST['confirmar_contrasena']){
     $_SESSION['datos']['mensaje']=utf8_encode("las contraseñas no coeciden!");
-    header("Location: ../vistas/");
-  }else if(strlen($_POST['nueva_contrasena'])<6){
-    $_SESSION['datos']['mensaje']=utf8_encode("la contraseña debe tener mínimo 6 caracteres!");
-    header("Location: ../vistas/");
-  }else if(strlen($_POST['nueva_contrasena'])>10){
-    $_SESSION['datos']['mensaje']=utf8_encode("la contraseña debe tener máximo 10 caracteres!");
-    header("Location: ../vistas/");
+    header("Location: ../vistas/?cambiarcontrasena");
   }else if($_POST['nueva_contrasena']==$_POST['confirmar_contrasena']){
     include("../clases/class_usuario.php");
     $Usuario=new Usuario();
@@ -46,12 +34,9 @@ if(isset($_POST['operacion']) and $_POST['operacion']=='Registrar'){
   //  Establecemos la cedula en el objeto
   $Usuario->cedula($cedula);
   if($Usuario->Consultar_personal()){
-    $Usuario=new Usuario();
     $Usuario->rol(trim($_POST['rol']));
-    $user_name=explode('_',trim($_POST['cedula']));
-    $Usuario->user_name($user_name[0]);
-    $cedula=explode('_',trim($_POST['cedula']));
-    $Usuario->cedula($cedula[0]);
+    $Usuario->user_name($cedula_persona[0]);
+    $Usuario->cedula($cedula_persona[0]);
     $Usuario->password("12345678");
     if(!$Usuario->Registrar()){
       $_SESSION['datos']['mensaje']=utf8_encode("Lo sentimos, el usuario no se ha podido registrar. Intenta más tarde");
@@ -69,16 +54,20 @@ if(isset($_POST['operacion']) and $_POST['operacion']=='Registrar'){
 if(isset($_POST['operacion']) and $_POST['operacion']=='Modificar' and !isset($_POST['rol'])){
   include("../clases/class_usuario.php");
   $Usuario=new Usuario();
-  $Usuario->pregunta_uno($_POST['p1']);
-  $Usuario->pregunta_dos($_POST['p2']);
-  $Usuario->respuesta_uno($_POST['r1']);
-  $Usuario->respuesta_dos($_POST['r2']);
   $Usuario->user_name($_POST['nombre_usuario']);
-  if($Usuario->Actualizar($_SESSION['user_name'])){
-    $_SESSION['user_p1']=$Usuario->pregunta_uno();
-    $_SESSION['user_p2']=$Usuario->pregunta_dos();
-    $_SESSION['user_r1']=$Usuario->respuesta_uno();
-    $_SESSION['user_r2']=$Usuario->respuesta_dos();  	
+  if($Usuario->Actualizar($_SESSION['user_name'],$_SESSION['user_pregunta'],$_POST['pregunta'],$_POST['respuesta'])){
+    $Usuario->user_name($_POST['nombre_usuario']);
+    $res=$Usuario->Buscar();
+    if($res!=null){
+      for($i=0;$i<$res[0]['numero_preguntas'];$i++){
+         $preguntas[]=$res[$i]['preguntas'];
+         $respuestas[]=$res[$i]['respuestas'];
+      }
+      unset($_SESSION['user_pregunta']);
+      unset($_SESSION['user_respuesta']);
+      $_SESSION['user_pregunta']=$preguntas;
+      $_SESSION['user_respuesta']=$respuestas;
+    }
     $_SESSION['datos']['mensaje']="Los cambios han sido guardados éxitosamente!";
     $_SESSION['user_estado']=1;
     header("Location: ../vistas/");
@@ -101,6 +90,65 @@ if(isset($_POST['operacion']) and $_POST['operacion']=='Modificar' and isset($_P
   }
 }
 
+/*
+if(isset($_POST['operacion']) and $_POST['operacion']=='Modificar'){
+  include("../clases/class_usuario.php");
+  $Usuario=new Usuario();
+  if($_SESSION['user_estado']<>3){
+    $Usuario->user_name($_POST['nombre_usuario']);
+    if($Usuario->Actualizar($_SESSION['user_name'],$_SESSION['user_pregunta'],$_POST['pregunta'],$_POST['respuesta'])){
+      $Usuario->user_name($_POST['nombre_usuario']);
+      $res=$Usuario->Buscar();
+      if($res!=null){
+        for($i=0;$i<$res[0]['numero_preguntas'];$i++){
+           $preguntas[]=$res[$i]['preguntas'];
+           $respuestas[]=$res[$i]['respuestas'];
+        }
+        unset($_SESSION['user_pregunta']);
+        unset($_SESSION['user_respuesta']);
+        $_SESSION['user_pregunta']=$preguntas;
+        $_SESSION['user_respuesta']=$respuestas;
+      }
+      $_SESSION['datos']['mensaje']="Los cambios han sido guardados éxitosamente!";
+      $_SESSION['user_estado']=1;
+      header("Location: ../vistas/");
+    }else{
+      $_SESSION['datos']['mensaje']="Lo sentimos, los datos no se han podido actualizar. Intenta más tarde";
+      header("Location: ../vistas/");
+    }
+  }
+  else{
+    $Usuario->user_name($_POST['nombre_usuario']);
+    $Usuario->contrasena($_POST['nueva_contrasena']);
+    if($Usuario->Cambiar_Clave($_SESSION['user_name'])){
+      if($Usuario->CompletarDatos($_SESSION['user_name'],$_POST['pregunta'],$_POST['respuesta'])){
+        $Usuario->user_name($_POST['nombre_usuario']);
+        $res=$Usuario->Buscar();
+        if($res!=null){
+          for($i=0;$i<$res[0]['numero_preguntas'];$i++){
+             $preguntas[]=$res[$i]['preguntas'];
+             $respuestas[]=$res[$i]['respuestas'];
+          }
+          unset($_SESSION['user_pregunta']);
+          unset($_SESSION['user_respuesta']);
+          $_SESSION['user_pregunta']=$preguntas;
+          $_SESSION['user_respuesta']=$respuestas;
+        }
+        $_SESSION['datos']['mensaje']="¡Se han realizado los cambios exitosamente!";
+        $_SESSION['user_estado']=1;
+        header("Location: ../view/menu_principal.php");
+      }else{
+        $_SESSION['datos']['mensaje']="¡Ocurrió un error al actualizar los datos, intenta más tarde!";
+        header("Location: ../view/menu_principal.php");
+      }
+    }else{
+      $_SESSION['datos']['mensaje']="¡Ocurrió un error al actualizar los datos, intenta más tarde!";
+      header("Location: ../view/menu_principal.php");
+    }
+  }
+}
+*/
+
 if(isset($_POST['operacion']) and $_POST['operacion']=='Consultar'){
   include("../clases/class_usuario.php");
   $Usuario=new Usuario();
@@ -118,12 +166,6 @@ if(isset($_POST['operacion']) and $_POST['operacion']=='Consultar'){
 if(isset($_POST['cambiar_clave_sin_logeo'])){
   if($_POST['nueva_contrasena']!=$_POST['confirmar_contrasena']){
     $_SESSION['datos']['mensaje']=utf8_encode("las contraseñas no coeciden!");
-    header("Location: ../");
-  }else if(strlen($_POST['nueva_contrasena'])<6){
-    $_SESSION['datos']['mensaje']=utf8_encode("la contraseña debe tener mínimo 6 caracteres!");
-    header("Location: ../");
-  }else if(strlen($_POST['nueva_contrasena'])>10){
-    $_SESSION['datos']['mensaje']=utf8_encode("la contraseña  debe tener máximo 10 caracteres!");
     header("Location: ../");
   }else if($_POST['nueva_contrasena']==$_POST['confirmar_contrasena']){
     include("../clases/class_usuario.php");

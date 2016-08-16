@@ -1,49 +1,35 @@
+<script type="text/javascript" src="../js/uds_usuario.js"></script>
+<?php
+	require_once('../clases/class_bd.php'); 
+	$conexion = new Conexion();
+	$sql = "SELECT c.* FROM tconfiguracion c 
+	INNER JOIN tperfil p ON p.codigo_configuracion = c.codigo_configuracion 
+	WHERE p.codigo_perfil = '".$_SESSION['user_codigo_perfil']."'";
+	$query=$conexion->Ejecutar($sql);
+	if($Obj=$conexion->Respuesta($query)){
+		echo "<input type='hidden' id='longitud_minclave' value='".$Obj['longitud_minclave']."' />";
+		echo "<input type='hidden' id='longitud_maxclave' value='".$Obj['longitud_maxclave']."' />";
+		echo "<input type='hidden' id='cantidad_letrasmayusculas' value='".$Obj['cantidad_letrasmayusculas']."' />";
+		echo "<input type='hidden' id='cantidad_letrasminusculas' value='".$Obj['cantidad_letrasminusculas']."' />";
+		echo "<input type='hidden' id='cantidad_caracteresespeciales' value='".$Obj['cantidad_caracteresespeciales']."' />";
+		echo "<input type='hidden' id='cantidad_numeros' value='".$Obj['cantidad_numeros']."' />";
+	}
+?>
 <article>
-   	<div id="cambiar_clave" class="efecto2">
-		<?php if(isset($_SESSION['pregunta_respuesta']) and $_SESSION['pregunta_respuesta']==3){ ?>
-		<form action="../controladores/cont_cambiar_clave.php" method='post' id="form_interior" name="form_interior" >
-			<fieldset>
-				<input type="hidden" name="procedencia" value="<?php if(isset($_POST['pagina'])) echo 0; else echo 1;?>" placeholder="" class="campoTexto"/>
-				<input title="Clave actual" type="hidden" id="contrasena" name="contrasena" size="25" value="<?php echo $_SESSION['user_password'];?>" placeholder="Ingrese su Clave Actual" class="campoTexto" required/>
+	<form action="../controladores/cont_cambiar_clave.php" method='post' id="form_interior" name="form_interior" onsubmit='return validar_contrasena()'>
+		<fieldset>
+			<legend>Cambiar Contrase&ntilde;a</legend>
+			<div id="contenedorFormulario">
+				<label>Contrase&ntilde;a Actual:</label>
+				<input type="hidden" name="cambiar_clave_con_logeo"/>
+				<input title="Clave actual" type="password" id="contrasena" name="contrasena" size="25" value="<?php echo $_SESSION['user_password'];?>" class="campoTexto" readonly required/>
+				<label>Contrase&ntilde;a Nueva:</label>
 				<input type="password" id="nueva_contrasena" name="nueva_contrasena" size="25" placeholder="Ingrese la nueva clave" title="Ingrese la nueva clave" placeholder="Ingrese la Nueva Clave" class="campoTexto"required/>
+				<label>Confirmar Contrase&ntilde;a:</label>
 				<input type="password" id="confirmar_contrasena" name="confirmar_contrasena" size="25" title="Confirme su nueva clave" placeholder="Confirmar Nueva Clave" class="campoTexto"required/>
+				<strong class="obligatorio">Los campos resaltados en rojo son obligatorios</strong><br />
 				<input type="submit" value="Aceptar" class="boton" name="bt_cambiar_clave_sin_login" id="bt_cambiar_clave" />
-				<input type="hidden" value="<?php echo $_SESSION['pregunta_respuesta'];?>" name="accion"/>
-				<strong class="obligatorio">Los campos resaltados en rojo son obligatorios</strong>
-				</div>    
-				<br>
-				<?php echo '<p class="'.$estatus.'" id="estatus_registro">'.$estatus.'</p>'; ?>
-				<?php
-				imprimir_boton($disabledRC,$disabledMD,$estatus,$servicios);
-				?>   
-			</fieldset> 
-		</form>
-		<br>
-		<?php }else{?>
-		<form action="../controladores/cont_recuperar_clave.php" method='post' style="padding:3em">
-			<fieldset>
-				<legend>Cambiar Contrase&ntilde;a</legend>
-				<div id="contenedorFormulario">
-					<label> <?php if(@$_SESSION['pregunta_respuesta']==0) echo "Nombre usuario";
-					else if($_SESSION['pregunta_respuesta']==1){
-					echo '¿'.ucfirst($_SESSION['user_p1']).'?';
-					}else if($_SESSION['pregunta_respuesta']==2){
-					echo '¿'.ucfirst($_SESSION['user_p2']).'?';
-					}
-					?></label><br>
-					<input type="text" id='user_name' name='user_name' title="Ingrese nombre de usuario a cambiar la clave" placeholder="Ingrese nombre de usuario a cambiar la clave" class="campoTexto" required/><br>
-					<input type="submit" class="boton"/>
-					<input type="hidden" value="<?php echo $_SESSION['pregunta_respuesta'];?>" name="accion"/>
-				</div>
-			</fieldset> 
-		</form>
-		<?php } unset($_SESSION['pregunta_respuesta']);?>
-	</div>
+			</div>
+		</fieldset> 
+	</form>
 </article>
-<?php if(@$_SESSION['pregunta_respuesta']==0 && isset($_GET['cambiar_clave'])){
-       echo "
-         <script>
-            document.forms[0].user_name.value='".$_SESSION['user_name']."'
-            document.forms[0].submit();
-        </script>";
-	}?>

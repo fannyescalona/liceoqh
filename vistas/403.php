@@ -18,7 +18,7 @@
 </header>
 <center>
 	<footer>
-		<p>&copy Liceo Bolivariano "Quebrada Honda", 2015</p>
+		<p>&copy Unidad Educativa Nacional "Quebrada Honda", 2015</p>
 	</footer>
 </center>
 </body>

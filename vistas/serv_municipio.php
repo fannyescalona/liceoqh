@@ -11,13 +11,13 @@ $servicios='municipio';
 if(isset($_SESSION['datos'])){
   @$descripcion=$_SESSION['datos']['descripcion'];
   @$codigo_municipio=$_SESSION['datos']['codigo_municipio'];
-  @$codigo_ciudad=$_SESSION['datos']['codigo_estado'];
+  @$codigo_estado=$_SESSION['datos']['codigo_estado'];
   @$estatus=$_SESSION['datos']['estatus'];             
 }
 else{
   @$descripcion=null;
   @$codigo_municipio=null;
-  @$codigo_ciudad=null;
+  @$codigo_estado=null;
   @$estatus=null;
 }
 ?>
@@ -42,7 +42,7 @@ else{
         $sql = "SELECT codigo_estado,upper(descripcion) descripcion FROM testado WHERE fecha_desactivacion IS NULL ORDER BY codigo_estado";
         $query = $mysql->Ejecutar($sql);
         while ($row = $mysql->Respuesta($query)){
-          if($row['codigo_estado']==$codigo_ciudad){
+          if($row['codigo_estado']==$codigo_estado){
             echo "<option value='".$row['codigo_estado']."' selected>".$row['descripcion']."</option>";
           }else{
             echo "<option value='".$row['codigo_estado']."'>".$row['descripcion']."</option>";
