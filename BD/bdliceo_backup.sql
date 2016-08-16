@@ -1,13 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.2.12deb2
+-- version 3.5.1
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tiempo de generación: 26-01-2016 a las 06:17:30
--- Versión del servidor: 5.5.44-0+deb8u1
--- Versión de PHP: 5.6.13-0+deb8u1
+-- Tiempo de generación: 16-08-2016 a las 10:48:49
+-- Versión del servidor: 5.5.24-log
+-- Versión de PHP: 5.4.3
 
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
 
@@ -19,13 +19,113 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `bdliceo`
 --
-DROP DATABASE IF EXISTS bdliceo;
-CREATE DATABASE bdliceo;
-USE bdliceo;
 
-DROP FUNCTION IF EXISTS f_fecha_spanish;
-DELIMITER //
-CREATE FUNCTION f_fecha_spanish(v_fecha DATE,v_tipo int (3)) RETURNS varchar(50)
+DELIMITER $$
+--
+-- Funciones
+--
+DROP FUNCTION IF EXISTS `f_fecha_spanish`$$
+CREATE DEFINER=`root`@`localhost` FUNCTION `f_fecha_spanish`(`v_fecha` DATE, `v_tipo` INT(3)) RETURNS varchar(50) CHARSET utf8
+    NO SQL
+BEGIN
+declare v_dia varchar(20);
+declare v_mes varchar(20);
+declare t_fecha varchar(60);
+case v_tipo
+  when 1 then
+    case date_format(v_fecha,'%w')
+      when 0 then
+        set t_fecha = 'Domingo';
+      when 1 then
+        set t_fecha = 'Lunes';
+      when 2 then
+        set t_fecha = 'Martes';
+      when 3 then
+        set t_fecha = 'Miercoles';
+      when 4 then
+        set t_fecha = 'Jueves';
+      when 5 then
+        set t_fecha = 'Viernes';
+      when 6 then
+        set t_fecha = 'Sábado';
+    end case;
+  when 2 then
+    case date_format(v_fecha,'%m')
+      when '01' then
+        set t_fecha = 'Enero';
+      when '02' then
+        set t_fecha = 'Febrero';
+      when '03' then
+        set t_fecha = 'Marzo';
+      when '04' then
+        set t_fecha = 'Abril';
+      when '05' then
+        set t_fecha = 'Mayo';
+      when '06' then
+        set t_fecha = 'Junio';
+      when '07' then
+        set t_fecha = 'Julio';
+      when '08' then
+        set t_fecha = 'Agosto';
+      when '09' then
+        set t_fecha = 'Septiembre';
+      when '10' then
+        set t_fecha = 'Octubre';
+      when '11' then
+        set t_fecha = 'Noviembre';
+      when '12' then
+        set t_fecha = 'Diciembre';
+    end case;
+  when 3 then
+    case date_format(v_fecha,'%w')
+      when 0 then
+        set t_fecha = 'Domingo';
+      when 1 then
+        set t_fecha = 'Lunes';
+      when 2 then
+        set t_fecha = 'Martes';
+      when 3 then
+        set t_fecha = 'Miercoles';
+      when 4 then
+        set t_fecha = 'Jueves';
+      when 5 then
+        set t_fecha = 'Viernes';
+      when 6 then
+        set t_fecha = 'Sábado';
+    end case;
+    case date_format(v_fecha,'%m')
+      when '01' then
+        set t_fecha = concat(t_fecha,' ',day(v_fecha), ' de Enero del Año ',year(v_fecha));
+      when '02' then
+        set t_fecha = concat(t_fecha,' ',day(v_fecha), ' de Febrero del Año ',year(v_fecha));
+      when '03' then
+        set t_fecha = concat(t_fecha,' ',day(v_fecha), ' de Marzo del Año ',year(v_fecha));
+      when '04' then
+        set t_fecha = concat(t_fecha,' ',day(v_fecha), ' de Abril del Año ',year(v_fecha));
+      when '05' then
+        set t_fecha = concat(t_fecha,' ',day(v_fecha), ' de Mayo del Año ',year(v_fecha));
+      when '06' then
+        set t_fecha = concat(t_fecha,' ',day(v_fecha), ' de Junio del Año ',year(v_fecha));
+      when '07' then
+        set t_fecha = concat(t_fecha,' ',day(v_fecha), ' de Julio del Año ',year(v_fecha));
+      when '08' then
+        set t_fecha = concat(t_fecha,' ',day(v_fecha), ' de Agosto del Año ',year(v_fecha));
+      when '09' then
+        set t_fecha = concat(t_fecha,' ',day(v_fecha), ' de Septiembre del Año ',year(v_fecha));
+      when '10' then
+        set t_fecha = concat(t_fecha,' ',day(v_fecha), ' de Octubre del Año ',year(v_fecha));
+      when '11' then
+        set t_fecha = concat(t_fecha,' ',day(v_fecha), ' de Noviembre del Año ',year(v_fecha));
+      when '12' then
+        set t_fecha = concat(t_fecha,' ',day(v_fecha), ' de Diciembre del Año ',year(v_fecha));
+    end case;
+end case;
+return t_fecha;
+END$$
+
+DROP FUNCTION IF EXISTS `letras`$$
+CREATE DEFINER=`root`@`localhost` FUNCTION `letras`(`XNumero` FLOAT(20), `XMoneda` VARCHAR(100) CHARSET utf8) RETURNS varchar(512) CHARSET utf8
+    NO SQL
 BEGIN
   declare v_dia varchar(20);
   declare v_mes varchar(20);
@@ -120,127 +220,9 @@ BEGIN
       end case;
   end case;
   return t_fecha;
-END
+END$$
 
---
---
--- create function letras;
---
-
-DROP FUNCTION IF EXISTS letras;
-CREATE FUNCTION letras(XNumero NUMERIC(20,2),  XMoneda VARCHAR(100)) RETURNS VARCHAR(512) 
-DETERMINISTIC 
-
-BEGIN 
-  DECLARE XlnEntero INT; 
-  DECLARE XlcRetorno VARCHAR(512); 
-  DECLARE XlnTerna INT; 
-  DECLARE XlcMiles VARCHAR(512); 
-  DECLARE XlcCadena VARCHAR(512); 
-  DECLARE XlnUnidades INT; 
-  DECLARE XlnDecenas INT; 
-  DECLARE XlnCentenas INT; 
-  DECLARE XlnFraccion INT; 
-  DECLARE Xresultado varchar(512); 
-
-  SET XlnEntero = FLOOR(XNumero); 
-  SET XlnFraccion = (XNumero - XlnEntero) * 100; 
-  SET XlcRetorno = ''; 
-  SET XlnTerna = 1 ; 
-      WHILE( XlnEntero > 0) DO 
-
-          #Recorro terna por terna 
-          SET XlcCadena = ''; 
-          SET XlnUnidades = XlnEntero MOD 10; 
-          SET XlnEntero = FLOOR(XlnEntero/10); 
-          SET XlnDecenas = XlnEntero MOD 10; 
-          SET XlnEntero = FLOOR(XlnEntero/10); 
-          SET XlnCentenas = XlnEntero MOD 10; 
-          SET XlnEntero = FLOOR(XlnEntero/10); 
-
-          #Analizo las unidades 
-          SET XlcCadena = 
-              CASE # UNIDADES 
-                  WHEN XlnUnidades = 1 AND XlnTerna = 1 THEN CONCAT('UNO ', XlcCadena) 
-                  WHEN XlnUnidades = 1 AND XlnTerna <> 1 THEN CONCAT('UN ', XlcCadena) 
-                  WHEN XlnUnidades = 2 THEN CONCAT('DOS ', XlcCadena) 
-                  WHEN XlnUnidades = 3 THEN CONCAT('TRES ', XlcCadena) 
-                  WHEN XlnUnidades = 4 THEN CONCAT('CUATRO ', XlcCadena) 
-                  WHEN XlnUnidades = 5 THEN CONCAT('CINCO ', XlcCadena) 
-                  WHEN XlnUnidades = 6 THEN CONCAT('SEIS ', XlcCadena) 
-                  WHEN XlnUnidades = 7 THEN CONCAT('SIETE ', XlcCadena) 
-                  WHEN XlnUnidades = 8 THEN CONCAT('OCHO ', XlcCadena) 
-                  WHEN XlnUnidades = 9 THEN CONCAT('NUEVE ', XlcCadena) 
-                  ELSE XlcCadena 
-              END; #UNIDADES 
-
-          #Analizo las decenas 
-          SET XlcCadena = 
-              CASE #DECENAS 
-                  WHEN XlnDecenas = 1 THEN 
-                      CASE XlnUnidades 
-                          WHEN 0 THEN 'DIEZ ' 
-                          WHEN 1 THEN 'ONCE ' 
-                          WHEN 2 THEN 'DOCE ' 
-                          WHEN 3 THEN 'TRECE ' 
-                          WHEN 4 THEN 'CATORCE ' 
-                          WHEN 5 THEN 'QUINCE' 
-                          ELSE CONCAT('DIECI', XlcCadena) 
-                      END 
-                  WHEN XlnDecenas = 2 AND XlnUnidades = 0 THEN CONCAT('VEINTE ', XlcCadena) 
-                  WHEN XlnDecenas = 2 AND XlnUnidades <> 0 THEN CONCAT('VEINTI', XlcCadena) 
-                  WHEN XlnDecenas = 3 AND XlnUnidades = 0 THEN CONCAT('TREINTA ', XlcCadena) 
-                  WHEN XlnDecenas = 3 AND XlnUnidades <> 0 THEN CONCAT('TREINTA Y ', XlcCadena) 
-                  WHEN XlnDecenas = 4 AND XlnUnidades = 0 THEN CONCAT('CUARENTA ', XlcCadena) 
-                  WHEN XlnDecenas = 4 AND XlnUnidades <> 0 THEN CONCAT('CUARENTA Y ', XlcCadena) 
-                  WHEN XlnDecenas = 5 AND XlnUnidades = 0 THEN CONCAT('CINCUENTA ', XlcCadena) 
-                  WHEN XlnDecenas = 5 AND XlnUnidades <> 0 THEN CONCAT('CINCUENTA Y ', XlcCadena) 
-                  WHEN XlnDecenas = 6 AND XlnUnidades = 0 THEN CONCAT('SESENTA ', XlcCadena) 
-                  WHEN XlnDecenas = 6 AND XlnUnidades <> 0 THEN CONCAT('SESENTA Y ', XlcCadena) 
-                  WHEN XlnDecenas = 7 AND XlnUnidades = 0 THEN CONCAT('SETENTA ', XlcCadena) 
-                  WHEN XlnDecenas = 7 AND XlnUnidades <> 0 THEN CONCAT('SETENTA Y ', XlcCadena) 
-                  WHEN XlnDecenas = 8 AND XlnUnidades = 0 THEN CONCAT('OCHENTA ', XlcCadena) 
-                  WHEN XlnDecenas = 8 AND XlnUnidades <> 0 THEN CONCAT('OCHENTA Y ', XlcCadena) 
-                  WHEN XlnDecenas = 9 AND XlnUnidades = 0 THEN CONCAT('NOVENTA ', XlcCadena) 
-                  WHEN XlnDecenas = 9 AND XlnUnidades <> 0 THEN CONCAT('NOVENTA Y ', XlcCadena) 
-                  ELSE XlcCadena 
-              END; #DECENAS 
-
-          # Analizo las centenas 
-          SET XlcCadena = 
-              CASE # CENTENAS 
-                  WHEN XlnCentenas = 1 AND XlnUnidades = 0 AND XlnDecenas = 0 THEN CONCAT('CIEN ', XlcCadena) 
-                  WHEN XlnCentenas = 1 AND NOT(XlnUnidades = 0 AND XlnDecenas = 0) THEN CONCAT('CIENTO ', XlcCadena) 
-                  WHEN XlnCentenas = 2 THEN CONCAT('DOSCIENTOS ', XlcCadena) 
-                  WHEN XlnCentenas = 3 THEN CONCAT('TRESCIENTOS ', XlcCadena) 
-                  WHEN XlnCentenas = 4 THEN CONCAT('CUATROCIENTOS ', XlcCadena) 
-                  WHEN XlnCentenas = 5 THEN CONCAT('QUINIENTOS ', XlcCadena) 
-                  WHEN XlnCentenas = 6 THEN CONCAT('SEISCIENTOS ', XlcCadena) 
-                  WHEN XlnCentenas = 7 THEN CONCAT('SETECIENTOS ', XlcCadena) 
-                  WHEN XlnCentenas = 8 THEN CONCAT('OCHOCIENTOS ', XlcCadena) 
-                  WHEN XlnCentenas = 9 THEN CONCAT('NOVECIENTOS ', XlcCadena) 
-                  ELSE XlcCadena 
-              END; #CENTENAS 
-
-          # Analizo la terna 
-          SET XlcCadena = 
-              CASE # TERNA 
-                  WHEN XlnTerna = 1 THEN XlcCadena 
-                  WHEN XlnTerna = 2 AND (XlnUnidades + XlnDecenas + XlnCentenas <> 0) THEN CONCAT(XlcCadena,  'MIL ') 
-                  WHEN XlnTerna = 3 AND (XlnUnidades + XlnDecenas + XlnCentenas <> 0) AND XlnUnidades = 1 AND XlnDecenas = 0 AND XlnCentenas = 0 THEN CONCAT(XlcCadena, 'MILLON ') 
-                  WHEN XlnTerna = 3 AND (XlnUnidades + XlnDecenas + XlnCentenas <> 0) AND NOT (XlnUnidades = 1 AND XlnDecenas = 0 AND XlnCentenas = 0) THEN CONCAT(XlcCadena, 'MILLONES ') 
-                  WHEN XlnTerna = 4 AND (XlnUnidades + XlnDecenas + XlnCentenas <> 0) THEN CONCAT(XlcCadena, 'MIL MILLONES ') 
-                  ELSE '' 
-              END; #TERNA 
-
-          #Armo el retorno terna a terna 
-          SET XlcRetorno = CONCAT(XlcCadena, XlcRetorno); 
-          SET XlnTerna = XlnTerna + 1; 
-      END WHILE; # WHILE 
-      IF XlnTerna = 1 THEN SET XlcRetorno = 'CERO'; END IF; 
-  SET Xresultado = CONCAT(RTRIM(XlcRetorno), ' CON ', LTRIM(XlnFraccion), '/100 ', XMoneda); 
-  RETURN Xresultado; 
-END
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -248,12 +230,14 @@ END
 -- Estructura de tabla para la tabla `tano_academico`
 --
 
+DROP TABLE IF EXISTS `tano_academico`;
 CREATE TABLE IF NOT EXISTS `tano_academico` (
-`codigo_ano_academico` int(11) NOT NULL,
+  `codigo_ano_academico` int(11) NOT NULL AUTO_INCREMENT,
   `descripcion` char(10) COLLATE utf8_spanish_ci NOT NULL,
   `cerrardo` char(1) COLLATE utf8_spanish_ci NOT NULL DEFAULT 'N',
-  `fecha_desactivacion` date DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+  `fecha_desactivacion` date DEFAULT NULL,
+  PRIMARY KEY (`codigo_ano_academico`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=2 ;
 
 --
 -- Volcado de datos para la tabla `tano_academico`
@@ -268,16 +252,18 @@ INSERT INTO `tano_academico` (`codigo_ano_academico`, `descripcion`, `cerrardo`,
 -- Estructura de tabla para la tabla `tauditoria`
 --
 
+DROP TABLE IF EXISTS `tauditoria`;
 CREATE TABLE IF NOT EXISTS `tauditoria` (
-`id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `ip` varchar(15) COLLATE utf8_spanish_ci NOT NULL,
   `so` varchar(50) COLLATE utf8_spanish_ci NOT NULL,
   `navigador` varchar(35) COLLATE utf8_spanish_ci NOT NULL,
   `usuario_base_de_datos` varchar(60) COLLATE utf8_spanish_ci NOT NULL,
   `usuario_aplicacion` char(15) COLLATE utf8_spanish_ci NOT NULL,
   `query` text COLLATE utf8_spanish_ci NOT NULL,
-  `fecha` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB AUTO_INCREMENT=2972 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+  `fecha` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=3336 ;
 
 --
 -- Volcado de datos para la tabla `tauditoria`
@@ -2170,7 +2156,7 @@ INSERT INTO `tauditoria` (`id`, `ip`, `so`, `navigador`, `usuario_base_de_datos`
 (1884, '127.0.0.1', 'Linux', 'Google Chrome', 'root@localhost', 'V123456789', 'insert into tmateria (codigo_materia,descripcion,unidad_curricular,grado_escolar) values (''CST001'',''CIENCIAS DE LA TIERRA'',''5'',''5'');', '2016-01-19 02:32:14'),
 (1885, '127.0.0.1', 'Linux', 'Google Chrome', 'root@localhost', 'V123456789', 'insert into tmateria (codigo_materia,descripcion,unidad_curricular,grado_escolar) values (''IPM2'',''INSTRUCCION PREMILITAR'',''2'',''5'');', '2016-01-19 02:32:36'),
 (1886, '127.0.0.1', 'Linux', 'Google Chrome', 'root@localhost', 'V123456789', 'INSERT INTO tpersona (cedula,nombres,apellidos,genero,fecha_nacimiento,lugar_nacimiento,direccion,telefono_habitacion,telefono_movil,email,esestudiante,esrepresentante,espersonalinstitucion,fecha_ingreso,codigo_cargo,codigo_dependencia,codigo_dependencia_anterior,condicion_cargo,nivel_academico,carga_horaria,codigo_plantel) VALUES (''V5942165'',''ERNESTINA DEL CARMEN'',''ESCALONA'',''F'',STR_TO_DATE(''13/10/1961'',''%d/%m/%Y''),''6'',''ARAURE'',''02554564532'',''04121669007'',''ernerstinau@hotmail.com'',''N'',''N'',''Y'',STR_TO_DATE(''15/11/2002'',''%d/%m/%Y''),3,'''','''','''',''LCDO(A).'',''38'',''1249834983H'');', '2016-01-19 03:15:42'),
-(1887, '127.0.0.1', 'Linux', 'Google Chrome', 'root@localhost', 'V123456789', 'INSERT INTO tplantel (codigo_plantel,nombre,direccion,telefono_habitacion,localidad,codigo_municipio,email) VALUES (''OD00741801'',''Unidad Educativa Nacional Quebrada Honda'',''CALLE #3 CENTRO POBLADO "B" QUEBRADA HONDA'',''02558084598'','''',''2'',''llbqh@hotmail.com'');', '2016-01-19 03:23:38'),
+(1887, '127.0.0.1', 'Linux', 'Google Chrome', 'root@localhost', 'V123456789', 'INSERT INTO tplantel (codigo_plantel,nombre,direccion,telefono_habitacion,localidad,codigo_municipio,email) VALUES (''OD00741801'',''LICEO BOLIVARIANO QUEBRADA HONDA'',''CALLE #3 CENTRO POBLADO "B" QUEBRADA HONDA'',''02558084598'','''',''2'',''llbqh@hotmail.com'');', '2016-01-19 03:23:38'),
 (1888, '127.0.0.1', 'Linux', 'Google Chrome', 'root@localhost', 'V123456789', 'UPDATE tpersona SET cedula=''V5942165'',nombres=''ERNESTINA DEL CARMEN'',apellidos=''ESCALONA'',genero=''F'',fecha_nacimiento=STR_TO_DATE(''13/10/1961'',''%d/%m/%Y''),lugar_nacimiento=''6'',direccion=''ARAURE'',telefono_habitacion=''02554564532'',telefono_movil=''04121669007'',email=''ernerstinau@hotmail.com'',esestudiante=''N'',esrepresentante=''N'',espersonalinstitucion=''Y'',codigo_cargo=3,fecha_ingreso=STR_TO_DATE(''15/11/2002'',''%d/%m/%Y''),codigo_dependencia='''',codigo_dependencia_anterior='''',condicion_cargo=''F'',nivel_academico=''LCDO(A).'',carga_horaria=''38'',codigo_plantel=''OD00741801'' WHERE cedula=''V5942165'';', '2016-01-19 03:24:27'),
 (1889, '127.0.0.1', 'Linux', 'Google Chrome', 'root@localhost', 'V123456789', 'INSERT INTO tpersona (cedula,nombres,apellidos,genero,fecha_nacimiento,lugar_nacimiento,direccion,telefono_habitacion,telefono_movil,email,esestudiante,esrepresentante,espersonalinstitucion,fecha_ingreso,codigo_cargo,codigo_dependencia,codigo_dependencia_anterior,condicion_cargo,nivel_academico,carga_horaria,codigo_plantel) VALUES (''V9565053'',''GLADYS TIBISAY'',''SOTO COLMENAREZ'',''F'',STR_TO_DATE(''03/01/1967'',''%d/%m/%Y''),''1'',''ACARIGUA'',''02554565334'',''04167168710'','''',''N'',''N'',''Y'',STR_TO_DATE(''07/03/2007'',''%d/%m/%Y''),2,'''','''',''F'',''LCDO(A).'',''27'',''OD00741801'');', '2016-01-19 03:29:04'),
 (1890, '127.0.0.1', 'Linux', 'Google Chrome', 'root@localhost', 'V123456789', 'INSERT INTO tpersona (cedula,nombres,apellidos,genero,fecha_nacimiento,lugar_nacimiento,direccion,telefono_habitacion,telefono_movil,email,esestudiante,esrepresentante,espersonalinstitucion,fecha_ingreso,codigo_cargo,codigo_dependencia,codigo_dependencia_anterior,condicion_cargo,nivel_academico,carga_horaria,codigo_plantel) VALUES (''V18843196'',''AMANDA MARIA'',''ZERPA MENDOZA'',''F'',STR_TO_DATE(''06/07/1986'',''%d/%m/%Y''),''5'',''AGUA BLANCA'',''02557485569'',''04261986568'',''amanda.zerpa.7@hotmail.com'',''N'',''N'',''Y'',STR_TO_DATE(''01/04/2009'',''%d/%m/%Y''),2,'''','''',''C'',''T.S.U.'',''20'',''OD00741801'');', '2016-01-19 03:33:46'),
@@ -3258,7 +3244,373 @@ INSERT INTO `tauditoria` (`id`, `ip`, `so`, `navigador`, `usuario_base_de_datos`
 (2968, '127.0.0.1', 'Linux', 'Google Chrome', 'root@localhost', 'V123456789', 'DELETE FROM tmateria_seccion_docente WHERE (seccion=''1'');', '2016-01-19 20:51:35'),
 (2969, '127.0.0.1', 'Linux', 'Google Chrome', 'root@localhost', 'V123456789', 'update tseccion set seccion=''1'',descripcion=''PRIMERO A'',turno=''M'',grado_escolar=''1'', capacidad_min=''10'',capacidad_max=''30'' where (seccion=''1'');', '2016-01-19 20:52:50'),
 (2970, '127.0.0.1', 'Linux', 'Google Chrome', 'root@localhost', 'V123456789', 'DELETE FROM tmateria_seccion_docente WHERE (seccion=''1'');', '2016-01-19 20:52:50'),
-(2971, '127.0.0.1', 'Linux', 'Google Chrome', 'root@localhost', 'V123456789', 'INSERT INTO tmateria_seccion_docente(seccion,codigo_materia,cedula_docente) VALUES (''1'',''INGL001'',''V9565053'');', '2016-01-19 20:52:50');
+(2971, '127.0.0.1', 'Linux', 'Google Chrome', 'root@localhost', 'V123456789', 'INSERT INTO tmateria_seccion_docente(seccion,codigo_materia,cedula_docente) VALUES (''1'',''INGL001'',''V9565053'');', '2016-01-19 20:52:50'),
+(2972, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', '', 'update tusuario set intento_fallido=(intento_fallido+1) where (nombre_usuario=''V123456789'')', '2016-08-16 01:16:42'),
+(2973, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'update tusuario set intento_fallido=(intento_fallido+1) where (nombre_usuario=''V123456789'')', '2016-08-16 01:21:59'),
+(2974, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'update tcontrasena set estado=0 where (nombre_usuario=''V123456789'')', '2016-08-16 01:37:05'),
+(2975, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'insert into tcontrasena (contrasena,nombre_usuario,estado) values (''2e5f402b1f0117f9f7217a3e8cbff136b1e304ad'',''V123456789'',1)', '2016-08-16 01:37:05'),
+(2976, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'update tusuario set intento_fallido=0 where (nombre_usuario=''V123456789'')', '2016-08-16 01:37:12'),
+(2977, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'UPDATE tplantel SET nombre=''UNIDAD EDUCATIVA NACIONAL QUEBRADA HONDA'',direccion=''CALLE #3 CENTRO POBLADO "B" QUEBRADA HONDA'',telefono_habitacion=''02558084598'', localidad=''CENTRO OCCIDENTE'',codigo_municipio=''2'',email=''llbqh@hotmail.com'' where (codigo_plantel=''OD00741801'');', '2016-08-16 01:40:16'),
+(2978, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'insert into tservicio (descripcion,url,orden,codigo_modulo) values (''CONFIGURACIÓN DEL PERFIL'',''CONFIGURACION'',''4'',''6'');', '2016-08-16 02:53:41'),
+(2979, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'update tperfil set descripcion=''ADMINISTRADOR'',codigo_configuracion=1 where (codigo_perfil=''1'');', '2016-08-16 02:55:51'),
+(2980, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'DELETE FROM tservicio_usuario_opcion where (codigo_perfil=''1'');', '2016-08-16 02:55:51'),
+(2981, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''1'',NULL)', '2016-08-16 02:55:51'),
+(2982, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''1'',''1'')', '2016-08-16 02:55:52'),
+(2983, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''1'',''2'')', '2016-08-16 02:55:52'),
+(2984, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''1'',''3'')', '2016-08-16 02:55:52'),
+(2985, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''1'',''4'')', '2016-08-16 02:55:52'),
+(2986, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''1'',''5'')', '2016-08-16 02:55:52'),
+(2987, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''1'',''6'')', '2016-08-16 02:55:52'),
+(2988, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''1'',''7'')', '2016-08-16 02:55:52'),
+(2989, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''2'',NULL)', '2016-08-16 02:55:52'),
+(2990, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''2'',''1'')', '2016-08-16 02:55:52'),
+(2991, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''2'',''2'')', '2016-08-16 02:55:52'),
+(2992, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''2'',''3'')', '2016-08-16 02:55:53'),
+(2993, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''2'',''4'')', '2016-08-16 02:55:53'),
+(2994, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''2'',''5'')', '2016-08-16 02:55:53'),
+(2995, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''2'',''6'')', '2016-08-16 02:55:53'),
+(2996, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''2'',''7'')', '2016-08-16 02:55:53'),
+(2997, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''3'',NULL)', '2016-08-16 02:55:53'),
+(2998, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''3'',''1'')', '2016-08-16 02:55:53'),
+(2999, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''3'',''2'')', '2016-08-16 02:55:53'),
+(3000, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''3'',''3'')', '2016-08-16 02:55:53'),
+(3001, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''3'',''4'')', '2016-08-16 02:55:53'),
+(3002, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''3'',''5'')', '2016-08-16 02:55:54'),
+(3003, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''3'',''6'')', '2016-08-16 02:55:54'),
+(3004, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''3'',''7'')', '2016-08-16 02:55:54'),
+(3005, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''4'',NULL)', '2016-08-16 02:55:54'),
+(3006, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''4'',''1'')', '2016-08-16 02:55:54'),
+(3007, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''4'',''2'')', '2016-08-16 02:55:54'),
+(3008, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''4'',''3'')', '2016-08-16 02:55:54'),
+(3009, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''4'',''4'')', '2016-08-16 02:55:54'),
+(3010, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''4'',''5'')', '2016-08-16 02:55:54'),
+(3011, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''4'',''6'')', '2016-08-16 02:55:54'),
+(3012, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''4'',''7'')', '2016-08-16 02:55:55'),
+(3013, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''5'',NULL)', '2016-08-16 02:55:55'),
+(3014, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''5'',''1'')', '2016-08-16 02:55:55'),
+(3015, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''5'',''2'')', '2016-08-16 02:55:55'),
+(3016, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''5'',''3'')', '2016-08-16 02:55:55'),
+(3017, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''5'',''4'')', '2016-08-16 02:55:55'),
+(3018, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''5'',''5'')', '2016-08-16 02:55:55'),
+(3019, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''5'',''6'')', '2016-08-16 02:55:55'),
+(3020, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''5'',''7'')', '2016-08-16 02:55:55'),
+(3021, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''6'',NULL)', '2016-08-16 02:55:55'),
+(3022, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''6'',''1'')', '2016-08-16 02:55:56'),
+(3023, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''6'',''2'')', '2016-08-16 02:55:56'),
+(3024, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''6'',''3'')', '2016-08-16 02:55:56'),
+(3025, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''6'',''4'')', '2016-08-16 02:55:56'),
+(3026, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''6'',''5'')', '2016-08-16 02:55:56'),
+(3027, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''6'',''6'')', '2016-08-16 02:55:56'),
+(3028, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''6'',''7'')', '2016-08-16 02:55:56'),
+(3029, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''7'',NULL)', '2016-08-16 02:55:56'),
+(3030, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''7'',''1'')', '2016-08-16 02:55:56'),
+(3031, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''7'',''2'')', '2016-08-16 02:55:56'),
+(3032, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''7'',''3'')', '2016-08-16 02:55:56'),
+(3033, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''7'',''4'')', '2016-08-16 02:55:57');
+INSERT INTO `tauditoria` (`id`, `ip`, `so`, `navigador`, `usuario_base_de_datos`, `usuario_aplicacion`, `query`, `fecha`) VALUES
+(3034, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''7'',''5'')', '2016-08-16 02:55:57'),
+(3035, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''7'',''6'')', '2016-08-16 02:55:57'),
+(3036, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''7'',''7'')', '2016-08-16 02:55:57'),
+(3037, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''8'',NULL)', '2016-08-16 02:55:57'),
+(3038, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''8'',''1'')', '2016-08-16 02:55:57'),
+(3039, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''8'',''2'')', '2016-08-16 02:55:57'),
+(3040, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''8'',''3'')', '2016-08-16 02:55:57'),
+(3041, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''8'',''4'')', '2016-08-16 02:55:57'),
+(3042, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''8'',''5'')', '2016-08-16 02:55:57'),
+(3043, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''8'',''6'')', '2016-08-16 02:55:57'),
+(3044, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''8'',''7'')', '2016-08-16 02:55:57'),
+(3045, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''9'',NULL)', '2016-08-16 02:55:58'),
+(3046, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''9'',''1'')', '2016-08-16 02:55:58'),
+(3047, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''9'',''2'')', '2016-08-16 02:55:58'),
+(3048, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''9'',''3'')', '2016-08-16 02:55:58'),
+(3049, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''9'',''4'')', '2016-08-16 02:55:58'),
+(3050, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''9'',''5'')', '2016-08-16 02:55:58'),
+(3051, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''9'',''6'')', '2016-08-16 02:55:58'),
+(3052, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''9'',''7'')', '2016-08-16 02:55:58'),
+(3053, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''10'',NULL)', '2016-08-16 02:55:58'),
+(3054, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''10'',''1'')', '2016-08-16 02:55:58'),
+(3055, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''10'',''2'')', '2016-08-16 02:55:58'),
+(3056, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''10'',''3'')', '2016-08-16 02:55:59'),
+(3057, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''10'',''4'')', '2016-08-16 02:55:59'),
+(3058, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''10'',''5'')', '2016-08-16 02:55:59'),
+(3059, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''10'',''6'')', '2016-08-16 02:55:59'),
+(3060, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''10'',''7'')', '2016-08-16 02:55:59'),
+(3061, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''11'',NULL)', '2016-08-16 02:55:59'),
+(3062, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''11'',''1'')', '2016-08-16 02:55:59'),
+(3063, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''11'',''2'')', '2016-08-16 02:55:59'),
+(3064, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''11'',''3'')', '2016-08-16 02:56:00'),
+(3065, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''11'',''4'')', '2016-08-16 02:56:00'),
+(3066, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''11'',''5'')', '2016-08-16 02:56:00'),
+(3067, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''11'',''6'')', '2016-08-16 02:56:00'),
+(3068, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''11'',''7'')', '2016-08-16 02:56:00'),
+(3069, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''12'',NULL)', '2016-08-16 02:56:00'),
+(3070, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''12'',''1'')', '2016-08-16 02:56:00'),
+(3071, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''12'',''2'')', '2016-08-16 02:56:00'),
+(3072, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''12'',''3'')', '2016-08-16 02:56:00'),
+(3073, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''12'',''4'')', '2016-08-16 02:56:00'),
+(3074, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''12'',''5'')', '2016-08-16 02:56:00'),
+(3075, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''12'',''6'')', '2016-08-16 02:56:00'),
+(3076, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''12'',''7'')', '2016-08-16 02:56:01'),
+(3077, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''13'',NULL)', '2016-08-16 02:56:01'),
+(3078, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''13'',''1'')', '2016-08-16 02:56:01'),
+(3079, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''13'',''2'')', '2016-08-16 02:56:01'),
+(3080, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''13'',''3'')', '2016-08-16 02:56:01'),
+(3081, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''13'',''4'')', '2016-08-16 02:56:01'),
+(3082, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''13'',''5'')', '2016-08-16 02:56:01'),
+(3083, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''13'',''6'')', '2016-08-16 02:56:01'),
+(3084, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''13'',''7'')', '2016-08-16 02:56:01'),
+(3085, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''14'',NULL)', '2016-08-16 02:56:01'),
+(3086, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''14'',''1'')', '2016-08-16 02:56:02'),
+(3087, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''14'',''2'')', '2016-08-16 02:56:02'),
+(3088, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''14'',''3'')', '2016-08-16 02:56:02'),
+(3089, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''14'',''4'')', '2016-08-16 02:56:02'),
+(3090, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''14'',''5'')', '2016-08-16 02:56:02'),
+(3091, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''14'',''6'')', '2016-08-16 02:56:02'),
+(3092, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''14'',''7'')', '2016-08-16 02:56:02'),
+(3093, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''15'',NULL)', '2016-08-16 02:56:02'),
+(3094, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''15'',''1'')', '2016-08-16 02:56:03'),
+(3095, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''15'',''2'')', '2016-08-16 02:56:03'),
+(3096, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''15'',''3'')', '2016-08-16 02:56:03'),
+(3097, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''15'',''4'')', '2016-08-16 02:56:03'),
+(3098, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''15'',''5'')', '2016-08-16 02:56:03'),
+(3099, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''15'',''6'')', '2016-08-16 02:56:03'),
+(3100, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''15'',''7'')', '2016-08-16 02:56:03'),
+(3101, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''16'',NULL)', '2016-08-16 02:56:03'),
+(3102, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''16'',''1'')', '2016-08-16 02:56:03'),
+(3103, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''16'',''2'')', '2016-08-16 02:56:03'),
+(3104, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''16'',''3'')', '2016-08-16 02:56:03'),
+(3105, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''16'',''4'')', '2016-08-16 02:56:03'),
+(3106, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''16'',''5'')', '2016-08-16 02:56:03'),
+(3107, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''16'',''6'')', '2016-08-16 02:56:04'),
+(3108, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''16'',''7'')', '2016-08-16 02:56:04'),
+(3109, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''19'',NULL)', '2016-08-16 02:56:04'),
+(3110, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''19'',''1'')', '2016-08-16 02:56:04'),
+(3111, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''19'',''2'')', '2016-08-16 02:56:04'),
+(3112, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''19'',''3'')', '2016-08-16 02:56:04'),
+(3113, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''19'',''4'')', '2016-08-16 02:56:04'),
+(3114, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''19'',''5'')', '2016-08-16 02:56:04'),
+(3115, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''19'',''6'')', '2016-08-16 02:56:04'),
+(3116, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''19'',''7'')', '2016-08-16 02:56:04'),
+(3117, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''20'',NULL)', '2016-08-16 02:56:04'),
+(3118, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''20'',''1'')', '2016-08-16 02:56:04'),
+(3119, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''20'',''2'')', '2016-08-16 02:56:04'),
+(3120, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''20'',''3'')', '2016-08-16 02:56:05'),
+(3121, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''20'',''4'')', '2016-08-16 02:56:05'),
+(3122, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''20'',''5'')', '2016-08-16 02:56:05'),
+(3123, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''20'',''6'')', '2016-08-16 02:56:05'),
+(3124, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''20'',''7'')', '2016-08-16 02:56:05'),
+(3125, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''21'',NULL)', '2016-08-16 02:56:05'),
+(3126, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''21'',''1'')', '2016-08-16 02:56:05'),
+(3127, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''21'',''2'')', '2016-08-16 02:56:05'),
+(3128, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''21'',''3'')', '2016-08-16 02:56:05'),
+(3129, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''21'',''4'')', '2016-08-16 02:56:05'),
+(3130, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''21'',''5'')', '2016-08-16 02:56:05'),
+(3131, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''21'',''6'')', '2016-08-16 02:56:05'),
+(3132, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''21'',''7'')', '2016-08-16 02:56:05'),
+(3133, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''22'',NULL)', '2016-08-16 02:56:05'),
+(3134, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''22'',''1'')', '2016-08-16 02:56:05'),
+(3135, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''22'',''2'')', '2016-08-16 02:56:06'),
+(3136, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''22'',''3'')', '2016-08-16 02:56:06'),
+(3137, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''22'',''4'')', '2016-08-16 02:56:06'),
+(3138, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''22'',''5'')', '2016-08-16 02:56:06'),
+(3139, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''22'',''6'')', '2016-08-16 02:56:06'),
+(3140, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''22'',''7'')', '2016-08-16 02:56:06'),
+(3141, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''23'',NULL)', '2016-08-16 02:56:06'),
+(3142, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''23'',''1'')', '2016-08-16 02:56:06'),
+(3143, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''23'',''2'')', '2016-08-16 02:56:06'),
+(3144, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''23'',''3'')', '2016-08-16 02:56:06'),
+(3145, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''23'',''4'')', '2016-08-16 02:56:06'),
+(3146, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''23'',''5'')', '2016-08-16 02:56:06'),
+(3147, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''23'',''6'')', '2016-08-16 02:56:06'),
+(3148, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''23'',''7'')', '2016-08-16 02:56:06'),
+(3149, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''24'',NULL)', '2016-08-16 02:56:07'),
+(3150, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''24'',''1'')', '2016-08-16 02:56:07'),
+(3151, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''24'',''2'')', '2016-08-16 02:56:07'),
+(3152, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''24'',''3'')', '2016-08-16 02:56:07'),
+(3153, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''24'',''4'')', '2016-08-16 02:56:07'),
+(3154, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''24'',''5'')', '2016-08-16 02:56:07'),
+(3155, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''24'',''6'')', '2016-08-16 02:56:07'),
+(3156, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''24'',''7'')', '2016-08-16 02:56:07'),
+(3157, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''25'',NULL)', '2016-08-16 02:56:07'),
+(3158, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''25'',''1'')', '2016-08-16 02:56:07'),
+(3159, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''25'',''2'')', '2016-08-16 02:56:07'),
+(3160, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''25'',''3'')', '2016-08-16 02:56:07'),
+(3161, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''25'',''4'')', '2016-08-16 02:56:07'),
+(3162, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''25'',''5'')', '2016-08-16 02:56:07'),
+(3163, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''25'',''6'')', '2016-08-16 02:56:08'),
+(3164, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''25'',''7'')', '2016-08-16 02:56:08'),
+(3165, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''26'',NULL)', '2016-08-16 02:56:08'),
+(3166, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''26'',''1'')', '2016-08-16 02:56:08'),
+(3167, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''26'',''2'')', '2016-08-16 02:56:08'),
+(3168, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''26'',''3'')', '2016-08-16 02:56:08'),
+(3169, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''26'',''4'')', '2016-08-16 02:56:08'),
+(3170, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''26'',''5'')', '2016-08-16 02:56:08'),
+(3171, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''26'',''6'')', '2016-08-16 02:56:08'),
+(3172, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''26'',''7'')', '2016-08-16 02:56:08'),
+(3173, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''27'',NULL)', '2016-08-16 02:56:08'),
+(3174, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''27'',''1'')', '2016-08-16 02:56:08'),
+(3175, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''27'',''2'')', '2016-08-16 02:56:08'),
+(3176, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''27'',''3'')', '2016-08-16 02:56:09'),
+(3177, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''27'',''4'')', '2016-08-16 02:56:09'),
+(3178, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''27'',''5'')', '2016-08-16 02:56:09'),
+(3179, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''27'',''6'')', '2016-08-16 02:56:09'),
+(3180, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''27'',''7'')', '2016-08-16 02:56:09'),
+(3181, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''36'',NULL)', '2016-08-16 02:56:09'),
+(3182, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''36'',''5'')', '2016-08-16 02:56:09'),
+(3183, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''36'',''7'')', '2016-08-16 02:56:09'),
+(3184, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''28'',NULL)', '2016-08-16 02:56:09'),
+(3185, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''28'',''1'')', '2016-08-16 02:56:09'),
+(3186, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''28'',''2'')', '2016-08-16 02:56:09'),
+(3187, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''28'',''3'')', '2016-08-16 02:56:09'),
+(3188, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''28'',''4'')', '2016-08-16 02:56:09'),
+(3189, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''28'',''5'')', '2016-08-16 02:56:09'),
+(3190, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''28'',''6'')', '2016-08-16 02:56:09'),
+(3191, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''28'',''7'')', '2016-08-16 02:56:10'),
+(3192, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''29'',NULL)', '2016-08-16 02:56:10'),
+(3193, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''29'',''1'')', '2016-08-16 02:56:10'),
+(3194, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''29'',''2'')', '2016-08-16 02:56:10'),
+(3195, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''29'',''3'')', '2016-08-16 02:56:10'),
+(3196, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''29'',''4'')', '2016-08-16 02:56:10'),
+(3197, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''29'',''5'')', '2016-08-16 02:56:10'),
+(3198, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''29'',''6'')', '2016-08-16 02:56:10'),
+(3199, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''29'',''7'')', '2016-08-16 02:56:10'),
+(3200, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''30'',NULL)', '2016-08-16 02:56:10'),
+(3201, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''30'',''1'')', '2016-08-16 02:56:10'),
+(3202, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''30'',''2'')', '2016-08-16 02:56:10'),
+(3203, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''30'',''3'')', '2016-08-16 02:56:10'),
+(3204, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''30'',''4'')', '2016-08-16 02:56:10'),
+(3205, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''30'',''5'')', '2016-08-16 02:56:10'),
+(3206, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''30'',''6'')', '2016-08-16 02:56:11'),
+(3207, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''30'',''7'')', '2016-08-16 02:56:11'),
+(3208, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''31'',NULL)', '2016-08-16 02:56:11'),
+(3209, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''31'',''1'')', '2016-08-16 02:56:11'),
+(3210, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''31'',''2'')', '2016-08-16 02:56:11'),
+(3211, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''31'',''3'')', '2016-08-16 02:56:11'),
+(3212, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''31'',''4'')', '2016-08-16 02:56:11'),
+(3213, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''31'',''5'')', '2016-08-16 02:56:11'),
+(3214, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''31'',''6'')', '2016-08-16 02:56:11'),
+(3215, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''31'',''7'')', '2016-08-16 02:56:11'),
+(3216, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''32'',NULL)', '2016-08-16 02:56:11'),
+(3217, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''32'',''1'')', '2016-08-16 02:56:11'),
+(3218, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''32'',''5'')', '2016-08-16 02:56:11'),
+(3219, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''32'',''6'')', '2016-08-16 02:56:11'),
+(3220, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''32'',''7'')', '2016-08-16 02:56:12'),
+(3221, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''33'',NULL)', '2016-08-16 02:56:12'),
+(3222, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''33'',''2'')', '2016-08-16 02:56:12'),
+(3223, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''34'',NULL)', '2016-08-16 02:56:12'),
+(3224, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''34'',''2'')', '2016-08-16 02:56:12'),
+(3225, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''35'',NULL)', '2016-08-16 02:56:12'),
+(3226, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''35'',''1'')', '2016-08-16 02:56:12'),
+(3227, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''35'',''2'')', '2016-08-16 02:56:12'),
+(3228, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''35'',''3'')', '2016-08-16 02:56:12'),
+(3229, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''35'',''4'')', '2016-08-16 02:56:12'),
+(3230, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''35'',''5'')', '2016-08-16 02:56:12'),
+(3231, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''35'',''6'')', '2016-08-16 02:56:12'),
+(3232, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''35'',''7'')', '2016-08-16 02:56:13'),
+(3233, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''37'',NULL)', '2016-08-16 02:56:13'),
+(3234, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''37'',''1'')', '2016-08-16 02:56:13'),
+(3235, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''37'',''2'')', '2016-08-16 02:56:13'),
+(3236, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''37'',''3'')', '2016-08-16 02:56:13'),
+(3237, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''37'',''4'')', '2016-08-16 02:56:13'),
+(3238, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''37'',''5'')', '2016-08-16 02:56:13'),
+(3239, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''37'',''6'')', '2016-08-16 02:56:13'),
+(3240, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''37'',''7'')', '2016-08-16 02:56:13'),
+(3241, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''17'',NULL)', '2016-08-16 02:56:13'),
+(3242, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''17'',''1'')', '2016-08-16 02:56:13'),
+(3243, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''17'',''2'')', '2016-08-16 02:56:13'),
+(3244, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''17'',''3'')', '2016-08-16 02:56:13'),
+(3245, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''17'',''4'')', '2016-08-16 02:56:13'),
+(3246, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''17'',''5'')', '2016-08-16 02:56:14'),
+(3247, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''17'',''6'')', '2016-08-16 02:56:14'),
+(3248, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''17'',''7'')', '2016-08-16 02:56:14'),
+(3249, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''18'',NULL)', '2016-08-16 02:56:14'),
+(3250, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''18'',''1'')', '2016-08-16 02:56:14'),
+(3251, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''18'',''2'')', '2016-08-16 02:56:14'),
+(3252, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''18'',''3'')', '2016-08-16 02:56:14'),
+(3253, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''18'',''4'')', '2016-08-16 02:56:14'),
+(3254, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''18'',''5'')', '2016-08-16 02:56:14'),
+(3255, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''18'',''6'')', '2016-08-16 02:56:14'),
+(3256, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''18'',''7'')', '2016-08-16 02:56:14'),
+(3257, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''1'',NULL)', '2016-08-16 02:56:14'),
+(3258, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''2'',NULL)', '2016-08-16 02:56:14'),
+(3259, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''3'',NULL)', '2016-08-16 02:56:14'),
+(3260, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''4'',NULL)', '2016-08-16 02:56:15'),
+(3261, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''5'',NULL)', '2016-08-16 02:56:15'),
+(3262, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''6'',NULL)', '2016-08-16 02:56:15'),
+(3263, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''7'',NULL)', '2016-08-16 02:56:15'),
+(3264, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''8'',NULL)', '2016-08-16 02:56:15'),
+(3265, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''9'',NULL)', '2016-08-16 02:56:15');
+INSERT INTO `tauditoria` (`id`, `ip`, `so`, `navigador`, `usuario_base_de_datos`, `usuario_aplicacion`, `query`, `fecha`) VALUES
+(3266, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''10'',NULL)', '2016-08-16 02:56:15'),
+(3267, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''11'',NULL)', '2016-08-16 02:56:15'),
+(3268, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''12'',NULL)', '2016-08-16 02:56:15'),
+(3269, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''13'',NULL)', '2016-08-16 02:56:15'),
+(3270, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''14'',NULL)', '2016-08-16 02:56:15'),
+(3271, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''15'',NULL)', '2016-08-16 02:56:15'),
+(3272, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''16'',NULL)', '2016-08-16 02:56:16'),
+(3273, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''19'',NULL)', '2016-08-16 02:56:16'),
+(3274, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''20'',NULL)', '2016-08-16 02:56:16'),
+(3275, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''21'',NULL)', '2016-08-16 02:56:16'),
+(3276, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''22'',NULL)', '2016-08-16 02:56:16'),
+(3277, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''23'',NULL)', '2016-08-16 02:56:16'),
+(3278, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''24'',NULL)', '2016-08-16 02:56:16'),
+(3279, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''25'',NULL)', '2016-08-16 02:56:16'),
+(3280, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''26'',NULL)', '2016-08-16 02:56:16'),
+(3281, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''27'',NULL)', '2016-08-16 02:56:16'),
+(3282, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''36'',NULL)', '2016-08-16 02:56:16'),
+(3283, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''28'',NULL)', '2016-08-16 02:56:16'),
+(3284, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''29'',NULL)', '2016-08-16 02:56:16'),
+(3285, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''30'',NULL)', '2016-08-16 02:56:17'),
+(3286, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''31'',NULL)', '2016-08-16 02:56:17'),
+(3287, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''32'',NULL)', '2016-08-16 02:56:17'),
+(3288, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''33'',NULL)', '2016-08-16 02:56:17'),
+(3289, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''34'',NULL)', '2016-08-16 02:56:17'),
+(3290, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''35'',NULL)', '2016-08-16 02:56:17'),
+(3291, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''37'',NULL)', '2016-08-16 02:56:17'),
+(3292, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''17'',NULL)', '2016-08-16 02:56:17'),
+(3293, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''18'',NULL)', '2016-08-16 02:56:17'),
+(3294, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''1'',NULL)', '2016-08-16 02:56:17'),
+(3295, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''2'',NULL)', '2016-08-16 02:56:18'),
+(3296, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''3'',NULL)', '2016-08-16 02:56:18'),
+(3297, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''4'',NULL)', '2016-08-16 02:56:18'),
+(3298, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''5'',NULL)', '2016-08-16 02:56:18'),
+(3299, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''6'',NULL)', '2016-08-16 02:56:18'),
+(3300, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''7'',NULL)', '2016-08-16 02:56:18'),
+(3301, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''8'',NULL)', '2016-08-16 02:56:18'),
+(3302, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''9'',NULL)', '2016-08-16 02:56:18'),
+(3303, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''10'',NULL)', '2016-08-16 02:56:18'),
+(3304, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''11'',NULL)', '2016-08-16 02:56:18'),
+(3305, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''12'',NULL)', '2016-08-16 02:56:19'),
+(3306, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''13'',NULL)', '2016-08-16 02:56:19'),
+(3307, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''14'',NULL)', '2016-08-16 02:56:19'),
+(3308, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''15'',NULL)', '2016-08-16 02:56:19'),
+(3309, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''16'',NULL)', '2016-08-16 02:56:19'),
+(3310, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''19'',NULL)', '2016-08-16 02:56:19'),
+(3311, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''20'',NULL)', '2016-08-16 02:56:19'),
+(3312, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''21'',NULL)', '2016-08-16 02:56:19'),
+(3313, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''22'',NULL)', '2016-08-16 02:56:19'),
+(3314, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''23'',NULL)', '2016-08-16 02:56:19'),
+(3315, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''24'',NULL)', '2016-08-16 02:56:19'),
+(3316, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''25'',NULL)', '2016-08-16 02:56:20'),
+(3317, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''26'',NULL)', '2016-08-16 02:56:20'),
+(3318, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''27'',NULL)', '2016-08-16 02:56:20'),
+(3319, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''36'',NULL)', '2016-08-16 02:56:20'),
+(3320, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''28'',NULL)', '2016-08-16 02:56:20'),
+(3321, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'update tperfil set descripcion=''ADMINISTRADOR'',codigo_configuracion=1 where (codigo_perfil=''1'');', '2016-08-16 03:03:23'),
+(3322, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'DELETE FROM tservicio_usuario_opcion where (codigo_perfil=''1'');', '2016-08-16 03:03:23'),
+(3323, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',1,1),(''1'',1,2),(''1'',1,3),(''1'',1,4),(''1'',1,5),(''1'',1,6),(''1'',1,7),(''1'',2,1),(''1'',2,2),(''1'',2,3),(''1'',2,4),(''1'',2,5),(''1'',2,6),(''1'',2,7),(''1'',3,1),(''1'',3,2),(''1'',3,3),(''1'',3,4),(''1'',3,5),(''1'',3,6),(''1'',3,7),(''1'',4,1),(''1'',4,2),(''1'',4,3),(''1'',4,4),(''1'',4,5),(''1'',4,6),(''1'',4,7),(''1'',5,1),(''1'',5,2),(''1'',5,3),(''1'',5,4),(''1'',5,5),(''1'',5,6),(''1'',5,7),(''1'',6,1),(''1'',6,2),(''1'',6,3),(''1'',6,4),(''1'',6,5),(''1'',6,6),(''1'',6,7),(''1'',7,1),(''1'',7,2),(''1'',7,3),(''1'',7,4),(''1'',7,5),(''1'',7,6),(''1'',7,7),(''1'',8,1),(''1'',8,2),(''1'',8,3),(''1'',8,4),(''1'',8,5),(''1'',8,6),(''1'',8,7),(''1'',9,1),(''1'',9,2),(''1'',9,3),(''1'',9,4),(''1'',9,5),(''1'',9,6),(''1'',9,7),(''1'',10,1),(''1'',10,2),(''1'',10,3),(''1'',10,4),(''1'',10,5),(''1'',10,6),(''1'',10,7),(''1'',11,1),(''1'',11,2),(''1'',11,3),(''1'',11,4),(''1'',11,5),(''1'',11,6),(''1'',11,7),(''1'',12,1),(''1'',12,2),(''1'',12,3),(''1'',12,4),(''1'',12,5),(''1'',12,6),(''1'',12,7),(''1'',13,1),(''1'',13,2),(''1'',13,3),(''1'',13,4),(''1'',13,5),(''1'',13,6),(''1'',13,7),(''1'',14,1),(''1'',14,2),(''1'',14,3),(''1'',14,4),(''1'',14,5),(''1'',14,6),(''1'',14,7),(''1'',15,1),(''1'',15,2),(''1'',15,3),(''1'',15,4),(''1'',15,5),(''1'',15,6),(''1'',15,7),(''1'',16,1),(''1'',16,2),(''1'',16,3),(''1'',16,4),(''1'',16,5),(''1'',16,6),(''1'',16,7),(''1'',19,1),(''1'',19,2),(''1'',19,3),(''1'',19,4),(''1'',19,5),(''1'',19,6),(''1'',19,7),(''1'',20,1),(''1'',20,2),(''1'',20,3),(''1'',20,4),(''1'',20,5),(''1'',20,6),(''1'',20,7),(''1'',21,1),(''1'',21,2),(''1'',21,3),(''1'',21,4),(''1'',21,5),(''1'',21,6),(''1'',21,7),(''1'',22,1),(''1'',22,2),(''1'',22,3),(''1'',22,4),(''1'',22,5),(''1'',22,6),(''1'',22,7),(''1'',23,1),(''1'',23,2),(''1'',23,3),(''1'',23,4),(''1'',23,5),(''1'',23,6),(''1'',23,7),(''1'',24,1),(''1'',24,2),(''1'',24,3),(''1'',24,4),(''1'',24,5),(''1'',24,6),(''1'',24,7),(''1'',25,1),(''1'',25,2),(''1'',25,3),(''1'',25,4),(''1'',25,5),(''1'',25,6),(''1'',25,7),(''1'',26,1),(''1'',26,2),(''1'',26,3),(''1'',26,4),(''1'',26,5),(''1'',26,6),(''1'',26,7),(''1'',27,1),(''1'',27,2),(''1'',27,3),(''1'',27,4),(''1'',27,5),(''1'',27,6),(''1'',27,7),(''1'',36,5),(''1'',36,7),(''1'',28,1),(''1'',28,2),(''1'',28,3),(''1'',28,4),(''1'',28,5),(''1'',28,6),(''1'',28,7),(''1'',29,1),(''1'',29,2),(''1'',29,3),(''1'',29,4),(''1'',29,5),(''1'',29,6),(''1'',29,7),(''1'',30,1),(''1'',30,2),(''1'',30,3),(''1'',30,4),(''1'',30,5),(''1'',30,6),(''1'',30,7),(''1'',31,1),(''1'',31,2),(''1'',31,3),(''1'',31,4),(''1'',31,5),(''1'',31,6),(''1'',31,7),(''1'',32,1),(''1'',32,5),(''1'',32,6),(''1'',32,7),(''1'',33,2),(''1'',34,2),(''1'',35,1),(''1'',35,2),(''1'',35,3),(''1'',35,4),(''1'',35,5),(''1'',35,6),(''1'',35,7),(''1'',37,1),(''1'',37,2),(''1'',37,3),(''1'',37,4),(''1'',37,5),(''1'',37,6),(''1'',37,7),(''1'',17,1),(''1'',17,2),(''1'',17,3),(''1'',17,4),(''1'',17,5),(''1'',17,6),(''1'',17,7),(''1'',18,1),(''1'',18,2),(''1'',18,3),(''1'',18,4),(''1'',18,5),(''1'',18,6),(''1'',18,7);', '2016-08-16 03:03:23'),
+(3324, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'update tservicio set descripcion=''PERFIL'',url=''PERFILES'',orden=''5'',codigo_modulo=''6'' where (codigo_servicio=''31'');', '2016-08-16 03:04:07'),
+(3325, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'update tservicio set descripcion=''NUEVO USUARIO'',url=''NUEVOUSUARIO'',orden=''6'',codigo_modulo=''6'' where (codigo_servicio=''32'');', '2016-08-16 03:04:30'),
+(3326, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'UPDATE tconfiguracion SET descripcion=''POR DEFECTO'',longitud_minclave=6\r\n	,longitud_maxclave=10,cantidad_letrasmayusculas=1\r\n	,cantidad_letrasminusculas=1,cantidad_caracteresespeciales=1\r\n	,cantidad_numeros=1,dias_vigenciaclave=365,numero_ultimasclaves=1\r\n	,dias_aviso=10,intentos_fallidos=99999999,numero_preguntas=3\r\n	,numero_preguntasaresponder=2  \r\n	WHERE codigo_configuracion=''1''', '2016-08-16 04:08:31'),
+(3327, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tconfiguracion (descripcion,longitud_minclave,longitud_maxclave,cantidad_letrasmayusculas,cantidad_letrasminusculas,\r\n	cantidad_caracteresespeciales,cantidad_numeros,dias_vigenciaclave,numero_ultimasclaves,dias_aviso,intentos_fallidos,numero_preguntas,numero_preguntasaresponder) VALUES \r\n	(''DOCENTES'',4,8,0,1\r\n	,0,0,180,3,10\r\n	,5,3,1)', '2016-08-16 04:10:07'),
+(3328, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'UPDATE trespuesta_secreta SET pregunta = ''P1'',respuesta =  ''R1'' \r\n				WHERE nombre_usuario=''V123456789'' AND pregunta = ''P2''', '2016-08-16 04:15:26'),
+(3329, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO trespuesta_secreta (nombre_usuario,pregunta,respuesta) \r\n	    		VALUES (''V123456789'',''P2'',''R2'');', '2016-08-16 04:15:26'),
+(3330, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO trespuesta_secreta (nombre_usuario,pregunta,respuesta) \r\n	    		VALUES (''V123456789'',''P3'',''R3'');', '2016-08-16 04:15:26'),
+(3331, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'update tusuario set intento_fallido=0 where (nombre_usuario=''V123456789'')', '2016-08-16 13:54:36'),
+(3332, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'update tperfil set descripcion=''ADMINISTRADOR'',codigo_configuracion=1 where (codigo_perfil=''1'');', '2016-08-16 13:58:32'),
+(3333, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'DELETE FROM tservicio_usuario_opcion where (codigo_perfil=''1'');', '2016-08-16 13:58:33'),
+(3334, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',1,1),(''1'',1,2),(''1'',1,3),(''1'',1,4),(''1'',1,5),(''1'',1,6),(''1'',1,7),(''1'',2,1),(''1'',2,2),(''1'',2,3),(''1'',2,4),(''1'',2,5),(''1'',2,6),(''1'',2,7),(''1'',3,1),(''1'',3,2),(''1'',3,3),(''1'',3,4),(''1'',3,5),(''1'',3,6),(''1'',3,7),(''1'',4,1),(''1'',4,2),(''1'',4,3),(''1'',4,4),(''1'',4,5),(''1'',4,6),(''1'',4,7),(''1'',5,1),(''1'',5,2),(''1'',5,3),(''1'',5,4),(''1'',5,5),(''1'',5,6),(''1'',5,7),(''1'',6,1),(''1'',6,2),(''1'',6,3),(''1'',6,4),(''1'',6,5),(''1'',6,6),(''1'',6,7),(''1'',7,1),(''1'',7,2),(''1'',7,3),(''1'',7,4),(''1'',7,5),(''1'',7,6),(''1'',7,7),(''1'',8,1),(''1'',8,2),(''1'',8,3),(''1'',8,4),(''1'',8,5),(''1'',8,6),(''1'',8,7),(''1'',9,1),(''1'',9,2),(''1'',9,3),(''1'',9,4),(''1'',9,5),(''1'',9,6),(''1'',9,7),(''1'',10,1),(''1'',10,2),(''1'',10,3),(''1'',10,4),(''1'',10,5),(''1'',10,6),(''1'',10,7),(''1'',11,1),(''1'',11,2),(''1'',11,3),(''1'',11,4),(''1'',11,5),(''1'',11,6),(''1'',11,7),(''1'',12,1),(''1'',12,2),(''1'',12,3),(''1'',12,4),(''1'',12,5),(''1'',12,6),(''1'',12,7),(''1'',13,1),(''1'',13,2),(''1'',13,3),(''1'',13,4),(''1'',13,5),(''1'',13,6),(''1'',13,7),(''1'',14,1),(''1'',14,2),(''1'',14,3),(''1'',14,4),(''1'',14,5),(''1'',14,6),(''1'',14,7),(''1'',15,1),(''1'',15,2),(''1'',15,3),(''1'',15,4),(''1'',15,5),(''1'',15,6),(''1'',15,7),(''1'',16,1),(''1'',16,2),(''1'',16,3),(''1'',16,4),(''1'',16,5),(''1'',16,6),(''1'',16,7),(''1'',19,1),(''1'',19,2),(''1'',19,3),(''1'',19,4),(''1'',19,5),(''1'',19,6),(''1'',19,7),(''1'',20,1),(''1'',20,2),(''1'',20,3),(''1'',20,4),(''1'',20,5),(''1'',20,6),(''1'',20,7),(''1'',21,1),(''1'',21,2),(''1'',21,3),(''1'',21,4),(''1'',21,5),(''1'',21,6),(''1'',21,7),(''1'',22,1),(''1'',22,2),(''1'',22,3),(''1'',22,4),(''1'',22,5),(''1'',22,6),(''1'',22,7),(''1'',23,1),(''1'',23,2),(''1'',23,3),(''1'',23,4),(''1'',23,5),(''1'',23,6),(''1'',23,7),(''1'',24,1),(''1'',24,2),(''1'',24,3),(''1'',24,4),(''1'',24,5),(''1'',24,6),(''1'',24,7),(''1'',25,1),(''1'',25,2),(''1'',25,3),(''1'',25,4),(''1'',25,5),(''1'',25,6),(''1'',25,7),(''1'',26,1),(''1'',26,2),(''1'',26,3),(''1'',26,4),(''1'',26,5),(''1'',26,6),(''1'',26,7),(''1'',27,1),(''1'',27,2),(''1'',27,3),(''1'',27,4),(''1'',27,5),(''1'',27,6),(''1'',27,7),(''1'',36,5),(''1'',36,7),(''1'',28,1),(''1'',28,2),(''1'',28,3),(''1'',28,4),(''1'',28,5),(''1'',28,6),(''1'',28,7),(''1'',29,1),(''1'',29,2),(''1'',29,3),(''1'',29,4),(''1'',29,5),(''1'',29,6),(''1'',29,7),(''1'',30,1),(''1'',30,2),(''1'',30,3),(''1'',30,4),(''1'',30,5),(''1'',30,6),(''1'',30,7),(''1'',31,1),(''1'',31,2),(''1'',31,3),(''1'',31,4),(''1'',31,5),(''1'',31,6),(''1'',31,7),(''1'',32,1),(''1'',32,5),(''1'',32,6),(''1'',32,7),(''1'',33,2),(''1'',34,2),(''1'',35,1),(''1'',35,2),(''1'',35,3),(''1'',35,4),(''1'',35,5),(''1'',35,6),(''1'',35,7),(''1'',37,1),(''1'',37,2),(''1'',37,3),(''1'',37,4),(''1'',37,5),(''1'',37,6),(''1'',37,7),(''1'',17,1),(''1'',17,2),(''1'',17,3),(''1'',17,4),(''1'',17,5),(''1'',17,6),(''1'',17,7),(''1'',18,1),(''1'',18,2),(''1'',18,3),(''1'',18,4),(''1'',18,5),(''1'',18,6),(''1'',18,7);', '2016-08-16 13:58:33'),
+(3335, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'update tusuario set intento_fallido=0 where (nombre_usuario=''V123456789'')', '2016-08-16 14:22:03');
 
 -- --------------------------------------------------------
 
@@ -3266,11 +3618,13 @@ INSERT INTO `tauditoria` (`id`, `ip`, `so`, `navigador`, `usuario_base_de_datos`
 -- Estructura de tabla para la tabla `tcargo`
 --
 
+DROP TABLE IF EXISTS `tcargo`;
 CREATE TABLE IF NOT EXISTS `tcargo` (
-`codigo_cargo` int(15) NOT NULL,
+  `codigo_cargo` int(15) NOT NULL AUTO_INCREMENT,
   `descripcion` varchar(100) COLLATE utf8_spanish_ci NOT NULL,
-  `fecha_desactivacion` date DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+  `fecha_desactivacion` date DEFAULT NULL,
+  PRIMARY KEY (`codigo_cargo`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=6 ;
 
 --
 -- Volcado de datos para la tabla `tcargo`
@@ -3286,14 +3640,50 @@ INSERT INTO `tcargo` (`codigo_cargo`, `descripcion`, `fecha_desactivacion`) VALU
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `tconfiguracion`
+--
+
+DROP TABLE IF EXISTS `tconfiguracion`;
+CREATE TABLE IF NOT EXISTS `tconfiguracion` (
+  `codigo_configuracion` int(11) NOT NULL AUTO_INCREMENT,
+  `descripcion` varchar(30) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
+  `longitud_minclave` int(11) NOT NULL DEFAULT '6',
+  `longitud_maxclave` int(11) NOT NULL DEFAULT '10',
+  `cantidad_letrasmayusculas` int(11) NOT NULL DEFAULT '1',
+  `cantidad_letrasminusculas` int(11) NOT NULL DEFAULT '1',
+  `cantidad_caracteresespeciales` int(11) NOT NULL DEFAULT '1',
+  `cantidad_numeros` int(11) NOT NULL DEFAULT '1',
+  `dias_vigenciaclave` int(11) NOT NULL DEFAULT '365',
+  `numero_ultimasclaves` int(11) NOT NULL DEFAULT '1',
+  `dias_aviso` int(11) NOT NULL DEFAULT '1',
+  `intentos_fallidos` int(11) NOT NULL DEFAULT '1',
+  `numero_preguntas` int(11) NOT NULL DEFAULT '1',
+  `numero_preguntasaresponder` int(11) NOT NULL DEFAULT '1',
+  `fecha_desactivacion` date DEFAULT NULL,
+  PRIMARY KEY (`codigo_configuracion`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+
+--
+-- Volcado de datos para la tabla `tconfiguracion`
+--
+
+INSERT INTO `tconfiguracion` (`codigo_configuracion`, `descripcion`, `longitud_minclave`, `longitud_maxclave`, `cantidad_letrasmayusculas`, `cantidad_letrasminusculas`, `cantidad_caracteresespeciales`, `cantidad_numeros`, `dias_vigenciaclave`, `numero_ultimasclaves`, `dias_aviso`, `intentos_fallidos`, `numero_preguntas`, `numero_preguntasaresponder`, `fecha_desactivacion`) VALUES
+(1, 'POR DEFECTO', 6, 10, 1, 1, 1, 1, 365, 1, 10, 99999999, 3, 2, NULL),
+(2, 'DOCENTES', 4, 8, 0, 1, 0, 0, 180, 3, 10, 5, 3, 1, NULL);
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `tcontrasena`
 --
 
+DROP TABLE IF EXISTS `tcontrasena`;
 CREATE TABLE IF NOT EXISTS `tcontrasena` (
   `nombre_usuario` char(10) COLLATE utf8_spanish_ci NOT NULL,
   `contrasena` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
   `estado` int(11) NOT NULL DEFAULT '3' COMMENT '0 clave usado 1 usuario activo 2 caducidad de clave 3 usuario nuevo 4 usuario bloqueado',
-  `fecha_modificacion` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  `fecha_modificacion` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  KEY `tcontrasena_ibfk_1` (`nombre_usuario`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
@@ -3309,7 +3699,8 @@ INSERT INTO `tcontrasena` (`nombre_usuario`, `contrasena`, `estado`, `fecha_modi
 ('V13131313', '791acae9d7efbefc2b489747af71cc2f6870554d', 2, '2016-01-15 16:02:45'),
 ('V121212121', '1f82ea75c5cc526729e2d581aeb3aeccfef4407e', 0, '2016-01-15 01:41:06'),
 ('V121212121', '791acae9d7efbefc2b489747af71cc2f6870554d', 1, '2016-01-15 01:41:06'),
-('V123456789', '7e199bc85c0fdded08fe2bc5375527e89d1e9f6d', 1, '2016-01-17 17:49:42');
+('V123456789', '7e199bc85c0fdded08fe2bc5375527e89d1e9f6d', 0, '2016-08-16 01:37:05'),
+('V123456789', '2e5f402b1f0117f9f7217a3e8cbff136b1e304ad', 1, '2016-08-16 01:37:05');
 
 -- --------------------------------------------------------
 
@@ -3317,13 +3708,18 @@ INSERT INTO `tcontrasena` (`nombre_usuario`, `contrasena`, `estado`, `fecha_modi
 -- Estructura de tabla para la tabla `tcontrol_notas`
 --
 
+DROP TABLE IF EXISTS `tcontrol_notas`;
 CREATE TABLE IF NOT EXISTS `tcontrol_notas` (
-`codigo_controlnotas` int(11) NOT NULL,
+  `codigo_controlnotas` int(11) NOT NULL AUTO_INCREMENT,
   `codigo_msd` int(11) NOT NULL,
   `cedula_estudiante` char(10) COLLATE utf8_spanish_ci NOT NULL,
   `codigo_lapso` int(11) NOT NULL,
-  `notafinal` int(11) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+  `notafinal` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`codigo_controlnotas`),
+  KEY `fk_tcontrolnotas_msd` (`codigo_msd`),
+  KEY `fk_tcontrolnotas_lapso` (`codigo_lapso`),
+  KEY `fk_tcontrolnotas_estudiante` (`cedula_estudiante`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=5 ;
 
 --
 -- Volcado de datos para la tabla `tcontrol_notas`
@@ -3339,12 +3735,15 @@ INSERT INTO `tcontrol_notas` (`codigo_controlnotas`, `codigo_msd`, `cedula_estud
 -- Estructura de tabla para la tabla `testado`
 --
 
+DROP TABLE IF EXISTS `testado`;
 CREATE TABLE IF NOT EXISTS `testado` (
-`codigo_estado` int(11) NOT NULL,
+  `codigo_estado` int(11) NOT NULL AUTO_INCREMENT,
   `descripcion` varchar(35) COLLATE utf8_spanish_ci NOT NULL,
   `codigo_pais` int(11) NOT NULL,
-  `fecha_desactivacion` date DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+  `fecha_desactivacion` date DEFAULT NULL,
+  PRIMARY KEY (`codigo_estado`),
+  KEY `fk_testado_tpais` (`codigo_pais`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=25 ;
 
 --
 -- Volcado de datos para la tabla `testado`
@@ -3382,14 +3781,16 @@ INSERT INTO `testado` (`codigo_estado`, `descripcion`, `codigo_pais`, `fecha_des
 -- Estructura de tabla para la tabla `tinscripcion`
 --
 
+DROP TABLE IF EXISTS `tinscripcion`;
 CREATE TABLE IF NOT EXISTS `tinscripcion` (
-`codigo_inscripcion` int(11) NOT NULL,
+  `codigo_inscripcion` int(11) NOT NULL AUTO_INCREMENT,
   `descripcion` varchar(60) COLLATE utf8_spanish_ci NOT NULL,
   `fecha_inicio` date NOT NULL,
   `fecha_fin` date NOT NULL,
   `fecha_cierre` date NOT NULL,
-  `fecha_desactivacion` date DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+  `fecha_desactivacion` date DEFAULT NULL,
+  PRIMARY KEY (`codigo_inscripcion`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=2 ;
 
 --
 -- Volcado de datos para la tabla `tinscripcion`
@@ -3404,14 +3805,17 @@ INSERT INTO `tinscripcion` (`codigo_inscripcion`, `descripcion`, `fecha_inicio`,
 -- Estructura de tabla para la tabla `tlapso`
 --
 
+DROP TABLE IF EXISTS `tlapso`;
 CREATE TABLE IF NOT EXISTS `tlapso` (
-`codigo_lapso` int(11) NOT NULL,
+  `codigo_lapso` int(11) NOT NULL AUTO_INCREMENT,
   `descripcion` varchar(35) COLLATE utf8_spanish_ci NOT NULL,
   `fecha_inicio` date NOT NULL,
   `fecha_fin` date NOT NULL,
   `codigo_ano_academico` int(11) NOT NULL,
-  `fecha_desactivacion` date DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+  `fecha_desactivacion` date DEFAULT NULL,
+  PRIMARY KEY (`codigo_lapso`),
+  KEY `fk_tlapso_tanoacademico` (`codigo_ano_academico`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=4 ;
 
 --
 -- Volcado de datos para la tabla `tlapso`
@@ -3428,12 +3832,14 @@ INSERT INTO `tlapso` (`codigo_lapso`, `descripcion`, `fecha_inicio`, `fecha_fin`
 -- Estructura de tabla para la tabla `tmateria`
 --
 
+DROP TABLE IF EXISTS `tmateria`;
 CREATE TABLE IF NOT EXISTS `tmateria` (
   `codigo_materia` char(7) COLLATE utf8_spanish_ci NOT NULL,
   `descripcion` varchar(100) COLLATE utf8_spanish_ci NOT NULL,
   `unidad_curricular` int(11) NOT NULL DEFAULT '0',
   `grado_escolar` char(1) COLLATE utf8_spanish_ci NOT NULL DEFAULT '1',
-  `fecha_desactivacion` date DEFAULT NULL
+  `fecha_desactivacion` date DEFAULT NULL,
+  PRIMARY KEY (`codigo_materia`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
@@ -3505,12 +3911,17 @@ INSERT INTO `tmateria` (`codigo_materia`, `descripcion`, `unidad_curricular`, `g
 -- Estructura de tabla para la tabla `tmateria_seccion_docente`
 --
 
+DROP TABLE IF EXISTS `tmateria_seccion_docente`;
 CREATE TABLE IF NOT EXISTS `tmateria_seccion_docente` (
-`codigo_msd` int(11) NOT NULL,
+  `codigo_msd` int(11) NOT NULL AUTO_INCREMENT,
   `codigo_materia` char(7) COLLATE utf8_spanish_ci NOT NULL,
   `seccion` char(5) COLLATE utf8_spanish_ci NOT NULL,
-  `cedula_docente` char(10) COLLATE utf8_spanish_ci NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+  `cedula_docente` char(10) COLLATE utf8_spanish_ci NOT NULL,
+  PRIMARY KEY (`codigo_msd`),
+  KEY `fk_tmateria_seccion_tmateria` (`codigo_materia`),
+  KEY `fk_tmateria_seccion_tseccion` (`seccion`),
+  KEY `fk_tmateria_seccion_tpersona` (`cedula_docente`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=14 ;
 
 --
 -- Volcado de datos para la tabla `tmateria_seccion_docente`
@@ -3529,13 +3940,15 @@ INSERT INTO `tmateria_seccion_docente` (`codigo_msd`, `codigo_materia`, `seccion
 -- Estructura de tabla para la tabla `tmodulo`
 --
 
+DROP TABLE IF EXISTS `tmodulo`;
 CREATE TABLE IF NOT EXISTS `tmodulo` (
-`codigo_modulo` int(11) NOT NULL,
+  `codigo_modulo` int(11) NOT NULL AUTO_INCREMENT,
   `descripcion` varchar(70) COLLATE utf8_spanish_ci NOT NULL,
   `icono` varchar(200) COLLATE utf8_spanish_ci NOT NULL DEFAULT 'icon-list-alt',
   `orden` int(11) NOT NULL DEFAULT '0',
-  `fecha_desactivacion` date DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+  `fecha_desactivacion` date DEFAULT NULL,
+  PRIMARY KEY (`codigo_modulo`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=8 ;
 
 --
 -- Volcado de datos para la tabla `tmodulo`
@@ -3556,12 +3969,15 @@ INSERT INTO `tmodulo` (`codigo_modulo`, `descripcion`, `icono`, `orden`, `fecha_
 -- Estructura de tabla para la tabla `tmunicipio`
 --
 
+DROP TABLE IF EXISTS `tmunicipio`;
 CREATE TABLE IF NOT EXISTS `tmunicipio` (
-`codigo_municipio` int(11) NOT NULL,
+  `codigo_municipio` int(11) NOT NULL AUTO_INCREMENT,
   `descripcion` varchar(50) COLLATE utf8_spanish_ci NOT NULL,
   `codigo_estado` int(11) NOT NULL,
-  `fecha_desactivacion` varchar(45) COLLATE utf8_spanish_ci DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=332 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+  `fecha_desactivacion` varchar(45) COLLATE utf8_spanish_ci DEFAULT NULL,
+  PRIMARY KEY (`codigo_municipio`),
+  KEY `fk_tmunicipio_testado` (`codigo_estado`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=332 ;
 
 --
 -- Volcado de datos para la tabla `tmunicipio`
@@ -3906,13 +4322,15 @@ INSERT INTO `tmunicipio` (`codigo_municipio`, `descripcion`, `codigo_estado`, `f
 -- Estructura de tabla para la tabla `topcion`
 --
 
+DROP TABLE IF EXISTS `topcion`;
 CREATE TABLE IF NOT EXISTS `topcion` (
-`codigo_opcion` int(11) NOT NULL,
+  `codigo_opcion` int(11) NOT NULL AUTO_INCREMENT,
   `descripcion` varchar(45) COLLATE utf8_spanish_ci NOT NULL,
   `icono` varchar(200) COLLATE utf8_spanish_ci NOT NULL DEFAULT 'icon-pencil',
   `orden` int(11) NOT NULL,
-  `fecha_desactivacion` date DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+  `fecha_desactivacion` date DEFAULT NULL,
+  PRIMARY KEY (`codigo_opcion`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=8 ;
 
 --
 -- Volcado de datos para la tabla `topcion`
@@ -3933,11 +4351,13 @@ INSERT INTO `topcion` (`codigo_opcion`, `descripcion`, `icono`, `orden`, `fecha_
 -- Estructura de tabla para la tabla `tpais`
 --
 
+DROP TABLE IF EXISTS `tpais`;
 CREATE TABLE IF NOT EXISTS `tpais` (
-`codigo_pais` int(11) NOT NULL,
+  `codigo_pais` int(11) NOT NULL AUTO_INCREMENT,
   `descripcion` varchar(35) COLLATE utf8_spanish_ci NOT NULL,
-  `fecha_desactivacion` varchar(45) COLLATE utf8_spanish_ci DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+  `fecha_desactivacion` varchar(45) COLLATE utf8_spanish_ci DEFAULT NULL,
+  PRIMARY KEY (`codigo_pais`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=32 ;
 
 --
 -- Volcado de datos para la tabla `tpais`
@@ -3982,11 +4402,13 @@ INSERT INTO `tpais` (`codigo_pais`, `descripcion`, `fecha_desactivacion`) VALUES
 -- Estructura de tabla para la tabla `tparentesco`
 --
 
+DROP TABLE IF EXISTS `tparentesco`;
 CREATE TABLE IF NOT EXISTS `tparentesco` (
-`codigo_parentesco` int(11) NOT NULL,
+  `codigo_parentesco` int(11) NOT NULL AUTO_INCREMENT,
   `descripcion` varchar(35) COLLATE utf8_spanish_ci NOT NULL,
-  `fecha_desactivacion` varchar(45) COLLATE utf8_spanish_ci DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+  `fecha_desactivacion` varchar(45) COLLATE utf8_spanish_ci DEFAULT NULL,
+  PRIMARY KEY (`codigo_parentesco`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=6 ;
 
 --
 -- Volcado de datos para la tabla `tparentesco`
@@ -4005,12 +4427,15 @@ INSERT INTO `tparentesco` (`codigo_parentesco`, `descripcion`, `fecha_desactivac
 -- Estructura de tabla para la tabla `tparroquia`
 --
 
+DROP TABLE IF EXISTS `tparroquia`;
 CREATE TABLE IF NOT EXISTS `tparroquia` (
-`codigo_parroquia` int(11) NOT NULL,
+  `codigo_parroquia` int(11) NOT NULL AUTO_INCREMENT,
   `descripcion` varchar(50) COLLATE utf8_spanish_ci NOT NULL,
   `fecha_desactivacion` varchar(45) COLLATE utf8_spanish_ci DEFAULT NULL,
-  `codigo_municipio` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+  `codigo_municipio` int(11) NOT NULL,
+  PRIMARY KEY (`codigo_parroquia`),
+  KEY `fk_tparroquia_tmunicipio` (`codigo_municipio`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=41 ;
 
 --
 -- Volcado de datos para la tabla `tparroquia`
@@ -4064,19 +4489,23 @@ INSERT INTO `tparroquia` (`codigo_parroquia`, `descripcion`, `fecha_desactivacio
 -- Estructura de tabla para la tabla `tperfil`
 --
 
+DROP TABLE IF EXISTS `tperfil`;
 CREATE TABLE IF NOT EXISTS `tperfil` (
-`codigo_perfil` int(11) NOT NULL,
+  `codigo_perfil` int(11) NOT NULL AUTO_INCREMENT,
   `descripcion` varchar(45) COLLATE utf8_spanish_ci NOT NULL,
-  `fecha_desactivacion` date DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+  `codigo_configuracion` int(11) NOT NULL,
+  `fecha_desactivacion` date DEFAULT NULL,
+  PRIMARY KEY (`codigo_perfil`),
+  KEY `codigo_configuracion` (`codigo_configuracion`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=3 ;
 
 --
 -- Volcado de datos para la tabla `tperfil`
 --
 
-INSERT INTO `tperfil` (`codigo_perfil`, `descripcion`, `fecha_desactivacion`) VALUES
-(1, 'ADMINISTRADOR', NULL),
-(2, 'DOCENTE', NULL);
+INSERT INTO `tperfil` (`codigo_perfil`, `descripcion`, `codigo_configuracion`, `fecha_desactivacion`) VALUES
+(1, 'ADMINISTRADOR', 1, NULL),
+(2, 'DOCENTE', 1, NULL);
 
 -- --------------------------------------------------------
 
@@ -4084,6 +4513,7 @@ INSERT INTO `tperfil` (`codigo_perfil`, `descripcion`, `fecha_desactivacion`) VA
 -- Estructura de tabla para la tabla `tpersona`
 --
 
+DROP TABLE IF EXISTS `tpersona`;
 CREATE TABLE IF NOT EXISTS `tpersona` (
   `cedula` char(10) COLLATE utf8_spanish_ci NOT NULL,
   `nombres` varchar(45) COLLATE utf8_spanish_ci NOT NULL,
@@ -4106,7 +4536,11 @@ CREATE TABLE IF NOT EXISTS `tpersona` (
   `nivel_academico` varchar(30) COLLATE utf8_spanish_ci DEFAULT NULL,
   `carga_horaria` int(11) DEFAULT '0',
   `codigo_plantel` char(11) COLLATE utf8_spanish_ci DEFAULT NULL,
-  `fecha_desactivacion` date DEFAULT NULL
+  `fecha_desactivacion` date DEFAULT NULL,
+  PRIMARY KEY (`cedula`),
+  KEY `fk_tpersona_tparroquia` (`lugar_nacimiento`),
+  KEY `fk_tpersona_tcargo` (`codigo_cargo`),
+  KEY `fk_tpersona_tplantel` (`codigo_plantel`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
@@ -4144,6 +4578,7 @@ INSERT INTO `tpersona` (`cedula`, `nombres`, `apellidos`, `genero`, `fecha_nacim
 -- Estructura de tabla para la tabla `tplantel`
 --
 
+DROP TABLE IF EXISTS `tplantel`;
 CREATE TABLE IF NOT EXISTS `tplantel` (
   `codigo_plantel` char(11) COLLATE utf8_spanish_ci NOT NULL,
   `nombre` varchar(60) COLLATE utf8_spanish_ci NOT NULL,
@@ -4152,7 +4587,9 @@ CREATE TABLE IF NOT EXISTS `tplantel` (
   `localidad` varchar(20) COLLATE utf8_spanish_ci DEFAULT NULL,
   `email` varchar(150) COLLATE utf8_spanish_ci DEFAULT NULL,
   `codigo_municipio` int(11) NOT NULL,
-  `fecha_desactivacion` varchar(45) COLLATE utf8_spanish_ci DEFAULT NULL
+  `fecha_desactivacion` varchar(45) COLLATE utf8_spanish_ci DEFAULT NULL,
+  PRIMARY KEY (`codigo_plantel`),
+  KEY `fk_tplantel_tmunicipio` (`codigo_municipio`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
@@ -4163,7 +4600,7 @@ INSERT INTO `tplantel` (`codigo_plantel`, `nombre`, `direccion`, `telefono_habit
 ('12345645343', 'LICEO BOLIVARIANO TOCUYANO', 'CENTRO "I" TOCUYANO', '02556345678', 'TOCUYANO', '', 2, NULL),
 ('1249834983H', 'AGUA BLANCA', 'MUNICIPIO AGUA BLANCA', '02558765645', 'AGUA BLANCA', '', 2, NULL),
 ('21345687654', 'LICEO BOLIVARIANO PIRITAL', 'CENTRO POBLADO PIRITAL', '02553456784', 'PIRITAL', '', 2, NULL),
-('OD00741801', 'Unidad Educativa Nacional Quebrada Honda', 'CALLE #3 CENTRO POBLADO "B" QUEBRADA HONDA', '02558084598', '', 'llbqh@hotmail.com', 2, NULL);
+('OD00741801', 'UNIDAD EDUCATIVA NACIONAL QUEBRADA HONDA', 'CALLE #3 CENTRO POBLADO "B" QUEBRADA HONDA', '02558084598', 'CENTRO OCCIDENTE', 'llbqh@hotmail.com', 2, NULL);
 
 -- --------------------------------------------------------
 
@@ -4171,8 +4608,9 @@ INSERT INTO `tplantel` (`codigo_plantel`, `nombre`, `direccion`, `telefono_habit
 -- Estructura de tabla para la tabla `tproceso_inscripcion`
 --
 
+DROP TABLE IF EXISTS `tproceso_inscripcion`;
 CREATE TABLE IF NOT EXISTS `tproceso_inscripcion` (
-`codigo_procesoinscripcion` int(11) NOT NULL,
+  `codigo_procesoinscripcion` int(11) NOT NULL AUTO_INCREMENT,
   `codigo_inscripcion` int(11) NOT NULL,
   `fecha_inscripcion` date NOT NULL,
   `codigo_ano_academico` int(11) NOT NULL,
@@ -4203,8 +4641,19 @@ CREATE TABLE IF NOT EXISTS `tproceso_inscripcion` (
   `seccion` char(5) COLLATE utf8_spanish_ci DEFAULT NULL,
   `grado_escolar` char(1) COLLATE utf8_spanish_ci NOT NULL DEFAULT '1',
   `proceso_completado` char(1) COLLATE utf8_spanish_ci NOT NULL DEFAULT 'N',
-  `estatus` char(1) COLLATE utf8_spanish_ci NOT NULL DEFAULT '1'
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+  `estatus` char(1) COLLATE utf8_spanish_ci NOT NULL DEFAULT '1',
+  PRIMARY KEY (`codigo_procesoinscripcion`),
+  KEY `fk_tpi_tinscrip` (`codigo_inscripcion`),
+  KEY `fk_tpi_taa` (`codigo_ano_academico`),
+  KEY `fk_tpi_tdocente` (`cedula_docente`),
+  KEY `fk_tpi_testudiante` (`cedula_estudiante`),
+  KEY `fk_tpi_tmadre` (`cedula_madre`),
+  KEY `fk_tpi_tpadre` (`cedula_padre`),
+  KEY `fk_tpi_trepresentante` (`cedula_representante`),
+  KEY `fk_tpi_tparentesco` (`codigo_parentesco`),
+  KEY `fk_tpi_tlugartrabajo` (`lugar_trabajo`),
+  KEY `fk_tpi_tseccion` (`seccion`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=9 ;
 
 --
 -- Volcado de datos para la tabla `tproceso_inscripcion`
@@ -4223,9 +4672,39 @@ INSERT INTO `tproceso_inscripcion` (`codigo_procesoinscripcion`, `codigo_inscrip
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `trespuesta_secreta`
+--
+
+DROP TABLE IF EXISTS `trespuesta_secreta`;
+CREATE TABLE IF NOT EXISTS `trespuesta_secreta` (
+  `codigo_respuesta` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre_usuario` char(10) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
+  `pregunta` varchar(60) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
+  `respuesta` varchar(60) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
+  PRIMARY KEY (`codigo_respuesta`),
+  KEY `nombre_usuario` (`nombre_usuario`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
+
+--
+-- Volcado de datos para la tabla `trespuesta_secreta`
+--
+
+INSERT INTO `trespuesta_secreta` (`codigo_respuesta`, `nombre_usuario`, `pregunta`, `respuesta`) VALUES
+(1, 'V13131313', 'P1', 'R1'),
+(2, 'V13131313', 'P2', 'R2'),
+(3, 'V121212121', 'P1', 'R1'),
+(4, 'V121212121', 'P2', 'R2'),
+(6, 'V123456789', 'P1', 'R1'),
+(7, 'V123456789', 'P2', 'R2'),
+(8, 'V123456789', 'P3', 'R3');
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `tseccion`
 --
 
+DROP TABLE IF EXISTS `tseccion`;
 CREATE TABLE IF NOT EXISTS `tseccion` (
   `seccion` char(5) COLLATE utf8_spanish_ci NOT NULL,
   `descripcion` varchar(10) COLLATE utf8_spanish_ci NOT NULL,
@@ -4233,7 +4712,8 @@ CREATE TABLE IF NOT EXISTS `tseccion` (
   `capacidad_min` int(11) NOT NULL DEFAULT '5',
   `capacidad_max` int(11) NOT NULL DEFAULT '40',
   `grado_escolar` char(1) COLLATE utf8_spanish_ci NOT NULL DEFAULT '1',
-  `fecha_desactivacion` date DEFAULT NULL
+  `fecha_desactivacion` date DEFAULT NULL,
+  PRIMARY KEY (`seccion`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
@@ -4256,56 +4736,61 @@ INSERT INTO `tseccion` (`seccion`, `descripcion`, `turno`, `capacidad_min`, `cap
 -- Estructura de tabla para la tabla `tservicio`
 --
 
+DROP TABLE IF EXISTS `tservicio`;
 CREATE TABLE IF NOT EXISTS `tservicio` (
-`codigo_servicio` int(11) NOT NULL,
+  `codigo_servicio` int(11) NOT NULL AUTO_INCREMENT,
   `descripcion` varchar(45) COLLATE utf8_spanish_ci NOT NULL,
   `url` varchar(200) COLLATE utf8_spanish_ci DEFAULT NULL,
   `orden` decimal(10,0) DEFAULT '0',
   `codigo_modulo` int(11) NOT NULL,
-  `fecha_desactivacion` date DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+  `fecha_desactivacion` date DEFAULT NULL,
+  PRIMARY KEY (`codigo_servicio`),
+  UNIQUE KEY `url` (`url`),
+  KEY `tservicios_ibfk_1` (`codigo_modulo`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=38 ;
 
 --
 -- Volcado de datos para la tabla `tservicio`
 --
 
 INSERT INTO `tservicio` (`codigo_servicio`, `descripcion`, `url`, `orden`, `codigo_modulo`, `fecha_desactivacion`) VALUES
-(1, 'PAÍS', 'PAIS', 1, 1, NULL),
-(2, 'ESTADO', 'ESTADO', 2, 1, NULL),
-(3, 'MUNICIPIO', 'MUNICIPIO', 3, 1, NULL),
-(4, 'PARROQUIA', 'PARROQUIA', 4, 1, NULL),
-(5, 'PLANTEL', 'PLANTEL', 1, 2, NULL),
-(6, 'CARGO', 'CARGO', 2, 2, NULL),
-(7, 'PERSONA', 'PERSONA', 3, 2, NULL),
-(8, 'PARENTESCO', 'PARENTESCO', 4, 2, NULL),
-(9, 'AÑO ACADÉMICO', 'ANO_ACADEMICO', 2, 3, NULL),
-(10, 'LAPSO', 'LAPSO', 3, 3, NULL),
-(11, 'MATERIA', 'MATERIA', 4, 3, NULL),
-(12, 'SECCIÓN', 'SECCION', 6, 3, NULL),
-(13, 'ESTUDIANTES', 'ESTUDIANTE', 7, 3, NULL),
-(14, 'CERRAR AÑO ACADÉMICO', 'CERRAR_ANOACADEMICO', 7, 3, NULL),
-(15, 'INSCRIPCIÓN', 'INSCRIPCION', 8, 3, NULL),
-(16, 'ASIGNACIÓN DE NOTAS', 'ASIGNAR_NOTAS', 1, 4, NULL),
-(17, 'PROCESO DE INSCRIPCIÓN', 'PROCESO_INSCRIPCION', 1, 7, NULL),
-(18, 'ASIGNACIÓN DE SECCIONES', 'ASIGNAR_SECCION', 10, 7, NULL),
-(19, 'FICHA DE INSCRIPCIÓN', 'REP_FICHAINSCRIPCION', 1, 5, NULL),
-(20, 'CONSTANCIA DE ESTUDIO', 'REP_CONSTANCIAESTUDIO', 2, 5, NULL),
-(21, 'HISTORIAL DEL PERSONAL ADMINISTRATIVO', 'REP_HISTORIALPERSONAL', 3, 5, NULL),
-(22, 'ESTUDIANTES POR GRADO ESCOLAR', 'REP_ESTUDIANTESPORGRADO', 4, 5, NULL),
-(23, 'ESTUDIANTES POR SECCIÓN', 'REP_ESTUDIANTESPORSECCION', 5, 5, NULL),
-(24, 'ESTUDIANTES NUEVO INGRESO', 'REP_ESTUDIANTESNUEVOINGRESO', 6, 5, NULL),
-(25, 'LISTADO DE DOCENTES', 'REP_DOCENTES', 7, 5, NULL),
-(26, 'LISTADO DE DOCENTES POR MATERIA', 'REP_DOCENTESPORMATERIA', 8, 5, NULL),
-(27, 'NOTAS CERTIFICADAS', 'REP_NOTASCERTIFICADAS', 9, 5, NULL),
-(28, 'MÓDULO', 'MODULO', 1, 6, NULL),
-(29, 'SERVICIOS', 'SERVICIO', 2, 6, NULL),
-(30, 'BOTONERA', 'BOTONES', 3, 6, NULL),
-(31, 'PERFIL', 'PERFILES', 4, 6, NULL),
-(32, 'NUEVO USUARIO', 'NUEVOUSUARIO', 5, 6, NULL),
-(33, 'MÍ PERFIL', 'PERFIL', 6, 6, NULL),
-(34, 'CAMBIAR CONTRASEÑA', 'CAMBIARCONTRASENA', 7, 6, NULL),
-(35, 'HISTÓRICO DE CAMBIOS', 'BITACORA', 9, 6, NULL),
-(36, 'BOLETIN', 'REP_BOLETIN', 10, 5, NULL);
+(1, 'PAÍS', 'PAIS', '1', 1, NULL),
+(2, 'ESTADO', 'ESTADO', '2', 1, NULL),
+(3, 'MUNICIPIO', 'MUNICIPIO', '3', 1, NULL),
+(4, 'PARROQUIA', 'PARROQUIA', '4', 1, NULL),
+(5, 'PLANTEL', 'PLANTEL', '1', 2, NULL),
+(6, 'CARGO', 'CARGO', '2', 2, NULL),
+(7, 'PERSONA', 'PERSONA', '3', 2, NULL),
+(8, 'PARENTESCO', 'PARENTESCO', '4', 2, NULL),
+(9, 'AÑO ACADÉMICO', 'ANO_ACADEMICO', '2', 3, NULL),
+(10, 'LAPSO', 'LAPSO', '3', 3, NULL),
+(11, 'MATERIA', 'MATERIA', '4', 3, NULL),
+(12, 'SECCIÓN', 'SECCION', '6', 3, NULL),
+(13, 'ESTUDIANTES', 'ESTUDIANTE', '7', 3, NULL),
+(14, 'CERRAR AÑO ACADÉMICO', 'CERRAR_ANOACADEMICO', '7', 3, NULL),
+(15, 'INSCRIPCIÓN', 'INSCRIPCION', '8', 3, NULL),
+(16, 'ASIGNACIÓN DE NOTAS', 'ASIGNAR_NOTAS', '1', 4, NULL),
+(17, 'PROCESO DE INSCRIPCIÓN', 'PROCESO_INSCRIPCION', '1', 7, NULL),
+(18, 'ASIGNACIÓN DE SECCIONES', 'ASIGNAR_SECCION', '10', 7, NULL),
+(19, 'FICHA DE INSCRIPCIÓN', 'REP_FICHAINSCRIPCION', '1', 5, NULL),
+(20, 'CONSTANCIA DE ESTUDIO', 'REP_CONSTANCIAESTUDIO', '2', 5, NULL),
+(21, 'HISTORIAL DEL PERSONAL ADMINISTRATIVO', 'REP_HISTORIALPERSONAL', '3', 5, NULL),
+(22, 'ESTUDIANTES POR GRADO ESCOLAR', 'REP_ESTUDIANTESPORGRADO', '4', 5, NULL),
+(23, 'ESTUDIANTES POR SECCIÓN', 'REP_ESTUDIANTESPORSECCION', '5', 5, NULL),
+(24, 'ESTUDIANTES NUEVO INGRESO', 'REP_ESTUDIANTESNUEVOINGRESO', '6', 5, NULL),
+(25, 'LISTADO DE DOCENTES', 'REP_DOCENTES', '7', 5, NULL),
+(26, 'LISTADO DE DOCENTES POR MATERIA', 'REP_DOCENTESPORMATERIA', '8', 5, NULL),
+(27, 'NOTAS CERTIFICADAS', 'REP_NOTASCERTIFICADAS', '9', 5, NULL),
+(28, 'MÓDULO', 'MODULO', '1', 6, NULL),
+(29, 'SERVICIOS', 'SERVICIO', '2', 6, NULL),
+(30, 'BOTONERA', 'BOTONES', '3', 6, NULL),
+(31, 'PERFIL', 'PERFILES', '5', 6, NULL),
+(32, 'NUEVO USUARIO', 'NUEVOUSUARIO', '6', 6, NULL),
+(33, 'MÍ PERFIL', 'PERFIL', '6', 6, NULL),
+(34, 'CAMBIAR CONTRASEÑA', 'CAMBIARCONTRASENA', '7', 6, NULL),
+(35, 'HISTÓRICO DE CAMBIOS', 'BITACORA', '9', 6, NULL),
+(36, 'BOLETIN', 'REP_BOLETIN', '10', 5, NULL),
+(37, 'CONFIGURACIÓN DEL PERFIL', 'CONFIGURACION', '4', 6, NULL);
 
 -- --------------------------------------------------------
 
@@ -4313,10 +4798,14 @@ INSERT INTO `tservicio` (`codigo_servicio`, `descripcion`, `url`, `orden`, `codi
 -- Estructura de tabla para la tabla `tservicio_usuario_opcion`
 --
 
+DROP TABLE IF EXISTS `tservicio_usuario_opcion`;
 CREATE TABLE IF NOT EXISTS `tservicio_usuario_opcion` (
   `codigo_opcion` int(11) DEFAULT NULL,
   `codigo_servicio` int(11) NOT NULL,
-  `codigo_perfil` int(11) NOT NULL
+  `codigo_perfil` int(11) NOT NULL,
+  KEY `fk_tservicio_usuario_opcion_topcion` (`codigo_opcion`),
+  KEY `fk_tservicio_usuario_opcion_tservicio` (`codigo_servicio`),
+  KEY `fk_tservicio_usuario_opcion_tperfil` (`codigo_perfil`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
@@ -4393,7 +4882,6 @@ INSERT INTO `tservicio_usuario_opcion` (`codigo_opcion`, `codigo_servicio`, `cod
 (NULL, 36, 2),
 (NULL, 33, 2),
 (NULL, 34, 2),
-(NULL, 1, 1),
 (1, 1, 1),
 (2, 1, 1),
 (3, 1, 1),
@@ -4401,7 +4889,6 @@ INSERT INTO `tservicio_usuario_opcion` (`codigo_opcion`, `codigo_servicio`, `cod
 (5, 1, 1),
 (6, 1, 1),
 (7, 1, 1),
-(NULL, 2, 1),
 (1, 2, 1),
 (2, 2, 1),
 (3, 2, 1),
@@ -4409,7 +4896,6 @@ INSERT INTO `tservicio_usuario_opcion` (`codigo_opcion`, `codigo_servicio`, `cod
 (5, 2, 1),
 (6, 2, 1),
 (7, 2, 1),
-(NULL, 3, 1),
 (1, 3, 1),
 (2, 3, 1),
 (3, 3, 1),
@@ -4417,7 +4903,6 @@ INSERT INTO `tservicio_usuario_opcion` (`codigo_opcion`, `codigo_servicio`, `cod
 (5, 3, 1),
 (6, 3, 1),
 (7, 3, 1),
-(NULL, 4, 1),
 (1, 4, 1),
 (2, 4, 1),
 (3, 4, 1),
@@ -4425,7 +4910,6 @@ INSERT INTO `tservicio_usuario_opcion` (`codigo_opcion`, `codigo_servicio`, `cod
 (5, 4, 1),
 (6, 4, 1),
 (7, 4, 1),
-(NULL, 5, 1),
 (1, 5, 1),
 (2, 5, 1),
 (3, 5, 1),
@@ -4433,7 +4917,6 @@ INSERT INTO `tservicio_usuario_opcion` (`codigo_opcion`, `codigo_servicio`, `cod
 (5, 5, 1),
 (6, 5, 1),
 (7, 5, 1),
-(NULL, 6, 1),
 (1, 6, 1),
 (2, 6, 1),
 (3, 6, 1),
@@ -4441,7 +4924,6 @@ INSERT INTO `tservicio_usuario_opcion` (`codigo_opcion`, `codigo_servicio`, `cod
 (5, 6, 1),
 (6, 6, 1),
 (7, 6, 1),
-(NULL, 7, 1),
 (1, 7, 1),
 (2, 7, 1),
 (3, 7, 1),
@@ -4449,7 +4931,6 @@ INSERT INTO `tservicio_usuario_opcion` (`codigo_opcion`, `codigo_servicio`, `cod
 (5, 7, 1),
 (6, 7, 1),
 (7, 7, 1),
-(NULL, 8, 1),
 (1, 8, 1),
 (2, 8, 1),
 (3, 8, 1),
@@ -4457,7 +4938,6 @@ INSERT INTO `tservicio_usuario_opcion` (`codigo_opcion`, `codigo_servicio`, `cod
 (5, 8, 1),
 (6, 8, 1),
 (7, 8, 1),
-(NULL, 9, 1),
 (1, 9, 1),
 (2, 9, 1),
 (3, 9, 1),
@@ -4465,7 +4945,6 @@ INSERT INTO `tservicio_usuario_opcion` (`codigo_opcion`, `codigo_servicio`, `cod
 (5, 9, 1),
 (6, 9, 1),
 (7, 9, 1),
-(NULL, 10, 1),
 (1, 10, 1),
 (2, 10, 1),
 (3, 10, 1),
@@ -4473,7 +4952,6 @@ INSERT INTO `tservicio_usuario_opcion` (`codigo_opcion`, `codigo_servicio`, `cod
 (5, 10, 1),
 (6, 10, 1),
 (7, 10, 1),
-(NULL, 11, 1),
 (1, 11, 1),
 (2, 11, 1),
 (3, 11, 1),
@@ -4481,7 +4959,6 @@ INSERT INTO `tservicio_usuario_opcion` (`codigo_opcion`, `codigo_servicio`, `cod
 (5, 11, 1),
 (6, 11, 1),
 (7, 11, 1),
-(NULL, 12, 1),
 (1, 12, 1),
 (2, 12, 1),
 (3, 12, 1),
@@ -4489,7 +4966,6 @@ INSERT INTO `tservicio_usuario_opcion` (`codigo_opcion`, `codigo_servicio`, `cod
 (5, 12, 1),
 (6, 12, 1),
 (7, 12, 1),
-(NULL, 13, 1),
 (1, 13, 1),
 (2, 13, 1),
 (3, 13, 1),
@@ -4497,7 +4973,6 @@ INSERT INTO `tservicio_usuario_opcion` (`codigo_opcion`, `codigo_servicio`, `cod
 (5, 13, 1),
 (6, 13, 1),
 (7, 13, 1),
-(NULL, 14, 1),
 (1, 14, 1),
 (2, 14, 1),
 (3, 14, 1),
@@ -4505,7 +4980,6 @@ INSERT INTO `tservicio_usuario_opcion` (`codigo_opcion`, `codigo_servicio`, `cod
 (5, 14, 1),
 (6, 14, 1),
 (7, 14, 1),
-(NULL, 15, 1),
 (1, 15, 1),
 (2, 15, 1),
 (3, 15, 1),
@@ -4513,7 +4987,6 @@ INSERT INTO `tservicio_usuario_opcion` (`codigo_opcion`, `codigo_servicio`, `cod
 (5, 15, 1),
 (6, 15, 1),
 (7, 15, 1),
-(NULL, 16, 1),
 (1, 16, 1),
 (2, 16, 1),
 (3, 16, 1),
@@ -4521,7 +4994,6 @@ INSERT INTO `tservicio_usuario_opcion` (`codigo_opcion`, `codigo_servicio`, `cod
 (5, 16, 1),
 (6, 16, 1),
 (7, 16, 1),
-(NULL, 19, 1),
 (1, 19, 1),
 (2, 19, 1),
 (3, 19, 1),
@@ -4529,7 +5001,6 @@ INSERT INTO `tservicio_usuario_opcion` (`codigo_opcion`, `codigo_servicio`, `cod
 (5, 19, 1),
 (6, 19, 1),
 (7, 19, 1),
-(NULL, 20, 1),
 (1, 20, 1),
 (2, 20, 1),
 (3, 20, 1),
@@ -4537,7 +5008,6 @@ INSERT INTO `tservicio_usuario_opcion` (`codigo_opcion`, `codigo_servicio`, `cod
 (5, 20, 1),
 (6, 20, 1),
 (7, 20, 1),
-(NULL, 21, 1),
 (1, 21, 1),
 (2, 21, 1),
 (3, 21, 1),
@@ -4545,7 +5015,6 @@ INSERT INTO `tservicio_usuario_opcion` (`codigo_opcion`, `codigo_servicio`, `cod
 (5, 21, 1),
 (6, 21, 1),
 (7, 21, 1),
-(NULL, 22, 1),
 (1, 22, 1),
 (2, 22, 1),
 (3, 22, 1),
@@ -4553,7 +5022,6 @@ INSERT INTO `tservicio_usuario_opcion` (`codigo_opcion`, `codigo_servicio`, `cod
 (5, 22, 1),
 (6, 22, 1),
 (7, 22, 1),
-(NULL, 23, 1),
 (1, 23, 1),
 (2, 23, 1),
 (3, 23, 1),
@@ -4561,7 +5029,6 @@ INSERT INTO `tservicio_usuario_opcion` (`codigo_opcion`, `codigo_servicio`, `cod
 (5, 23, 1),
 (6, 23, 1),
 (7, 23, 1),
-(NULL, 24, 1),
 (1, 24, 1),
 (2, 24, 1),
 (3, 24, 1),
@@ -4569,7 +5036,6 @@ INSERT INTO `tservicio_usuario_opcion` (`codigo_opcion`, `codigo_servicio`, `cod
 (5, 24, 1),
 (6, 24, 1),
 (7, 24, 1),
-(NULL, 25, 1),
 (1, 25, 1),
 (2, 25, 1),
 (3, 25, 1),
@@ -4577,7 +5043,6 @@ INSERT INTO `tservicio_usuario_opcion` (`codigo_opcion`, `codigo_servicio`, `cod
 (5, 25, 1),
 (6, 25, 1),
 (7, 25, 1),
-(NULL, 26, 1),
 (1, 26, 1),
 (2, 26, 1),
 (3, 26, 1),
@@ -4585,7 +5050,6 @@ INSERT INTO `tservicio_usuario_opcion` (`codigo_opcion`, `codigo_servicio`, `cod
 (5, 26, 1),
 (6, 26, 1),
 (7, 26, 1),
-(NULL, 27, 1),
 (1, 27, 1),
 (2, 27, 1),
 (3, 27, 1),
@@ -4593,10 +5057,8 @@ INSERT INTO `tservicio_usuario_opcion` (`codigo_opcion`, `codigo_servicio`, `cod
 (5, 27, 1),
 (6, 27, 1),
 (7, 27, 1),
-(NULL, 36, 1),
 (5, 36, 1),
 (7, 36, 1),
-(NULL, 28, 1),
 (1, 28, 1),
 (2, 28, 1),
 (3, 28, 1),
@@ -4604,7 +5066,6 @@ INSERT INTO `tservicio_usuario_opcion` (`codigo_opcion`, `codigo_servicio`, `cod
 (5, 28, 1),
 (6, 28, 1),
 (7, 28, 1),
-(NULL, 29, 1),
 (1, 29, 1),
 (2, 29, 1),
 (3, 29, 1),
@@ -4612,7 +5073,6 @@ INSERT INTO `tservicio_usuario_opcion` (`codigo_opcion`, `codigo_servicio`, `cod
 (5, 29, 1),
 (6, 29, 1),
 (7, 29, 1),
-(NULL, 30, 1),
 (1, 30, 1),
 (2, 30, 1),
 (3, 30, 1),
@@ -4620,7 +5080,6 @@ INSERT INTO `tservicio_usuario_opcion` (`codigo_opcion`, `codigo_servicio`, `cod
 (5, 30, 1),
 (6, 30, 1),
 (7, 30, 1),
-(NULL, 31, 1),
 (1, 31, 1),
 (2, 31, 1),
 (3, 31, 1),
@@ -4628,16 +5087,12 @@ INSERT INTO `tservicio_usuario_opcion` (`codigo_opcion`, `codigo_servicio`, `cod
 (5, 31, 1),
 (6, 31, 1),
 (7, 31, 1),
-(NULL, 32, 1),
 (1, 32, 1),
 (5, 32, 1),
 (6, 32, 1),
 (7, 32, 1),
-(NULL, 33, 1),
 (2, 33, 1),
-(NULL, 34, 1),
 (2, 34, 1),
-(NULL, 35, 1),
 (1, 35, 1),
 (2, 35, 1),
 (3, 35, 1),
@@ -4645,7 +5100,13 @@ INSERT INTO `tservicio_usuario_opcion` (`codigo_opcion`, `codigo_servicio`, `cod
 (5, 35, 1),
 (6, 35, 1),
 (7, 35, 1),
-(NULL, 17, 1),
+(1, 37, 1),
+(2, 37, 1),
+(3, 37, 1),
+(4, 37, 1),
+(5, 37, 1),
+(6, 37, 1),
+(7, 37, 1),
 (1, 17, 1),
 (2, 17, 1),
 (3, 17, 1),
@@ -4653,230 +5114,13 @@ INSERT INTO `tservicio_usuario_opcion` (`codigo_opcion`, `codigo_servicio`, `cod
 (5, 17, 1),
 (6, 17, 1),
 (7, 17, 1),
-(NULL, 18, 1),
 (1, 18, 1),
 (2, 18, 1),
 (3, 18, 1),
 (4, 18, 1),
 (5, 18, 1),
 (6, 18, 1),
-(7, 18, 1),
-(NULL, 1, 1),
-(NULL, 2, 1),
-(NULL, 3, 1),
-(NULL, 4, 1),
-(NULL, 5, 1),
-(NULL, 6, 1),
-(NULL, 7, 1),
-(NULL, 8, 1),
-(NULL, 9, 1),
-(NULL, 10, 1),
-(NULL, 11, 1),
-(NULL, 12, 1),
-(NULL, 13, 1),
-(NULL, 14, 1),
-(NULL, 15, 1),
-(NULL, 16, 1),
-(NULL, 19, 1),
-(NULL, 20, 1),
-(NULL, 21, 1),
-(NULL, 22, 1),
-(NULL, 23, 1),
-(NULL, 24, 1),
-(NULL, 25, 1),
-(NULL, 26, 1),
-(NULL, 27, 1),
-(NULL, 36, 1),
-(NULL, 28, 1),
-(NULL, 29, 1),
-(NULL, 30, 1),
-(NULL, 31, 1),
-(NULL, 32, 1),
-(NULL, 33, 1),
-(NULL, 34, 1),
-(NULL, 35, 1),
-(NULL, 17, 1),
-(NULL, 18, 1),
-(NULL, 1, 1),
-(NULL, 2, 1),
-(NULL, 3, 1),
-(NULL, 4, 1),
-(NULL, 5, 1),
-(NULL, 6, 1),
-(NULL, 7, 1),
-(NULL, 8, 1),
-(NULL, 9, 1),
-(NULL, 10, 1),
-(NULL, 11, 1),
-(NULL, 12, 1),
-(NULL, 13, 1),
-(NULL, 14, 1),
-(NULL, 15, 1),
-(NULL, 16, 1),
-(NULL, 19, 1),
-(NULL, 20, 1),
-(NULL, 21, 1),
-(NULL, 22, 1),
-(NULL, 23, 1),
-(NULL, 24, 1),
-(NULL, 25, 1),
-(NULL, 26, 1),
-(NULL, 27, 1),
-(NULL, 36, 1),
-(NULL, 28, 1),
-(NULL, 29, 1),
-(NULL, 30, 1),
-(NULL, 31, 1),
-(NULL, 32, 1),
-(NULL, 33, 1),
-(NULL, 34, 1),
-(NULL, 35, 1),
-(NULL, 17, 1),
-(NULL, 18, 1),
-(NULL, 1, 1),
-(NULL, 2, 1),
-(NULL, 3, 1),
-(NULL, 4, 1),
-(NULL, 5, 1),
-(NULL, 6, 1),
-(NULL, 7, 1),
-(NULL, 8, 1),
-(NULL, 9, 1),
-(NULL, 10, 1),
-(NULL, 11, 1),
-(NULL, 12, 1),
-(NULL, 13, 1),
-(NULL, 14, 1),
-(NULL, 15, 1),
-(NULL, 16, 1),
-(NULL, 19, 1),
-(NULL, 20, 1),
-(NULL, 21, 1),
-(NULL, 22, 1),
-(NULL, 23, 1),
-(NULL, 24, 1),
-(NULL, 25, 1),
-(NULL, 26, 1),
-(NULL, 27, 1),
-(NULL, 36, 1),
-(NULL, 28, 1),
-(NULL, 29, 1),
-(NULL, 30, 1),
-(NULL, 31, 1),
-(NULL, 32, 1),
-(NULL, 33, 1),
-(NULL, 34, 1),
-(NULL, 35, 1),
-(NULL, 17, 1),
-(NULL, 18, 1),
-(NULL, 1, 1),
-(NULL, 2, 1),
-(NULL, 3, 1),
-(NULL, 4, 1),
-(NULL, 5, 1),
-(NULL, 6, 1),
-(NULL, 7, 1),
-(NULL, 8, 1),
-(NULL, 9, 1),
-(NULL, 10, 1),
-(NULL, 11, 1),
-(NULL, 12, 1),
-(NULL, 13, 1),
-(NULL, 14, 1),
-(NULL, 15, 1),
-(NULL, 16, 1),
-(NULL, 19, 1),
-(NULL, 20, 1),
-(NULL, 21, 1),
-(NULL, 22, 1),
-(NULL, 23, 1),
-(NULL, 24, 1),
-(NULL, 25, 1),
-(NULL, 26, 1),
-(NULL, 27, 1),
-(NULL, 36, 1),
-(NULL, 28, 1),
-(NULL, 29, 1),
-(NULL, 30, 1),
-(NULL, 31, 1),
-(NULL, 32, 1),
-(NULL, 33, 1),
-(NULL, 34, 1),
-(NULL, 35, 1),
-(NULL, 17, 1),
-(NULL, 18, 1),
-(NULL, 1, 1),
-(NULL, 2, 1),
-(NULL, 3, 1),
-(NULL, 4, 1),
-(NULL, 5, 1),
-(NULL, 6, 1),
-(NULL, 7, 1),
-(NULL, 8, 1),
-(NULL, 9, 1),
-(NULL, 10, 1),
-(NULL, 11, 1),
-(NULL, 12, 1),
-(NULL, 13, 1),
-(NULL, 14, 1),
-(NULL, 15, 1),
-(NULL, 16, 1),
-(NULL, 19, 1),
-(NULL, 20, 1),
-(NULL, 21, 1),
-(NULL, 22, 1),
-(NULL, 23, 1),
-(NULL, 24, 1),
-(NULL, 25, 1),
-(NULL, 26, 1),
-(NULL, 27, 1),
-(NULL, 36, 1),
-(NULL, 28, 1),
-(NULL, 29, 1),
-(NULL, 30, 1),
-(NULL, 31, 1),
-(NULL, 32, 1),
-(NULL, 33, 1),
-(NULL, 34, 1),
-(NULL, 35, 1),
-(NULL, 17, 1),
-(NULL, 18, 1),
-(NULL, 1, 1),
-(NULL, 2, 1),
-(NULL, 3, 1),
-(NULL, 4, 1),
-(NULL, 5, 1),
-(NULL, 6, 1),
-(NULL, 7, 1),
-(NULL, 8, 1),
-(NULL, 9, 1),
-(NULL, 10, 1),
-(NULL, 11, 1),
-(NULL, 12, 1),
-(NULL, 13, 1),
-(NULL, 14, 1),
-(NULL, 15, 1),
-(NULL, 16, 1),
-(NULL, 19, 1),
-(NULL, 20, 1),
-(NULL, 21, 1),
-(NULL, 22, 1),
-(NULL, 23, 1),
-(NULL, 24, 1),
-(NULL, 25, 1),
-(NULL, 26, 1),
-(NULL, 27, 1),
-(NULL, 36, 1),
-(NULL, 28, 1),
-(NULL, 29, 1),
-(NULL, 30, 1),
-(NULL, 31, 1),
-(NULL, 32, 1),
-(NULL, 33, 1),
-(NULL, 34, 1),
-(NULL, 35, 1),
-(NULL, 17, 1),
-(NULL, 18, 1);
+(7, 18, 1);
 
 -- --------------------------------------------------------
 
@@ -4884,265 +5128,28 @@ INSERT INTO `tservicio_usuario_opcion` (`codigo_opcion`, `codigo_servicio`, `cod
 -- Estructura de tabla para la tabla `tusuario`
 --
 
+DROP TABLE IF EXISTS `tusuario`;
 CREATE TABLE IF NOT EXISTS `tusuario` (
   `nombre_usuario` char(10) COLLATE utf8_spanish_ci NOT NULL,
-  `pregunta_1` varchar(200) COLLATE utf8_spanish_ci DEFAULT NULL,
-  `pregunta_2` varchar(200) COLLATE utf8_spanish_ci DEFAULT NULL,
-  `respuesta_1` varchar(200) COLLATE utf8_spanish_ci DEFAULT NULL,
-  `respuesta_2` varchar(200) COLLATE utf8_spanish_ci DEFAULT NULL,
   `cedula` char(10) COLLATE utf8_spanish_ci NOT NULL,
   `codigo_perfil` int(11) NOT NULL,
   `intento_fallido` int(11) NOT NULL DEFAULT '0',
   `activar_caducidad` int(11) NOT NULL DEFAULT '1',
-  `fecha_desactivacion` date DEFAULT NULL
+  `fecha_desactivacion` date DEFAULT NULL,
+  PRIMARY KEY (`nombre_usuario`),
+  KEY `tusuario_ibfk_1` (`cedula`),
+  KEY `tusuario_ibfk_2` (`codigo_perfil`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
 -- Volcado de datos para la tabla `tusuario`
 --
 
-INSERT INTO `tusuario` (`nombre_usuario`, `pregunta_1`, `pregunta_2`, `respuesta_1`, `respuesta_2`, `cedula`, `codigo_perfil`, `intento_fallido`, `activar_caducidad`, `fecha_desactivacion`) VALUES
-('V121212121', 'P1', 'P2', 'R1', 'R2', 'V121212121', 2, 2, 1, NULL),
-('V123456789', 'P1', 'P2', 'R1', 'R2', 'V123456789', 1, 0, 1, NULL),
-('V13131313', 'P1', 'P2', 'R1', 'R2', 'V13131313', 1, 3, 1, NULL);
+INSERT INTO `tusuario` (`nombre_usuario`, `cedula`, `codigo_perfil`, `intento_fallido`, `activar_caducidad`, `fecha_desactivacion`) VALUES
+('V121212121', 'V121212121', 2, 2, 1, NULL),
+('V123456789', 'V123456789', 1, 0, 1, NULL),
+('V13131313', 'V13131313', 1, 3, 1, NULL);
 
---
--- Índices para tablas volcadas
---
-
---
--- Indices de la tabla `tano_academico`
---
-ALTER TABLE `tano_academico`
- ADD PRIMARY KEY (`codigo_ano_academico`);
-
---
--- Indices de la tabla `tauditoria`
---
-ALTER TABLE `tauditoria`
- ADD PRIMARY KEY (`id`);
-
---
--- Indices de la tabla `tcargo`
---
-ALTER TABLE `tcargo`
- ADD PRIMARY KEY (`codigo_cargo`);
-
---
--- Indices de la tabla `tcontrasena`
---
-ALTER TABLE `tcontrasena`
- ADD KEY `tcontrasena_ibfk_1` (`nombre_usuario`);
-
---
--- Indices de la tabla `tcontrol_notas`
---
-ALTER TABLE `tcontrol_notas`
- ADD PRIMARY KEY (`codigo_controlnotas`), ADD KEY `fk_tcontrolnotas_msd` (`codigo_msd`), ADD KEY `fk_tcontrolnotas_lapso` (`codigo_lapso`), ADD KEY `fk_tcontrolnotas_estudiante` (`cedula_estudiante`);
-
---
--- Indices de la tabla `testado`
---
-ALTER TABLE `testado`
- ADD PRIMARY KEY (`codigo_estado`), ADD KEY `fk_testado_tpais` (`codigo_pais`);
-
---
--- Indices de la tabla `tinscripcion`
---
-ALTER TABLE `tinscripcion`
- ADD PRIMARY KEY (`codigo_inscripcion`);
-
---
--- Indices de la tabla `tlapso`
---
-ALTER TABLE `tlapso`
- ADD PRIMARY KEY (`codigo_lapso`), ADD KEY `fk_tlapso_tanoacademico` (`codigo_ano_academico`);
-
---
--- Indices de la tabla `tmateria`
---
-ALTER TABLE `tmateria`
- ADD PRIMARY KEY (`codigo_materia`);
-
---
--- Indices de la tabla `tmateria_seccion_docente`
---
-ALTER TABLE `tmateria_seccion_docente`
- ADD PRIMARY KEY (`codigo_msd`), ADD KEY `fk_tmateria_seccion_tmateria` (`codigo_materia`), ADD KEY `fk_tmateria_seccion_tseccion` (`seccion`), ADD KEY `fk_tmateria_seccion_tpersona` (`cedula_docente`);
-
---
--- Indices de la tabla `tmodulo`
---
-ALTER TABLE `tmodulo`
- ADD PRIMARY KEY (`codigo_modulo`);
-
---
--- Indices de la tabla `tmunicipio`
---
-ALTER TABLE `tmunicipio`
- ADD PRIMARY KEY (`codigo_municipio`), ADD KEY `fk_tmunicipio_testado` (`codigo_estado`);
-
---
--- Indices de la tabla `topcion`
---
-ALTER TABLE `topcion`
- ADD PRIMARY KEY (`codigo_opcion`);
-
---
--- Indices de la tabla `tpais`
---
-ALTER TABLE `tpais`
- ADD PRIMARY KEY (`codigo_pais`);
-
---
--- Indices de la tabla `tparentesco`
---
-ALTER TABLE `tparentesco`
- ADD PRIMARY KEY (`codigo_parentesco`);
-
---
--- Indices de la tabla `tparroquia`
---
-ALTER TABLE `tparroquia`
- ADD PRIMARY KEY (`codigo_parroquia`), ADD KEY `fk_tparroquia_tmunicipio` (`codigo_municipio`);
-
---
--- Indices de la tabla `tperfil`
---
-ALTER TABLE `tperfil`
- ADD PRIMARY KEY (`codigo_perfil`);
-
---
--- Indices de la tabla `tpersona`
---
-ALTER TABLE `tpersona`
- ADD PRIMARY KEY (`cedula`), ADD KEY `fk_tpersona_tparroquia` (`lugar_nacimiento`), ADD KEY `fk_tpersona_tcargo` (`codigo_cargo`), ADD KEY `fk_tpersona_tplantel` (`codigo_plantel`);
-
---
--- Indices de la tabla `tplantel`
---
-ALTER TABLE `tplantel`
- ADD PRIMARY KEY (`codigo_plantel`), ADD KEY `fk_tplantel_tmunicipio` (`codigo_municipio`);
-
---
--- Indices de la tabla `tproceso_inscripcion`
---
-ALTER TABLE `tproceso_inscripcion`
- ADD PRIMARY KEY (`codigo_procesoinscripcion`), ADD KEY `fk_tpi_tinscrip` (`codigo_inscripcion`), ADD KEY `fk_tpi_taa` (`codigo_ano_academico`), ADD KEY `fk_tpi_tdocente` (`cedula_docente`), ADD KEY `fk_tpi_testudiante` (`cedula_estudiante`), ADD KEY `fk_tpi_tmadre` (`cedula_madre`), ADD KEY `fk_tpi_tpadre` (`cedula_padre`), ADD KEY `fk_tpi_trepresentante` (`cedula_representante`), ADD KEY `fk_tpi_tparentesco` (`codigo_parentesco`), ADD KEY `fk_tpi_tlugartrabajo` (`lugar_trabajo`), ADD KEY `fk_tpi_tseccion` (`seccion`);
-
---
--- Indices de la tabla `tseccion`
---
-ALTER TABLE `tseccion`
- ADD PRIMARY KEY (`seccion`);
-
---
--- Indices de la tabla `tservicio`
---
-ALTER TABLE `tservicio`
- ADD PRIMARY KEY (`codigo_servicio`), ADD UNIQUE KEY `url` (`url`), ADD KEY `tservicios_ibfk_1` (`codigo_modulo`);
-
---
--- Indices de la tabla `tservicio_usuario_opcion`
---
-ALTER TABLE `tservicio_usuario_opcion`
- ADD KEY `fk_tservicio_usuario_opcion_topcion` (`codigo_opcion`), ADD KEY `fk_tservicio_usuario_opcion_tservicio` (`codigo_servicio`), ADD KEY `fk_tservicio_usuario_opcion_tperfil` (`codigo_perfil`);
-
---
--- Indices de la tabla `tusuario`
---
-ALTER TABLE `tusuario`
- ADD PRIMARY KEY (`nombre_usuario`), ADD KEY `tusuario_ibfk_1` (`cedula`), ADD KEY `tusuario_ibfk_2` (`codigo_perfil`);
-
---
--- AUTO_INCREMENT de las tablas volcadas
---
-
---
--- AUTO_INCREMENT de la tabla `tano_academico`
---
-ALTER TABLE `tano_academico`
-MODIFY `codigo_ano_academico` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
---
--- AUTO_INCREMENT de la tabla `tauditoria`
---
-ALTER TABLE `tauditoria`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2972;
---
--- AUTO_INCREMENT de la tabla `tcargo`
---
-ALTER TABLE `tcargo`
-MODIFY `codigo_cargo` int(15) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
---
--- AUTO_INCREMENT de la tabla `tcontrol_notas`
---
-ALTER TABLE `tcontrol_notas`
-MODIFY `codigo_controlnotas` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
---
--- AUTO_INCREMENT de la tabla `testado`
---
-ALTER TABLE `testado`
-MODIFY `codigo_estado` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=25;
---
--- AUTO_INCREMENT de la tabla `tinscripcion`
---
-ALTER TABLE `tinscripcion`
-MODIFY `codigo_inscripcion` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
---
--- AUTO_INCREMENT de la tabla `tlapso`
---
-ALTER TABLE `tlapso`
-MODIFY `codigo_lapso` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
---
--- AUTO_INCREMENT de la tabla `tmateria_seccion_docente`
---
-ALTER TABLE `tmateria_seccion_docente`
-MODIFY `codigo_msd` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=14;
---
--- AUTO_INCREMENT de la tabla `tmodulo`
---
-ALTER TABLE `tmodulo`
-MODIFY `codigo_modulo` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
---
--- AUTO_INCREMENT de la tabla `tmunicipio`
---
-ALTER TABLE `tmunicipio`
-MODIFY `codigo_municipio` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=332;
---
--- AUTO_INCREMENT de la tabla `topcion`
---
-ALTER TABLE `topcion`
-MODIFY `codigo_opcion` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
---
--- AUTO_INCREMENT de la tabla `tpais`
---
-ALTER TABLE `tpais`
-MODIFY `codigo_pais` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=32;
---
--- AUTO_INCREMENT de la tabla `tparentesco`
---
-ALTER TABLE `tparentesco`
-MODIFY `codigo_parentesco` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
---
--- AUTO_INCREMENT de la tabla `tparroquia`
---
-ALTER TABLE `tparroquia`
-MODIFY `codigo_parroquia` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=41;
---
--- AUTO_INCREMENT de la tabla `tperfil`
---
-ALTER TABLE `tperfil`
-MODIFY `codigo_perfil` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
---
--- AUTO_INCREMENT de la tabla `tproceso_inscripcion`
---
-ALTER TABLE `tproceso_inscripcion`
-MODIFY `codigo_procesoinscripcion` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
---
--- AUTO_INCREMENT de la tabla `tservicio`
---
-ALTER TABLE `tservicio`
-MODIFY `codigo_servicio` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=37;
 --
 -- Restricciones para tablas volcadas
 --
@@ -5151,97 +5158,109 @@ MODIFY `codigo_servicio` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=37;
 -- Filtros para la tabla `tcontrasena`
 --
 ALTER TABLE `tcontrasena`
-ADD CONSTRAINT `tcontrasena_ibfk_1` FOREIGN KEY (`nombre_usuario`) REFERENCES `tusuario` (`nombre_usuario`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `tcontrasena_ibfk_1` FOREIGN KEY (`nombre_usuario`) REFERENCES `tusuario` (`nombre_usuario`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `tcontrol_notas`
 --
 ALTER TABLE `tcontrol_notas`
-ADD CONSTRAINT `fk_tcontrolnotas_estudiante` FOREIGN KEY (`cedula_estudiante`) REFERENCES `tpersona` (`cedula`) ON UPDATE CASCADE,
-ADD CONSTRAINT `fk_tcontrolnotas_lapso` FOREIGN KEY (`codigo_lapso`) REFERENCES `tlapso` (`codigo_lapso`) ON UPDATE CASCADE,
-ADD CONSTRAINT `fk_tcontrolnotas_msd` FOREIGN KEY (`codigo_msd`) REFERENCES `tmateria_seccion_docente` (`codigo_msd`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `fk_tcontrolnotas_estudiante` FOREIGN KEY (`cedula_estudiante`) REFERENCES `tpersona` (`cedula`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_tcontrolnotas_lapso` FOREIGN KEY (`codigo_lapso`) REFERENCES `tlapso` (`codigo_lapso`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_tcontrolnotas_msd` FOREIGN KEY (`codigo_msd`) REFERENCES `tmateria_seccion_docente` (`codigo_msd`) ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `testado`
 --
 ALTER TABLE `testado`
-ADD CONSTRAINT `fk_testado_tpais` FOREIGN KEY (`codigo_pais`) REFERENCES `tpais` (`codigo_pais`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `fk_testado_tpais` FOREIGN KEY (`codigo_pais`) REFERENCES `tpais` (`codigo_pais`) ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `tlapso`
 --
 ALTER TABLE `tlapso`
-ADD CONSTRAINT `fk_tlapso_tanoacademico` FOREIGN KEY (`codigo_ano_academico`) REFERENCES `tano_academico` (`codigo_ano_academico`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `fk_tlapso_tanoacademico` FOREIGN KEY (`codigo_ano_academico`) REFERENCES `tano_academico` (`codigo_ano_academico`) ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `tmateria_seccion_docente`
 --
 ALTER TABLE `tmateria_seccion_docente`
-ADD CONSTRAINT `fk_tmateria_seccion_tmateria` FOREIGN KEY (`codigo_materia`) REFERENCES `tmateria` (`codigo_materia`) ON UPDATE CASCADE,
-ADD CONSTRAINT `fk_tmateria_seccion_tpersona` FOREIGN KEY (`cedula_docente`) REFERENCES `tpersona` (`cedula`) ON UPDATE CASCADE,
-ADD CONSTRAINT `fk_tmateria_seccion_tseccion` FOREIGN KEY (`seccion`) REFERENCES `tseccion` (`seccion`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `fk_tmateria_seccion_tmateria` FOREIGN KEY (`codigo_materia`) REFERENCES `tmateria` (`codigo_materia`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_tmateria_seccion_tpersona` FOREIGN KEY (`cedula_docente`) REFERENCES `tpersona` (`cedula`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_tmateria_seccion_tseccion` FOREIGN KEY (`seccion`) REFERENCES `tseccion` (`seccion`) ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `tmunicipio`
 --
 ALTER TABLE `tmunicipio`
-ADD CONSTRAINT `fk_tmunicipio_testado` FOREIGN KEY (`codigo_estado`) REFERENCES `testado` (`codigo_estado`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `fk_tmunicipio_testado` FOREIGN KEY (`codigo_estado`) REFERENCES `testado` (`codigo_estado`) ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `tparroquia`
 --
 ALTER TABLE `tparroquia`
-ADD CONSTRAINT `fk_tparroquia_tmunicipio` FOREIGN KEY (`codigo_municipio`) REFERENCES `tmunicipio` (`codigo_municipio`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `fk_tparroquia_tmunicipio` FOREIGN KEY (`codigo_municipio`) REFERENCES `tmunicipio` (`codigo_municipio`) ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `tperfil`
+--
+ALTER TABLE `tperfil`
+  ADD CONSTRAINT `tperfil_ibfk_1` FOREIGN KEY (`codigo_configuracion`) REFERENCES `tconfiguracion` (`codigo_configuracion`) ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `tpersona`
 --
 ALTER TABLE `tpersona`
-ADD CONSTRAINT `fk_tpersona_tcargo` FOREIGN KEY (`codigo_cargo`) REFERENCES `tcargo` (`codigo_cargo`) ON UPDATE CASCADE,
-ADD CONSTRAINT `fk_tpersona_tparroquia` FOREIGN KEY (`lugar_nacimiento`) REFERENCES `tparroquia` (`codigo_parroquia`) ON UPDATE CASCADE,
-ADD CONSTRAINT `fk_tpersona_tplantel` FOREIGN KEY (`codigo_plantel`) REFERENCES `tplantel` (`codigo_plantel`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `fk_tpersona_tcargo` FOREIGN KEY (`codigo_cargo`) REFERENCES `tcargo` (`codigo_cargo`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_tpersona_tparroquia` FOREIGN KEY (`lugar_nacimiento`) REFERENCES `tparroquia` (`codigo_parroquia`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_tpersona_tplantel` FOREIGN KEY (`codigo_plantel`) REFERENCES `tplantel` (`codigo_plantel`) ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `tplantel`
 --
 ALTER TABLE `tplantel`
-ADD CONSTRAINT `fk_tplantel_tmunicipio` FOREIGN KEY (`codigo_municipio`) REFERENCES `tmunicipio` (`codigo_municipio`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `fk_tplantel_tmunicipio` FOREIGN KEY (`codigo_municipio`) REFERENCES `tmunicipio` (`codigo_municipio`) ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `tproceso_inscripcion`
 --
 ALTER TABLE `tproceso_inscripcion`
-ADD CONSTRAINT `fk_tpi_taa` FOREIGN KEY (`codigo_ano_academico`) REFERENCES `tano_academico` (`codigo_ano_academico`) ON UPDATE CASCADE,
-ADD CONSTRAINT `fk_tpi_tdocente` FOREIGN KEY (`cedula_docente`) REFERENCES `tpersona` (`cedula`) ON UPDATE CASCADE,
-ADD CONSTRAINT `fk_tpi_testudiante` FOREIGN KEY (`cedula_estudiante`) REFERENCES `tpersona` (`cedula`) ON UPDATE CASCADE,
-ADD CONSTRAINT `fk_tpi_tinscrip` FOREIGN KEY (`codigo_inscripcion`) REFERENCES `tinscripcion` (`codigo_inscripcion`) ON UPDATE CASCADE,
-ADD CONSTRAINT `fk_tpi_tlugartrabajo` FOREIGN KEY (`lugar_trabajo`) REFERENCES `tparroquia` (`codigo_parroquia`) ON UPDATE CASCADE,
-ADD CONSTRAINT `fk_tpi_tmadre` FOREIGN KEY (`cedula_madre`) REFERENCES `tpersona` (`cedula`) ON UPDATE CASCADE,
-ADD CONSTRAINT `fk_tpi_tpadre` FOREIGN KEY (`cedula_padre`) REFERENCES `tpersona` (`cedula`) ON UPDATE CASCADE,
-ADD CONSTRAINT `fk_tpi_tparentesco` FOREIGN KEY (`codigo_parentesco`) REFERENCES `tparentesco` (`codigo_parentesco`) ON UPDATE CASCADE,
-ADD CONSTRAINT `fk_tpi_trepresentante` FOREIGN KEY (`cedula_representante`) REFERENCES `tpersona` (`cedula`) ON UPDATE CASCADE,
-ADD CONSTRAINT `fk_tpi_tseccion` FOREIGN KEY (`seccion`) REFERENCES `tseccion` (`seccion`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `fk_tpi_taa` FOREIGN KEY (`codigo_ano_academico`) REFERENCES `tano_academico` (`codigo_ano_academico`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_tpi_tdocente` FOREIGN KEY (`cedula_docente`) REFERENCES `tpersona` (`cedula`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_tpi_testudiante` FOREIGN KEY (`cedula_estudiante`) REFERENCES `tpersona` (`cedula`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_tpi_tinscrip` FOREIGN KEY (`codigo_inscripcion`) REFERENCES `tinscripcion` (`codigo_inscripcion`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_tpi_tlugartrabajo` FOREIGN KEY (`lugar_trabajo`) REFERENCES `tparroquia` (`codigo_parroquia`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_tpi_tmadre` FOREIGN KEY (`cedula_madre`) REFERENCES `tpersona` (`cedula`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_tpi_tpadre` FOREIGN KEY (`cedula_padre`) REFERENCES `tpersona` (`cedula`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_tpi_tparentesco` FOREIGN KEY (`codigo_parentesco`) REFERENCES `tparentesco` (`codigo_parentesco`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_tpi_trepresentante` FOREIGN KEY (`cedula_representante`) REFERENCES `tpersona` (`cedula`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_tpi_tseccion` FOREIGN KEY (`seccion`) REFERENCES `tseccion` (`seccion`) ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `trespuesta_secreta`
+--
+ALTER TABLE `trespuesta_secreta`
+  ADD CONSTRAINT `trespuesta_secreta_ibfk_1` FOREIGN KEY (`nombre_usuario`) REFERENCES `tusuario` (`nombre_usuario`) ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `tservicio`
 --
 ALTER TABLE `tservicio`
-ADD CONSTRAINT `tservicios_ibfk_1` FOREIGN KEY (`codigo_modulo`) REFERENCES `tmodulo` (`codigo_modulo`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `tservicios_ibfk_1` FOREIGN KEY (`codigo_modulo`) REFERENCES `tmodulo` (`codigo_modulo`) ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `tservicio_usuario_opcion`
 --
 ALTER TABLE `tservicio_usuario_opcion`
-ADD CONSTRAINT `fk_tservicio_usuario_opcion_topcion` FOREIGN KEY (`codigo_opcion`) REFERENCES `topcion` (`codigo_opcion`) ON UPDATE CASCADE,
-ADD CONSTRAINT `fk_tservicio_usuario_opcion_tperfil` FOREIGN KEY (`codigo_perfil`) REFERENCES `tperfil` (`codigo_perfil`) ON UPDATE CASCADE,
-ADD CONSTRAINT `fk_tservicio_usuario_opcion_tservicio` FOREIGN KEY (`codigo_servicio`) REFERENCES `tservicio` (`codigo_servicio`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `fk_tservicio_usuario_opcion_topcion` FOREIGN KEY (`codigo_opcion`) REFERENCES `topcion` (`codigo_opcion`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_tservicio_usuario_opcion_tperfil` FOREIGN KEY (`codigo_perfil`) REFERENCES `tperfil` (`codigo_perfil`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_tservicio_usuario_opcion_tservicio` FOREIGN KEY (`codigo_servicio`) REFERENCES `tservicio` (`codigo_servicio`) ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `tusuario`
 --
 ALTER TABLE `tusuario`
-ADD CONSTRAINT `tusuario_ibfk_1` FOREIGN KEY (`cedula`) REFERENCES `tpersona` (`cedula`) ON UPDATE CASCADE,
-ADD CONSTRAINT `tusuario_ibfk_2` FOREIGN KEY (`codigo_perfil`) REFERENCES `tperfil` (`codigo_perfil`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `tusuario_ibfk_1` FOREIGN KEY (`cedula`) REFERENCES `tpersona` (`cedula`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `tusuario_ibfk_2` FOREIGN KEY (`codigo_perfil`) REFERENCES `tperfil` (`codigo_perfil`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
