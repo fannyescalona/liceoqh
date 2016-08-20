@@ -21,6 +21,7 @@ if(isset($_SESSION['user_estado'])){
       <link rel="stylesheet" href="../css/jquery-ui.css" />
       <link rel="stylesheet" href="../css/normalize.css" />
       <link rel="stylesheet" href="../css/bootstrap.css" />
+      <link rel="stylesheet" href="../librerias/sweetalert/css/sweetalert.css"/>
       <link rel="stylesheet" href="../css/style.css" />
       <link rel="stylesheet" href="../librerias/noty/buttons.css"/>
       <link rel="stylesheet" href="../librerias/alert/Alert.css" />
@@ -40,7 +41,7 @@ if(isset($_SESSION['user_estado'])){
       <!-- load BootStrap -->
       <script src="../js/bootstrap.min.js"></script>
       <!-- load Noty-->
-      <script src="../librerias/noty/jquery.noty.packaged.min.js"></script>
+      <script src="../librerias/sweetalert/js/sweetalert.min.js"></script>
       <!-- load Main File -->
       <script src="../js/main.js"  type="text/javascript"></script>
       <link rel="stylesheet" type="text/css" href="../css/css_04.css"/>
@@ -109,6 +110,7 @@ if(isset($_SESSION['user_estado'])){
                   exit();
                 }elseif($_SESSION['user_estado']==1){
                   if(isset($_GET['perfil'])) include("serv_usuario.php"); //listo
+                  else if(isset($_GET['configuracion_negocio'])) include("serv_configuracion_negocio.php"); //listo
                   else if(isset($_GET['nuevousuario'])) include("serv_nuevo-usuario.php"); //listo
                   else if(isset($_GET['cambiarcontrasena'])) include("serv_cambiar_contrasena.php"); //listo
                   else if(isset($_GET['configuracion'])) include("serv_configuracion.php"); //listo

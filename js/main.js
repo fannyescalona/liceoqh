@@ -114,15 +114,6 @@ function init(){
         buttonImageOnly: true
     });
     //Agregar Objeto Calendario al input fecha_nacimiento.
-    $('#fecha_nacimiento_estudiante').datepicker({
-        minDate: '-17y',
-        maxDate: '-10y',
-        showOn: 'both',
-        numberOfMonths: 1,
-        buttonImage: '../images/calendario.png',
-        buttonImageOnly: true
-    });
-    //Agregar Objeto Calendario al input fecha_nacimiento.
     $('#fecha_nacimiento_padre').datepicker({
         minDate: '-82y',
         maxDate: $('#fne').val(),
@@ -172,44 +163,45 @@ function ACDataGrid(obj,url){
 }
 
 function salir(){
-    noty({
-        text: stringUnicode("¿Está seguro que quiere salir?"),
-        layout: "center",
-        type: "confirm",
-        dismissQueue: true,
-        animateOpen: {"height": "toggle"},
-        animateClose: {"height": "toggle"},
-        theme: "defaultTheme",
-        closeButton: false,
-        closeOnSelfClick: true,
-        closeOnSelfOver: false,
-        buttons: [
-        {
-            addClass: 'btn btn-primary', text: 'Aceptar', onClick: function($noty){
-                noty({dismissQueue: true, force: true, layout: "center", theme: 'defaultTheme', text: stringUnicode('¡Hasta luego!'), type: 'error'});
-                $noty.close();
-                setInterval(function(){
-                    location.href="../controladores/cont_desconectar.php";
-                },2000)
-            }
-        },
-        {
-            addClass: 'btn btn-danger', text: 'Cancelar', onClick: function($noty){
-                $noty.close();
-                noty({dismissQueue: true, force: true, layout: "center", theme: 'defaultTheme', text: stringUnicode('¡Gracias por permanecer en la página!'), type: 'success'});
-            }
-        }
-        ]
-    })
+    swal({
+        title: stringUnicode("¿Está seguro que quiere salir?"),
+        type: 'info',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Aceptar',
+        cancelButtonText: 'Cancelar',
+        confirmButtonClass: 'btn btn-success',
+        cancelButtonClass: 'btn btn-danger',
+        buttonsStyling: false
+    }).then(function(){
+        swal({
+            title: stringUnicode('¡Hasta luego!'),
+            text: stringUnicode('En 5 segundos se habrá cerrado la sesión'),
+            type: 'success',
+            timer: 5000
+        }).then(function(){
+            setTimeout(function(){
+                location.href="../controladores/cont_desconectar.php";
+            },5000);
+        });
+    },function(){
+        swal({
+            title: stringUnicode('¡Gracias por permanecer en la página!'),
+            text: stringUnicode('En 3 segundos se habrá cerrado este mensaje'),
+            type: 'warning',
+            timer: 3000 
+        });
+    });
 }
 
 //Asignamos al alert la configuración de noty
-window.alert = function (message) {
-noty({"text": stringUnicode(message),
- "layout":"center","type":"alert","animateOpen":{"height":"toggle"},
- "animateClose":{"height":"toggle"},"speed":500,
- "timeout":5000,"closeButton":false,"closeButton":true,"closeOnSelfClick":true,
- "closeOnSelfOver":false});
+window.alert = function (message,msgtype = 'info',msghtml = '') {
+    swal({
+        title: stringUnicode(message),
+        type: msgtype,
+        html : msghtml
+    });
 }
 
 function limpiar(){
@@ -228,7 +220,6 @@ Limpiar2();
 	});
    $("select option[value=''],select option[value='null'],select option[value='0']").attr("selected",true);
 }
-
 
 function Limpiar2(){
    if(document.getElementsByTagName("input"))

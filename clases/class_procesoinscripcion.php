@@ -9,7 +9,9 @@ class Inscripcion {
   private $cedula_estudiante; 
   private $genero;
   private $cedula_escolar;
+  private $lateralidad;
   private $codigo_canaima;
+  private $canaima_operativa;
   private $nombres; 
   private $apellidos;
   private $peso;
@@ -78,7 +80,9 @@ class Inscripcion {
     $this->cedula_estudiante=null;
     $this->genero=null;
     $this->cedula_escolar=null;
+    $this->lateralidad=null;
     $this->codigo_canaima=null;
+    $this->canaima_operativa=null;
     $this->nombres=null;
     $this->apellidos=null;
     $this->fecha_nacimiento=null;
@@ -209,12 +213,30 @@ class Inscripcion {
   }
   }
 
+  public function lateralidad(){
+  $Num_Parametro=func_num_args();
+  if($Num_Parametro==0) return $this->lateralidad;
+
+  if($Num_Parametro>0){
+  $this->lateralidad=func_get_arg(0);
+  }
+  }
+
   public function codigo_canaima(){
   $Num_Parametro=func_num_args();
   if($Num_Parametro==0) return $this->codigo_canaima;
 
   if($Num_Parametro>0){
   $this->codigo_canaima=func_get_arg(0);
+  }
+  }
+
+  public function canaima_operativa(){
+  $Num_Parametro=func_num_args();
+  if($Num_Parametro==0) return $this->canaima_operativa;
+
+  if($Num_Parametro>0){
+  $this->canaima_operativa=func_get_arg(0);
   }
   }
 
@@ -779,9 +801,9 @@ class Inscripcion {
     if(!$this->persona->Comprobar()){
       if($this->persona->Registrar()){
         $sql="INSERT INTO tproceso_inscripcion (codigo_inscripcion,fecha_inscripcion,codigo_ano_academico,cedula_estudiante,";
-        $sql.="cedula_escolar,codigo_canaima,peso,estatura,codigo_plantel,grado_escolar,seccion,primerafi) VALUES ((SELECT MAX(codigo_inscripcion) FROM tinscripcion WHERE fecha_desactivacion IS NULL),";
-        $sql.="CURDATE(),(SELECT MAX(codigo_ano_academico) FROM tano_academico WHERE fecha_desactivacion IS NULL),'$this->cedula_estudiante','$this->cedula_escolar',";
-        $sql.="'$this->codigo_canaima','$this->peso','$this->estatura','$this->codigo_plantel','$this->grado_escolar','$this->seccion',CURDATE());";
+        $sql.="cedula_escolar,lateralidad,codigo_canaima,canaima_operativa,peso,estatura,codigo_plantel,grado_escolar,seccion,primerafi) VALUES ((SELECT MAX(codigo_inscripcion) FROM tinscripcion WHERE fecha_desactivacion IS NULL),";
+        $sql.="CURDATE(),(SELECT MAX(codigo_ano_academico) FROM tano_academico WHERE fecha_desactivacion IS NULL),'$this->cedula_estudiante','$this->cedula_escolar','$this->lateralidad',";
+        $sql.="'$this->codigo_canaima','$this->canaima_operativa','$this->peso','$this->estatura','$this->codigo_plantel','$this->grado_escolar','$this->seccion',CURDATE());";
         if($this->mysql->Ejecutar($sql)!=null)
           return true;
         else{
@@ -830,7 +852,7 @@ class Inscripcion {
     $this->persona->carga_horaria(NULL);
     $this->persona->codigo_plantel(NULL);
     if($this->persona->Actualizar($this->cedula_estudiante)){
-      $sql="UPDATE tproceso_inscripcion SET cedula_escolar='$this->cedula_escolar',codigo_canaima='$this->codigo_canaima',";
+      $sql="UPDATE tproceso_inscripcion SET cedula_escolar='$this->cedula_escolar',lateralidad='$this->lateralidad',codigo_canaima='$this->codigo_canaima',canaima_operativa='$this->canaima_operativa',";
       $sql.="peso=$this->peso,estatura='$this->estatura',codigo_plantel='$this->codigo_plantel',grado_escolar='$this->grado_escolar',seccion='$this->seccion' WHERE cedula_estudiante ='$this->cedula_estudiante';";
       if($this->mysql->Ejecutar($sql)!=null)
         return true;
@@ -1087,7 +1109,7 @@ class Inscripcion {
   }
 
   public function Consultar(){
-    $sql="SELECT p.cedula,p.genero,i.cedula_escolar,i.codigo_canaima,p.nombres,p.apellidos,i.peso,i.estatura,";
+    $sql="SELECT p.cedula,p.genero,i.cedula_escolar,i.lateralidad,i.codigo_canaima,i.canaima_operativa,p.nombres,p.apellidos,i.peso,i.estatura,";
     $sql.="DATE_FORMAT(p.fecha_nacimiento,'%d/%m/%Y') fecha_nacimiento,CONCAT(p.lugar_nacimiento,'_',pa.descripcion) AS lugar_nacimiento,";
     $sql.="p.direccion,p.telefono_habitacion,p.email,i.codigo_plantel,p.fecha_desactivacion,i.grado_escolar,CONCAT(i.seccion,'_',s.descripcion) AS seccion,";
     $sql.="CASE WHEN p.fecha_desactivacion IS NULL THEN 'Activo' ELSE 'Desactivado' END AS estatus ";
@@ -1102,7 +1124,9 @@ class Inscripcion {
       $this->cedula_estudiante($tinscripcion['cedula']);
       $this->genero($tinscripcion['genero']);
       $this->cedula_escolar($tinscripcion['cedula_escolar']);
+      $this->lateralidad($tinscripcion['lateralidad']);
       $this->codigo_canaima($tinscripcion['codigo_canaima']);
+      $this->canaima_operativa($tinscripcion['canaima_operativa']);
       $this->nombres($tinscripcion['nombres']);
       $this->apellidos($tinscripcion['apellidos']);
       $this->peso($tinscripcion['peso']);

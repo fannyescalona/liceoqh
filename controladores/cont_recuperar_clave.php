@@ -92,32 +92,38 @@ if(isset($_POST['user_name']) || isset($_POST['respuesta'])){
          header("Location: ../?p=olvidar-clave");
       }
    }else{
-      $res=$Usuario->Buscar_1();
-      $_SESSION['pregunta_respuesta']=0;
-      if($res!=null){
-         if($res[0]['estado_clave']==4){
-            $_SESSION['ambiente']=$ambiente;
-            $_SESSION['datos']['mensaje']="¡Usuario bloqueado, contacte al administrador!";
+      if(trim(md5($_POST["captcha"])) == trim($_SESSION["captcha"])){
+         $res=$Usuario->Buscar_1();
+         $_SESSION['pregunta_respuesta']=0;
+         if($res!=null){
+            if($res[0]['estado_clave']==4){
+               $_SESSION['ambiente']=$ambiente;
+               $_SESSION['datos']['mensaje']="¡Usuario bloqueado, contacte al administrador!";
+               header("Location: ../?p=olvidar-clave");
+            }
+            else{
+               $_SESSION['ambiente']=$ambiente;
+               $_SESSION['user_name']=$_POST['user_name'];
+               $_SESSION['user_passwd']=$res[0]['password'];
+               $_SESSION['user_numero_preguntas']=$res[0]['numero_preguntas'];
+               $_SESSION['user_codigo_perfil']=$res[0]['codigo_perfil'];
+               $_SESSION['user_preguntas_a_responder']=$res[0]['numero_preguntasaresponder'];
+               for($i=0;$i<$res[0]['numero_preguntas'];$i++){
+                  $preguntas[]=$res[$i]['preguntas'];
+                  $respuestas[]=$res[$i]['respuestas'];
+               }
+               $_SESSION['user_pregunta']=$preguntas;
+               $_SESSION['user_respuesta']=$respuestas;
+               $_SESSION['pregunta_respuesta']++;
+               header("Location: ../?p=pregunta-seguridad");
+            }
+         }else{
+            $_SESSION['datos']['mensaje']="¡Usuario incorrecto!";
             header("Location: ../?p=olvidar-clave");
          }
-         else{
-            $_SESSION['ambiente']=$ambiente;
-            $_SESSION['user_name']=$_POST['user_name'];
-            $_SESSION['user_passwd']=$res[0]['password'];
-            $_SESSION['user_numero_preguntas']=$res[0]['numero_preguntas'];
-            $_SESSION['user_codigo_perfil']=$res[0]['codigo_perfil'];
-            $_SESSION['user_preguntas_a_responder']=$res[0]['numero_preguntasaresponder'];
-            for($i=0;$i<$res[0]['numero_preguntas'];$i++){
-               $preguntas[]=$res[$i]['preguntas'];
-               $respuestas[]=$res[$i]['respuestas'];
-            }
-            $_SESSION['user_pregunta']=$preguntas;
-            $_SESSION['user_respuesta']=$respuestas;
-            $_SESSION['pregunta_respuesta']++;
-            header("Location: ../?p=pregunta-seguridad");
-         }
-      }else{
-         $_SESSION['datos']['mensaje']="¡Usuario incorrecto!";
+      }
+      else{
+         $_SESSION['datos']['mensaje']="El código captcha está mal escrito, vuelva a intentarlo";
          header("Location: ../?p=olvidar-clave");
       }
    }

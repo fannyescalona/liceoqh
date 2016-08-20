@@ -16,6 +16,8 @@ valor10=document.getElementById('numero_ultimasclaves').value;
 valor11=document.getElementById('intentos_fallidos').value;
 valor12=document.getElementById('numero_preguntas').value;
 valor13=document.getElementById('numero_preguntasaresponder').value;
+valor14=document.getElementById('dias_inactividad').value;
+valor15=document.getElementById('maxsesion').value;
 if(devuelve_boton(param)=="Registrar" || devuelve_boton(param)=="Modificar"){
 	if(valor1.replace(/^\s+|\s+$/gi,"").length==0){ //para no permitir que se queda en blanco
 		alert('Ingrese el nombre de la configuración del perfil');
@@ -67,6 +69,14 @@ if(devuelve_boton(param)=="Registrar" || devuelve_boton(param)=="Modificar"){
 	}
 	else if(valor13.replace(/^\s+|\s+$/gi,"").length==0){
 		alert('Ingrese la cantidad de preguntas secretas a responder');
+		permitido=false;
+	}
+	else if(valor14.replace(/^\s+|\s+$/gi,"").length==0){
+		alert('Ingrese la cantidad de días para bloquear al usuario por inactividad en el sistema');
+		permitido=false;
+	}
+	else if(valor15.replace(/^\s+|\s+$/gi,"").length==0){
+		alert('Ingrese la cantidad máxima de sesiones permitidas por usuario');
 		permitido=false;
 	}
 }

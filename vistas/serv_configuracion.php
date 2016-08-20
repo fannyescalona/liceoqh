@@ -24,9 +24,11 @@ if(array_search($servicio_solicitado,$servicios_permitidos)){
   @$cantidad_numeros=$_SESSION['datos']['cantidad_numeros'];
   @$cantidad_caracteresespeciales=$_SESSION['datos']['cantidad_caracteresespeciales'];
   @$dias_vigenciaclave=$_SESSION['datos']['dias_vigenciaclave'];
+  @$dias_inactividad=$_SESSION['datos']['dias_inactividad'];
   @$dias_aviso=$_SESSION['datos']['dias_aviso'];
   @$numero_ultimasclaves=$_SESSION['datos']['numero_ultimasclaves'];
   @$intentos_fallidos=$_SESSION['datos']['intentos_fallidos'];
+  @$maxsesion=$_SESSION['datos']['maxsesion'];
   @$numero_preguntas=$_SESSION['datos']['numero_preguntas'];
   @$numero_preguntasaresponder=$_SESSION['datos']['numero_preguntasaresponder'];
   @$estatus=$_SESSION['datos']['estatus'];
@@ -41,9 +43,11 @@ else{
   @$cantidad_numeros=null;
   @$cantidad_caracteresespeciales=null;
   @$dias_vigenciaclave=null;
+  @$dias_inactividad=null;
   @$dias_aviso=null;
   @$numero_ultimasclaves=null;
   @$intentos_fallidos=null;
+  @$maxsesion=null;
   @$numero_preguntas=null;
   @$numero_preguntasaresponder=null;
   @$estatus=null;
@@ -73,6 +77,8 @@ else{
             <input tabindex=11 title="Ingrese la cantidad de últimas claves a validar" onKeyPress="return isNumberKey(event)" name="numero_ultimasclaves" id="numero_ultimasclaves" type="text" size="50" value="<?= $numero_ultimasclaves;?>" placeholder="Ingrese la cantidad de últimas claves a validar" class="campoTexto" required /> 
             <label>Cantidad de Preguntas Secretas:</label>
             <input tabindex=13 title="Ingrese la cantidad de preguntas secretas" onKeyPress="return isNumberKey(event)" name="numero_preguntas" id="numero_preguntas" type="text" size="50" value="<?= $numero_preguntas;?>" placeholder="Ingrese la cantidad de preguntas secretas" class="campoTexto" required /> 
+            <label>Días de Bloqueo por Inactividad:</label>
+            <input tabindex=15 title="Ingrese la cantidad de días para bloquear al usuario por inactividad en el sistema" onKeyPress="return isNumberKey(event)" name="dias_inactividad" id="dias_inactividad" type="text" size="50" value="<?= $dias_inactividad;?>" placeholder="Ingrese la cantidad de días para bloquear al usuario por inactividad en el sistema" class="campoTexto" required /> 
           </div>
           <div class="span6">
             <label>Nombre de la Configuración:</label>
@@ -89,6 +95,8 @@ else{
             <input tabindex=12 title="Ingrese la cantidad de intentos fallidos de acceso" onKeyPress="return isNumberKey(event)" name="intentos_fallidos" id="intentos_fallidos" type="text" size="50" value="<?= $intentos_fallidos;?>" placeholder="Ingrese la cantidad de intentos fallidos de acceso" class="campoTexto" required /> 
             <label>Cantidad de Preguntas a Responder:</label>
             <input tabindex=14 title="Ingrese la cantidad de preguntas secretas a responder" onKeyPress="return isNumberKey(event)" name="numero_preguntasaresponder" id="numero_preguntasaresponder" type="text" size="50" value="<?= $numero_preguntasaresponder;?>" placeholder="Ingrese la cantidad de preguntas secretas a responder" class="campoTexto" required /> 
+            <label>Máximo de Sesiones Abiertas Permitidas:</label>
+            <input tabindex=16 title="Ingrese la cantidad máxima de sesiones permitidas por usuario" onKeyPress="return isNumberKey(event)" name="maxsesion" id="maxsesion" type="text" size="50" value="<?= $maxsesion;?>" placeholder="Ingrese la cantidad máxima de sesiones permitidas por usuario" class="campoTexto" required /> 
           </div>
         </div>
         <strong class="obligatorio">Los campos resaltados en rojo son obligatorios</strong>

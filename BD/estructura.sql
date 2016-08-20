@@ -229,6 +229,25 @@ END
 
 --
 --
+-- Table structure for table tconfiguracion_negocio
+--
+
+DROP TABLE IF EXISTS tconfiguracion_negocio;
+
+CREATE TABLE tconfiguracion_negocio (
+  codigo_configuracion_negocio int(11) NOT NULL AUTO_INCREMENT,
+  inscripcion_abierta char(1) NOT NULL DEFAULT 'Y',
+  carga_nota_abierta char(1) NOT NULL DEFAULT 'Y',
+  edad_maxima_primer_anio int(11) DEFAULT 0,
+  nota_minima float(10,2) NOT NULL DEFAULT 1,
+  nota_maxima float(10,2) NOT NULL DEFAULT 20,
+  nota_aprobacion float(10,2) NOT NULL DEFAULT 10,
+  fecha_desactivacion date DEFAULT NULL,
+  PRIMARY KEY (codigo_configuracion_negocio)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+--
+--
 -- Table structure for table tano_academico
 --
 
@@ -237,7 +256,7 @@ DROP TABLE IF EXISTS tano_academico;
 CREATE TABLE tano_academico (
   codigo_ano_academico int(11) NOT NULL AUTO_INCREMENT,
   descripcion char(10) COLLATE utf8_spanish_ci NOT NULL,
-  cerrardo char(1) NOT NULL DEFAULT 'N',
+  cerrado char(1) NOT NULL DEFAULT 'N',
   fecha_desactivacion date DEFAULT NULL,
   PRIMARY KEY (codigo_ano_academico)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
@@ -378,6 +397,31 @@ CREATE TABLE topcion (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
+-- Table structure for table tconfiguarion
+--
+
+CREATE TABLE IF NOT EXISTS tconfiguracion (
+  codigo_configuracion int(11) NOT NULL AUTO_INCREMENT,
+  descripcion varchar(30) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
+  longitud_minclave int(11) NOT NULL DEFAULT '6',
+  longitud_maxclave int(11) NOT NULL DEFAULT '10',
+  cantidad_letrasmayusculas int(11) NOT NULL DEFAULT '1',
+  cantidad_letrasminusculas int(11) NOT NULL DEFAULT '1',
+  cantidad_caracteresespeciales int(11) NOT NULL DEFAULT '1',
+  cantidad_numeros int(11) NOT NULL DEFAULT '1',
+  dias_vigenciaclave int(11) NOT NULL DEFAULT '365',
+  dias_inactividad int(11) NOT NULL DEFAULT '999',
+  numero_ultimasclaves int(11) NOT NULL DEFAULT '1',
+  dias_aviso int(11) NOT NULL DEFAULT '1',
+  intentos_fallidos int(11) NOT NULL DEFAULT '1',
+  maxsesion int(11) NOT NULL DEFAULT '5',
+  numero_preguntas int(11) NOT NULL DEFAULT '1',
+  numero_preguntasaresponder int(11) NOT NULL DEFAULT '1',
+  fecha_desactivacion date DEFAULT NULL,
+  PRIMARY KEY (codigo_configuracion)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+--
 -- Table structure for table tperfil
 --
 
@@ -386,8 +430,10 @@ DROP TABLE IF EXISTS tperfil;
 CREATE TABLE tperfil (
   codigo_perfil int(11) NOT NULL AUTO_INCREMENT,
   descripcion varchar(45) COLLATE utf8_spanish_ci NOT NULL,
+  codigo_configuracion int(11) NOT NULL,
   fecha_desactivacion date DEFAULT NULL,
-  PRIMARY KEY (codigo_perfil)
+  PRIMARY KEY (codigo_perfil),
+  CONSTRAINT fk_tperfil_tconfiguracion FOREIGN KEY (codigo_configuracion) REFERENCES tconfiguracion (codigo_configuracion) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
@@ -616,19 +662,30 @@ DROP TABLE IF EXISTS tusuario;
 
 CREATE TABLE tusuario (
   nombre_usuario char(10) COLLATE utf8_spanish_ci NOT NULL,
-  pregunta_1 varchar(200) COLLATE utf8_spanish_ci DEFAULT NULL,
-  pregunta_2 varchar(200) COLLATE utf8_spanish_ci DEFAULT NULL,
-  respuesta_1 varchar(200) COLLATE utf8_spanish_ci DEFAULT NULL,
-  respuesta_2 varchar(200) COLLATE utf8_spanish_ci DEFAULT NULL,
   cedula char(10) COLLATE utf8_spanish_ci NOT NULL,
   codigo_perfil int(11) NOT NULL,
   intento_fallido int(11) NOT NULL DEFAULT '0',
   activar_caducidad int(11) NOT NULL DEFAULT '1',
+  sesion_abierta int(11) NOT NULL DEFAULT '0',
+  fecha_ultimasesion date DEFAULT NULL,
   fecha_desactivacion date DEFAULT NULL,
   PRIMARY KEY (nombre_usuario),
   CONSTRAINT tusuario_ibfk_1 FOREIGN KEY (cedula) REFERENCES tpersona (cedula) ON UPDATE CASCADE,
   CONSTRAINT tusuario_ibfk_2 FOREIGN KEY (codigo_perfil) REFERENCES tperfil (codigo_perfil) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+--
+-- Table structure for table trespuesta_secreta
+--
+
+CREATE TABLE IF NOT EXISTS trespuesta_secreta (
+  codigo_respuesta int(11) NOT NULL AUTO_INCREMENT,
+  nombre_usuario char(10) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
+  pregunta varchar(60) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
+  respuesta varchar(60) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
+  PRIMARY KEY (codigo_respuesta),
+  CONSTRAINT trespuesta_secreta_usuario FOREIGN KEY (nombre_usuario) REFERENCES tusuario (nombre_usuario) ON UPDATE CASCADE 
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
 -- Table structure for table tcontrol_notas

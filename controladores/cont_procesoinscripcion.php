@@ -14,8 +14,14 @@ $genero=trim($_POST['genero']);
 if(isset($_POST['cedula_escolar']))
 $cedula_escolar=trim($_POST['cedula_escolar']);
 
+if(isset($_POST['lateralidad']))
+$lateralidad=trim($_POST['lateralidad']);
+
 if(isset($_POST['codigo_canaima']))
 $codigo_canaima=trim($_POST['codigo_canaima']);
+
+if(isset($_POST['canaima_operativa']))
+$canaima_operativa=trim($_POST['canaima_operativa']);
 
 if(isset($_POST['nombres']))
 $nombres=trim($_POST['nombres']);
@@ -214,7 +220,9 @@ if($operacion=='Registrar'){
   $inscripcion->cedula_estudiante($cedula_estudiante=="" ? $cedula_escolar : $cedula_estudiante);
   $inscripcion->genero($genero);
   $inscripcion->cedula_escolar($cedula_escolar);
+  $inscripcion->lateralidad($lateralidad);
   $inscripcion->codigo_canaima($codigo_canaima);
+  $inscripcion->canaima_operativa($canaima_operativa);
   $inscripcion->nombres($nombres);
   $inscripcion->apellidos($apellidos);
   $inscripcion->peso($peso);
@@ -254,7 +262,9 @@ if($operacion=='Modificar'){
   $inscripcion->cedula_estudiante($cedula_estudiante);
   $inscripcion->genero($genero);
   $inscripcion->cedula_escolar($cedula_escolar);
+  $inscripcion->lateralidad($lateralidad);
   $inscripcion->codigo_canaima($codigo_canaima);
+  $inscripcion->canaima_operativa($canaima_operativa);
   $inscripcion->nombres($nombres);
   $inscripcion->apellidos($apellidos);
   $inscripcion->peso($peso);
@@ -394,7 +404,9 @@ if($operacion=='Consultar'){
     $_SESSION['datos']['cedula']=$inscripcion->cedula_estudiante();
     $_SESSION['datos']['genero']=$inscripcion->genero();
     $_SESSION['datos']['cedula_escolar']=$inscripcion->cedula_escolar();
+    $_SESSION['datos']['lateralidad']=$inscripcion->lateralidad();
     $_SESSION['datos']['codigo_canaima']=$inscripcion->codigo_canaima();
+    $_SESSION['datos']['canaima_operativa']=$inscripcion->canaima_operativa();
     $_SESSION['datos']['nombres']=$inscripcion->nombres();
     $_SESSION['datos']['apellidos']=$inscripcion->apellidos();
     $_SESSION['datos']['peso']=$inscripcion->peso();

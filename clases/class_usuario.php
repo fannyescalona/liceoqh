@@ -185,6 +185,18 @@ class Usuario{
 		else
 			return false;
 	}
+   
+	public function Administrar_Sesion($bool){
+		if($bool==true){
+			$sql="update tusuario set sesion_abierta=(sesion_abierta+1),fecha_ultimasesion = CURDATE() where (nombre_usuario='$this->user_name')";
+		}else{
+			$sql="update tusuario set sesion_abierta=(CASE WHEN sesion_abierta = 0 THEN 0 ELSE sesion_abierta-1 END) where (nombre_usuario='$this->user_name')";
+		}
+		if($this->mysql->Ejecutar($sql)!=null)
+			return true;
+		else
+			return false;
+	}
 
 	public function Bloquear_Usuario(){
 		$sql="SELECT u.intentos_fallidos FROM tusuario u 
@@ -201,12 +213,20 @@ class Usuario{
 			return false;
 	}
 
+	public function Bloquear_Por_Inactividad(){
+		$sql="UPDATE tcontrasena c JOIN tusuario u SET c.estado=4,u.fecha_ultimasesion=NULL WHERE c.nombre_usuario=u.nombre_usuario AND c.nombre_usuario='$this->user_name' AND c.estado=1";
+		if($this->mysql->Ejecutar($sql)!=null)
+			return true;
+		else
+			return false;
+	}
+
 	public function Buscar(){
 	    $sql="SELECT estado AS estado,
 	    CONCAT(p.nombres,' ',p.apellidos) as fullname_user, 
 	    (CASE WHEN (NOW() - INTERVAL conf.dias_vigenciaclave DAY) < pas.fecha_modificacion THEN '0' ELSE '1' END) AS caducidad,
 	    pf.descripcion AS perfil,pf.codigo_perfil, 
-		u.nombre_usuario AS name, pas.contrasena, 
+		u.nombre_usuario AS name, pas.contrasena,
 		u.cedula AS cedula,
 		rs.pregunta AS preguntas,
 		rs.respuesta AS respuestas,
@@ -214,7 +234,11 @@ class Usuario{
 	    conf.dias_aviso,
 	    conf.numero_preguntas,
 	    conf.numero_preguntasaresponder,
-	    conf.dias_vigenciaclave 
+	    conf.dias_vigenciaclave,
+	    u.sesion_abierta, 
+	    conf.maxsesion,
+	    DATEDIFF(NOW(),COALESCE(u.fecha_ultimasesion,NOW())) AS dias_ultimasesion,
+	    conf.dias_inactividad 
 		FROM tpersona AS p 
 		INNER JOIN tusuario AS u ON u.cedula = p.cedula
 		INNER JOIN tperfil AS pf ON pf.codigo_perfil = u.codigo_perfil 

@@ -1,13 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 3.5.1
+-- version 4.2.12deb2+deb8u1
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tiempo de generación: 16-08-2016 a las 10:48:49
--- Versión del servidor: 5.5.24-log
--- Versión de PHP: 5.4.3
+-- Tiempo de generación: 19-08-2016 a las 20:59:48
+-- Versión del servidor: 5.5.49-0+deb8u1
+-- Versión de PHP: 5.6.22-0+deb8u1
 
-SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
 
@@ -17,8 +17,11 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8 */;
 
 --
--- Base de datos: `bdliceo`
+-- Base de datos: 'bdliceo'
 --
+DROP DATABASE IF EXISTS bdliceo;
+CREATE DATABASE IF NOT EXISTS bdliceo DEFAULT CHARACTER SET utf8 COLLATE utf8_spanish_ci;
+USE bdliceo;
 
 DELIMITER $$
 --
@@ -227,49 +230,47 @@ DELIMITER ;
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `tano_academico`
+-- Estructura de tabla para la tabla 'tano_academico'
 --
 
-DROP TABLE IF EXISTS `tano_academico`;
-CREATE TABLE IF NOT EXISTS `tano_academico` (
-  `codigo_ano_academico` int(11) NOT NULL AUTO_INCREMENT,
-  `descripcion` char(10) COLLATE utf8_spanish_ci NOT NULL,
-  `cerrardo` char(1) COLLATE utf8_spanish_ci NOT NULL DEFAULT 'N',
-  `fecha_desactivacion` date DEFAULT NULL,
-  PRIMARY KEY (`codigo_ano_academico`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=2 ;
+DROP TABLE IF EXISTS tano_academico;
+CREATE TABLE IF NOT EXISTS tano_academico (
+codigo_ano_academico int(11) NOT NULL,
+  descripcion char(10) COLLATE utf8_spanish_ci NOT NULL,
+  cerrado char(1) COLLATE utf8_spanish_ci NOT NULL DEFAULT 'N',
+  fecha_desactivacion date DEFAULT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
--- Volcado de datos para la tabla `tano_academico`
+-- Volcado de datos para la tabla 'tano_academico'
 --
 
-INSERT INTO `tano_academico` (`codigo_ano_academico`, `descripcion`, `cerrardo`, `fecha_desactivacion`) VALUES
+INSERT INTO tano_academico (codigo_ano_academico, descripcion, cerrado, fecha_desactivacion) VALUES
 (1, '2015-2016', 'N', NULL);
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `tauditoria`
+-- Estructura de tabla para la tabla 'tauditoria'
 --
 
-DROP TABLE IF EXISTS `tauditoria`;
-CREATE TABLE IF NOT EXISTS `tauditoria` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `ip` varchar(15) COLLATE utf8_spanish_ci NOT NULL,
-  `so` varchar(50) COLLATE utf8_spanish_ci NOT NULL,
-  `navigador` varchar(35) COLLATE utf8_spanish_ci NOT NULL,
-  `usuario_base_de_datos` varchar(60) COLLATE utf8_spanish_ci NOT NULL,
-  `usuario_aplicacion` char(15) COLLATE utf8_spanish_ci NOT NULL,
+DROP TABLE IF EXISTS tauditoria;
+CREATE TABLE IF NOT EXISTS tauditoria (
+id int(11) NOT NULL,
+  ip varchar(15) COLLATE utf8_spanish_ci NOT NULL,
+  so varchar(50) COLLATE utf8_spanish_ci NOT NULL,
+  navigador varchar(35) COLLATE utf8_spanish_ci NOT NULL,
+  usuario_base_de_datos varchar(60) COLLATE utf8_spanish_ci NOT NULL,
+  usuario_aplicacion char(15) COLLATE utf8_spanish_ci NOT NULL,
   `query` text COLLATE utf8_spanish_ci NOT NULL,
-  `fecha` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=3336 ;
+  fecha timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB AUTO_INCREMENT=3403 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
--- Volcado de datos para la tabla `tauditoria`
+-- Volcado de datos para la tabla 'tauditoria'
 --
 
-INSERT INTO `tauditoria` (`id`, `ip`, `so`, `navigador`, `usuario_base_de_datos`, `usuario_aplicacion`, `query`, `fecha`) VALUES
+INSERT INTO tauditoria (id, ip, so, navigador, usuario_base_de_datos, usuario_aplicacion, query, fecha) VALUES
 (1, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'update tusuario set intento_fallido=0 where (nombre_usuario=''V123456789'')', '2016-01-09 20:18:54'),
 (2, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'update tcontrasena set estado=0 where (nombre_usuario=''V123456789'')', '2016-01-09 20:19:05'),
 (3, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'insert into tcontrasena (contrasena,nombre_usuario,estado)values(''791acae9d7efbefc2b489747af71cc2f6870554d'',''V123456789'',1)', '2016-01-09 20:19:05'),
@@ -338,7 +339,7 @@ INSERT INTO `tauditoria` (`id`, `ip`, `so`, `navigador`, `usuario_base_de_datos`
 (68, '127.0.0.1', 'Linux', 'Google Chrome', 'root@localhost', 'V13131313', 'update tusuario set intento_fallido=0 where (nombre_usuario=''V13131313'')', '2016-01-15 01:25:50'),
 (69, '127.0.0.1', 'Linux', 'Google Chrome', 'root@localhost', 'V13131313', 'update tcontrasena set estado=0 where (nombre_usuario=''V13131313'')', '2016-01-15 01:26:08'),
 (70, '127.0.0.1', 'Linux', 'Google Chrome', 'root@localhost', 'V13131313', 'insert into tcontrasena (contrasena,nombre_usuario,estado)values(''791acae9d7efbefc2b489747af71cc2f6870554d'',''V13131313'',1)', '2016-01-15 01:26:08'),
-(71, '127.0.0.1', 'Linux', 'Google Chrome', 'root@localhost', 'V13131313', 'UPDATE tusuario SET \r\n	nombre_usuario=''V13131313'',\r\n	pregunta_1 =  ''P1'',\r\n	respuesta_1 =  ''R1'',\r\n	pregunta_2 =  ''P2'',\r\n	respuesta_2=  ''R2'' WHERE (nombre_usuario=''V13131313'')', '2016-01-15 01:26:08'),
+(71, '127.0.0.1', 'Linux', 'Google Chrome', 'root@localhost', 'V13131313', 'UPDATE tusuario SET \r\n  nombre_usuario=''V13131313'',\r\n pregunta_1 =  ''P1'',\r\n respuesta_1 =  ''R1'',\r\n  pregunta_2 =  ''P2'',\r\n respuesta_2=  ''R2'' WHERE (nombre_usuario=''V13131313'')', '2016-01-15 01:26:08'),
 (72, '127.0.0.1', 'Linux', 'Google Chrome', 'root@localhost', 'V13131313', 'update tperfil set descripcion=''ADMINISTRADOR'' where (codigo_perfil=''1'');', '2016-01-15 01:27:29'),
 (73, '127.0.0.1', 'Linux', 'Google Chrome', 'root@localhost', 'V13131313', 'DELETE FROM tservicio_usuario_opcion where (codigo_perfil=''1'');', '2016-01-15 01:27:29'),
 (74, '127.0.0.1', 'Linux', 'Google Chrome', 'root@localhost', 'V13131313', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''1'',NULL)', '2016-01-15 01:27:29'),
@@ -489,7 +490,7 @@ INSERT INTO `tauditoria` (`id`, `ip`, `so`, `navigador`, `usuario_base_de_datos`
 (219, '127.0.0.1', 'Linux', 'Google Chrome', 'root@localhost', 'V13131313', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''21'',''1'')', '2016-01-15 01:27:42'),
 (220, '127.0.0.1', 'Linux', 'Google Chrome', 'root@localhost', 'V13131313', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''21'',''2'')', '2016-01-15 01:27:42'),
 (221, '127.0.0.1', 'Linux', 'Google Chrome', 'root@localhost', 'V13131313', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''21'',''3'')', '2016-01-15 01:27:42');
-INSERT INTO `tauditoria` (`id`, `ip`, `so`, `navigador`, `usuario_base_de_datos`, `usuario_aplicacion`, `query`, `fecha`) VALUES
+INSERT INTO tauditoria (id, ip, so, navigador, usuario_base_de_datos, usuario_aplicacion, query, fecha) VALUES
 (222, '127.0.0.1', 'Linux', 'Google Chrome', 'root@localhost', 'V13131313', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''21'',''4'')', '2016-01-15 01:27:42'),
 (223, '127.0.0.1', 'Linux', 'Google Chrome', 'root@localhost', 'V13131313', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''21'',''5'')', '2016-01-15 01:27:42'),
 (224, '127.0.0.1', 'Linux', 'Google Chrome', 'root@localhost', 'V13131313', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''21'',''6'')', '2016-01-15 01:27:42'),
@@ -727,7 +728,7 @@ INSERT INTO `tauditoria` (`id`, `ip`, `so`, `navigador`, `usuario_base_de_datos`
 (456, '127.0.0.1', 'Linux', 'Google Chrome', 'root@localhost', 'V13131313', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''13'',NULL)', '2016-01-15 01:28:02'),
 (457, '127.0.0.1', 'Linux', 'Google Chrome', 'root@localhost', 'V13131313', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''14'',NULL)', '2016-01-15 01:28:02'),
 (458, '127.0.0.1', 'Linux', 'Google Chrome', 'root@localhost', 'V13131313', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''15'',NULL)', '2016-01-15 01:28:02');
-INSERT INTO `tauditoria` (`id`, `ip`, `so`, `navigador`, `usuario_base_de_datos`, `usuario_aplicacion`, `query`, `fecha`) VALUES
+INSERT INTO tauditoria (id, ip, so, navigador, usuario_base_de_datos, usuario_aplicacion, query, fecha) VALUES
 (459, '127.0.0.1', 'Linux', 'Google Chrome', 'root@localhost', 'V13131313', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''16'',NULL)', '2016-01-15 01:28:02'),
 (460, '127.0.0.1', 'Linux', 'Google Chrome', 'root@localhost', 'V13131313', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''19'',NULL)', '2016-01-15 01:28:02'),
 (461, '127.0.0.1', 'Linux', 'Google Chrome', 'root@localhost', 'V13131313', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''20'',NULL)', '2016-01-15 01:28:02'),
@@ -943,7 +944,7 @@ INSERT INTO `tauditoria` (`id`, `ip`, `so`, `navigador`, `usuario_base_de_datos`
 (671, '127.0.0.1', 'Linux', 'Google Chrome', 'root@localhost', 'V121212121', 'update tcontrasena set estado=0 where (nombre_usuario=''V121212121'')', '2016-01-15 01:41:06'),
 (672, '127.0.0.1', 'Linux', 'Google Chrome', 'root@localhost', 'V121212121', 'insert into tcontrasena (contrasena,nombre_usuario,estado)values(''791acae9d7efbefc2b489747af71cc2f6870554d'',''V121212121'',1)', '2016-01-15 01:41:06'),
 (673, '127.0.0.1', 'Linux', 'Google Chrome', 'root@localhost', 'V121212121', 'update tusuario set intento_fallido=0 where (nombre_usuario=''V121212121'')', '2016-01-15 01:41:25'),
-(674, '127.0.0.1', 'Linux', 'Google Chrome', 'root@localhost', 'V121212121', 'UPDATE tusuario SET \r\n	nombre_usuario=''V121212121'',\r\n	pregunta_1 =  ''P1'',\r\n	respuesta_1 =  ''R1'',\r\n	pregunta_2 =  ''P2'',\r\n	respuesta_2=  ''R2'' WHERE (nombre_usuario=''V121212121'')', '2016-01-15 01:42:07'),
+(674, '127.0.0.1', 'Linux', 'Google Chrome', 'root@localhost', 'V121212121', 'UPDATE tusuario SET \r\n  nombre_usuario=''V121212121'',\r\n  pregunta_1 =  ''P1'',\r\n respuesta_1 =  ''R1'',\r\n  pregunta_2 =  ''P2'',\r\n respuesta_2=  ''R2'' WHERE (nombre_usuario=''V121212121'')', '2016-01-15 01:42:07'),
 (675, '127.0.0.1', 'Linux', 'Google Chrome', 'root@localhost', 'V123456789', 'update tusuario set intento_fallido=0 where (nombre_usuario=''V123456789'')', '2016-01-15 03:10:38'),
 (676, '127.0.0.1', 'Linux', 'Google Chrome', 'root@localhost', '', 'update tusuario set intento_fallido=(intento_fallido+1) where (nombre_usuario=''V13131313'')', '2016-01-15 03:11:32'),
 (677, '127.0.0.1', 'Linux', 'Google Chrome', 'root@localhost', '', 'update tusuario set intento_fallido=(intento_fallido+1) where (nombre_usuario=''V123456789'')', '2016-01-15 03:11:55'),
@@ -959,7 +960,7 @@ INSERT INTO `tauditoria` (`id`, `ip`, `so`, `navigador`, `usuario_base_de_datos`
 (687, '127.0.0.1', 'Linux', 'Google Chrome', 'root@localhost', 'V123456789', 'INSERT INTO tproceso_inscripcion (codigo_inscripcion,fecha_inscripcion,codigo_ano_academico,cedula_estudiante,cedula_escolar,codigo_canaima,peso,estatura,codigo_plantel,primerafi) VALUES ((SELECT MAX(codigo_inscripcion) FROM tinscripcion WHERE fecha_desactivacion IS NULL),CURDATE(),(SELECT MAX(codigo_ano_academico) FROM tano_academico WHERE fecha_desactivacion IS NULL),''V1111'','''','''',''50'',''156'',''12345645343'',CURDATE());', '2016-01-15 15:07:47'),
 (689, '127.0.0.1', 'Linux', 'Google Chrome', 'root@localhost', 'V123456789', 'INSERT INTO tpersona (cedula,nombres,apellidos,genero,fecha_nacimiento,lugar_nacimiento,direccion,telefono_habitacion,telefono_movil,email,esestudiante,esrepresentante,fecha_ingreso,codigo_cargo,codigo_dependencia,condicion_cargo,nivel_academico,carga_horaria,codigo_plantel) VALUES (''V25347014'',''ANYELIS'',''SALAZ'',''F'',STR_TO_DATE(''30/01/2002'',''%d/%m/%Y''),''1'',''ACARIGUA'',''02554564532'','''',''anyelisalazar@hotmail.com'',''Y'',''N'',NULL,NULL,NULL,NULL,NULL,NULL,NULL);', '2016-01-15 15:28:32'),
 (690, '127.0.0.1', 'Linux', 'Google Chrome', 'root@localhost', 'V123456789', 'INSERT INTO tproceso_inscripcion (codigo_inscripcion,fecha_inscripcion,codigo_ano_academico,cedula_estudiante,cedula_escolar,codigo_canaima,peso,estatura,codigo_plantel,primerafi) VALUES ((SELECT MAX(codigo_inscripcion) FROM tinscripcion WHERE fecha_desactivacion IS NULL),CURDATE(),(SELECT MAX(codigo_ano_academico) FROM tano_academico WHERE fecha_desactivacion IS NULL),''V25347014'','''','''',''50'',''165'',''12345645343'',CURDATE());', '2016-01-15 15:28:32');
-INSERT INTO `tauditoria` (`id`, `ip`, `so`, `navigador`, `usuario_base_de_datos`, `usuario_aplicacion`, `query`, `fecha`) VALUES
+INSERT INTO tauditoria (id, ip, so, navigador, usuario_base_de_datos, usuario_aplicacion, query, fecha) VALUES
 (693, '127.0.0.1', 'Linux', 'Google Chrome', 'root@localhost', 'V123456789', 'INSERT INTO tpersona (cedula,nombres,apellidos,genero,fecha_nacimiento,lugar_nacimiento,direccion,telefono_habitacion,telefono_movil,email,esestudiante,esrepresentante,fecha_ingreso,codigo_cargo,codigo_dependencia,condicion_cargo,nivel_academico,carga_horaria,codigo_plantel) VALUES (''V24935226'',''OSCARY'',''SOTO'',''F'',STR_TO_DATE(''05/01/2006'',''%d/%m/%Y''),''1'',''ACARIGUA'',''02556363333'','''',''oscarysoto@hotmail.com'',''Y'',''N'',NULL,NULL,NULL,NULL,NULL,NULL,NULL);', '2016-01-15 15:50:39'),
 (694, '127.0.0.1', 'Linux', 'Google Chrome', 'root@localhost', 'V123456789', 'INSERT INTO tproceso_inscripcion (codigo_inscripcion,fecha_inscripcion,codigo_ano_academico,cedula_estudiante,cedula_escolar,codigo_canaima,peso,estatura,codigo_plantel,primerafi) VALUES ((SELECT MAX(codigo_inscripcion) FROM tinscripcion WHERE fecha_desactivacion IS NULL),CURDATE(),(SELECT MAX(codigo_ano_academico) FROM tano_academico WHERE fecha_desactivacion IS NULL),''V24935226'','''','''',''50'',''162'',''12345645343'',CURDATE());', '2016-01-15 15:50:39'),
 (695, '127.0.0.1', 'Linux', 'Google Chrome', 'root@localhost', 'V123456789', 'INSERT INTO tpersona (cedula,nombres,apellidos,genero,fecha_nacimiento,lugar_nacimiento,direccion,telefono_habitacion,telefono_movil,email,esestudiante,esrepresentante,fecha_ingreso,codigo_cargo,codigo_dependencia,condicion_cargo,nivel_academico,carga_horaria,codigo_plantel) VALUES (''V25347013'',''ANYELISMER'',''PERZ'',''F'',STR_TO_DATE(''19/01/2005'',''%d/%m/%Y''),''1'',''ACARIGUA'',''02556373737'','''',''anyelismer@hotmail.com'',''Y'',''N'',NULL,NULL,NULL,NULL,NULL,NULL,NULL);', '2016-01-15 15:57:48'),
@@ -1190,7 +1191,7 @@ INSERT INTO `tauditoria` (`id`, `ip`, `so`, `navigador`, `usuario_base_de_datos`
 (921, '127.0.0.1', 'Linux', 'Google Chrome', 'root@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''30'',''1'')', '2016-01-15 16:18:45'),
 (922, '127.0.0.1', 'Linux', 'Google Chrome', 'root@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''30'',''2'')', '2016-01-15 16:18:45'),
 (923, '127.0.0.1', 'Linux', 'Google Chrome', 'root@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''30'',''3'')', '2016-01-15 16:18:45');
-INSERT INTO `tauditoria` (`id`, `ip`, `so`, `navigador`, `usuario_base_de_datos`, `usuario_aplicacion`, `query`, `fecha`) VALUES
+INSERT INTO tauditoria (id, ip, so, navigador, usuario_base_de_datos, usuario_aplicacion, query, fecha) VALUES
 (924, '127.0.0.1', 'Linux', 'Google Chrome', 'root@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''30'',''4'')', '2016-01-15 16:18:45'),
 (925, '127.0.0.1', 'Linux', 'Google Chrome', 'root@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''30'',''5'')', '2016-01-15 16:18:45'),
 (926, '127.0.0.1', 'Linux', 'Google Chrome', 'root@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''30'',''6'')', '2016-01-15 16:18:45'),
@@ -1426,7 +1427,7 @@ INSERT INTO `tauditoria` (`id`, `ip`, `so`, `navigador`, `usuario_base_de_datos`
 (1156, '127.0.0.1', 'Linux', 'Google Chrome', 'root@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''13'',NULL)', '2016-01-15 16:19:04'),
 (1157, '127.0.0.1', 'Linux', 'Google Chrome', 'root@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''14'',NULL)', '2016-01-15 16:19:04'),
 (1158, '127.0.0.1', 'Linux', 'Google Chrome', 'root@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''15'',NULL)', '2016-01-15 16:19:04');
-INSERT INTO `tauditoria` (`id`, `ip`, `so`, `navigador`, `usuario_base_de_datos`, `usuario_aplicacion`, `query`, `fecha`) VALUES
+INSERT INTO tauditoria (id, ip, so, navigador, usuario_base_de_datos, usuario_aplicacion, query, fecha) VALUES
 (1159, '127.0.0.1', 'Linux', 'Google Chrome', 'root@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''16'',NULL)', '2016-01-15 16:19:05'),
 (1160, '127.0.0.1', 'Linux', 'Google Chrome', 'root@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''19'',NULL)', '2016-01-15 16:19:05'),
 (1161, '127.0.0.1', 'Linux', 'Google Chrome', 'root@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''20'',NULL)', '2016-01-15 16:19:05'),
@@ -1628,7 +1629,7 @@ INSERT INTO `tauditoria` (`id`, `ip`, `so`, `navigador`, `usuario_base_de_datos`
 (1358, '127.0.0.1', 'Linux', 'Google Chrome', 'root@localhost', 'V123456789', 'UPDATE tproceso_inscripcion SET cedula_padre=''V115678456'' WHERE cedula_estudiante=''V30363014'';', '2016-01-17 21:09:32'),
 (1359, '127.0.0.1', 'Linux', 'Google Chrome', 'root@localhost', 'V123456789', 'UPDATE tproceso_inscripcion SET certificado_sextogrado=''N'',notascertificadas=''N'',cartabuenaconducta=''Y'',fotoestudiante=''Y'',fotorepresentante=''Y'',fotocopia_ciestudiante=''N'',fotocopia_cirepresentante=''N'',fotocopia_pnestudiante=''Y'',kitscomedor=''N'',becado=''N'',tipobeca=''N'' WHERE cedula_estudiante = ''V30363014''', '2016-01-17 21:09:42'),
 (1361, '127.0.0.1', 'Linux', 'Google Chrome', 'root@localhost', 'V123456789', 'UPDATE tpersona SET cedula=''V115678456'',nombres=''MANUEL'',apellidos=''CASTRO'',genero=''M'',fecha_nacimiento=STR_TO_DATE(''20/04/1984'',''%d/%m/%Y''),lugar_nacimiento=''1'',direccion=''PAEZ'',telefono_habitacion='''',telefono_movil='''',email='''',esestudiante=''N'',esrepresentante=''Y'' WHERE cedula='''';', '2016-01-17 21:11:20');
-INSERT INTO `tauditoria` (`id`, `ip`, `so`, `navigador`, `usuario_base_de_datos`, `usuario_aplicacion`, `query`, `fecha`) VALUES
+INSERT INTO tauditoria (id, ip, so, navigador, usuario_base_de_datos, usuario_aplicacion, query, fecha) VALUES
 (1362, '127.0.0.1', 'Linux', 'Google Chrome', 'root@localhost', 'V123456789', 'UPDATE tproceso_inscripcion SET cedula_docente=''V121212121'',cedula_representante=''V115678456'',codigo_parentesco=''2'',lugar_trabajo=''1'',proceso_completado=''Y''WHERE cedula_estudiante=''V30363014'';', '2016-01-17 21:11:20'),
 (1363, '127.0.0.1', 'Linux', 'Google Chrome', 'root@localhost', '', 'UPDATE tpersona SET cedula=''V115678456'',nombres=''MANUEL'',apellidos=''CASTRO'',genero=''M'',fecha_nacimiento=STR_TO_DATE(''20/04/1984'',''%d/%m/%Y''),lugar_nacimiento=''1'',direccion=''PAEZ'',telefono_habitacion='''',telefono_movil='''',email='''',esestudiante=''N'',esrepresentante=''Y'' WHERE cedula='''';', '2016-01-17 21:48:22'),
 (1364, '127.0.0.1', 'Linux', 'Google Chrome', 'root@localhost', '', 'UPDATE tproceso_inscripcion SET cedula_docente=''V121212121'',cedula_representante=''V115678456'',codigo_parentesco=''2'',lugar_trabajo=''1'',proceso_completado=''Y''WHERE cedula_estudiante=''V30363014'';', '2016-01-17 21:48:22'),
@@ -1897,7 +1898,7 @@ INSERT INTO `tauditoria` (`id`, `ip`, `so`, `navigador`, `usuario_base_de_datos`
 (1627, '127.0.0.1', 'Linux', 'Google Chrome', 'root@localhost', 'V123456789', 'insert into tmunicipio (descripcion,codigo_estado) values (''PALAVECINO'',''2'');', '2016-01-18 04:23:32'),
 (1628, '127.0.0.1', 'Linux', 'Google Chrome', 'root@localhost', 'V123456789', 'insert into tmunicipio (descripcion,codigo_estado) values (''SIMON PLANAS'',''2'');', '2016-01-18 04:23:43'),
 (1629, '127.0.0.1', 'Linux', 'Google Chrome', 'root@localhost', 'V123456789', 'insert into tmunicipio (descripcion,codigo_estado) values (''TORRES'',''2'');', '2016-01-18 04:23:54');
-INSERT INTO `tauditoria` (`id`, `ip`, `so`, `navigador`, `usuario_base_de_datos`, `usuario_aplicacion`, `query`, `fecha`) VALUES
+INSERT INTO tauditoria (id, ip, so, navigador, usuario_base_de_datos, usuario_aplicacion, query, fecha) VALUES
 (1630, '127.0.0.1', 'Linux', 'Google Chrome', 'root@localhost', 'V123456789', 'insert into tmunicipio (descripcion,codigo_estado) values (''URDANETA'',''2'');', '2016-01-18 04:24:02'),
 (1631, '127.0.0.1', 'Linux', 'Google Chrome', 'root@localhost', 'V123456789', 'insert into tmunicipio (descripcion,codigo_estado) values (''ALBERTO ADRIANI'',''11'');', '2016-01-18 04:24:44'),
 (1632, '127.0.0.1', 'Linux', 'Google Chrome', 'root@localhost', 'V123456789', 'insert into tmunicipio (descripcion,codigo_estado) values (''ANDRES BELLO'',''11'');', '2016-01-18 04:24:58'),
@@ -2145,7 +2146,7 @@ INSERT INTO `tauditoria` (`id`, `ip`, `so`, `navigador`, `usuario_base_de_datos`
 (1874, '127.0.0.1', 'Linux', 'Google Chrome', 'root@localhost', 'V123456789', 'insert into tmateria (codigo_materia,descripcion,unidad_curricular,grado_escolar) values (''INF002'',''INFORMATICA'',''4'',''3'');', '2016-01-19 02:13:08'),
 (1875, '127.0.0.1', 'Linux', 'Google Chrome', 'root@localhost', 'V123456789', 'insert into tmateria (codigo_materia,descripcion,unidad_curricular,grado_escolar) values (''FRUT001'',''FRUTICULTURA'',''4'',''3'');', '2016-01-19 02:13:39'),
 (1876, '127.0.0.1', 'Linux', 'Google Chrome', 'root@localhost', 'V123456789', 'insert into tmateria (codigo_materia,descripcion,unidad_curricular,grado_escolar) values (''EPT003'',''EDUCACION PARA EL TRABAJO'',''8'',''3'');', '2016-01-19 02:14:52');
-INSERT INTO `tauditoria` (`id`, `ip`, `so`, `navigador`, `usuario_base_de_datos`, `usuario_aplicacion`, `query`, `fecha`) VALUES
+INSERT INTO tauditoria (id, ip, so, navigador, usuario_base_de_datos, usuario_aplicacion, query, fecha) VALUES
 (1877, '127.0.0.1', 'Linux', 'Google Chrome', 'root@localhost', 'V123456789', 'insert into tmateria (codigo_materia,descripcion,unidad_curricular,grado_escolar) values (''EDUCF04'',''EDUCACION FISICA'',''2'',''4'');', '2016-01-19 02:16:45'),
 (1878, '127.0.0.1', 'Linux', 'Google Chrome', 'root@localhost', 'V123456789', 'insert into tmateria (codigo_materia,descripcion,unidad_curricular,grado_escolar) values (''DIB001'',''DIBUJO'',''2'',''4'');', '2016-01-19 02:17:53'),
 (1879, '127.0.0.1', 'Linux', 'Google Chrome', 'root@localhost', 'V123456789', 'insert into tmateria (codigo_materia,descripcion,unidad_curricular,grado_escolar) values (''IPM001'',''INSTRUCCION PREMILITAR'',''2'',''4'');', '2016-01-19 02:22:53'),
@@ -2365,7 +2366,7 @@ INSERT INTO `tauditoria` (`id`, `ip`, `so`, `navigador`, `usuario_base_de_datos`
 (2093, '127.0.0.1', 'Linux', 'Google Chrome', 'root@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''13'',''6'')', '2016-01-19 19:48:00'),
 (2094, '127.0.0.1', 'Linux', 'Google Chrome', 'root@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''13'',''7'')', '2016-01-19 19:48:00'),
 (2095, '127.0.0.1', 'Linux', 'Google Chrome', 'root@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''14'',NULL)', '2016-01-19 19:48:00');
-INSERT INTO `tauditoria` (`id`, `ip`, `so`, `navigador`, `usuario_base_de_datos`, `usuario_aplicacion`, `query`, `fecha`) VALUES
+INSERT INTO tauditoria (id, ip, so, navigador, usuario_base_de_datos, usuario_aplicacion, query, fecha) VALUES
 (2096, '127.0.0.1', 'Linux', 'Google Chrome', 'root@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''14'',''1'')', '2016-01-19 19:48:01'),
 (2097, '127.0.0.1', 'Linux', 'Google Chrome', 'root@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''14'',''2'')', '2016-01-19 19:48:01'),
 (2098, '127.0.0.1', 'Linux', 'Google Chrome', 'root@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''14'',''3'')', '2016-01-19 19:48:01'),
@@ -2600,7 +2601,7 @@ INSERT INTO `tauditoria` (`id`, `ip`, `so`, `navigador`, `usuario_base_de_datos`
 (2327, '127.0.0.1', 'Linux', 'Google Chrome', 'root@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''34'',NULL)', '2016-01-19 19:48:21'),
 (2328, '127.0.0.1', 'Linux', 'Google Chrome', 'root@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''35'',NULL)', '2016-01-19 19:48:21'),
 (2329, '127.0.0.1', 'Linux', 'Google Chrome', 'root@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''17'',NULL)', '2016-01-19 19:48:21');
-INSERT INTO `tauditoria` (`id`, `ip`, `so`, `navigador`, `usuario_base_de_datos`, `usuario_aplicacion`, `query`, `fecha`) VALUES
+INSERT INTO tauditoria (id, ip, so, navigador, usuario_base_de_datos, usuario_aplicacion, query, fecha) VALUES
 (2330, '127.0.0.1', 'Linux', 'Google Chrome', 'root@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''18'',NULL)', '2016-01-19 19:48:21'),
 (2331, '127.0.0.1', 'Linux', 'Google Chrome', 'root@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''1'',NULL)', '2016-01-19 19:48:21'),
 (2332, '127.0.0.1', 'Linux', 'Google Chrome', 'root@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''2'',NULL)', '2016-01-19 19:48:21'),
@@ -2836,7 +2837,7 @@ INSERT INTO `tauditoria` (`id`, `ip`, `so`, `navigador`, `usuario_base_de_datos`
 (2562, '127.0.0.1', 'Linux', 'Google Chrome', 'root@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''11'',''5'')', '2016-01-19 19:48:43'),
 (2563, '127.0.0.1', 'Linux', 'Google Chrome', 'root@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''11'',''6'')', '2016-01-19 19:48:43'),
 (2564, '127.0.0.1', 'Linux', 'Google Chrome', 'root@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''11'',''7'')', '2016-01-19 19:48:43');
-INSERT INTO `tauditoria` (`id`, `ip`, `so`, `navigador`, `usuario_base_de_datos`, `usuario_aplicacion`, `query`, `fecha`) VALUES
+INSERT INTO tauditoria (id, ip, so, navigador, usuario_base_de_datos, usuario_aplicacion, query, fecha) VALUES
 (2565, '127.0.0.1', 'Linux', 'Google Chrome', 'root@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''12'',NULL)', '2016-01-19 19:48:43'),
 (2566, '127.0.0.1', 'Linux', 'Google Chrome', 'root@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''12'',''1'')', '2016-01-19 19:48:43'),
 (2567, '127.0.0.1', 'Linux', 'Google Chrome', 'root@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''12'',''2'')', '2016-01-19 19:48:43'),
@@ -3071,7 +3072,7 @@ INSERT INTO `tauditoria` (`id`, `ip`, `so`, `navigador`, `usuario_base_de_datos`
 (2796, '127.0.0.1', 'Linux', 'Google Chrome', 'root@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''16'',NULL)', '2016-01-19 19:49:05'),
 (2797, '127.0.0.1', 'Linux', 'Google Chrome', 'root@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''19'',NULL)', '2016-01-19 19:49:05'),
 (2798, '127.0.0.1', 'Linux', 'Google Chrome', 'root@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''20'',NULL)', '2016-01-19 19:49:05');
-INSERT INTO `tauditoria` (`id`, `ip`, `so`, `navigador`, `usuario_base_de_datos`, `usuario_aplicacion`, `query`, `fecha`) VALUES
+INSERT INTO tauditoria (id, ip, so, navigador, usuario_base_de_datos, usuario_aplicacion, query, fecha) VALUES
 (2799, '127.0.0.1', 'Linux', 'Google Chrome', 'root@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''21'',NULL)', '2016-01-19 19:49:05'),
 (2800, '127.0.0.1', 'Linux', 'Google Chrome', 'root@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''22'',NULL)', '2016-01-19 19:49:06'),
 (2801, '127.0.0.1', 'Linux', 'Google Chrome', 'root@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''23'',NULL)', '2016-01-19 19:49:06'),
@@ -3307,7 +3308,7 @@ INSERT INTO `tauditoria` (`id`, `ip`, `so`, `navigador`, `usuario_base_de_datos`
 (3031, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''7'',''2'')', '2016-08-16 02:55:56'),
 (3032, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''7'',''3'')', '2016-08-16 02:55:56'),
 (3033, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''7'',''4'')', '2016-08-16 02:55:57');
-INSERT INTO `tauditoria` (`id`, `ip`, `so`, `navigador`, `usuario_base_de_datos`, `usuario_aplicacion`, `query`, `fecha`) VALUES
+INSERT INTO tauditoria (id, ip, so, navigador, usuario_base_de_datos, usuario_aplicacion, query, fecha) VALUES
 (3034, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''7'',''5'')', '2016-08-16 02:55:57'),
 (3035, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''7'',''6'')', '2016-08-16 02:55:57'),
 (3036, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''7'',''7'')', '2016-08-16 02:55:57'),
@@ -3540,7 +3541,7 @@ INSERT INTO `tauditoria` (`id`, `ip`, `so`, `navigador`, `usuario_base_de_datos`
 (3263, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''7'',NULL)', '2016-08-16 02:56:15'),
 (3264, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''8'',NULL)', '2016-08-16 02:56:15'),
 (3265, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''9'',NULL)', '2016-08-16 02:56:15');
-INSERT INTO `tauditoria` (`id`, `ip`, `so`, `navigador`, `usuario_base_de_datos`, `usuario_aplicacion`, `query`, `fecha`) VALUES
+INSERT INTO tauditoria (id, ip, so, navigador, usuario_base_de_datos, usuario_aplicacion, query, fecha) VALUES
 (3266, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''10'',NULL)', '2016-08-16 02:56:15'),
 (3267, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''11'',NULL)', '2016-08-16 02:56:15'),
 (3268, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',''12'',NULL)', '2016-08-16 02:56:15'),
@@ -3601,36 +3602,101 @@ INSERT INTO `tauditoria` (`id`, `ip`, `so`, `navigador`, `usuario_base_de_datos`
 (3323, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',1,1),(''1'',1,2),(''1'',1,3),(''1'',1,4),(''1'',1,5),(''1'',1,6),(''1'',1,7),(''1'',2,1),(''1'',2,2),(''1'',2,3),(''1'',2,4),(''1'',2,5),(''1'',2,6),(''1'',2,7),(''1'',3,1),(''1'',3,2),(''1'',3,3),(''1'',3,4),(''1'',3,5),(''1'',3,6),(''1'',3,7),(''1'',4,1),(''1'',4,2),(''1'',4,3),(''1'',4,4),(''1'',4,5),(''1'',4,6),(''1'',4,7),(''1'',5,1),(''1'',5,2),(''1'',5,3),(''1'',5,4),(''1'',5,5),(''1'',5,6),(''1'',5,7),(''1'',6,1),(''1'',6,2),(''1'',6,3),(''1'',6,4),(''1'',6,5),(''1'',6,6),(''1'',6,7),(''1'',7,1),(''1'',7,2),(''1'',7,3),(''1'',7,4),(''1'',7,5),(''1'',7,6),(''1'',7,7),(''1'',8,1),(''1'',8,2),(''1'',8,3),(''1'',8,4),(''1'',8,5),(''1'',8,6),(''1'',8,7),(''1'',9,1),(''1'',9,2),(''1'',9,3),(''1'',9,4),(''1'',9,5),(''1'',9,6),(''1'',9,7),(''1'',10,1),(''1'',10,2),(''1'',10,3),(''1'',10,4),(''1'',10,5),(''1'',10,6),(''1'',10,7),(''1'',11,1),(''1'',11,2),(''1'',11,3),(''1'',11,4),(''1'',11,5),(''1'',11,6),(''1'',11,7),(''1'',12,1),(''1'',12,2),(''1'',12,3),(''1'',12,4),(''1'',12,5),(''1'',12,6),(''1'',12,7),(''1'',13,1),(''1'',13,2),(''1'',13,3),(''1'',13,4),(''1'',13,5),(''1'',13,6),(''1'',13,7),(''1'',14,1),(''1'',14,2),(''1'',14,3),(''1'',14,4),(''1'',14,5),(''1'',14,6),(''1'',14,7),(''1'',15,1),(''1'',15,2),(''1'',15,3),(''1'',15,4),(''1'',15,5),(''1'',15,6),(''1'',15,7),(''1'',16,1),(''1'',16,2),(''1'',16,3),(''1'',16,4),(''1'',16,5),(''1'',16,6),(''1'',16,7),(''1'',19,1),(''1'',19,2),(''1'',19,3),(''1'',19,4),(''1'',19,5),(''1'',19,6),(''1'',19,7),(''1'',20,1),(''1'',20,2),(''1'',20,3),(''1'',20,4),(''1'',20,5),(''1'',20,6),(''1'',20,7),(''1'',21,1),(''1'',21,2),(''1'',21,3),(''1'',21,4),(''1'',21,5),(''1'',21,6),(''1'',21,7),(''1'',22,1),(''1'',22,2),(''1'',22,3),(''1'',22,4),(''1'',22,5),(''1'',22,6),(''1'',22,7),(''1'',23,1),(''1'',23,2),(''1'',23,3),(''1'',23,4),(''1'',23,5),(''1'',23,6),(''1'',23,7),(''1'',24,1),(''1'',24,2),(''1'',24,3),(''1'',24,4),(''1'',24,5),(''1'',24,6),(''1'',24,7),(''1'',25,1),(''1'',25,2),(''1'',25,3),(''1'',25,4),(''1'',25,5),(''1'',25,6),(''1'',25,7),(''1'',26,1),(''1'',26,2),(''1'',26,3),(''1'',26,4),(''1'',26,5),(''1'',26,6),(''1'',26,7),(''1'',27,1),(''1'',27,2),(''1'',27,3),(''1'',27,4),(''1'',27,5),(''1'',27,6),(''1'',27,7),(''1'',36,5),(''1'',36,7),(''1'',28,1),(''1'',28,2),(''1'',28,3),(''1'',28,4),(''1'',28,5),(''1'',28,6),(''1'',28,7),(''1'',29,1),(''1'',29,2),(''1'',29,3),(''1'',29,4),(''1'',29,5),(''1'',29,6),(''1'',29,7),(''1'',30,1),(''1'',30,2),(''1'',30,3),(''1'',30,4),(''1'',30,5),(''1'',30,6),(''1'',30,7),(''1'',31,1),(''1'',31,2),(''1'',31,3),(''1'',31,4),(''1'',31,5),(''1'',31,6),(''1'',31,7),(''1'',32,1),(''1'',32,5),(''1'',32,6),(''1'',32,7),(''1'',33,2),(''1'',34,2),(''1'',35,1),(''1'',35,2),(''1'',35,3),(''1'',35,4),(''1'',35,5),(''1'',35,6),(''1'',35,7),(''1'',37,1),(''1'',37,2),(''1'',37,3),(''1'',37,4),(''1'',37,5),(''1'',37,6),(''1'',37,7),(''1'',17,1),(''1'',17,2),(''1'',17,3),(''1'',17,4),(''1'',17,5),(''1'',17,6),(''1'',17,7),(''1'',18,1),(''1'',18,2),(''1'',18,3),(''1'',18,4),(''1'',18,5),(''1'',18,6),(''1'',18,7);', '2016-08-16 03:03:23'),
 (3324, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'update tservicio set descripcion=''PERFIL'',url=''PERFILES'',orden=''5'',codigo_modulo=''6'' where (codigo_servicio=''31'');', '2016-08-16 03:04:07'),
 (3325, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'update tservicio set descripcion=''NUEVO USUARIO'',url=''NUEVOUSUARIO'',orden=''6'',codigo_modulo=''6'' where (codigo_servicio=''32'');', '2016-08-16 03:04:30'),
-(3326, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'UPDATE tconfiguracion SET descripcion=''POR DEFECTO'',longitud_minclave=6\r\n	,longitud_maxclave=10,cantidad_letrasmayusculas=1\r\n	,cantidad_letrasminusculas=1,cantidad_caracteresespeciales=1\r\n	,cantidad_numeros=1,dias_vigenciaclave=365,numero_ultimasclaves=1\r\n	,dias_aviso=10,intentos_fallidos=99999999,numero_preguntas=3\r\n	,numero_preguntasaresponder=2  \r\n	WHERE codigo_configuracion=''1''', '2016-08-16 04:08:31'),
-(3327, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tconfiguracion (descripcion,longitud_minclave,longitud_maxclave,cantidad_letrasmayusculas,cantidad_letrasminusculas,\r\n	cantidad_caracteresespeciales,cantidad_numeros,dias_vigenciaclave,numero_ultimasclaves,dias_aviso,intentos_fallidos,numero_preguntas,numero_preguntasaresponder) VALUES \r\n	(''DOCENTES'',4,8,0,1\r\n	,0,0,180,3,10\r\n	,5,3,1)', '2016-08-16 04:10:07'),
-(3328, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'UPDATE trespuesta_secreta SET pregunta = ''P1'',respuesta =  ''R1'' \r\n				WHERE nombre_usuario=''V123456789'' AND pregunta = ''P2''', '2016-08-16 04:15:26'),
-(3329, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO trespuesta_secreta (nombre_usuario,pregunta,respuesta) \r\n	    		VALUES (''V123456789'',''P2'',''R2'');', '2016-08-16 04:15:26'),
-(3330, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO trespuesta_secreta (nombre_usuario,pregunta,respuesta) \r\n	    		VALUES (''V123456789'',''P3'',''R3'');', '2016-08-16 04:15:26'),
+(3326, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'UPDATE tconfiguracion SET descripcion=''POR DEFECTO'',longitud_minclave=6\r\n  ,longitud_maxclave=10,cantidad_letrasmayusculas=1\r\n ,cantidad_letrasminusculas=1,cantidad_caracteresespeciales=1\r\n  ,cantidad_numeros=1,dias_vigenciaclave=365,numero_ultimasclaves=1\r\n ,dias_aviso=10,intentos_fallidos=99999999,numero_preguntas=3\r\n  ,numero_preguntasaresponder=2  \r\n WHERE codigo_configuracion=''1''', '2016-08-16 04:08:31'),
+(3327, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tconfiguracion (descripcion,longitud_minclave,longitud_maxclave,cantidad_letrasmayusculas,cantidad_letrasminusculas,\r\n cantidad_caracteresespeciales,cantidad_numeros,dias_vigenciaclave,numero_ultimasclaves,dias_aviso,intentos_fallidos,numero_preguntas,numero_preguntasaresponder) VALUES \r\n  (''DOCENTES'',4,8,0,1\r\n ,0,0,180,3,10\r\n ,5,3,1)', '2016-08-16 04:10:07'),
+(3328, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'UPDATE trespuesta_secreta SET pregunta = ''P1'',respuesta =  ''R1'' \r\n       WHERE nombre_usuario=''V123456789'' AND pregunta = ''P2''', '2016-08-16 04:15:26'),
+(3329, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO trespuesta_secreta (nombre_usuario,pregunta,respuesta) \r\n          VALUES (''V123456789'',''P2'',''R2'');', '2016-08-16 04:15:26'),
+(3330, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO trespuesta_secreta (nombre_usuario,pregunta,respuesta) \r\n          VALUES (''V123456789'',''P3'',''R3'');', '2016-08-16 04:15:26'),
 (3331, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'update tusuario set intento_fallido=0 where (nombre_usuario=''V123456789'')', '2016-08-16 13:54:36'),
 (3332, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'update tperfil set descripcion=''ADMINISTRADOR'',codigo_configuracion=1 where (codigo_perfil=''1'');', '2016-08-16 13:58:32'),
 (3333, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'DELETE FROM tservicio_usuario_opcion where (codigo_perfil=''1'');', '2016-08-16 13:58:33'),
 (3334, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',1,1),(''1'',1,2),(''1'',1,3),(''1'',1,4),(''1'',1,5),(''1'',1,6),(''1'',1,7),(''1'',2,1),(''1'',2,2),(''1'',2,3),(''1'',2,4),(''1'',2,5),(''1'',2,6),(''1'',2,7),(''1'',3,1),(''1'',3,2),(''1'',3,3),(''1'',3,4),(''1'',3,5),(''1'',3,6),(''1'',3,7),(''1'',4,1),(''1'',4,2),(''1'',4,3),(''1'',4,4),(''1'',4,5),(''1'',4,6),(''1'',4,7),(''1'',5,1),(''1'',5,2),(''1'',5,3),(''1'',5,4),(''1'',5,5),(''1'',5,6),(''1'',5,7),(''1'',6,1),(''1'',6,2),(''1'',6,3),(''1'',6,4),(''1'',6,5),(''1'',6,6),(''1'',6,7),(''1'',7,1),(''1'',7,2),(''1'',7,3),(''1'',7,4),(''1'',7,5),(''1'',7,6),(''1'',7,7),(''1'',8,1),(''1'',8,2),(''1'',8,3),(''1'',8,4),(''1'',8,5),(''1'',8,6),(''1'',8,7),(''1'',9,1),(''1'',9,2),(''1'',9,3),(''1'',9,4),(''1'',9,5),(''1'',9,6),(''1'',9,7),(''1'',10,1),(''1'',10,2),(''1'',10,3),(''1'',10,4),(''1'',10,5),(''1'',10,6),(''1'',10,7),(''1'',11,1),(''1'',11,2),(''1'',11,3),(''1'',11,4),(''1'',11,5),(''1'',11,6),(''1'',11,7),(''1'',12,1),(''1'',12,2),(''1'',12,3),(''1'',12,4),(''1'',12,5),(''1'',12,6),(''1'',12,7),(''1'',13,1),(''1'',13,2),(''1'',13,3),(''1'',13,4),(''1'',13,5),(''1'',13,6),(''1'',13,7),(''1'',14,1),(''1'',14,2),(''1'',14,3),(''1'',14,4),(''1'',14,5),(''1'',14,6),(''1'',14,7),(''1'',15,1),(''1'',15,2),(''1'',15,3),(''1'',15,4),(''1'',15,5),(''1'',15,6),(''1'',15,7),(''1'',16,1),(''1'',16,2),(''1'',16,3),(''1'',16,4),(''1'',16,5),(''1'',16,6),(''1'',16,7),(''1'',19,1),(''1'',19,2),(''1'',19,3),(''1'',19,4),(''1'',19,5),(''1'',19,6),(''1'',19,7),(''1'',20,1),(''1'',20,2),(''1'',20,3),(''1'',20,4),(''1'',20,5),(''1'',20,6),(''1'',20,7),(''1'',21,1),(''1'',21,2),(''1'',21,3),(''1'',21,4),(''1'',21,5),(''1'',21,6),(''1'',21,7),(''1'',22,1),(''1'',22,2),(''1'',22,3),(''1'',22,4),(''1'',22,5),(''1'',22,6),(''1'',22,7),(''1'',23,1),(''1'',23,2),(''1'',23,3),(''1'',23,4),(''1'',23,5),(''1'',23,6),(''1'',23,7),(''1'',24,1),(''1'',24,2),(''1'',24,3),(''1'',24,4),(''1'',24,5),(''1'',24,6),(''1'',24,7),(''1'',25,1),(''1'',25,2),(''1'',25,3),(''1'',25,4),(''1'',25,5),(''1'',25,6),(''1'',25,7),(''1'',26,1),(''1'',26,2),(''1'',26,3),(''1'',26,4),(''1'',26,5),(''1'',26,6),(''1'',26,7),(''1'',27,1),(''1'',27,2),(''1'',27,3),(''1'',27,4),(''1'',27,5),(''1'',27,6),(''1'',27,7),(''1'',36,5),(''1'',36,7),(''1'',28,1),(''1'',28,2),(''1'',28,3),(''1'',28,4),(''1'',28,5),(''1'',28,6),(''1'',28,7),(''1'',29,1),(''1'',29,2),(''1'',29,3),(''1'',29,4),(''1'',29,5),(''1'',29,6),(''1'',29,7),(''1'',30,1),(''1'',30,2),(''1'',30,3),(''1'',30,4),(''1'',30,5),(''1'',30,6),(''1'',30,7),(''1'',31,1),(''1'',31,2),(''1'',31,3),(''1'',31,4),(''1'',31,5),(''1'',31,6),(''1'',31,7),(''1'',32,1),(''1'',32,5),(''1'',32,6),(''1'',32,7),(''1'',33,2),(''1'',34,2),(''1'',35,1),(''1'',35,2),(''1'',35,3),(''1'',35,4),(''1'',35,5),(''1'',35,6),(''1'',35,7),(''1'',37,1),(''1'',37,2),(''1'',37,3),(''1'',37,4),(''1'',37,5),(''1'',37,6),(''1'',37,7),(''1'',17,1),(''1'',17,2),(''1'',17,3),(''1'',17,4),(''1'',17,5),(''1'',17,6),(''1'',17,7),(''1'',18,1),(''1'',18,2),(''1'',18,3),(''1'',18,4),(''1'',18,5),(''1'',18,6),(''1'',18,7);', '2016-08-16 13:58:33'),
-(3335, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'update tusuario set intento_fallido=0 where (nombre_usuario=''V123456789'')', '2016-08-16 14:22:03');
+(3335, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'update tusuario set intento_fallido=0 where (nombre_usuario=''V123456789'')', '2016-08-16 14:22:03'),
+(3336, '::1', 'Linux', 'Google Chrome', 'admin@localhost', '', 'update tusuario set intento_fallido=(intento_fallido+1) where (nombre_usuario=''SASD'')', '2016-08-19 16:25:59'),
+(3337, '::1', 'Linux', 'Google Chrome', 'admin@localhost', '', 'update tusuario set intento_fallido=(intento_fallido+1) where (nombre_usuario=''ZSASD'')', '2016-08-19 16:26:28'),
+(3338, '::1', 'Linux', 'Google Chrome', 'admin@localhost', '', 'update tusuario set intento_fallido=(intento_fallido+1) where (nombre_usuario=''Z'')', '2016-08-19 16:27:00'),
+(3339, '::1', 'Linux', 'Google Chrome', 'admin@localhost', '', 'update tusuario set intento_fallido=(intento_fallido+1) where (nombre_usuario=''SASD'')', '2016-08-19 16:27:16'),
+(3340, '::1', 'Linux', 'Google Chrome', 'admin@localhost', '', 'update tusuario set intento_fallido=(intento_fallido+1) where (nombre_usuario=''ASDAS'')', '2016-08-19 16:28:30'),
+(3341, '::1', 'Linux', 'Google Chrome', 'admin@localhost', '', 'update tusuario set intento_fallido=(intento_fallido+1) where (nombre_usuario=''AS'')', '2016-08-19 16:33:30'),
+(3342, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'update tusuario set intento_fallido=0 where (nombre_usuario=''V123456789'')', '2016-08-19 16:42:45'),
+(3343, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'update tusuario set intento_fallido=0 where (nombre_usuario=''V123456789'')', '2016-08-19 16:49:28'),
+(3344, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'update tusuario set intento_fallido=0 where (nombre_usuario=''V123456789'')', '2016-08-19 16:50:11'),
+(3345, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'update tusuario set intento_fallido=0 where (nombre_usuario=''V123456789'')', '2016-08-19 16:50:49'),
+(3346, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'update tusuario set intento_fallido=0 where (nombre_usuario=''V123456789'')', '2016-08-19 16:55:59'),
+(3347, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'update tusuario set intento_fallido=0 where (nombre_usuario=''V123456789'')', '2016-08-19 16:56:10'),
+(3348, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'update tusuario set intento_fallido=0 where (nombre_usuario=''V123456789'')', '2016-08-19 16:56:19'),
+(3349, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'update tusuario set intento_fallido=(intento_fallido+1) where (nombre_usuario=''V123456789'')', '2016-08-19 19:03:45'),
+(3350, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'update tusuario set intento_fallido=0 where (nombre_usuario=''V123456789'')', '2016-08-19 19:04:06'),
+(3351, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'update tusuario set intento_fallido=0 where (nombre_usuario=''V123456789'')', '2016-08-19 19:41:22'),
+(3352, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'update tusuario set sesion_abierta=(sesion_abierta+1) where (nombre_usuario=''V123456789'')', '2016-08-19 19:41:23'),
+(3353, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'update tusuario set intento_fallido=0 where (nombre_usuario=''V123456789'')', '2016-08-19 19:41:53'),
+(3354, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'update tusuario set sesion_abierta=(sesion_abierta+1) where (nombre_usuario=''V123456789'')', '2016-08-19 19:41:54'),
+(3355, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'update tusuario set sesion_abierta=(CASE WHEN sesion_abierta = 0 THEN 0 ELSE sesion_abierta-1 END) where (nombre_usuario=''V123456789'')', '2016-08-19 19:43:50'),
+(3356, '::1', 'Linux', 'Mozilla Firefox', 'admin@localhost', 'V123456789', 'update tusuario set intento_fallido=0 where (nombre_usuario=''V123456789'')', '2016-08-19 19:44:20'),
+(3357, '::1', 'Linux', 'Mozilla Firefox', 'admin@localhost', 'V123456789', 'update tusuario set sesion_abierta=(sesion_abierta+1) where (nombre_usuario=''V123456789'')', '2016-08-19 19:44:20'),
+(3358, '::1', 'Linux', 'Mozilla Firefox', 'admin@localhost', 'V123456789', 'update tusuario set intento_fallido=0 where (nombre_usuario=''V123456789'')', '2016-08-19 19:53:04'),
+(3359, '::1', 'Linux', 'Mozilla Firefox', 'admin@localhost', 'V123456789', 'update tusuario set sesion_abierta=(sesion_abierta+1) where (nombre_usuario=''V123456789'')', '2016-08-19 19:53:04'),
+(3360, '::1', 'Linux', 'Mozilla Firefox', 'admin@localhost', 'V123456789', 'update tusuario set intento_fallido=0 where (nombre_usuario=''V123456789'')', '2016-08-19 20:01:06'),
+(3361, '::1', 'Linux', 'Mozilla Firefox', 'admin@localhost', 'V123456789', 'update tusuario set sesion_abierta=(sesion_abierta+1) where (nombre_usuario=''V123456789'')', '2016-08-19 20:01:07'),
+(3362, '::1', 'Linux', 'Mozilla Firefox', 'admin@localhost', 'V123456789', 'update tusuario set sesion_abierta=(CASE WHEN sesion_abierta = 0 THEN 0 ELSE sesion_abierta-1 END) where (nombre_usuario=''V123456789'')', '2016-08-19 20:01:32'),
+(3363, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'update tusuario set intento_fallido=0 where (nombre_usuario=''V123456789'')', '2016-08-19 20:42:26'),
+(3364, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'update tusuario set sesion_abierta=(sesion_abierta+1),fecha_ultimasesion = CURDATE() where (nombre_usuario=''V123456789'')', '2016-08-19 20:42:27'),
+(3365, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'UPDATE tconfiguracion SET descripcion=''POR DEFECTO'',longitud_minclave=6\n ,longitud_maxclave=10,cantidad_letrasmayusculas=1\n ,cantidad_letrasminusculas=1,cantidad_caracteresespeciales=1\n  ,cantidad_numeros=1,dias_vigenciaclave=365,numero_ultimasclaves=1\n ,dias_aviso=10,intentos_fallidos=99999999,numero_preguntas=3\n  ,numero_preguntasaresponder=2,dias_inactividad=9999999,maxsesion=5 \n WHERE codigo_configuracion=''1''', '2016-08-19 20:58:11'),
+(3366, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'UPDATE tconfiguracion SET descripcion=''DOCENTES'',longitud_minclave=4\n  ,longitud_maxclave=8,cantidad_letrasmayusculas=0\n  ,cantidad_letrasminusculas=1,cantidad_caracteresespeciales=0\n  ,cantidad_numeros=0,dias_vigenciaclave=180,numero_ultimasclaves=3\n ,dias_aviso=10,intentos_fallidos=5,numero_preguntas=3\n ,numero_preguntasaresponder=1,dias_inactividad=120,maxsesion=2 \n WHERE codigo_configuracion=''2''', '2016-08-19 20:58:26'),
+(3367, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'insert into tservicio (descripcion,url,orden,codigo_modulo) values (''CONFIGURACIÓN DEL NEGOCIO'',''CONFIGURACION_NEGOCIO'',''0'',''6'');', '2016-08-19 21:00:28'),
+(3368, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'update tperfil set descripcion=''ADMINISTRADOR'',codigo_configuracion=1 where (codigo_perfil=''1'');', '2016-08-19 21:00:43'),
+(3369, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'DELETE FROM tservicio_usuario_opcion where (codigo_perfil=''1'');', '2016-08-19 21:00:44'),
+(3370, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',1,1),(''1'',1,2),(''1'',1,3),(''1'',1,4),(''1'',1,5),(''1'',1,6),(''1'',1,7),(''1'',2,1),(''1'',2,2),(''1'',2,3),(''1'',2,4),(''1'',2,5),(''1'',2,6),(''1'',2,7),(''1'',3,1),(''1'',3,2),(''1'',3,3),(''1'',3,4),(''1'',3,5),(''1'',3,6),(''1'',3,7),(''1'',4,1),(''1'',4,2),(''1'',4,3),(''1'',4,4),(''1'',4,5),(''1'',4,6),(''1'',4,7),(''1'',5,1),(''1'',5,2),(''1'',5,3),(''1'',5,4),(''1'',5,5),(''1'',5,6),(''1'',5,7),(''1'',6,1),(''1'',6,2),(''1'',6,3),(''1'',6,4),(''1'',6,5),(''1'',6,6),(''1'',6,7),(''1'',7,1),(''1'',7,2),(''1'',7,3),(''1'',7,4),(''1'',7,5),(''1'',7,6),(''1'',7,7),(''1'',8,1),(''1'',8,2),(''1'',8,3),(''1'',8,4),(''1'',8,5),(''1'',8,6),(''1'',8,7),(''1'',9,1),(''1'',9,2),(''1'',9,3),(''1'',9,4),(''1'',9,5),(''1'',9,6),(''1'',9,7),(''1'',10,1),(''1'',10,2),(''1'',10,3),(''1'',10,4),(''1'',10,5),(''1'',10,6),(''1'',10,7),(''1'',11,1),(''1'',11,2),(''1'',11,3),(''1'',11,4),(''1'',11,5),(''1'',11,6),(''1'',11,7),(''1'',12,1),(''1'',12,2),(''1'',12,3),(''1'',12,4),(''1'',12,5),(''1'',12,6),(''1'',12,7),(''1'',13,1),(''1'',13,2),(''1'',13,3),(''1'',13,4),(''1'',13,5),(''1'',13,6),(''1'',13,7),(''1'',14,1),(''1'',14,2),(''1'',14,3),(''1'',14,4),(''1'',14,5),(''1'',14,6),(''1'',14,7),(''1'',15,1),(''1'',15,2),(''1'',15,3),(''1'',15,4),(''1'',15,5),(''1'',15,6),(''1'',15,7),(''1'',16,1),(''1'',16,2),(''1'',16,3),(''1'',16,4),(''1'',16,5),(''1'',16,6),(''1'',16,7),(''1'',19,1),(''1'',19,2),(''1'',19,3),(''1'',19,4),(''1'',19,5),(''1'',19,6),(''1'',19,7),(''1'',20,1),(''1'',20,2),(''1'',20,3),(''1'',20,4),(''1'',20,5),(''1'',20,6),(''1'',20,7),(''1'',21,1),(''1'',21,2),(''1'',21,3),(''1'',21,4),(''1'',21,5),(''1'',21,6),(''1'',21,7),(''1'',22,1),(''1'',22,2),(''1'',22,3),(''1'',22,4),(''1'',22,5),(''1'',22,6),(''1'',22,7),(''1'',23,1),(''1'',23,2),(''1'',23,3),(''1'',23,4),(''1'',23,5),(''1'',23,6),(''1'',23,7),(''1'',24,1),(''1'',24,2),(''1'',24,3),(''1'',24,4),(''1'',24,5),(''1'',24,6),(''1'',24,7),(''1'',25,1),(''1'',25,2),(''1'',25,3),(''1'',25,4),(''1'',25,5),(''1'',25,6),(''1'',25,7),(''1'',26,1),(''1'',26,2),(''1'',26,3),(''1'',26,4),(''1'',26,5),(''1'',26,6),(''1'',26,7),(''1'',27,1),(''1'',27,2),(''1'',27,3),(''1'',27,4),(''1'',27,5),(''1'',27,6),(''1'',27,7),(''1'',36,1),(''1'',36,2),(''1'',36,3),(''1'',36,4),(''1'',36,5),(''1'',36,6),(''1'',36,7),(''1'',28,1),(''1'',28,2),(''1'',28,3),(''1'',28,4),(''1'',28,5),(''1'',28,6),(''1'',28,7),(''1'',29,1),(''1'',29,2),(''1'',29,3),(''1'',29,4),(''1'',29,5),(''1'',29,6),(''1'',29,7),(''1'',30,1),(''1'',30,2),(''1'',30,3),(''1'',30,4),(''1'',30,5),(''1'',30,6),(''1'',30,7),(''1'',31,1),(''1'',31,2),(''1'',31,3),(''1'',31,4),(''1'',31,5),(''1'',31,6),(''1'',31,7),(''1'',32,1),(''1'',32,2),(''1'',32,3),(''1'',32,4),(''1'',32,5),(''1'',32,6),(''1'',32,7),(''1'',33,1),(''1'',33,2),(''1'',33,3),(''1'',33,4),(''1'',33,5),(''1'',33,6),(''1'',33,7),(''1'',34,1),(''1'',34,2),(''1'',34,3),(''1'',34,4),(''1'',34,5),(''1'',34,6),(''1'',34,7),(''1'',35,1),(''1'',35,2),(''1'',35,3),(''1'',35,4),(''1'',35,5),(''1'',35,6),(''1'',35,7),(''1'',37,1),(''1'',37,2),(''1'',37,3),(''1'',37,4),(''1'',37,5),(''1'',37,6),(''1'',37,7),(''1'',38,1),(''1'',38,2),(''1'',38,3),(''1'',38,4),(''1'',38,5),(''1'',38,6),(''1'',38,7),(''1'',17,1),(''1'',17,2),(''1'',17,3),(''1'',17,4),(''1'',17,5),(''1'',17,6),(''1'',17,7),(''1'',18,1),(''1'',18,2),(''1'',18,3),(''1'',18,4),(''1'',18,5),(''1'',18,6),(''1'',18,7);', '2016-08-19 21:00:44'),
+(3371, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'update tconfiguracion_negocio set inscripcion_abierta=''Y'',carga_nota_abierta=''Y'',\n    nota_minima=1.00,nota_maxima=20.00,edad_maxima_primer_anio=15,nota_aprobacion=10.00 \n    where (codigo_configuracion_negocio=''1'');', '2016-08-19 22:22:50'),
+(3372, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'insert into tconfiguracion_negocio (inscripcion_abierta,carga_nota_abierta,nota_minima,nota_maxima,edad_maxima_primer_anio,nota_aprobacion) \n    values (''Y'',''Y'',1,20,15,10);', '2016-08-19 22:23:32'),
+(3373, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'update tusuario set sesion_abierta=(CASE WHEN sesion_abierta = 0 THEN 0 ELSE sesion_abierta-1 END) where (nombre_usuario=''V123456789'')', '2016-08-19 22:24:09'),
+(3374, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'update tusuario set intento_fallido=0 where (nombre_usuario=''V123456789'')', '2016-08-19 22:56:12'),
+(3375, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'update tusuario set sesion_abierta=(sesion_abierta+1),fecha_ultimasesion = CURDATE() where (nombre_usuario=''V123456789'')', '2016-08-19 22:56:12'),
+(3376, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'update tconfiguracion_negocio set inscripcion_abierta=''N'',carga_nota_abierta=''Y'',\n    nota_minima=1.00,nota_maxima=20.00,edad_maxima_primer_anio=15,nota_aprobacion=10.00 \n    where (codigo_configuracion_negocio=''2'');', '2016-08-19 23:03:59'),
+(3377, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'update tconfiguracion_negocio set inscripcion_abierta=''Y'',carga_nota_abierta=''Y'',\n    nota_minima=1.00,nota_maxima=20.00,edad_maxima_primer_anio=15,nota_aprobacion=10.00 \n    where (codigo_configuracion_negocio=''2'');', '2016-08-19 23:04:11'),
+(3378, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'update tconfiguracion_negocio set inscripcion_abierta=''Y'',carga_nota_abierta=''Y'',\n    nota_minima=1.00,nota_maxima=20.00,edad_maxima_primer_anio=18,nota_aprobacion=10.00 \n    where (codigo_configuracion_negocio=''2'');', '2016-08-19 23:26:30'),
+(3379, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'update tconfiguracion_negocio set inscripcion_abierta=''Y'',carga_nota_abierta=''Y'',\n    nota_minima=1.00,nota_maxima=20.00,edad_maxima_primer_anio=14,nota_aprobacion=10.00 \n    where (codigo_configuracion_negocio=''2'');', '2016-08-19 23:26:47'),
+(3380, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'update tconfiguracion_negocio set inscripcion_abierta=''Y'',carga_nota_abierta=''Y'',\n    nota_minima=1.00,nota_maxima=20.00,edad_maxima_primer_anio=15,nota_aprobacion=10.00 \n    where (codigo_configuracion_negocio=''2'');', '2016-08-19 23:26:51'),
+(3381, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'UPDATE tpersona SET cedula=''V252132343'',nombres=''JOSE'',apellidos=''LOPEZ'',genero=''M'',fecha_nacimiento=STR_TO_DATE(''13/01/2004'',''%d/%m/%Y''),lugar_nacimiento=''1'',direccion=''N/A'',telefono_habitacion=''02554564532'',telefono_movil='''',email='''',esestudiante=''Y'',esrepresentante=''N'' WHERE cedula=''V252132343'';', '2016-08-19 23:41:28'),
+(3382, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'UPDATE tproceso_inscripcion SET cedula_escolar='''',lateralidad=''D'',codigo_canaima='''',canaima_operativa=''Y'',peso=35.5,estatura=''135'',codigo_plantel=''12345645343'',grado_escolar=''1'',seccion=''SECCB'' WHERE cedula_estudiante =''V252132343'';', '2016-08-19 23:41:28'),
+(3383, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'UPDATE tpersona SET cedula=''V11111231'',nombres=''LAURA'',apellidos=''JIMENEZ'',genero=''F'',fecha_nacimiento=STR_TO_DATE(''20/01/2000'',''%d/%m/%Y''),lugar_nacimiento=''1'',direccion=''ACARIGUA'',telefono_habitacion=''02554564532'',telefono_movil='''',email=''laura_maria_jimenez@hotmail.com'',esestudiante=''Y'',esrepresentante=''N'' WHERE cedula=''V11111231'';', '2016-08-19 23:42:20'),
+(3384, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'UPDATE tproceso_inscripcion SET cedula_escolar='''',lateralidad=''D'',codigo_canaima='''',canaima_operativa=''N'',peso=50,estatura=''156'',codigo_plantel=''1249834983H'',grado_escolar=''1'',seccion='''' WHERE cedula_estudiante =''V11111231'';', '2016-08-19 23:42:20'),
+(3386, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'UPDATE tpersona SET cedula=''V111121212'',nombres=''LAURA'',apellidos=''JIMENEZ'',genero=''F'',fecha_nacimiento=STR_TO_DATE(''20/01/2000'',''%d/%m/%Y''),lugar_nacimiento=''1'',direccion=''ACARIGUA'',telefono_habitacion=''02554564532'',telefono_movil='''',email=''laura_maria_jimenez@hotmail.com'',esestudiante=''Y'',esrepresentante=''N'' WHERE cedula=''V111121212'';', '2016-08-19 23:45:11'),
+(3387, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'UPDATE tproceso_inscripcion SET cedula_escolar='''',lateralidad=''D'',codigo_canaima='''',canaima_operativa=''N'',peso=50,estatura=''156'',codigo_plantel=''1249834983H'',grado_escolar=''1'',seccion=''2'' WHERE cedula_estudiante =''V111121212'';', '2016-08-19 23:45:11'),
+(3388, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'UPDATE tpersona SET cedula=''V25347014'',nombres=''ANYELIS'',apellidos=''SALAZ'',genero=''F'',fecha_nacimiento=STR_TO_DATE(''30/01/2002'',''%d/%m/%Y''),lugar_nacimiento=''1'',direccion=''ACARIGUA'',telefono_habitacion=''02554564532'',telefono_movil='''',email=''anyelisalazar@hotmail.com'',esestudiante=''Y'',esrepresentante=''N'' WHERE cedula=''V25347014'';', '2016-08-19 23:45:36'),
+(3389, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'UPDATE tproceso_inscripcion SET cedula_escolar='''',lateralidad=''D'',codigo_canaima='''',canaima_operativa=''N'',peso=50,estatura=''165'',codigo_plantel=''21345687654'',grado_escolar=''1'',seccion=''2'' WHERE cedula_estudiante =''V25347014'';', '2016-08-19 23:45:36'),
+(3390, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'UPDATE tpersona SET cedula=''V24935226'',nombres=''OSCARY'',apellidos=''SOTO'',genero=''F'',fecha_nacimiento=STR_TO_DATE(''05/01/2006'',''%d/%m/%Y''),lugar_nacimiento=''1'',direccion=''ACARIGUA'',telefono_habitacion=''02556363333'',telefono_movil='''',email=''oscarysoto@hotmail.com'',esestudiante=''Y'',esrepresentante=''N'' WHERE cedula=''V24935226'';', '2016-08-19 23:45:56'),
+(3391, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'UPDATE tproceso_inscripcion SET cedula_escolar='''',lateralidad=''D'',codigo_canaima='''',canaima_operativa=''N'',peso=50,estatura=''162'',codigo_plantel=''12345645343'',grado_escolar=''1'',seccion=''SECC'' WHERE cedula_estudiante =''V24935226'';', '2016-08-19 23:45:56'),
+(3392, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'UPDATE tpersona SET cedula=''V25347013'',nombres=''ANYELISMER'',apellidos=''PERZ'',genero=''F'',fecha_nacimiento=STR_TO_DATE(''19/01/2005'',''%d/%m/%Y''),lugar_nacimiento=''1'',direccion=''ACARIGUA'',telefono_habitacion=''02556373737'',telefono_movil='''',email=''anyelismer@hotmail.com'',esestudiante=''Y'',esrepresentante=''N'' WHERE cedula=''V25347013'';', '2016-08-19 23:46:17'),
+(3393, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'UPDATE tproceso_inscripcion SET cedula_escolar='''',lateralidad=''D'',codigo_canaima='''',canaima_operativa=''N'',peso=55,estatura=''163'',codigo_plantel=''1249834983H'',grado_escolar=''1'',seccion=''SECC'' WHERE cedula_estudiante =''V25347013'';', '2016-08-19 23:46:17'),
+(3394, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'UPDATE tpersona SET cedula=''V12312312'',nombres=''JAVIER JR'',apellidos=''MARTIN'',genero=''M'',fecha_nacimiento=STR_TO_DATE(''21/01/2004'',''%d/%m/%Y''),lugar_nacimiento=''1'',direccion=''N/A'',telefono_habitacion=''02552343423'',telefono_movil='''',email='''',esestudiante=''Y'',esrepresentante=''N'' WHERE cedula=''V12312312'';', '2016-08-19 23:46:34'),
+(3395, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'UPDATE tproceso_inscripcion SET cedula_escolar='''',lateralidad=''D'',codigo_canaima=''124321VS123123'',canaima_operativa=''Y'',peso=123.4,estatura=''123'',codigo_plantel=''1249834983H'',grado_escolar=''1'',seccion=''SECC'' WHERE cedula_estudiante =''V12312312'';', '2016-08-19 23:46:34'),
+(3396, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'UPDATE tpersona SET cedula=''V30484143'',nombres=''DANIEL'',apellidos=''RODRIGUEZ'',genero=''M'',fecha_nacimiento=STR_TO_DATE(''03/03/2002'',''%d/%m/%Y''),lugar_nacimiento=''1'',direccion=''ACARIGUA'',telefono_habitacion=''02554564532'',telefono_movil='''',email=''daniel@hotmail.com'',esestudiante=''Y'',esrepresentante=''N'' WHERE cedula=''V30484143'';', '2016-08-19 23:46:47'),
+(3397, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'UPDATE tproceso_inscripcion SET cedula_escolar='''',lateralidad=''D'',codigo_canaima='''',canaima_operativa=''N'',peso=50,estatura=''160'',codigo_plantel=''1249834983H'',grado_escolar=''1'',seccion=''SECC'' WHERE cedula_estudiante =''V30484143'';', '2016-08-19 23:46:47'),
+(3398, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'UPDATE tpersona SET cedula=''V30363014'',nombres=''MARIA ALEJANDRA'',apellidos=''CASTRO BALZA'',genero=''F'',fecha_nacimiento=STR_TO_DATE(''28/01/1999'',''%d/%m/%Y''),lugar_nacimiento=''1'',direccion=''ACARIGUA'',telefono_habitacion=''02554564532'',telefono_movil='''',email=''mariab@hotmail.com'',esestudiante=''Y'',esrepresentante=''N'' WHERE cedula=''V30363014'';', '2016-08-19 23:46:58'),
+(3399, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'UPDATE tproceso_inscripcion SET cedula_escolar='''',lateralidad=''D'',codigo_canaima='''',canaima_operativa=''N'',peso=50,estatura=''158'',codigo_plantel=''12345645343'',grado_escolar=''1'',seccion=''1'' WHERE cedula_estudiante =''V30363014'';', '2016-08-19 23:46:58'),
+(3400, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'UPDATE tpersona SET cedula=''V105463555'',nombres=''OSCAR'',apellidos=''SOTO'',genero=''M'',fecha_nacimiento=STR_TO_DATE(''09/01/1980'',''%d/%m/%Y''),lugar_nacimiento=''1'',direccion=''ACARIGUA'',telefono_habitacion=''02554567845'',telefono_movil=''04242345678'',email=''oscar@hotmail.com'',esestudiante=''N'',esrepresentante=''Y'' WHERE cedula=''V105463555'';', '2016-08-19 23:48:21'),
+(3401, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'UPDATE tproceso_inscripcion SET cedula_docente=''V13131313'',cedula_representante=''V105463555'',codigo_parentesco=''2'',lugar_trabajo=''1'',proceso_completado=''Y''WHERE cedula_estudiante=''V24935226'';', '2016-08-19 23:48:21'),
+(3402, '::1', 'Linux', 'Google Chrome', 'admin@localhost', '', 'update tusuario set sesion_abierta=(CASE WHEN sesion_abierta = 0 THEN 0 ELSE sesion_abierta-1 END) where (nombre_usuario='''')', '2016-08-20 00:41:24');
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `tcargo`
+-- Estructura de tabla para la tabla 'tcargo'
 --
 
-DROP TABLE IF EXISTS `tcargo`;
-CREATE TABLE IF NOT EXISTS `tcargo` (
-  `codigo_cargo` int(15) NOT NULL AUTO_INCREMENT,
-  `descripcion` varchar(100) COLLATE utf8_spanish_ci NOT NULL,
-  `fecha_desactivacion` date DEFAULT NULL,
-  PRIMARY KEY (`codigo_cargo`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=6 ;
+DROP TABLE IF EXISTS tcargo;
+CREATE TABLE IF NOT EXISTS tcargo (
+codigo_cargo int(15) NOT NULL,
+  descripcion varchar(100) COLLATE utf8_spanish_ci NOT NULL,
+  fecha_desactivacion date DEFAULT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
--- Volcado de datos para la tabla `tcargo`
+-- Volcado de datos para la tabla 'tcargo'
 --
 
-INSERT INTO `tcargo` (`codigo_cargo`, `descripcion`, `fecha_desactivacion`) VALUES
+INSERT INTO tcargo (codigo_cargo, descripcion, fecha_desactivacion) VALUES
 (1, 'OPERADOR DE SISTEMA', NULL),
 (2, 'DOCENTE', NULL),
 (3, 'DIRECTOR(A)', NULL),
@@ -3640,57 +3706,82 @@ INSERT INTO `tcargo` (`codigo_cargo`, `descripcion`, `fecha_desactivacion`) VALU
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `tconfiguracion`
+-- Estructura de tabla para la tabla 'tconfiguracion'
 --
 
-DROP TABLE IF EXISTS `tconfiguracion`;
-CREATE TABLE IF NOT EXISTS `tconfiguracion` (
-  `codigo_configuracion` int(11) NOT NULL AUTO_INCREMENT,
-  `descripcion` varchar(30) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
-  `longitud_minclave` int(11) NOT NULL DEFAULT '6',
-  `longitud_maxclave` int(11) NOT NULL DEFAULT '10',
-  `cantidad_letrasmayusculas` int(11) NOT NULL DEFAULT '1',
-  `cantidad_letrasminusculas` int(11) NOT NULL DEFAULT '1',
-  `cantidad_caracteresespeciales` int(11) NOT NULL DEFAULT '1',
-  `cantidad_numeros` int(11) NOT NULL DEFAULT '1',
-  `dias_vigenciaclave` int(11) NOT NULL DEFAULT '365',
-  `numero_ultimasclaves` int(11) NOT NULL DEFAULT '1',
-  `dias_aviso` int(11) NOT NULL DEFAULT '1',
-  `intentos_fallidos` int(11) NOT NULL DEFAULT '1',
-  `numero_preguntas` int(11) NOT NULL DEFAULT '1',
-  `numero_preguntasaresponder` int(11) NOT NULL DEFAULT '1',
-  `fecha_desactivacion` date DEFAULT NULL,
-  PRIMARY KEY (`codigo_configuracion`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+DROP TABLE IF EXISTS tconfiguracion;
+CREATE TABLE IF NOT EXISTS tconfiguracion (
+codigo_configuracion int(11) NOT NULL,
+  descripcion varchar(30) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
+  longitud_minclave int(11) NOT NULL DEFAULT '6',
+  longitud_maxclave int(11) NOT NULL DEFAULT '10',
+  cantidad_letrasmayusculas int(11) NOT NULL DEFAULT '1',
+  cantidad_letrasminusculas int(11) NOT NULL DEFAULT '1',
+  cantidad_caracteresespeciales int(11) NOT NULL DEFAULT '1',
+  cantidad_numeros int(11) NOT NULL DEFAULT '1',
+  dias_vigenciaclave int(11) NOT NULL DEFAULT '365',
+  dias_inactividad int(11) NOT NULL DEFAULT '999',
+  numero_ultimasclaves int(11) NOT NULL DEFAULT '1',
+  dias_aviso int(11) NOT NULL DEFAULT '1',
+  intentos_fallidos int(11) NOT NULL DEFAULT '1',
+  maxsesion int(11) NOT NULL DEFAULT '5',
+  numero_preguntas int(11) NOT NULL DEFAULT '1',
+  numero_preguntasaresponder int(11) NOT NULL DEFAULT '1',
+  fecha_desactivacion date DEFAULT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
--- Volcado de datos para la tabla `tconfiguracion`
+-- Volcado de datos para la tabla 'tconfiguracion'
 --
 
-INSERT INTO `tconfiguracion` (`codigo_configuracion`, `descripcion`, `longitud_minclave`, `longitud_maxclave`, `cantidad_letrasmayusculas`, `cantidad_letrasminusculas`, `cantidad_caracteresespeciales`, `cantidad_numeros`, `dias_vigenciaclave`, `numero_ultimasclaves`, `dias_aviso`, `intentos_fallidos`, `numero_preguntas`, `numero_preguntasaresponder`, `fecha_desactivacion`) VALUES
-(1, 'POR DEFECTO', 6, 10, 1, 1, 1, 1, 365, 1, 10, 99999999, 3, 2, NULL),
-(2, 'DOCENTES', 4, 8, 0, 1, 0, 0, 180, 3, 10, 5, 3, 1, NULL);
+INSERT INTO tconfiguracion (codigo_configuracion, descripcion, longitud_minclave, longitud_maxclave, cantidad_letrasmayusculas, cantidad_letrasminusculas, cantidad_caracteresespeciales, cantidad_numeros, dias_vigenciaclave, dias_inactividad, numero_ultimasclaves, dias_aviso, intentos_fallidos, maxsesion, numero_preguntas, numero_preguntasaresponder, fecha_desactivacion) VALUES
+(1, 'POR DEFECTO', 6, 10, 1, 1, 1, 1, 365, 9999999, 1, 10, 99999999, 5, 3, 2, NULL),
+(2, 'DOCENTES', 4, 8, 0, 1, 0, 0, 180, 120, 3, 10, 5, 2, 3, 1, NULL);
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `tcontrasena`
+-- Estructura de tabla para la tabla 'tconfiguracion_negocio'
 --
 
-DROP TABLE IF EXISTS `tcontrasena`;
-CREATE TABLE IF NOT EXISTS `tcontrasena` (
-  `nombre_usuario` char(10) COLLATE utf8_spanish_ci NOT NULL,
-  `contrasena` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
-  `estado` int(11) NOT NULL DEFAULT '3' COMMENT '0 clave usado 1 usuario activo 2 caducidad de clave 3 usuario nuevo 4 usuario bloqueado',
-  `fecha_modificacion` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  KEY `tcontrasena_ibfk_1` (`nombre_usuario`)
+DROP TABLE IF EXISTS tconfiguracion_negocio;
+CREATE TABLE IF NOT EXISTS tconfiguracion_negocio (
+codigo_configuracion_negocio int(11) NOT NULL,
+  inscripcion_abierta char(1) COLLATE utf8_spanish_ci NOT NULL DEFAULT 'Y',
+  carga_nota_abierta char(1) COLLATE utf8_spanish_ci NOT NULL DEFAULT 'Y',
+  edad_maxima_primer_anio int(11) DEFAULT '0',
+  nota_minima float(10,2) NOT NULL DEFAULT '1.00',
+  nota_maxima float(10,2) NOT NULL DEFAULT '20.00',
+  nota_aprobacion float(10,2) NOT NULL DEFAULT '10.00',
+  fecha_desactivacion date DEFAULT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+--
+-- Volcado de datos para la tabla 'tconfiguracion_negocio'
+--
+
+INSERT INTO tconfiguracion_negocio (codigo_configuracion_negocio, inscripcion_abierta, carga_nota_abierta, edad_maxima_primer_anio, nota_minima, nota_maxima, nota_aprobacion, fecha_desactivacion) VALUES
+(2, 'Y', 'Y', 15, 1.00, 20.00, 10.00, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla 'tcontrasena'
+--
+
+DROP TABLE IF EXISTS tcontrasena;
+CREATE TABLE IF NOT EXISTS tcontrasena (
+  nombre_usuario char(10) COLLATE utf8_spanish_ci NOT NULL,
+  contrasena varchar(255) COLLATE utf8_spanish_ci NOT NULL,
+  estado int(11) NOT NULL DEFAULT '3' COMMENT '0 clave usado 1 usuario activo 2 caducidad de clave 3 usuario nuevo 4 usuario bloqueado',
+  fecha_modificacion timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
--- Volcado de datos para la tabla `tcontrasena`
+-- Volcado de datos para la tabla 'tcontrasena'
 --
 
-INSERT INTO `tcontrasena` (`nombre_usuario`, `contrasena`, `estado`, `fecha_modificacion`) VALUES
+INSERT INTO tcontrasena (nombre_usuario, contrasena, estado, fecha_modificacion) VALUES
 ('V123456789', '1f82ea75c5cc526729e2d581aeb3aeccfef4407e', 0, '2016-01-09 20:19:04'),
 ('V123456789', '791acae9d7efbefc2b489747af71cc2f6870554d', 0, '2016-01-14 14:24:57'),
 ('V123456789', 'bcd5c3e4b7e24e1ec1c57a32ea101a2c114dc364', 0, '2016-01-14 14:29:02'),
@@ -3705,51 +3796,45 @@ INSERT INTO `tcontrasena` (`nombre_usuario`, `contrasena`, `estado`, `fecha_modi
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `tcontrol_notas`
+-- Estructura de tabla para la tabla 'tcontrol_notas'
 --
 
-DROP TABLE IF EXISTS `tcontrol_notas`;
-CREATE TABLE IF NOT EXISTS `tcontrol_notas` (
-  `codigo_controlnotas` int(11) NOT NULL AUTO_INCREMENT,
-  `codigo_msd` int(11) NOT NULL,
-  `cedula_estudiante` char(10) COLLATE utf8_spanish_ci NOT NULL,
-  `codigo_lapso` int(11) NOT NULL,
-  `notafinal` int(11) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`codigo_controlnotas`),
-  KEY `fk_tcontrolnotas_msd` (`codigo_msd`),
-  KEY `fk_tcontrolnotas_lapso` (`codigo_lapso`),
-  KEY `fk_tcontrolnotas_estudiante` (`cedula_estudiante`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=5 ;
+DROP TABLE IF EXISTS tcontrol_notas;
+CREATE TABLE IF NOT EXISTS tcontrol_notas (
+codigo_controlnotas int(11) NOT NULL,
+  codigo_msd int(11) NOT NULL,
+  cedula_estudiante char(10) COLLATE utf8_spanish_ci NOT NULL,
+  codigo_lapso int(11) NOT NULL,
+  notafinal int(11) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
--- Volcado de datos para la tabla `tcontrol_notas`
+-- Volcado de datos para la tabla 'tcontrol_notas'
 --
 
-INSERT INTO `tcontrol_notas` (`codigo_controlnotas`, `codigo_msd`, `cedula_estudiante`, `codigo_lapso`, `notafinal`) VALUES
+INSERT INTO tcontrol_notas (codigo_controlnotas, codigo_msd, cedula_estudiante, codigo_lapso, notafinal) VALUES
 (1, 2, 'V252132343', 2, 12),
 (4, 1, 'V252132343', 2, 12);
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `testado`
+-- Estructura de tabla para la tabla 'testado'
 --
 
-DROP TABLE IF EXISTS `testado`;
-CREATE TABLE IF NOT EXISTS `testado` (
-  `codigo_estado` int(11) NOT NULL AUTO_INCREMENT,
-  `descripcion` varchar(35) COLLATE utf8_spanish_ci NOT NULL,
-  `codigo_pais` int(11) NOT NULL,
-  `fecha_desactivacion` date DEFAULT NULL,
-  PRIMARY KEY (`codigo_estado`),
-  KEY `fk_testado_tpais` (`codigo_pais`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=25 ;
+DROP TABLE IF EXISTS testado;
+CREATE TABLE IF NOT EXISTS testado (
+codigo_estado int(11) NOT NULL,
+  descripcion varchar(35) COLLATE utf8_spanish_ci NOT NULL,
+  codigo_pais int(11) NOT NULL,
+  fecha_desactivacion date DEFAULT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
--- Volcado de datos para la tabla `testado`
+-- Volcado de datos para la tabla 'testado'
 --
 
-INSERT INTO `testado` (`codigo_estado`, `descripcion`, `codigo_pais`, `fecha_desactivacion`) VALUES
+INSERT INTO testado (codigo_estado, descripcion, codigo_pais, fecha_desactivacion) VALUES
 (1, 'PORTUGUESA', 1, NULL),
 (2, 'LARA', 1, NULL),
 (3, 'AMAZONAS', 1, NULL),
@@ -3778,50 +3863,47 @@ INSERT INTO `testado` (`codigo_estado`, `descripcion`, `codigo_pais`, `fecha_des
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `tinscripcion`
+-- Estructura de tabla para la tabla 'tinscripcion'
 --
 
-DROP TABLE IF EXISTS `tinscripcion`;
-CREATE TABLE IF NOT EXISTS `tinscripcion` (
-  `codigo_inscripcion` int(11) NOT NULL AUTO_INCREMENT,
-  `descripcion` varchar(60) COLLATE utf8_spanish_ci NOT NULL,
-  `fecha_inicio` date NOT NULL,
-  `fecha_fin` date NOT NULL,
-  `fecha_cierre` date NOT NULL,
-  `fecha_desactivacion` date DEFAULT NULL,
-  PRIMARY KEY (`codigo_inscripcion`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=2 ;
+DROP TABLE IF EXISTS tinscripcion;
+CREATE TABLE IF NOT EXISTS tinscripcion (
+codigo_inscripcion int(11) NOT NULL,
+  descripcion varchar(60) COLLATE utf8_spanish_ci NOT NULL,
+  fecha_inicio date NOT NULL,
+  fecha_fin date NOT NULL,
+  fecha_cierre date NOT NULL,
+  fecha_desactivacion date DEFAULT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
--- Volcado de datos para la tabla `tinscripcion`
+-- Volcado de datos para la tabla 'tinscripcion'
 --
 
-INSERT INTO `tinscripcion` (`codigo_inscripcion`, `descripcion`, `fecha_inicio`, `fecha_fin`, `fecha_cierre`, `fecha_desactivacion`) VALUES
+INSERT INTO tinscripcion (codigo_inscripcion, descripcion, fecha_inicio, fecha_fin, fecha_cierre, fecha_desactivacion) VALUES
 (1, 'PERÍODO 2015-2016', '2015-07-27', '2015-08-28', '2016-01-30', NULL);
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `tlapso`
+-- Estructura de tabla para la tabla 'tlapso'
 --
 
-DROP TABLE IF EXISTS `tlapso`;
-CREATE TABLE IF NOT EXISTS `tlapso` (
-  `codigo_lapso` int(11) NOT NULL AUTO_INCREMENT,
-  `descripcion` varchar(35) COLLATE utf8_spanish_ci NOT NULL,
-  `fecha_inicio` date NOT NULL,
-  `fecha_fin` date NOT NULL,
-  `codigo_ano_academico` int(11) NOT NULL,
-  `fecha_desactivacion` date DEFAULT NULL,
-  PRIMARY KEY (`codigo_lapso`),
-  KEY `fk_tlapso_tanoacademico` (`codigo_ano_academico`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=4 ;
+DROP TABLE IF EXISTS tlapso;
+CREATE TABLE IF NOT EXISTS tlapso (
+codigo_lapso int(11) NOT NULL,
+  descripcion varchar(35) COLLATE utf8_spanish_ci NOT NULL,
+  fecha_inicio date NOT NULL,
+  fecha_fin date NOT NULL,
+  codigo_ano_academico int(11) NOT NULL,
+  fecha_desactivacion date DEFAULT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
--- Volcado de datos para la tabla `tlapso`
+-- Volcado de datos para la tabla 'tlapso'
 --
 
-INSERT INTO `tlapso` (`codigo_lapso`, `descripcion`, `fecha_inicio`, `fecha_fin`, `codigo_ano_academico`, `fecha_desactivacion`) VALUES
+INSERT INTO tlapso (codigo_lapso, descripcion, fecha_inicio, fecha_fin, codigo_ano_academico, fecha_desactivacion) VALUES
 (1, '1ER LAPSO', '2015-09-14', '2015-12-11', 1, NULL),
 (2, '2DO LAPSO', '2016-01-11', '2016-03-25', 1, NULL),
 (3, '3ER LAPSO', '2016-04-11', '2016-07-15', 1, NULL);
@@ -3829,24 +3911,23 @@ INSERT INTO `tlapso` (`codigo_lapso`, `descripcion`, `fecha_inicio`, `fecha_fin`
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `tmateria`
+-- Estructura de tabla para la tabla 'tmateria'
 --
 
-DROP TABLE IF EXISTS `tmateria`;
-CREATE TABLE IF NOT EXISTS `tmateria` (
-  `codigo_materia` char(7) COLLATE utf8_spanish_ci NOT NULL,
-  `descripcion` varchar(100) COLLATE utf8_spanish_ci NOT NULL,
-  `unidad_curricular` int(11) NOT NULL DEFAULT '0',
-  `grado_escolar` char(1) COLLATE utf8_spanish_ci NOT NULL DEFAULT '1',
-  `fecha_desactivacion` date DEFAULT NULL,
-  PRIMARY KEY (`codigo_materia`)
+DROP TABLE IF EXISTS tmateria;
+CREATE TABLE IF NOT EXISTS tmateria (
+  codigo_materia char(7) COLLATE utf8_spanish_ci NOT NULL,
+  descripcion varchar(100) COLLATE utf8_spanish_ci NOT NULL,
+  unidad_curricular int(11) NOT NULL DEFAULT '0',
+  grado_escolar char(1) COLLATE utf8_spanish_ci NOT NULL DEFAULT '1',
+  fecha_desactivacion date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
--- Volcado de datos para la tabla `tmateria`
+-- Volcado de datos para la tabla 'tmateria'
 --
 
-INSERT INTO `tmateria` (`codigo_materia`, `descripcion`, `unidad_curricular`, `grado_escolar`, `fecha_desactivacion`) VALUES
+INSERT INTO tmateria (codigo_materia, descripcion, unidad_curricular, grado_escolar, fecha_desactivacion) VALUES
 ('AGRIC00', 'AGRICULTURA', 3, '1', NULL),
 ('BIO001', 'CIENCIAS BIOLOGICAS', 6, '2', NULL),
 ('BIO002', 'CIENCIAS BIOLOGICAS', 6, '3', NULL),
@@ -3908,26 +3989,22 @@ INSERT INTO `tmateria` (`codigo_materia`, `descripcion`, `unidad_curricular`, `g
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `tmateria_seccion_docente`
+-- Estructura de tabla para la tabla 'tmateria_seccion_docente'
 --
 
-DROP TABLE IF EXISTS `tmateria_seccion_docente`;
-CREATE TABLE IF NOT EXISTS `tmateria_seccion_docente` (
-  `codigo_msd` int(11) NOT NULL AUTO_INCREMENT,
-  `codigo_materia` char(7) COLLATE utf8_spanish_ci NOT NULL,
-  `seccion` char(5) COLLATE utf8_spanish_ci NOT NULL,
-  `cedula_docente` char(10) COLLATE utf8_spanish_ci NOT NULL,
-  PRIMARY KEY (`codigo_msd`),
-  KEY `fk_tmateria_seccion_tmateria` (`codigo_materia`),
-  KEY `fk_tmateria_seccion_tseccion` (`seccion`),
-  KEY `fk_tmateria_seccion_tpersona` (`cedula_docente`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=14 ;
+DROP TABLE IF EXISTS tmateria_seccion_docente;
+CREATE TABLE IF NOT EXISTS tmateria_seccion_docente (
+codigo_msd int(11) NOT NULL,
+  codigo_materia char(7) COLLATE utf8_spanish_ci NOT NULL,
+  seccion char(5) COLLATE utf8_spanish_ci NOT NULL,
+  cedula_docente char(10) COLLATE utf8_spanish_ci NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
--- Volcado de datos para la tabla `tmateria_seccion_docente`
+-- Volcado de datos para la tabla 'tmateria_seccion_docente'
 --
 
-INSERT INTO `tmateria_seccion_docente` (`codigo_msd`, `codigo_materia`, `seccion`, `cedula_docente`) VALUES
+INSERT INTO tmateria_seccion_docente (codigo_msd, codigo_materia, seccion, cedula_docente) VALUES
 (1, 'CAST002', 'SECCB', 'V121212121'),
 (2, 'MAT001', 'SECCB', 'V13131313'),
 (3, 'CAST002', 'SECCB', 'V121212121'),
@@ -3937,24 +4014,23 @@ INSERT INTO `tmateria_seccion_docente` (`codigo_msd`, `codigo_materia`, `seccion
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `tmodulo`
+-- Estructura de tabla para la tabla 'tmodulo'
 --
 
-DROP TABLE IF EXISTS `tmodulo`;
-CREATE TABLE IF NOT EXISTS `tmodulo` (
-  `codigo_modulo` int(11) NOT NULL AUTO_INCREMENT,
-  `descripcion` varchar(70) COLLATE utf8_spanish_ci NOT NULL,
-  `icono` varchar(200) COLLATE utf8_spanish_ci NOT NULL DEFAULT 'icon-list-alt',
-  `orden` int(11) NOT NULL DEFAULT '0',
-  `fecha_desactivacion` date DEFAULT NULL,
-  PRIMARY KEY (`codigo_modulo`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=8 ;
+DROP TABLE IF EXISTS tmodulo;
+CREATE TABLE IF NOT EXISTS tmodulo (
+codigo_modulo int(11) NOT NULL,
+  descripcion varchar(70) COLLATE utf8_spanish_ci NOT NULL,
+  icono varchar(200) COLLATE utf8_spanish_ci NOT NULL DEFAULT 'icon-list-alt',
+  orden int(11) NOT NULL DEFAULT '0',
+  fecha_desactivacion date DEFAULT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
--- Volcado de datos para la tabla `tmodulo`
+-- Volcado de datos para la tabla 'tmodulo'
 --
 
-INSERT INTO `tmodulo` (`codigo_modulo`, `descripcion`, `icono`, `orden`, `fecha_desactivacion`) VALUES
+INSERT INTO tmodulo (codigo_modulo, descripcion, icono, orden, fecha_desactivacion) VALUES
 (1, 'LOCALIDADES', 'icon-list', 1, NULL),
 (2, 'GENERAL', 'icon-list', 2, NULL),
 (3, 'EDUCACIÓN', 'icon-list-alt', 3, NULL),
@@ -3966,24 +4042,22 @@ INSERT INTO `tmodulo` (`codigo_modulo`, `descripcion`, `icono`, `orden`, `fecha_
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `tmunicipio`
+-- Estructura de tabla para la tabla 'tmunicipio'
 --
 
-DROP TABLE IF EXISTS `tmunicipio`;
-CREATE TABLE IF NOT EXISTS `tmunicipio` (
-  `codigo_municipio` int(11) NOT NULL AUTO_INCREMENT,
-  `descripcion` varchar(50) COLLATE utf8_spanish_ci NOT NULL,
-  `codigo_estado` int(11) NOT NULL,
-  `fecha_desactivacion` varchar(45) COLLATE utf8_spanish_ci DEFAULT NULL,
-  PRIMARY KEY (`codigo_municipio`),
-  KEY `fk_tmunicipio_testado` (`codigo_estado`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=332 ;
+DROP TABLE IF EXISTS tmunicipio;
+CREATE TABLE IF NOT EXISTS tmunicipio (
+codigo_municipio int(11) NOT NULL,
+  descripcion varchar(50) COLLATE utf8_spanish_ci NOT NULL,
+  codigo_estado int(11) NOT NULL,
+  fecha_desactivacion varchar(45) COLLATE utf8_spanish_ci DEFAULT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=332 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
--- Volcado de datos para la tabla `tmunicipio`
+-- Volcado de datos para la tabla 'tmunicipio'
 --
 
-INSERT INTO `tmunicipio` (`codigo_municipio`, `descripcion`, `codigo_estado`, `fecha_desactivacion`) VALUES
+INSERT INTO tmunicipio (codigo_municipio, descripcion, codigo_estado, fecha_desactivacion) VALUES
 (1, 'PÁEZ', 1, NULL),
 (2, 'AGUA BLANCA', 1, NULL),
 (3, 'SAN RAFAEL DE ONOTO', 1, NULL),
@@ -4319,24 +4393,23 @@ INSERT INTO `tmunicipio` (`codigo_municipio`, `descripcion`, `codigo_estado`, `f
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `topcion`
+-- Estructura de tabla para la tabla 'topcion'
 --
 
-DROP TABLE IF EXISTS `topcion`;
-CREATE TABLE IF NOT EXISTS `topcion` (
-  `codigo_opcion` int(11) NOT NULL AUTO_INCREMENT,
-  `descripcion` varchar(45) COLLATE utf8_spanish_ci NOT NULL,
-  `icono` varchar(200) COLLATE utf8_spanish_ci NOT NULL DEFAULT 'icon-pencil',
-  `orden` int(11) NOT NULL,
-  `fecha_desactivacion` date DEFAULT NULL,
-  PRIMARY KEY (`codigo_opcion`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=8 ;
+DROP TABLE IF EXISTS topcion;
+CREATE TABLE IF NOT EXISTS topcion (
+codigo_opcion int(11) NOT NULL,
+  descripcion varchar(45) COLLATE utf8_spanish_ci NOT NULL,
+  icono varchar(200) COLLATE utf8_spanish_ci NOT NULL DEFAULT 'icon-pencil',
+  orden int(11) NOT NULL,
+  fecha_desactivacion date DEFAULT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
--- Volcado de datos para la tabla `topcion`
+-- Volcado de datos para la tabla 'topcion'
 --
 
-INSERT INTO `topcion` (`codigo_opcion`, `descripcion`, `icono`, `orden`, `fecha_desactivacion`) VALUES
+INSERT INTO topcion (codigo_opcion, descripcion, icono, orden, fecha_desactivacion) VALUES
 (1, 'INSERTAR', 'icon-pencil', 1, NULL),
 (2, 'ACTUALIZAR', 'icon-edit', 2, NULL),
 (3, 'DESACTIVAR', 'icon-eye-close', 3, NULL),
@@ -4348,22 +4421,21 @@ INSERT INTO `topcion` (`codigo_opcion`, `descripcion`, `icono`, `orden`, `fecha_
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `tpais`
+-- Estructura de tabla para la tabla 'tpais'
 --
 
-DROP TABLE IF EXISTS `tpais`;
-CREATE TABLE IF NOT EXISTS `tpais` (
-  `codigo_pais` int(11) NOT NULL AUTO_INCREMENT,
-  `descripcion` varchar(35) COLLATE utf8_spanish_ci NOT NULL,
-  `fecha_desactivacion` varchar(45) COLLATE utf8_spanish_ci DEFAULT NULL,
-  PRIMARY KEY (`codigo_pais`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=32 ;
+DROP TABLE IF EXISTS tpais;
+CREATE TABLE IF NOT EXISTS tpais (
+codigo_pais int(11) NOT NULL,
+  descripcion varchar(35) COLLATE utf8_spanish_ci NOT NULL,
+  fecha_desactivacion varchar(45) COLLATE utf8_spanish_ci DEFAULT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
--- Volcado de datos para la tabla `tpais`
+-- Volcado de datos para la tabla 'tpais'
 --
 
-INSERT INTO `tpais` (`codigo_pais`, `descripcion`, `fecha_desactivacion`) VALUES
+INSERT INTO tpais (codigo_pais, descripcion, fecha_desactivacion) VALUES
 (1, 'VENEZUELA', NULL),
 (2, 'COLOMBIA', NULL),
 (3, 'ARGENTINA', NULL),
@@ -4399,22 +4471,21 @@ INSERT INTO `tpais` (`codigo_pais`, `descripcion`, `fecha_desactivacion`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `tparentesco`
+-- Estructura de tabla para la tabla 'tparentesco'
 --
 
-DROP TABLE IF EXISTS `tparentesco`;
-CREATE TABLE IF NOT EXISTS `tparentesco` (
-  `codigo_parentesco` int(11) NOT NULL AUTO_INCREMENT,
-  `descripcion` varchar(35) COLLATE utf8_spanish_ci NOT NULL,
-  `fecha_desactivacion` varchar(45) COLLATE utf8_spanish_ci DEFAULT NULL,
-  PRIMARY KEY (`codigo_parentesco`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=6 ;
+DROP TABLE IF EXISTS tparentesco;
+CREATE TABLE IF NOT EXISTS tparentesco (
+codigo_parentesco int(11) NOT NULL,
+  descripcion varchar(35) COLLATE utf8_spanish_ci NOT NULL,
+  fecha_desactivacion varchar(45) COLLATE utf8_spanish_ci DEFAULT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
--- Volcado de datos para la tabla `tparentesco`
+-- Volcado de datos para la tabla 'tparentesco'
 --
 
-INSERT INTO `tparentesco` (`codigo_parentesco`, `descripcion`, `fecha_desactivacion`) VALUES
+INSERT INTO tparentesco (codigo_parentesco, descripcion, fecha_desactivacion) VALUES
 (1, 'TIO', NULL),
 (2, 'PADRE', NULL),
 (3, 'MADRE', NULL),
@@ -4424,24 +4495,22 @@ INSERT INTO `tparentesco` (`codigo_parentesco`, `descripcion`, `fecha_desactivac
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `tparroquia`
+-- Estructura de tabla para la tabla 'tparroquia'
 --
 
-DROP TABLE IF EXISTS `tparroquia`;
-CREATE TABLE IF NOT EXISTS `tparroquia` (
-  `codigo_parroquia` int(11) NOT NULL AUTO_INCREMENT,
-  `descripcion` varchar(50) COLLATE utf8_spanish_ci NOT NULL,
-  `fecha_desactivacion` varchar(45) COLLATE utf8_spanish_ci DEFAULT NULL,
-  `codigo_municipio` int(11) NOT NULL,
-  PRIMARY KEY (`codigo_parroquia`),
-  KEY `fk_tparroquia_tmunicipio` (`codigo_municipio`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=41 ;
+DROP TABLE IF EXISTS tparroquia;
+CREATE TABLE IF NOT EXISTS tparroquia (
+codigo_parroquia int(11) NOT NULL,
+  descripcion varchar(50) COLLATE utf8_spanish_ci NOT NULL,
+  fecha_desactivacion varchar(45) COLLATE utf8_spanish_ci DEFAULT NULL,
+  codigo_municipio int(11) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
--- Volcado de datos para la tabla `tparroquia`
+-- Volcado de datos para la tabla 'tparroquia'
 --
 
-INSERT INTO `tparroquia` (`codigo_parroquia`, `descripcion`, `fecha_desactivacion`, `codigo_municipio`) VALUES
+INSERT INTO tparroquia (codigo_parroquia, descripcion, fecha_desactivacion, codigo_municipio) VALUES
 (1, 'ACARIGUA', NULL, 1),
 (2, 'PAYARA', NULL, 1),
 (3, 'PIMPINELA', NULL, 1),
@@ -4486,72 +4555,66 @@ INSERT INTO `tparroquia` (`codigo_parroquia`, `descripcion`, `fecha_desactivacio
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `tperfil`
+-- Estructura de tabla para la tabla 'tperfil'
 --
 
-DROP TABLE IF EXISTS `tperfil`;
-CREATE TABLE IF NOT EXISTS `tperfil` (
-  `codigo_perfil` int(11) NOT NULL AUTO_INCREMENT,
-  `descripcion` varchar(45) COLLATE utf8_spanish_ci NOT NULL,
-  `codigo_configuracion` int(11) NOT NULL,
-  `fecha_desactivacion` date DEFAULT NULL,
-  PRIMARY KEY (`codigo_perfil`),
-  KEY `codigo_configuracion` (`codigo_configuracion`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=3 ;
+DROP TABLE IF EXISTS tperfil;
+CREATE TABLE IF NOT EXISTS tperfil (
+codigo_perfil int(11) NOT NULL,
+  descripcion varchar(45) COLLATE utf8_spanish_ci NOT NULL,
+  codigo_configuracion int(11) NOT NULL,
+  fecha_desactivacion date DEFAULT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
--- Volcado de datos para la tabla `tperfil`
+-- Volcado de datos para la tabla 'tperfil'
 --
 
-INSERT INTO `tperfil` (`codigo_perfil`, `descripcion`, `codigo_configuracion`, `fecha_desactivacion`) VALUES
+INSERT INTO tperfil (codigo_perfil, descripcion, codigo_configuracion, fecha_desactivacion) VALUES
 (1, 'ADMINISTRADOR', 1, NULL),
 (2, 'DOCENTE', 1, NULL);
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `tpersona`
+-- Estructura de tabla para la tabla 'tpersona'
 --
 
-DROP TABLE IF EXISTS `tpersona`;
-CREATE TABLE IF NOT EXISTS `tpersona` (
-  `cedula` char(10) COLLATE utf8_spanish_ci NOT NULL,
-  `nombres` varchar(45) COLLATE utf8_spanish_ci NOT NULL,
-  `apellidos` varchar(45) COLLATE utf8_spanish_ci NOT NULL,
-  `genero` char(1) COLLATE utf8_spanish_ci NOT NULL DEFAULT 'F',
-  `fecha_nacimiento` date NOT NULL,
-  `lugar_nacimiento` int(11) NOT NULL,
-  `direccion` text COLLATE utf8_spanish_ci NOT NULL,
-  `telefono_habitacion` char(11) COLLATE utf8_spanish_ci DEFAULT NULL,
-  `telefono_movil` char(11) COLLATE utf8_spanish_ci DEFAULT NULL,
-  `email` varchar(60) COLLATE utf8_spanish_ci DEFAULT NULL,
-  `esestudiante` char(1) COLLATE utf8_spanish_ci NOT NULL DEFAULT 'N',
-  `esrepresentante` char(1) COLLATE utf8_spanish_ci NOT NULL DEFAULT 'N',
-  `espersonalinstitucion` char(1) COLLATE utf8_spanish_ci NOT NULL DEFAULT 'N',
-  `fecha_ingreso` date DEFAULT NULL,
-  `codigo_cargo` int(11) DEFAULT NULL,
-  `codigo_dependencia` char(10) COLLATE utf8_spanish_ci DEFAULT NULL,
-  `codigo_dependencia_anterior` char(10) COLLATE utf8_spanish_ci DEFAULT NULL,
-  `condicion_cargo` char(1) COLLATE utf8_spanish_ci DEFAULT 'C',
-  `nivel_academico` varchar(30) COLLATE utf8_spanish_ci DEFAULT NULL,
-  `carga_horaria` int(11) DEFAULT '0',
-  `codigo_plantel` char(11) COLLATE utf8_spanish_ci DEFAULT NULL,
-  `fecha_desactivacion` date DEFAULT NULL,
-  PRIMARY KEY (`cedula`),
-  KEY `fk_tpersona_tparroquia` (`lugar_nacimiento`),
-  KEY `fk_tpersona_tcargo` (`codigo_cargo`),
-  KEY `fk_tpersona_tplantel` (`codigo_plantel`)
+DROP TABLE IF EXISTS tpersona;
+CREATE TABLE IF NOT EXISTS tpersona (
+  cedula char(10) COLLATE utf8_spanish_ci NOT NULL,
+  nombres varchar(45) COLLATE utf8_spanish_ci NOT NULL,
+  apellidos varchar(45) COLLATE utf8_spanish_ci NOT NULL,
+  genero char(1) COLLATE utf8_spanish_ci NOT NULL DEFAULT 'F',
+  fecha_nacimiento date NOT NULL,
+  lugar_nacimiento int(11) NOT NULL,
+  direccion text COLLATE utf8_spanish_ci NOT NULL,
+  telefono_habitacion char(11) COLLATE utf8_spanish_ci DEFAULT NULL,
+  telefono_movil char(11) COLLATE utf8_spanish_ci DEFAULT NULL,
+  email varchar(60) COLLATE utf8_spanish_ci DEFAULT NULL,
+  esestudiante char(1) COLLATE utf8_spanish_ci NOT NULL DEFAULT 'N',
+  esrepresentante char(1) COLLATE utf8_spanish_ci NOT NULL DEFAULT 'N',
+  espersonalinstitucion char(1) COLLATE utf8_spanish_ci NOT NULL DEFAULT 'N',
+  fecha_ingreso date DEFAULT NULL,
+  codigo_cargo int(11) DEFAULT NULL,
+  codigo_dependencia char(10) COLLATE utf8_spanish_ci DEFAULT NULL,
+  codigo_dependencia_anterior char(10) COLLATE utf8_spanish_ci DEFAULT NULL,
+  condicion_cargo char(1) COLLATE utf8_spanish_ci DEFAULT 'C',
+  nivel_academico varchar(30) COLLATE utf8_spanish_ci DEFAULT NULL,
+  carga_horaria int(11) DEFAULT '0',
+  codigo_plantel char(11) COLLATE utf8_spanish_ci DEFAULT NULL,
+  fecha_desactivacion date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
--- Volcado de datos para la tabla `tpersona`
+-- Volcado de datos para la tabla 'tpersona'
 --
 
-INSERT INTO `tpersona` (`cedula`, `nombres`, `apellidos`, `genero`, `fecha_nacimiento`, `lugar_nacimiento`, `direccion`, `telefono_habitacion`, `telefono_movil`, `email`, `esestudiante`, `esrepresentante`, `espersonalinstitucion`, `fecha_ingreso`, `codigo_cargo`, `codigo_dependencia`, `codigo_dependencia_anterior`, `condicion_cargo`, `nivel_academico`, `carga_horaria`, `codigo_plantel`, `fecha_desactivacion`) VALUES
+INSERT INTO tpersona (cedula, nombres, apellidos, genero, fecha_nacimiento, lugar_nacimiento, direccion, telefono_habitacion, telefono_movil, email, esestudiante, esrepresentante, espersonalinstitucion, fecha_ingreso, codigo_cargo, codigo_dependencia, codigo_dependencia_anterior, condicion_cargo, nivel_academico, carga_horaria, codigo_plantel, fecha_desactivacion) VALUES
 ('V092123123', 'LAURA', 'JIMENEZ', 'F', '1994-01-18', 1, 'N/A', '02553453234', '04142353234', '', 'N', 'N', 'Y', '2009-01-14', 3, '234234324', '', 'F', 'LCDO(A).', 23, '1249834983H', NULL),
 ('V105463555', 'OSCAR', 'SOTO', 'M', '1980-01-09', 1, 'ACARIGUA', '02554567845', '04242345678', 'oscar@hotmail.com', 'N', 'Y', 'N', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-('V1111', 'LAURA', 'JIMENEZ', 'F', '2000-01-20', 1, 'ACARIGUA', '02554564532', '', 'laura_maria_jimenez@hotmail.com', 'Y', 'N', 'N', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 ('V111111111', 'KARINA', 'PEÑA', 'F', '2000-01-14', 1, 'ACARIGUA', '02556777777', '04246747474', '', 'N', 'N', 'Y', '2006-01-19', 1, '2G22738237', '', 'F', 'T.S.U.', 49, '1249834983H', NULL),
+('V111121212', 'LAURA', 'JIMENEZ', 'F', '2000-01-20', 1, 'ACARIGUA', '02554564532', '', 'laura_maria_jimenez@hotmail.com', 'Y', 'N', 'N', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 ('V115678456', 'MANUEL', 'CASTRO', 'M', '1984-04-20', 1, 'PAEZ', '', '', '', 'N', 'Y', 'N', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 ('V121212121', 'JOSE', 'LOPEZ', 'M', '1995-06-20', 1, 'N/A', '02553453242', '04142345234', '', 'N', 'N', 'Y', '2009-07-21', 2, '0234324232', '', 'F', 'LCDO(A).', 23, '1249834983H', NULL),
 ('V12312312', 'JAVIER JR', 'MARTIN', 'M', '2004-01-21', 1, 'N/A', '02552343423', '', '', 'Y', 'N', 'N', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
@@ -4575,28 +4638,26 @@ INSERT INTO `tpersona` (`cedula`, `nombres`, `apellidos`, `genero`, `fecha_nacim
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `tplantel`
+-- Estructura de tabla para la tabla 'tplantel'
 --
 
-DROP TABLE IF EXISTS `tplantel`;
-CREATE TABLE IF NOT EXISTS `tplantel` (
-  `codigo_plantel` char(11) COLLATE utf8_spanish_ci NOT NULL,
-  `nombre` varchar(60) COLLATE utf8_spanish_ci NOT NULL,
-  `direccion` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
-  `telefono_habitacion` varchar(11) COLLATE utf8_spanish_ci NOT NULL,
-  `localidad` varchar(20) COLLATE utf8_spanish_ci DEFAULT NULL,
-  `email` varchar(150) COLLATE utf8_spanish_ci DEFAULT NULL,
-  `codigo_municipio` int(11) NOT NULL,
-  `fecha_desactivacion` varchar(45) COLLATE utf8_spanish_ci DEFAULT NULL,
-  PRIMARY KEY (`codigo_plantel`),
-  KEY `fk_tplantel_tmunicipio` (`codigo_municipio`)
+DROP TABLE IF EXISTS tplantel;
+CREATE TABLE IF NOT EXISTS tplantel (
+  codigo_plantel char(11) COLLATE utf8_spanish_ci NOT NULL,
+  nombre varchar(60) COLLATE utf8_spanish_ci NOT NULL,
+  direccion varchar(255) COLLATE utf8_spanish_ci NOT NULL,
+  telefono_habitacion varchar(11) COLLATE utf8_spanish_ci NOT NULL,
+  localidad varchar(20) COLLATE utf8_spanish_ci DEFAULT NULL,
+  email varchar(150) COLLATE utf8_spanish_ci DEFAULT NULL,
+  codigo_municipio int(11) NOT NULL,
+  fecha_desactivacion varchar(45) COLLATE utf8_spanish_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
--- Volcado de datos para la tabla `tplantel`
+-- Volcado de datos para la tabla 'tplantel'
 --
 
-INSERT INTO `tplantel` (`codigo_plantel`, `nombre`, `direccion`, `telefono_habitacion`, `localidad`, `email`, `codigo_municipio`, `fecha_desactivacion`) VALUES
+INSERT INTO tplantel (codigo_plantel, nombre, direccion, telefono_habitacion, localidad, email, codigo_municipio, fecha_desactivacion) VALUES
 ('12345645343', 'LICEO BOLIVARIANO TOCUYANO', 'CENTRO "I" TOCUYANO', '02556345678', 'TOCUYANO', '', 2, NULL),
 ('1249834983H', 'AGUA BLANCA', 'MUNICIPIO AGUA BLANCA', '02558765645', 'AGUA BLANCA', '', 2, NULL),
 ('21345687654', 'LICEO BOLIVARIANO PIRITAL', 'CENTRO POBLADO PIRITAL', '02553456784', 'PIRITAL', '', 2, NULL),
@@ -4605,91 +4666,80 @@ INSERT INTO `tplantel` (`codigo_plantel`, `nombre`, `direccion`, `telefono_habit
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `tproceso_inscripcion`
+-- Estructura de tabla para la tabla 'tproceso_inscripcion'
 --
 
-DROP TABLE IF EXISTS `tproceso_inscripcion`;
-CREATE TABLE IF NOT EXISTS `tproceso_inscripcion` (
-  `codigo_procesoinscripcion` int(11) NOT NULL AUTO_INCREMENT,
-  `codigo_inscripcion` int(11) NOT NULL,
-  `fecha_inscripcion` date NOT NULL,
-  `codigo_ano_academico` int(11) NOT NULL,
-  `cedula_docente` char(10) COLLATE utf8_spanish_ci DEFAULT NULL,
-  `cedula_estudiante` char(10) COLLATE utf8_spanish_ci NOT NULL,
-  `cedula_escolar` char(10) COLLATE utf8_spanish_ci DEFAULT NULL,
-  `codigo_canaima` varchar(20) COLLATE utf8_spanish_ci DEFAULT NULL,
-  `peso` float NOT NULL DEFAULT '0',
-  `estatura` float NOT NULL DEFAULT '0',
-  `codigo_plantel` char(11) COLLATE utf8_spanish_ci DEFAULT NULL,
-  `certificado_sextogrado` char(1) COLLATE utf8_spanish_ci NOT NULL DEFAULT 'N',
-  `notascertificadas` char(1) COLLATE utf8_spanish_ci NOT NULL DEFAULT 'N',
-  `cartabuenaconducta` char(1) COLLATE utf8_spanish_ci NOT NULL DEFAULT 'N',
-  `fotoestudiante` char(1) COLLATE utf8_spanish_ci NOT NULL DEFAULT 'N',
-  `fotorepresentante` char(1) COLLATE utf8_spanish_ci NOT NULL DEFAULT 'N',
-  `fotocopia_ciestudiante` char(1) COLLATE utf8_spanish_ci NOT NULL DEFAULT 'N',
-  `fotocopia_cirepresentante` char(1) COLLATE utf8_spanish_ci NOT NULL DEFAULT 'N',
-  `fotocopia_pnestudiante` char(1) COLLATE utf8_spanish_ci NOT NULL DEFAULT 'N',
-  `kitscomedor` char(1) COLLATE utf8_spanish_ci NOT NULL DEFAULT 'N',
-  `becado` char(1) COLLATE utf8_spanish_ci NOT NULL DEFAULT 'N',
-  `tipobeca` char(1) COLLATE utf8_spanish_ci NOT NULL DEFAULT 'N',
-  `cedula_madre` char(10) COLLATE utf8_spanish_ci DEFAULT NULL,
-  `cedula_padre` char(10) COLLATE utf8_spanish_ci DEFAULT NULL,
-  `cedula_representante` char(10) COLLATE utf8_spanish_ci DEFAULT NULL,
-  `codigo_parentesco` int(11) DEFAULT NULL,
-  `lugar_trabajo` int(11) DEFAULT NULL,
-  `primerafi` date DEFAULT NULL,
-  `seccion` char(5) COLLATE utf8_spanish_ci DEFAULT NULL,
-  `grado_escolar` char(1) COLLATE utf8_spanish_ci NOT NULL DEFAULT '1',
-  `proceso_completado` char(1) COLLATE utf8_spanish_ci NOT NULL DEFAULT 'N',
-  `estatus` char(1) COLLATE utf8_spanish_ci NOT NULL DEFAULT '1',
-  PRIMARY KEY (`codigo_procesoinscripcion`),
-  KEY `fk_tpi_tinscrip` (`codigo_inscripcion`),
-  KEY `fk_tpi_taa` (`codigo_ano_academico`),
-  KEY `fk_tpi_tdocente` (`cedula_docente`),
-  KEY `fk_tpi_testudiante` (`cedula_estudiante`),
-  KEY `fk_tpi_tmadre` (`cedula_madre`),
-  KEY `fk_tpi_tpadre` (`cedula_padre`),
-  KEY `fk_tpi_trepresentante` (`cedula_representante`),
-  KEY `fk_tpi_tparentesco` (`codigo_parentesco`),
-  KEY `fk_tpi_tlugartrabajo` (`lugar_trabajo`),
-  KEY `fk_tpi_tseccion` (`seccion`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=9 ;
+DROP TABLE IF EXISTS tproceso_inscripcion;
+CREATE TABLE IF NOT EXISTS tproceso_inscripcion (
+codigo_procesoinscripcion int(11) NOT NULL,
+  codigo_inscripcion int(11) NOT NULL,
+  fecha_inscripcion date NOT NULL,
+  codigo_ano_academico int(11) NOT NULL,
+  cedula_docente char(10) COLLATE utf8_spanish_ci DEFAULT NULL,
+  cedula_estudiante char(10) COLLATE utf8_spanish_ci NOT NULL,
+  cedula_escolar char(10) COLLATE utf8_spanish_ci DEFAULT NULL,
+  lateralidad char(1) COLLATE utf8_spanish_ci NOT NULL DEFAULT 'D',
+  codigo_canaima varchar(20) COLLATE utf8_spanish_ci DEFAULT NULL,
+  canaima_operativa char(1) COLLATE utf8_spanish_ci NOT NULL DEFAULT 'Y',
+  peso float NOT NULL DEFAULT '0',
+  estatura float NOT NULL DEFAULT '0',
+  codigo_plantel char(11) COLLATE utf8_spanish_ci DEFAULT NULL,
+  certificado_sextogrado char(1) COLLATE utf8_spanish_ci NOT NULL DEFAULT 'N',
+  notascertificadas char(1) COLLATE utf8_spanish_ci NOT NULL DEFAULT 'N',
+  cartabuenaconducta char(1) COLLATE utf8_spanish_ci NOT NULL DEFAULT 'N',
+  fotoestudiante char(1) COLLATE utf8_spanish_ci NOT NULL DEFAULT 'N',
+  fotorepresentante char(1) COLLATE utf8_spanish_ci NOT NULL DEFAULT 'N',
+  fotocopia_ciestudiante char(1) COLLATE utf8_spanish_ci NOT NULL DEFAULT 'N',
+  fotocopia_cirepresentante char(1) COLLATE utf8_spanish_ci NOT NULL DEFAULT 'N',
+  fotocopia_pnestudiante char(1) COLLATE utf8_spanish_ci NOT NULL DEFAULT 'N',
+  kitscomedor char(1) COLLATE utf8_spanish_ci NOT NULL DEFAULT 'N',
+  becado char(1) COLLATE utf8_spanish_ci NOT NULL DEFAULT 'N',
+  tipobeca char(1) COLLATE utf8_spanish_ci NOT NULL DEFAULT 'N',
+  cedula_madre char(10) COLLATE utf8_spanish_ci DEFAULT NULL,
+  cedula_padre char(10) COLLATE utf8_spanish_ci DEFAULT NULL,
+  cedula_representante char(10) COLLATE utf8_spanish_ci DEFAULT NULL,
+  codigo_parentesco int(11) DEFAULT NULL,
+  lugar_trabajo int(11) DEFAULT NULL,
+  primerafi date DEFAULT NULL,
+  seccion char(5) COLLATE utf8_spanish_ci DEFAULT NULL,
+  grado_escolar char(1) COLLATE utf8_spanish_ci NOT NULL DEFAULT '1',
+  proceso_completado char(1) COLLATE utf8_spanish_ci NOT NULL DEFAULT 'N',
+  estatus char(1) COLLATE utf8_spanish_ci NOT NULL DEFAULT '1'
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
--- Volcado de datos para la tabla `tproceso_inscripcion`
+-- Volcado de datos para la tabla 'tproceso_inscripcion'
 --
 
-INSERT INTO `tproceso_inscripcion` (`codigo_procesoinscripcion`, `codigo_inscripcion`, `fecha_inscripcion`, `codigo_ano_academico`, `cedula_docente`, `cedula_estudiante`, `cedula_escolar`, `codigo_canaima`, `peso`, `estatura`, `codigo_plantel`, `certificado_sextogrado`, `notascertificadas`, `cartabuenaconducta`, `fotoestudiante`, `fotorepresentante`, `fotocopia_ciestudiante`, `fotocopia_cirepresentante`, `fotocopia_pnestudiante`, `kitscomedor`, `becado`, `tipobeca`, `cedula_madre`, `cedula_padre`, `cedula_representante`, `codigo_parentesco`, `lugar_trabajo`, `primerafi`, `seccion`, `grado_escolar`, `proceso_completado`, `estatus`) VALUES
-(1, 1, '2016-01-14', 1, 'V13131313', 'V252132343', '', '', 35.5, 135, '0', 'Y', 'Y', 'Y', 'Y', 'Y', 'Y', 'Y', 'Y', 'Y', 'Y', 'H', NULL, 'V121212121', 'V121212121', 2, 1, '2016-01-14', 'SECCB', '1', 'Y', '1'),
-(2, 1, '2016-01-15', 1, NULL, 'V1111', '', '', 50, 156, '2147483647', 'N', 'N', 'N', 'N', 'N', 'N', 'N', 'N', 'N', 'N', 'N', NULL, NULL, NULL, NULL, NULL, '2016-01-15', NULL, '1', 'N', '1'),
-(3, 1, '2016-01-15', 1, NULL, 'V25347014', '', '', 50, 165, '2147483647', 'N', 'N', 'N', 'N', 'N', 'N', 'N', 'N', 'N', 'N', 'N', NULL, NULL, NULL, NULL, NULL, '2016-01-15', NULL, '1', 'N', '1'),
-(4, 1, '2016-01-15', 1, NULL, 'V24935226', '', '', 50, 162, '2147483647', 'Y', 'N', 'Y', 'N', 'Y', 'N', 'N', 'Y', 'N', 'N', 'N', NULL, 'V105463555', NULL, NULL, NULL, '2016-01-15', NULL, '1', 'N', '1'),
-(5, 1, '2016-01-15', 1, NULL, 'V25347013', '', '', 55, 163, '1249834983', 'N', 'N', 'N', 'N', 'N', 'N', 'N', 'N', 'N', 'N', 'N', NULL, NULL, NULL, NULL, NULL, '2016-01-15', NULL, '1', 'N', '1'),
-(6, 1, '2016-01-17', 1, NULL, 'V12312312', '', '124321VS123123', 123.4, 123, '1249834983H', 'Y', 'Y', 'Y', 'Y', 'Y', 'Y', 'Y', 'Y', 'Y', 'N', '0', NULL, NULL, NULL, NULL, NULL, '2016-01-17', NULL, '1', 'N', '1'),
-(7, 1, '2016-01-17', 1, 'V121212121', 'V30484143', '', '', 50, 160, '1249834983H', 'Y', 'Y', 'Y', 'N', 'Y', 'Y', 'N', 'N', 'N', 'N', 'N', 'V17946809', NULL, 'V17946809', 3, 1, '2016-01-17', 'SECC', '1', 'Y', '1'),
-(8, 1, '2016-01-17', 1, 'V121212121', 'V30363014', '', '', 50, 158, '12345645343', 'N', 'N', 'Y', 'Y', 'Y', 'N', 'N', 'Y', 'N', 'N', 'N', 'V16292131', 'V115678456', 'V115678456', 2, 1, '2016-01-17', '1', '1', 'Y', '1');
+INSERT INTO tproceso_inscripcion (codigo_procesoinscripcion, codigo_inscripcion, fecha_inscripcion, codigo_ano_academico, cedula_docente, cedula_estudiante, cedula_escolar, lateralidad, codigo_canaima, canaima_operativa, peso, estatura, codigo_plantel, certificado_sextogrado, notascertificadas, cartabuenaconducta, fotoestudiante, fotorepresentante, fotocopia_ciestudiante, fotocopia_cirepresentante, fotocopia_pnestudiante, kitscomedor, becado, tipobeca, cedula_madre, cedula_padre, cedula_representante, codigo_parentesco, lugar_trabajo, primerafi, seccion, grado_escolar, proceso_completado, estatus) VALUES
+(1, 1, '2016-01-14', 1, 'V13131313', 'V252132343', '', 'D', '', 'Y', 35.5, 135, '12345645343', 'Y', 'Y', 'Y', 'Y', 'Y', 'Y', 'Y', 'Y', 'Y', 'Y', 'H', NULL, 'V121212121', 'V121212121', 2, 1, '2016-01-14', 'SECCB', '1', 'Y', '1'),
+(2, 1, '2016-01-15', 1, NULL, 'V111121212', '', 'D', '', 'N', 50, 156, '1249834983H', 'N', 'N', 'N', 'N', 'N', 'N', 'N', 'N', 'N', 'N', 'N', NULL, NULL, NULL, NULL, NULL, '2016-01-15', '2', '1', 'N', '1'),
+(3, 1, '2016-01-15', 1, NULL, 'V25347014', '', 'D', '', 'N', 50, 165, '21345687654', 'N', 'N', 'N', 'N', 'N', 'N', 'N', 'N', 'N', 'N', 'N', NULL, NULL, NULL, NULL, NULL, '2016-01-15', '2', '1', 'N', '1'),
+(4, 1, '2016-01-15', 1, 'V13131313', 'V24935226', '', 'D', '', 'N', 50, 162, '12345645343', 'Y', 'N', 'Y', 'N', 'Y', 'N', 'N', 'Y', 'N', 'N', 'N', NULL, 'V105463555', 'V105463555', 2, 1, '2016-01-15', 'SECC', '1', 'Y', '1'),
+(5, 1, '2016-01-15', 1, NULL, 'V25347013', '', 'D', '', 'N', 55, 163, '1249834983H', 'N', 'N', 'N', 'N', 'N', 'N', 'N', 'N', 'N', 'N', 'N', NULL, NULL, NULL, NULL, NULL, '2016-01-15', 'SECC', '1', 'N', '1'),
+(6, 1, '2016-01-17', 1, NULL, 'V12312312', '', 'D', '124321VS123123', 'Y', 123.4, 123, '1249834983H', 'Y', 'Y', 'Y', 'Y', 'Y', 'Y', 'Y', 'Y', 'Y', 'N', '0', NULL, NULL, NULL, NULL, NULL, '2016-01-17', 'SECC', '1', 'N', '1'),
+(7, 1, '2016-01-17', 1, 'V121212121', 'V30484143', '', 'D', '', 'N', 50, 160, '1249834983H', 'Y', 'Y', 'Y', 'N', 'Y', 'Y', 'N', 'N', 'N', 'N', 'N', 'V17946809', NULL, 'V17946809', 3, 1, '2016-01-17', 'SECC', '1', 'Y', '1'),
+(8, 1, '2016-01-17', 1, 'V121212121', 'V30363014', '', 'D', '', 'N', 50, 158, '12345645343', 'N', 'N', 'Y', 'Y', 'Y', 'N', 'N', 'Y', 'N', 'N', 'N', 'V16292131', 'V115678456', 'V115678456', 2, 1, '2016-01-17', '1', '1', 'Y', '1');
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `trespuesta_secreta`
+-- Estructura de tabla para la tabla 'trespuesta_secreta'
 --
 
-DROP TABLE IF EXISTS `trespuesta_secreta`;
-CREATE TABLE IF NOT EXISTS `trespuesta_secreta` (
-  `codigo_respuesta` int(11) NOT NULL AUTO_INCREMENT,
-  `nombre_usuario` char(10) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
-  `pregunta` varchar(60) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
-  `respuesta` varchar(60) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
-  PRIMARY KEY (`codigo_respuesta`),
-  KEY `nombre_usuario` (`nombre_usuario`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
+DROP TABLE IF EXISTS trespuesta_secreta;
+CREATE TABLE IF NOT EXISTS trespuesta_secreta (
+codigo_respuesta int(11) NOT NULL,
+  nombre_usuario char(10) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
+  pregunta varchar(60) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
+  respuesta varchar(60) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
--- Volcado de datos para la tabla `trespuesta_secreta`
+-- Volcado de datos para la tabla 'trespuesta_secreta'
 --
 
-INSERT INTO `trespuesta_secreta` (`codigo_respuesta`, `nombre_usuario`, `pregunta`, `respuesta`) VALUES
+INSERT INTO trespuesta_secreta (codigo_respuesta, nombre_usuario, pregunta, respuesta) VALUES
 (1, 'V13131313', 'P1', 'R1'),
 (2, 'V13131313', 'P2', 'R2'),
 (3, 'V121212121', 'P1', 'R1'),
@@ -4701,26 +4751,25 @@ INSERT INTO `trespuesta_secreta` (`codigo_respuesta`, `nombre_usuario`, `pregunt
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `tseccion`
+-- Estructura de tabla para la tabla 'tseccion'
 --
 
-DROP TABLE IF EXISTS `tseccion`;
-CREATE TABLE IF NOT EXISTS `tseccion` (
-  `seccion` char(5) COLLATE utf8_spanish_ci NOT NULL,
-  `descripcion` varchar(10) COLLATE utf8_spanish_ci NOT NULL,
-  `turno` char(1) COLLATE utf8_spanish_ci NOT NULL,
-  `capacidad_min` int(11) NOT NULL DEFAULT '5',
-  `capacidad_max` int(11) NOT NULL DEFAULT '40',
-  `grado_escolar` char(1) COLLATE utf8_spanish_ci NOT NULL DEFAULT '1',
-  `fecha_desactivacion` date DEFAULT NULL,
-  PRIMARY KEY (`seccion`)
+DROP TABLE IF EXISTS tseccion;
+CREATE TABLE IF NOT EXISTS tseccion (
+  seccion char(5) COLLATE utf8_spanish_ci NOT NULL,
+  descripcion varchar(10) COLLATE utf8_spanish_ci NOT NULL,
+  turno char(1) COLLATE utf8_spanish_ci NOT NULL,
+  capacidad_min int(11) NOT NULL DEFAULT '5',
+  capacidad_max int(11) NOT NULL DEFAULT '40',
+  grado_escolar char(1) COLLATE utf8_spanish_ci NOT NULL DEFAULT '1',
+  fecha_desactivacion date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
--- Volcado de datos para la tabla `tseccion`
+-- Volcado de datos para la tabla 'tseccion'
 --
 
-INSERT INTO `tseccion` (`seccion`, `descripcion`, `turno`, `capacidad_min`, `capacidad_max`, `grado_escolar`, `fecha_desactivacion`) VALUES
+INSERT INTO tseccion (seccion, descripcion, turno, capacidad_min, capacidad_max, grado_escolar, fecha_desactivacion) VALUES
 ('1', 'PRIMERO A', 'M', 10, 30, '1', NULL),
 ('2', 'SEGUNDO A', 'M', 40, 50, '1', '2016-01-19'),
 ('SECC', 'PRIMERO B', 'M', 10, 40, '1', NULL),
@@ -4733,86 +4782,81 @@ INSERT INTO `tseccion` (`seccion`, `descripcion`, `turno`, `capacidad_min`, `cap
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `tservicio`
+-- Estructura de tabla para la tabla 'tservicio'
 --
 
-DROP TABLE IF EXISTS `tservicio`;
-CREATE TABLE IF NOT EXISTS `tservicio` (
-  `codigo_servicio` int(11) NOT NULL AUTO_INCREMENT,
-  `descripcion` varchar(45) COLLATE utf8_spanish_ci NOT NULL,
-  `url` varchar(200) COLLATE utf8_spanish_ci DEFAULT NULL,
-  `orden` decimal(10,0) DEFAULT '0',
-  `codigo_modulo` int(11) NOT NULL,
-  `fecha_desactivacion` date DEFAULT NULL,
-  PRIMARY KEY (`codigo_servicio`),
-  UNIQUE KEY `url` (`url`),
-  KEY `tservicios_ibfk_1` (`codigo_modulo`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=38 ;
+DROP TABLE IF EXISTS tservicio;
+CREATE TABLE IF NOT EXISTS tservicio (
+codigo_servicio int(11) NOT NULL,
+  descripcion varchar(45) COLLATE utf8_spanish_ci NOT NULL,
+  url varchar(200) COLLATE utf8_spanish_ci DEFAULT NULL,
+  orden decimal(10,0) DEFAULT '0',
+  codigo_modulo int(11) NOT NULL,
+  fecha_desactivacion date DEFAULT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
--- Volcado de datos para la tabla `tservicio`
+-- Volcado de datos para la tabla 'tservicio'
 --
 
-INSERT INTO `tservicio` (`codigo_servicio`, `descripcion`, `url`, `orden`, `codigo_modulo`, `fecha_desactivacion`) VALUES
-(1, 'PAÍS', 'PAIS', '1', 1, NULL),
-(2, 'ESTADO', 'ESTADO', '2', 1, NULL),
-(3, 'MUNICIPIO', 'MUNICIPIO', '3', 1, NULL),
-(4, 'PARROQUIA', 'PARROQUIA', '4', 1, NULL),
-(5, 'PLANTEL', 'PLANTEL', '1', 2, NULL),
-(6, 'CARGO', 'CARGO', '2', 2, NULL),
-(7, 'PERSONA', 'PERSONA', '3', 2, NULL),
-(8, 'PARENTESCO', 'PARENTESCO', '4', 2, NULL),
-(9, 'AÑO ACADÉMICO', 'ANO_ACADEMICO', '2', 3, NULL),
-(10, 'LAPSO', 'LAPSO', '3', 3, NULL),
-(11, 'MATERIA', 'MATERIA', '4', 3, NULL),
-(12, 'SECCIÓN', 'SECCION', '6', 3, NULL),
-(13, 'ESTUDIANTES', 'ESTUDIANTE', '7', 3, NULL),
-(14, 'CERRAR AÑO ACADÉMICO', 'CERRAR_ANOACADEMICO', '7', 3, NULL),
-(15, 'INSCRIPCIÓN', 'INSCRIPCION', '8', 3, NULL),
-(16, 'ASIGNACIÓN DE NOTAS', 'ASIGNAR_NOTAS', '1', 4, NULL),
-(17, 'PROCESO DE INSCRIPCIÓN', 'PROCESO_INSCRIPCION', '1', 7, NULL),
-(18, 'ASIGNACIÓN DE SECCIONES', 'ASIGNAR_SECCION', '10', 7, NULL),
-(19, 'FICHA DE INSCRIPCIÓN', 'REP_FICHAINSCRIPCION', '1', 5, NULL),
-(20, 'CONSTANCIA DE ESTUDIO', 'REP_CONSTANCIAESTUDIO', '2', 5, NULL),
-(21, 'HISTORIAL DEL PERSONAL ADMINISTRATIVO', 'REP_HISTORIALPERSONAL', '3', 5, NULL),
-(22, 'ESTUDIANTES POR GRADO ESCOLAR', 'REP_ESTUDIANTESPORGRADO', '4', 5, NULL),
-(23, 'ESTUDIANTES POR SECCIÓN', 'REP_ESTUDIANTESPORSECCION', '5', 5, NULL),
-(24, 'ESTUDIANTES NUEVO INGRESO', 'REP_ESTUDIANTESNUEVOINGRESO', '6', 5, NULL),
-(25, 'LISTADO DE DOCENTES', 'REP_DOCENTES', '7', 5, NULL),
-(26, 'LISTADO DE DOCENTES POR MATERIA', 'REP_DOCENTESPORMATERIA', '8', 5, NULL),
-(27, 'NOTAS CERTIFICADAS', 'REP_NOTASCERTIFICADAS', '9', 5, NULL),
-(28, 'MÓDULO', 'MODULO', '1', 6, NULL),
-(29, 'SERVICIOS', 'SERVICIO', '2', 6, NULL),
-(30, 'BOTONERA', 'BOTONES', '3', 6, NULL),
-(31, 'PERFIL', 'PERFILES', '5', 6, NULL),
-(32, 'NUEVO USUARIO', 'NUEVOUSUARIO', '6', 6, NULL),
-(33, 'MÍ PERFIL', 'PERFIL', '6', 6, NULL),
-(34, 'CAMBIAR CONTRASEÑA', 'CAMBIARCONTRASENA', '7', 6, NULL),
-(35, 'HISTÓRICO DE CAMBIOS', 'BITACORA', '9', 6, NULL),
-(36, 'BOLETIN', 'REP_BOLETIN', '10', 5, NULL),
-(37, 'CONFIGURACIÓN DEL PERFIL', 'CONFIGURACION', '4', 6, NULL);
+INSERT INTO tservicio (codigo_servicio, descripcion, url, orden, codigo_modulo, fecha_desactivacion) VALUES
+(1, 'PAÍS', 'PAIS', 1, 1, NULL),
+(2, 'ESTADO', 'ESTADO', 2, 1, NULL),
+(3, 'MUNICIPIO', 'MUNICIPIO', 3, 1, NULL),
+(4, 'PARROQUIA', 'PARROQUIA', 4, 1, NULL),
+(5, 'PLANTEL', 'PLANTEL', 1, 2, NULL),
+(6, 'CARGO', 'CARGO', 2, 2, NULL),
+(7, 'PERSONA', 'PERSONA', 3, 2, NULL),
+(8, 'PARENTESCO', 'PARENTESCO', 4, 2, NULL),
+(9, 'AÑO ACADÉMICO', 'ANO_ACADEMICO', 2, 3, NULL),
+(10, 'LAPSO', 'LAPSO', 3, 3, NULL),
+(11, 'MATERIA', 'MATERIA', 4, 3, NULL),
+(12, 'SECCIÓN', 'SECCION', 6, 3, NULL),
+(13, 'ESTUDIANTES', 'ESTUDIANTE', 7, 3, NULL),
+(14, 'CERRAR AÑO ACADÉMICO', 'CERRAR_ANOACADEMICO', 7, 3, NULL),
+(15, 'INSCRIPCIÓN', 'INSCRIPCION', 8, 3, NULL),
+(16, 'ASIGNACIÓN DE NOTAS', 'ASIGNAR_NOTAS', 1, 4, NULL),
+(17, 'PROCESO DE INSCRIPCIÓN', 'PROCESO_INSCRIPCION', 1, 7, NULL),
+(18, 'ASIGNACIÓN DE SECCIONES', 'ASIGNAR_SECCION', 10, 7, NULL),
+(19, 'FICHA DE INSCRIPCIÓN', 'REP_FICHAINSCRIPCION', 1, 5, NULL),
+(20, 'CONSTANCIA DE ESTUDIO', 'REP_CONSTANCIAESTUDIO', 2, 5, NULL),
+(21, 'HISTORIAL DEL PERSONAL ADMINISTRATIVO', 'REP_HISTORIALPERSONAL', 3, 5, NULL),
+(22, 'ESTUDIANTES POR GRADO ESCOLAR', 'REP_ESTUDIANTESPORGRADO', 4, 5, NULL),
+(23, 'ESTUDIANTES POR SECCIÓN', 'REP_ESTUDIANTESPORSECCION', 5, 5, NULL),
+(24, 'ESTUDIANTES NUEVO INGRESO', 'REP_ESTUDIANTESNUEVOINGRESO', 6, 5, NULL),
+(25, 'LISTADO DE DOCENTES', 'REP_DOCENTES', 7, 5, NULL),
+(26, 'LISTADO DE DOCENTES POR MATERIA', 'REP_DOCENTESPORMATERIA', 8, 5, NULL),
+(27, 'NOTAS CERTIFICADAS', 'REP_NOTASCERTIFICADAS', 9, 5, NULL),
+(28, 'MÓDULO', 'MODULO', 1, 6, NULL),
+(29, 'SERVICIOS', 'SERVICIO', 2, 6, NULL),
+(30, 'BOTONERA', 'BOTONES', 3, 6, NULL),
+(31, 'PERFIL', 'PERFILES', 5, 6, NULL),
+(32, 'NUEVO USUARIO', 'NUEVOUSUARIO', 6, 6, NULL),
+(33, 'MÍ PERFIL', 'PERFIL', 6, 6, NULL),
+(34, 'CAMBIAR CONTRASEÑA', 'CAMBIARCONTRASENA', 7, 6, NULL),
+(35, 'HISTÓRICO DE CAMBIOS', 'BITACORA', 9, 6, NULL),
+(36, 'BOLETIN', 'REP_BOLETIN', 10, 5, NULL),
+(37, 'CONFIGURACIÓN DEL PERFIL', 'CONFIGURACION', 4, 6, NULL),
+(38, 'CONFIGURACIÓN DEL NEGOCIO', 'CONFIGURACION_NEGOCIO', 0, 6, NULL);
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `tservicio_usuario_opcion`
+-- Estructura de tabla para la tabla 'tservicio_usuario_opcion'
 --
 
-DROP TABLE IF EXISTS `tservicio_usuario_opcion`;
-CREATE TABLE IF NOT EXISTS `tservicio_usuario_opcion` (
-  `codigo_opcion` int(11) DEFAULT NULL,
-  `codigo_servicio` int(11) NOT NULL,
-  `codigo_perfil` int(11) NOT NULL,
-  KEY `fk_tservicio_usuario_opcion_topcion` (`codigo_opcion`),
-  KEY `fk_tservicio_usuario_opcion_tservicio` (`codigo_servicio`),
-  KEY `fk_tservicio_usuario_opcion_tperfil` (`codigo_perfil`)
+DROP TABLE IF EXISTS tservicio_usuario_opcion;
+CREATE TABLE IF NOT EXISTS tservicio_usuario_opcion (
+  codigo_opcion int(11) DEFAULT NULL,
+  codigo_servicio int(11) NOT NULL,
+  codigo_perfil int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
--- Volcado de datos para la tabla `tservicio_usuario_opcion`
+-- Volcado de datos para la tabla 'tservicio_usuario_opcion'
 --
 
-INSERT INTO `tservicio_usuario_opcion` (`codigo_opcion`, `codigo_servicio`, `codigo_perfil`) VALUES
+INSERT INTO tservicio_usuario_opcion (codigo_opcion, codigo_servicio, codigo_perfil) VALUES
 (NULL, 7, 2),
 (2, 7, 2),
 (5, 7, 2),
@@ -5057,7 +5101,12 @@ INSERT INTO `tservicio_usuario_opcion` (`codigo_opcion`, `codigo_servicio`, `cod
 (5, 27, 1),
 (6, 27, 1),
 (7, 27, 1),
+(1, 36, 1),
+(2, 36, 1),
+(3, 36, 1),
+(4, 36, 1),
 (5, 36, 1),
+(6, 36, 1),
 (7, 36, 1),
 (1, 28, 1),
 (2, 28, 1),
@@ -5088,11 +5137,26 @@ INSERT INTO `tservicio_usuario_opcion` (`codigo_opcion`, `codigo_servicio`, `cod
 (6, 31, 1),
 (7, 31, 1),
 (1, 32, 1),
+(2, 32, 1),
+(3, 32, 1),
+(4, 32, 1),
 (5, 32, 1),
 (6, 32, 1),
 (7, 32, 1),
+(1, 33, 1),
 (2, 33, 1),
+(3, 33, 1),
+(4, 33, 1),
+(5, 33, 1),
+(6, 33, 1),
+(7, 33, 1),
+(1, 34, 1),
 (2, 34, 1),
+(3, 34, 1),
+(4, 34, 1),
+(5, 34, 1),
+(6, 34, 1),
+(7, 34, 1),
 (1, 35, 1),
 (2, 35, 1),
 (3, 35, 1),
@@ -5107,6 +5171,13 @@ INSERT INTO `tservicio_usuario_opcion` (`codigo_opcion`, `codigo_servicio`, `cod
 (5, 37, 1),
 (6, 37, 1),
 (7, 37, 1),
+(1, 38, 1),
+(2, 38, 1),
+(3, 38, 1),
+(4, 38, 1),
+(5, 38, 1),
+(6, 38, 1),
+(7, 38, 1),
 (1, 17, 1),
 (2, 17, 1),
 (3, 17, 1),
@@ -5125,142 +5196,411 @@ INSERT INTO `tservicio_usuario_opcion` (`codigo_opcion`, `codigo_servicio`, `cod
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `tusuario`
+-- Estructura de tabla para la tabla 'tusuario'
 --
 
-DROP TABLE IF EXISTS `tusuario`;
-CREATE TABLE IF NOT EXISTS `tusuario` (
-  `nombre_usuario` char(10) COLLATE utf8_spanish_ci NOT NULL,
-  `cedula` char(10) COLLATE utf8_spanish_ci NOT NULL,
-  `codigo_perfil` int(11) NOT NULL,
-  `intento_fallido` int(11) NOT NULL DEFAULT '0',
-  `activar_caducidad` int(11) NOT NULL DEFAULT '1',
-  `fecha_desactivacion` date DEFAULT NULL,
-  PRIMARY KEY (`nombre_usuario`),
-  KEY `tusuario_ibfk_1` (`cedula`),
-  KEY `tusuario_ibfk_2` (`codigo_perfil`)
+DROP TABLE IF EXISTS tusuario;
+CREATE TABLE IF NOT EXISTS tusuario (
+  nombre_usuario char(10) COLLATE utf8_spanish_ci NOT NULL,
+  cedula char(10) COLLATE utf8_spanish_ci NOT NULL,
+  codigo_perfil int(11) NOT NULL,
+  intento_fallido int(11) NOT NULL DEFAULT '0',
+  activar_caducidad int(11) NOT NULL DEFAULT '1',
+  sesion_abierta int(11) NOT NULL DEFAULT '0',
+  fecha_ultimasesion date DEFAULT NULL,
+  fecha_desactivacion date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
--- Volcado de datos para la tabla `tusuario`
+-- Volcado de datos para la tabla 'tusuario'
 --
 
-INSERT INTO `tusuario` (`nombre_usuario`, `cedula`, `codigo_perfil`, `intento_fallido`, `activar_caducidad`, `fecha_desactivacion`) VALUES
-('V121212121', 'V121212121', 2, 2, 1, NULL),
-('V123456789', 'V123456789', 1, 0, 1, NULL),
-('V13131313', 'V13131313', 1, 3, 1, NULL);
+INSERT INTO tusuario (nombre_usuario, cedula, codigo_perfil, intento_fallido, activar_caducidad, sesion_abierta, fecha_ultimasesion, fecha_desactivacion) VALUES
+('V121212121', 'V121212121', 2, 2, 1, 0, NULL, NULL),
+('V123456789', 'V123456789', 1, 0, 1, 0, '2016-08-19', NULL),
+('V13131313', 'V13131313', 1, 3, 1, 0, NULL, NULL);
 
+--
+-- Índices para tablas volcadas
+--
+
+--
+-- Indices de la tabla tano_academico
+--
+ALTER TABLE tano_academico
+ ADD PRIMARY KEY (codigo_ano_academico);
+
+--
+-- Indices de la tabla tauditoria
+--
+ALTER TABLE tauditoria
+ ADD PRIMARY KEY (id);
+
+--
+-- Indices de la tabla tcargo
+--
+ALTER TABLE tcargo
+ ADD PRIMARY KEY (codigo_cargo);
+
+--
+-- Indices de la tabla tconfiguracion
+--
+ALTER TABLE tconfiguracion
+ ADD PRIMARY KEY (codigo_configuracion);
+
+--
+-- Indices de la tabla tconfiguracion_negocio
+--
+ALTER TABLE tconfiguracion_negocio
+ ADD PRIMARY KEY (codigo_configuracion_negocio);
+
+--
+-- Indices de la tabla tcontrasena
+--
+ALTER TABLE tcontrasena
+ ADD KEY tcontrasena_ibfk_1 (nombre_usuario);
+
+--
+-- Indices de la tabla tcontrol_notas
+--
+ALTER TABLE tcontrol_notas
+ ADD PRIMARY KEY (codigo_controlnotas), ADD KEY fk_tcontrolnotas_msd (codigo_msd), ADD KEY fk_tcontrolnotas_lapso (codigo_lapso), ADD KEY fk_tcontrolnotas_estudiante (cedula_estudiante);
+
+--
+-- Indices de la tabla testado
+--
+ALTER TABLE testado
+ ADD PRIMARY KEY (codigo_estado), ADD KEY fk_testado_tpais (codigo_pais);
+
+--
+-- Indices de la tabla tinscripcion
+--
+ALTER TABLE tinscripcion
+ ADD PRIMARY KEY (codigo_inscripcion);
+
+--
+-- Indices de la tabla tlapso
+--
+ALTER TABLE tlapso
+ ADD PRIMARY KEY (codigo_lapso), ADD KEY fk_tlapso_tanoacademico (codigo_ano_academico);
+
+--
+-- Indices de la tabla tmateria
+--
+ALTER TABLE tmateria
+ ADD PRIMARY KEY (codigo_materia);
+
+--
+-- Indices de la tabla tmateria_seccion_docente
+--
+ALTER TABLE tmateria_seccion_docente
+ ADD PRIMARY KEY (codigo_msd), ADD KEY fk_tmateria_seccion_tmateria (codigo_materia), ADD KEY fk_tmateria_seccion_tseccion (seccion), ADD KEY fk_tmateria_seccion_tpersona (cedula_docente);
+
+--
+-- Indices de la tabla tmodulo
+--
+ALTER TABLE tmodulo
+ ADD PRIMARY KEY (codigo_modulo);
+
+--
+-- Indices de la tabla tmunicipio
+--
+ALTER TABLE tmunicipio
+ ADD PRIMARY KEY (codigo_municipio), ADD KEY fk_tmunicipio_testado (codigo_estado);
+
+--
+-- Indices de la tabla topcion
+--
+ALTER TABLE topcion
+ ADD PRIMARY KEY (codigo_opcion);
+
+--
+-- Indices de la tabla tpais
+--
+ALTER TABLE tpais
+ ADD PRIMARY KEY (codigo_pais);
+
+--
+-- Indices de la tabla tparentesco
+--
+ALTER TABLE tparentesco
+ ADD PRIMARY KEY (codigo_parentesco);
+
+--
+-- Indices de la tabla tparroquia
+--
+ALTER TABLE tparroquia
+ ADD PRIMARY KEY (codigo_parroquia), ADD KEY fk_tparroquia_tmunicipio (codigo_municipio);
+
+--
+-- Indices de la tabla tperfil
+--
+ALTER TABLE tperfil
+ ADD PRIMARY KEY (codigo_perfil), ADD KEY codigo_configuracion (codigo_configuracion);
+
+--
+-- Indices de la tabla tpersona
+--
+ALTER TABLE tpersona
+ ADD PRIMARY KEY (cedula), ADD KEY fk_tpersona_tparroquia (lugar_nacimiento), ADD KEY fk_tpersona_tcargo (codigo_cargo), ADD KEY fk_tpersona_tplantel (codigo_plantel);
+
+--
+-- Indices de la tabla tplantel
+--
+ALTER TABLE tplantel
+ ADD PRIMARY KEY (codigo_plantel), ADD KEY fk_tplantel_tmunicipio (codigo_municipio);
+
+--
+-- Indices de la tabla tproceso_inscripcion
+--
+ALTER TABLE tproceso_inscripcion
+ ADD PRIMARY KEY (codigo_procesoinscripcion), ADD KEY fk_tpi_tinscrip (codigo_inscripcion), ADD KEY fk_tpi_taa (codigo_ano_academico), ADD KEY fk_tpi_tdocente (cedula_docente), ADD KEY fk_tpi_testudiante (cedula_estudiante), ADD KEY fk_tpi_tmadre (cedula_madre), ADD KEY fk_tpi_tpadre (cedula_padre), ADD KEY fk_tpi_trepresentante (cedula_representante), ADD KEY fk_tpi_tparentesco (codigo_parentesco), ADD KEY fk_tpi_tlugartrabajo (lugar_trabajo), ADD KEY fk_tpi_tseccion (seccion);
+
+--
+-- Indices de la tabla trespuesta_secreta
+--
+ALTER TABLE trespuesta_secreta
+ ADD PRIMARY KEY (codigo_respuesta), ADD KEY nombre_usuario (nombre_usuario);
+
+--
+-- Indices de la tabla tseccion
+--
+ALTER TABLE tseccion
+ ADD PRIMARY KEY (seccion);
+
+--
+-- Indices de la tabla tservicio
+--
+ALTER TABLE tservicio
+ ADD PRIMARY KEY (codigo_servicio), ADD UNIQUE KEY url (url), ADD KEY tservicios_ibfk_1 (codigo_modulo);
+
+--
+-- Indices de la tabla tservicio_usuario_opcion
+--
+ALTER TABLE tservicio_usuario_opcion
+ ADD KEY fk_tservicio_usuario_opcion_topcion (codigo_opcion), ADD KEY fk_tservicio_usuario_opcion_tservicio (codigo_servicio), ADD KEY fk_tservicio_usuario_opcion_tperfil (codigo_perfil);
+
+--
+-- Indices de la tabla tusuario
+--
+ALTER TABLE tusuario
+ ADD PRIMARY KEY (nombre_usuario), ADD KEY tusuario_ibfk_1 (cedula), ADD KEY tusuario_ibfk_2 (codigo_perfil);
+
+--
+-- AUTO_INCREMENT de las tablas volcadas
+--
+
+--
+-- AUTO_INCREMENT de la tabla tano_academico
+--
+ALTER TABLE tano_academico
+MODIFY codigo_ano_academico int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+--
+-- AUTO_INCREMENT de la tabla tauditoria
+--
+ALTER TABLE tauditoria
+MODIFY id int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3403;
+--
+-- AUTO_INCREMENT de la tabla tcargo
+--
+ALTER TABLE tcargo
+MODIFY codigo_cargo int(15) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
+--
+-- AUTO_INCREMENT de la tabla tconfiguracion
+--
+ALTER TABLE tconfiguracion
+MODIFY codigo_configuracion int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+--
+-- AUTO_INCREMENT de la tabla tconfiguracion_negocio
+--
+ALTER TABLE tconfiguracion_negocio
+MODIFY codigo_configuracion_negocio int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+--
+-- AUTO_INCREMENT de la tabla tcontrol_notas
+--
+ALTER TABLE tcontrol_notas
+MODIFY codigo_controlnotas int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
+--
+-- AUTO_INCREMENT de la tabla testado
+--
+ALTER TABLE testado
+MODIFY codigo_estado int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=25;
+--
+-- AUTO_INCREMENT de la tabla tinscripcion
+--
+ALTER TABLE tinscripcion
+MODIFY codigo_inscripcion int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+--
+-- AUTO_INCREMENT de la tabla tlapso
+--
+ALTER TABLE tlapso
+MODIFY codigo_lapso int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+--
+-- AUTO_INCREMENT de la tabla tmateria_seccion_docente
+--
+ALTER TABLE tmateria_seccion_docente
+MODIFY codigo_msd int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=14;
+--
+-- AUTO_INCREMENT de la tabla tmodulo
+--
+ALTER TABLE tmodulo
+MODIFY codigo_modulo int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
+--
+-- AUTO_INCREMENT de la tabla tmunicipio
+--
+ALTER TABLE tmunicipio
+MODIFY codigo_municipio int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=332;
+--
+-- AUTO_INCREMENT de la tabla topcion
+--
+ALTER TABLE topcion
+MODIFY codigo_opcion int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
+--
+-- AUTO_INCREMENT de la tabla tpais
+--
+ALTER TABLE tpais
+MODIFY codigo_pais int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=32;
+--
+-- AUTO_INCREMENT de la tabla tparentesco
+--
+ALTER TABLE tparentesco
+MODIFY codigo_parentesco int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
+--
+-- AUTO_INCREMENT de la tabla tparroquia
+--
+ALTER TABLE tparroquia
+MODIFY codigo_parroquia int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=41;
+--
+-- AUTO_INCREMENT de la tabla tperfil
+--
+ALTER TABLE tperfil
+MODIFY codigo_perfil int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+--
+-- AUTO_INCREMENT de la tabla tproceso_inscripcion
+--
+ALTER TABLE tproceso_inscripcion
+MODIFY codigo_procesoinscripcion int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
+--
+-- AUTO_INCREMENT de la tabla trespuesta_secreta
+--
+ALTER TABLE trespuesta_secreta
+MODIFY codigo_respuesta int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
+--
+-- AUTO_INCREMENT de la tabla tservicio
+--
+ALTER TABLE tservicio
+MODIFY codigo_servicio int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=39;
 --
 -- Restricciones para tablas volcadas
 --
 
 --
--- Filtros para la tabla `tcontrasena`
+-- Filtros para la tabla tcontrasena
 --
-ALTER TABLE `tcontrasena`
-  ADD CONSTRAINT `tcontrasena_ibfk_1` FOREIGN KEY (`nombre_usuario`) REFERENCES `tusuario` (`nombre_usuario`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE tcontrasena
+ADD CONSTRAINT tcontrasena_ibfk_1 FOREIGN KEY (nombre_usuario) REFERENCES tusuario (nombre_usuario) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Filtros para la tabla `tcontrol_notas`
+-- Filtros para la tabla tcontrol_notas
 --
-ALTER TABLE `tcontrol_notas`
-  ADD CONSTRAINT `fk_tcontrolnotas_estudiante` FOREIGN KEY (`cedula_estudiante`) REFERENCES `tpersona` (`cedula`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_tcontrolnotas_lapso` FOREIGN KEY (`codigo_lapso`) REFERENCES `tlapso` (`codigo_lapso`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_tcontrolnotas_msd` FOREIGN KEY (`codigo_msd`) REFERENCES `tmateria_seccion_docente` (`codigo_msd`) ON UPDATE CASCADE;
+ALTER TABLE tcontrol_notas
+ADD CONSTRAINT fk_tcontrolnotas_estudiante FOREIGN KEY (cedula_estudiante) REFERENCES tpersona (cedula) ON UPDATE CASCADE,
+ADD CONSTRAINT fk_tcontrolnotas_lapso FOREIGN KEY (codigo_lapso) REFERENCES tlapso (codigo_lapso) ON UPDATE CASCADE,
+ADD CONSTRAINT fk_tcontrolnotas_msd FOREIGN KEY (codigo_msd) REFERENCES tmateria_seccion_docente (codigo_msd) ON UPDATE CASCADE;
 
 --
--- Filtros para la tabla `testado`
+-- Filtros para la tabla testado
 --
-ALTER TABLE `testado`
-  ADD CONSTRAINT `fk_testado_tpais` FOREIGN KEY (`codigo_pais`) REFERENCES `tpais` (`codigo_pais`) ON UPDATE CASCADE;
+ALTER TABLE testado
+ADD CONSTRAINT fk_testado_tpais FOREIGN KEY (codigo_pais) REFERENCES tpais (codigo_pais) ON UPDATE CASCADE;
 
 --
--- Filtros para la tabla `tlapso`
+-- Filtros para la tabla tlapso
 --
-ALTER TABLE `tlapso`
-  ADD CONSTRAINT `fk_tlapso_tanoacademico` FOREIGN KEY (`codigo_ano_academico`) REFERENCES `tano_academico` (`codigo_ano_academico`) ON UPDATE CASCADE;
+ALTER TABLE tlapso
+ADD CONSTRAINT fk_tlapso_tanoacademico FOREIGN KEY (codigo_ano_academico) REFERENCES tano_academico (codigo_ano_academico) ON UPDATE CASCADE;
 
 --
--- Filtros para la tabla `tmateria_seccion_docente`
+-- Filtros para la tabla tmateria_seccion_docente
 --
-ALTER TABLE `tmateria_seccion_docente`
-  ADD CONSTRAINT `fk_tmateria_seccion_tmateria` FOREIGN KEY (`codigo_materia`) REFERENCES `tmateria` (`codigo_materia`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_tmateria_seccion_tpersona` FOREIGN KEY (`cedula_docente`) REFERENCES `tpersona` (`cedula`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_tmateria_seccion_tseccion` FOREIGN KEY (`seccion`) REFERENCES `tseccion` (`seccion`) ON UPDATE CASCADE;
+ALTER TABLE tmateria_seccion_docente
+ADD CONSTRAINT fk_tmateria_seccion_tmateria FOREIGN KEY (codigo_materia) REFERENCES tmateria (codigo_materia) ON UPDATE CASCADE,
+ADD CONSTRAINT fk_tmateria_seccion_tpersona FOREIGN KEY (cedula_docente) REFERENCES tpersona (cedula) ON UPDATE CASCADE,
+ADD CONSTRAINT fk_tmateria_seccion_tseccion FOREIGN KEY (seccion) REFERENCES tseccion (seccion) ON UPDATE CASCADE;
 
 --
--- Filtros para la tabla `tmunicipio`
+-- Filtros para la tabla tmunicipio
 --
-ALTER TABLE `tmunicipio`
-  ADD CONSTRAINT `fk_tmunicipio_testado` FOREIGN KEY (`codigo_estado`) REFERENCES `testado` (`codigo_estado`) ON UPDATE CASCADE;
+ALTER TABLE tmunicipio
+ADD CONSTRAINT fk_tmunicipio_testado FOREIGN KEY (codigo_estado) REFERENCES testado (codigo_estado) ON UPDATE CASCADE;
 
 --
--- Filtros para la tabla `tparroquia`
+-- Filtros para la tabla tparroquia
 --
-ALTER TABLE `tparroquia`
-  ADD CONSTRAINT `fk_tparroquia_tmunicipio` FOREIGN KEY (`codigo_municipio`) REFERENCES `tmunicipio` (`codigo_municipio`) ON UPDATE CASCADE;
+ALTER TABLE tparroquia
+ADD CONSTRAINT fk_tparroquia_tmunicipio FOREIGN KEY (codigo_municipio) REFERENCES tmunicipio (codigo_municipio) ON UPDATE CASCADE;
 
 --
--- Filtros para la tabla `tperfil`
+-- Filtros para la tabla tperfil
 --
-ALTER TABLE `tperfil`
-  ADD CONSTRAINT `tperfil_ibfk_1` FOREIGN KEY (`codigo_configuracion`) REFERENCES `tconfiguracion` (`codigo_configuracion`) ON UPDATE CASCADE;
+ALTER TABLE tperfil
+ADD CONSTRAINT tperfil_ibfk_1 FOREIGN KEY (codigo_configuracion) REFERENCES tconfiguracion (codigo_configuracion) ON UPDATE CASCADE;
 
 --
--- Filtros para la tabla `tpersona`
+-- Filtros para la tabla tpersona
 --
-ALTER TABLE `tpersona`
-  ADD CONSTRAINT `fk_tpersona_tcargo` FOREIGN KEY (`codigo_cargo`) REFERENCES `tcargo` (`codigo_cargo`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_tpersona_tparroquia` FOREIGN KEY (`lugar_nacimiento`) REFERENCES `tparroquia` (`codigo_parroquia`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_tpersona_tplantel` FOREIGN KEY (`codigo_plantel`) REFERENCES `tplantel` (`codigo_plantel`) ON UPDATE CASCADE;
+ALTER TABLE tpersona
+ADD CONSTRAINT fk_tpersona_tcargo FOREIGN KEY (codigo_cargo) REFERENCES tcargo (codigo_cargo) ON UPDATE CASCADE,
+ADD CONSTRAINT fk_tpersona_tparroquia FOREIGN KEY (lugar_nacimiento) REFERENCES tparroquia (codigo_parroquia) ON UPDATE CASCADE,
+ADD CONSTRAINT fk_tpersona_tplantel FOREIGN KEY (codigo_plantel) REFERENCES tplantel (codigo_plantel) ON UPDATE CASCADE;
 
 --
--- Filtros para la tabla `tplantel`
+-- Filtros para la tabla tplantel
 --
-ALTER TABLE `tplantel`
-  ADD CONSTRAINT `fk_tplantel_tmunicipio` FOREIGN KEY (`codigo_municipio`) REFERENCES `tmunicipio` (`codigo_municipio`) ON UPDATE CASCADE;
+ALTER TABLE tplantel
+ADD CONSTRAINT fk_tplantel_tmunicipio FOREIGN KEY (codigo_municipio) REFERENCES tmunicipio (codigo_municipio) ON UPDATE CASCADE;
 
 --
--- Filtros para la tabla `tproceso_inscripcion`
+-- Filtros para la tabla tproceso_inscripcion
 --
-ALTER TABLE `tproceso_inscripcion`
-  ADD CONSTRAINT `fk_tpi_taa` FOREIGN KEY (`codigo_ano_academico`) REFERENCES `tano_academico` (`codigo_ano_academico`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_tpi_tdocente` FOREIGN KEY (`cedula_docente`) REFERENCES `tpersona` (`cedula`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_tpi_testudiante` FOREIGN KEY (`cedula_estudiante`) REFERENCES `tpersona` (`cedula`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_tpi_tinscrip` FOREIGN KEY (`codigo_inscripcion`) REFERENCES `tinscripcion` (`codigo_inscripcion`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_tpi_tlugartrabajo` FOREIGN KEY (`lugar_trabajo`) REFERENCES `tparroquia` (`codigo_parroquia`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_tpi_tmadre` FOREIGN KEY (`cedula_madre`) REFERENCES `tpersona` (`cedula`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_tpi_tpadre` FOREIGN KEY (`cedula_padre`) REFERENCES `tpersona` (`cedula`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_tpi_tparentesco` FOREIGN KEY (`codigo_parentesco`) REFERENCES `tparentesco` (`codigo_parentesco`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_tpi_trepresentante` FOREIGN KEY (`cedula_representante`) REFERENCES `tpersona` (`cedula`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_tpi_tseccion` FOREIGN KEY (`seccion`) REFERENCES `tseccion` (`seccion`) ON UPDATE CASCADE;
+ALTER TABLE tproceso_inscripcion
+ADD CONSTRAINT fk_tpi_taa FOREIGN KEY (codigo_ano_academico) REFERENCES tano_academico (codigo_ano_academico) ON UPDATE CASCADE,
+ADD CONSTRAINT fk_tpi_tdocente FOREIGN KEY (cedula_docente) REFERENCES tpersona (cedula) ON UPDATE CASCADE,
+ADD CONSTRAINT fk_tpi_testudiante FOREIGN KEY (cedula_estudiante) REFERENCES tpersona (cedula) ON UPDATE CASCADE,
+ADD CONSTRAINT fk_tpi_tinscrip FOREIGN KEY (codigo_inscripcion) REFERENCES tinscripcion (codigo_inscripcion) ON UPDATE CASCADE,
+ADD CONSTRAINT fk_tpi_tlugartrabajo FOREIGN KEY (lugar_trabajo) REFERENCES tparroquia (codigo_parroquia) ON UPDATE CASCADE,
+ADD CONSTRAINT fk_tpi_tmadre FOREIGN KEY (cedula_madre) REFERENCES tpersona (cedula) ON UPDATE CASCADE,
+ADD CONSTRAINT fk_tpi_tpadre FOREIGN KEY (cedula_padre) REFERENCES tpersona (cedula) ON UPDATE CASCADE,
+ADD CONSTRAINT fk_tpi_tparentesco FOREIGN KEY (codigo_parentesco) REFERENCES tparentesco (codigo_parentesco) ON UPDATE CASCADE,
+ADD CONSTRAINT fk_tpi_trepresentante FOREIGN KEY (cedula_representante) REFERENCES tpersona (cedula) ON UPDATE CASCADE,
+ADD CONSTRAINT fk_tpi_tseccion FOREIGN KEY (seccion) REFERENCES tseccion (seccion) ON UPDATE CASCADE;
 
 --
--- Filtros para la tabla `trespuesta_secreta`
+-- Filtros para la tabla trespuesta_secreta
 --
-ALTER TABLE `trespuesta_secreta`
-  ADD CONSTRAINT `trespuesta_secreta_ibfk_1` FOREIGN KEY (`nombre_usuario`) REFERENCES `tusuario` (`nombre_usuario`) ON UPDATE CASCADE;
+ALTER TABLE trespuesta_secreta
+ADD CONSTRAINT trespuesta_secreta_ibfk_1 FOREIGN KEY (nombre_usuario) REFERENCES tusuario (nombre_usuario) ON UPDATE CASCADE;
 
 --
--- Filtros para la tabla `tservicio`
+-- Filtros para la tabla tservicio
 --
-ALTER TABLE `tservicio`
-  ADD CONSTRAINT `tservicios_ibfk_1` FOREIGN KEY (`codigo_modulo`) REFERENCES `tmodulo` (`codigo_modulo`) ON UPDATE CASCADE;
+ALTER TABLE tservicio
+ADD CONSTRAINT tservicios_ibfk_1 FOREIGN KEY (codigo_modulo) REFERENCES tmodulo (codigo_modulo) ON UPDATE CASCADE;
 
 --
--- Filtros para la tabla `tservicio_usuario_opcion`
+-- Filtros para la tabla tservicio_usuario_opcion
 --
-ALTER TABLE `tservicio_usuario_opcion`
-  ADD CONSTRAINT `fk_tservicio_usuario_opcion_topcion` FOREIGN KEY (`codigo_opcion`) REFERENCES `topcion` (`codigo_opcion`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_tservicio_usuario_opcion_tperfil` FOREIGN KEY (`codigo_perfil`) REFERENCES `tperfil` (`codigo_perfil`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_tservicio_usuario_opcion_tservicio` FOREIGN KEY (`codigo_servicio`) REFERENCES `tservicio` (`codigo_servicio`) ON UPDATE CASCADE;
+ALTER TABLE tservicio_usuario_opcion
+ADD CONSTRAINT fk_tservicio_usuario_opcion_topcion FOREIGN KEY (codigo_opcion) REFERENCES topcion (codigo_opcion) ON UPDATE CASCADE,
+ADD CONSTRAINT fk_tservicio_usuario_opcion_tperfil FOREIGN KEY (codigo_perfil) REFERENCES tperfil (codigo_perfil) ON UPDATE CASCADE,
+ADD CONSTRAINT fk_tservicio_usuario_opcion_tservicio FOREIGN KEY (codigo_servicio) REFERENCES tservicio (codigo_servicio) ON UPDATE CASCADE;
 
 --
--- Filtros para la tabla `tusuario`
+-- Filtros para la tabla tusuario
 --
-ALTER TABLE `tusuario`
-  ADD CONSTRAINT `tusuario_ibfk_1` FOREIGN KEY (`cedula`) REFERENCES `tpersona` (`cedula`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `tusuario_ibfk_2` FOREIGN KEY (`codigo_perfil`) REFERENCES `tperfil` (`codigo_perfil`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE tusuario
+ADD CONSTRAINT tusuario_ibfk_1 FOREIGN KEY (cedula) REFERENCES tpersona (cedula) ON UPDATE CASCADE,
+ADD CONSTRAINT tusuario_ibfk_2 FOREIGN KEY (codigo_perfil) REFERENCES tperfil (codigo_perfil) ON DELETE CASCADE ON UPDATE CASCADE;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

@@ -32,23 +32,23 @@ if(isset($_SESSION['datos'])){
       <legend>M&oacute;dulo</legend>
       <div id="contenedorFormulario">
         <label>Código:</label>
-            <input title="el c&oacute;digo del m&oacute;dulo es generado por el sistema" name="codigo_modulo" id="codigo_modulo" type="text" size="10" readonly value="<?= $codigo_modulo;?>" placeholder="El Código es generado por el sistema" class="campoTexto" required />
-            <label>Ingrese el nombre del m&oacute;dulo:</label>
-             <input title="Ingrese el nombre del m&oacute;dulo" onKeyUp="this.value=this.value.toUpperCase()" name="descripcion" id="descripcion" type="text" size="50" value="<?= $descripcion;?>" placeholder="Ingrese el Nombre del Módulo" class="campoTexto" required /> 
-             <label>Ingrese el n&uacute;mero de orden</label>
-             <input title="Ingrese el n&uacute;mero de orden" onKeyPress="return isNumberKey(event)" name="orden" id="orden" type="text" size="50" value="<?= $orden;?>" placeholder="Ingrese el Número de Orden" class="campoTexto" required /> 
-             <label>Seleccione un &iacute;cono</label>
-             <input name="icono" id="icono" type="radio" value="icon-home" title="Seleccionar icono de casa" <?php if($icono=="icon-home"){ echo "checked='checked'"; } ?>  required />
-              <span class="icon-home" title="Icono de casa"></span> 
-              <input name="icono" id="icono" type="radio" value="icon-list" title="Seleccionar icono de lista" <?php if($icono=="icon-list"){ echo "checked='checked'"; } ?> required />
-              <span class="icon-list" title="Icono de lista"></span> 
-              <input name="icono" id="icono" type="radio" value="icon-list-alt" title="Seleccionar icono de lista alternativa" <?php if($icono=="icon-list-alt"){ echo "checked='checked'"; } ?> required />
-              <span class="icon-list-alt" title="Icono de lista alternativa"></span> 
-              <input name="icono" id="icono" type="radio" value="icon-cog" title="Seleccionar icono de configuraci&oacute;n" <?php if($icono=="icon-cog"){ echo "checked='checked'"; } ?> required />
-              <span class="icon-cog" title="Icono de configuraci&oacute;n"></span> 
-              <input name="icono" id="icono" type="radio" value="icon-lock" title="Seleccionar icono de seguridad" <?php if($icono=="icon-lock"){ echo "checked='checked'"; } ?> required />
-              <span class="icon-lock" title="Icono de seguridad"></span> 
-           <br><strong class="obligatorio">Los campos resaltados en rojo son obligatorios</strong>
+        <input title="el c&oacute;digo del m&oacute;dulo es generado por el sistema" name="codigo_modulo" id="codigo_modulo" type="text" size="10" readonly value="<?= $codigo_modulo;?>" placeholder="El Código es generado por el sistema" class="campoTexto" required />
+        <label>Ingrese el nombre del m&oacute;dulo:</label>
+        <input title="Ingrese el nombre del m&oacute;dulo" onKeyUp="this.value=this.value.toUpperCase()" name="descripcion" id="descripcion" type="text" size="50" value="<?= $descripcion;?>" placeholder="Ingrese el Nombre del Módulo" class="campoTexto" required /> 
+        <label>Ingrese el n&uacute;mero de orden</label>
+        <input title="Ingrese el n&uacute;mero de orden" onKeyPress="return isNumberKey(event)" name="orden" id="orden" type="text" size="50" value="<?= $orden;?>" placeholder="Ingrese el Número de Orden" class="campoTexto" required /> 
+        <label>Seleccione un &iacute;cono</label>
+        <input name="icono" id="icono" type="radio" value="icon-home" title="Seleccionar icono de casa" <?php if($icono=="icon-home"){ echo "checked='checked'"; } ?>  required />
+        <span class="icon-home" title="Icono de casa"></span> 
+        <input name="icono" id="icono" type="radio" value="icon-list" title="Seleccionar icono de lista" <?php if($icono=="icon-list"){ echo "checked='checked'"; } ?> required />
+        <span class="icon-list" title="Icono de lista"></span> 
+        <input name="icono" id="icono" type="radio" value="icon-list-alt" title="Seleccionar icono de lista alternativa" <?php if($icono=="icon-list-alt"){ echo "checked='checked'"; } ?> required />
+        <span class="icon-list-alt" title="Icono de lista alternativa"></span> 
+        <input name="icono" id="icono" type="radio" value="icon-cog" title="Seleccionar icono de configuraci&oacute;n" <?php if($icono=="icon-cog"){ echo "checked='checked'"; } ?> required />
+        <span class="icon-cog" title="Icono de configuraci&oacute;n"></span> 
+        <input name="icono" id="icono" type="radio" value="icon-lock" title="Seleccionar icono de seguridad" <?php if($icono=="icon-lock"){ echo "checked='checked'"; } ?> required />
+        <span class="icon-lock" title="Icono de seguridad"></span> 
+        <br><strong class="obligatorio">Los campos resaltados en rojo son obligatorios</strong>
       </div>    
       <br>
       <?php echo '<p class="'.$estatus.'" id="estatus_registro">'.$estatus.'</p>'; ?>

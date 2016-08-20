@@ -16,6 +16,8 @@
 	private $intentos_fallidos; 
 	private $numero_preguntas; 
 	private $numero_preguntasaresponder; 
+	private $dias_inactividad; 
+	private $maxsesion; 
     private $fecha_desactivacion; 
     private $error;
     private $mysql; 
@@ -35,6 +37,8 @@
 		$this->intentos_fallidos=null;
 		$this->numero_preguntas=null;
 		$this->numero_preguntasaresponder=null;
+		$this->dias_inactividad=null;
+		$this->maxsesion=null;
 		$this->error=null;
 		$this->mysql=new Conexion();
 	}
@@ -181,6 +185,24 @@
 			$this->numero_preguntasaresponder=func_get_arg(0);
 		}
     }
+
+    public function dias_inactividad(){
+		$Num_Parametro=func_num_args();
+		if($Num_Parametro==0) return $this->dias_inactividad;
+
+		if($Num_Parametro>0){
+			$this->dias_inactividad=func_get_arg(0);
+		}
+    }
+
+    public function maxsesion(){
+		$Num_Parametro=func_num_args();
+		if($Num_Parametro==0) return $this->maxsesion;
+
+		if($Num_Parametro>0){
+			$this->maxsesion=func_get_arg(0);
+		}
+    }
    
    public function fecha_desactivacion(){
       $Num_Parametro=func_num_args();
@@ -202,10 +224,11 @@
 
    public function Registrar(){
     $sql="INSERT INTO tconfiguracion (descripcion,longitud_minclave,longitud_maxclave,cantidad_letrasmayusculas,cantidad_letrasminusculas,
-	cantidad_caracteresespeciales,cantidad_numeros,dias_vigenciaclave,numero_ultimasclaves,dias_aviso,intentos_fallidos,numero_preguntas,numero_preguntasaresponder) VALUES 
+	cantidad_caracteresespeciales,cantidad_numeros,dias_vigenciaclave,numero_ultimasclaves,dias_aviso,intentos_fallidos,numero_preguntas,
+	numero_preguntasaresponder,dias_inactividad,maxsesion) VALUES 
 	('$this->descripcion',$this->longitud_minclave,$this->longitud_maxclave,$this->cantidad_letrasmayusculas,$this->cantidad_letrasminusculas
 	,$this->cantidad_caracteresespeciales,$this->cantidad_numeros,$this->dias_vigenciaclave,$this->numero_ultimasclaves,$this->dias_aviso
-	,$this->intentos_fallidos,$this->numero_preguntas,$this->numero_preguntasaresponder)";
+	,$this->intentos_fallidos,$this->numero_preguntas,$this->numero_preguntasaresponder,$this->dias_inactividad,$this->maxsesion)";
     if($this->mysql->Ejecutar($sql)!=null)
 		return true;
 	else{
@@ -239,7 +262,7 @@
 	,cantidad_letrasminusculas=$this->cantidad_letrasminusculas,cantidad_caracteresespeciales=$this->cantidad_caracteresespeciales
 	,cantidad_numeros=$this->cantidad_numeros,dias_vigenciaclave=$this->dias_vigenciaclave,numero_ultimasclaves=$this->numero_ultimasclaves
 	,dias_aviso=$this->dias_aviso,intentos_fallidos=$this->intentos_fallidos,numero_preguntas=$this->numero_preguntas
-	,numero_preguntasaresponder=$this->numero_preguntasaresponder  
+	,numero_preguntasaresponder=$this->numero_preguntasaresponder,dias_inactividad=$this->dias_inactividad,maxsesion=$this->maxsesion 
 	WHERE codigo_configuracion='$this->codigo_configuracion'";
     if($this->mysql->Ejecutar($sql)!=null)
 		return true;
@@ -268,6 +291,8 @@
 		$this->intentos_fallidos($tconfiguracion['intentos_fallidos']);
 		$this->numero_preguntas($tconfiguracion['numero_preguntas']);
 		$this->numero_preguntasaresponder($tconfiguracion['numero_preguntasaresponder']);
+		$this->dias_inactividad($tconfiguracion['dias_inactividad']);
+		$this->maxsesion($tconfiguracion['maxsesion']);
 	   	$this->estatus_configuracion($tconfiguracion['estatus_configuracion']);
 		$this->fecha_desactivacion($tconfiguracion['fecha_desactivacion']);
 		return true;

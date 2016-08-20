@@ -8,11 +8,10 @@
 <body bgcolor="#0B3F80">
 <header>
 <div class="front-signin" style="background:none; margin:0 auto;">
-<center>  
-
+<center>
     <img src="../images/403.jpg" alt="" style="width:600px; height: 400px;" ><br>
-<img src="../images/home.png" alt="" style="width:80px; height:80px;cursor:pointer" onclick="location.href='../index.php'">   
-      <br>
+	<img src="../images/home.png" alt="" style="width:80px; height:80px;cursor:pointer" onclick="location.href='../controladores/cont_desconectar.php'">
+    <br>
 </center>
 </div>
 </header>

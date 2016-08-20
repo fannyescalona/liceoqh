@@ -1,3 +1,18 @@
+<script type="text/javascript">
+  $(document).ready(function(){
+    var edad = '-'+$('#edad_maxima_primer_anio').val()+'y';
+    console.log(edad);
+    //Agregar Objeto Calendario al input fecha_nacimiento.
+    $('#fecha_nacimiento_estudiante').datepicker({
+        minDate: edad,
+        maxDate: '-10y',
+        showOn: 'both',
+        numberOfMonths: 1,
+        buttonImage: '../images/calendario.png',
+        buttonImageOnly: true
+    });
+  });
+</script>
 <div class="form_externo" >
   <?php
   if(isset($_SESSION['datos']['cedula'])){ 
@@ -12,7 +27,9 @@
   if(isset($_SESSION['datos'])){
   @$cedula=$_SESSION['datos']['cedula'];
   @$cedula_escolar=$_SESSION['datos']['cedula_escolar'];
+  @$lateralidad=$_SESSION['datos']['lateralidad'];
   @$codigo_canaima=$_SESSION['datos']['codigo_canaima'];
+  @$canaima_operativa=$_SESSION['datos']['canaima_operativa'];
   @$nombres=$_SESSION['datos']['nombres'];
   @$apellidos=$_SESSION['datos']['apellidos'];
   @$genero=$_SESSION['datos']['genero'];
@@ -31,7 +48,9 @@
   else{
     @$cedula=null;
     @$cedula_escolar=null;
+    @$lateralidad=null;
     @$codigo_canaima=null;
+    @$canaima_operativa=null;
     @$nombres=null;
     @$apellidos=null;
     @$genero=null;
@@ -60,25 +79,28 @@
               <input tabindex=1 maxlength="9" onKeyPress="return isRif(event,this.value)" onKeyUp="this.value=this.value.toUpperCase()" title="Ingrese el número de cédula" maxlength=10 name="cedula_estudiante" id="cedula_estudiante" type="text" size="10" value="<?= $cedula;?>" placeholder="Ingrese el número de Cédula" class="campoTexto" />
               <label>Cédula Escolar:</label>
               <input tabindex=3 maxlength="11" onKeyPress="return isNumberKey(event)" onKeyUp="this.value=this.value.toUpperCase()" title="Ingrese el número de cédula escolar" maxlength=10 name="cedula_escolar" id="cedula_escolar" type="text" size="10" value="<?= $cedula_escolar;?>" placeholder="Ingrese el número de Cédula Escolar" class="campoTexto" />
+              <label>Código de la Canaima:</label>
+              <input tabindex=5 onKeyUp="this.value=this.value.toUpperCase()" title="Ingrese el código de la canaima asignada" maxlength=20 name="codigo_canaima" id="codigo_canaima" type="text" size="10" value="<?= $codigo_canaima;?>" placeholder="Ingrese el código de la canaima" class="campoTexto" />
               <label>Nombre(s):</label>
-              <input tabindex=5 title="Ingrese el(los) nombre(s) del Estudiante" onKeyPress="return isCharKey(event)" onKeyUp="this.value=this.value.toUpperCase()" name="nombres" id="nombres" type="text" size="50" value="<?= $nombres;?>" placeholder="Ingrese el Nombre" class="campoTexto" required />
+              <input tabindex=7 title="Ingrese el(los) nombre(s) del Estudiante" onKeyPress="return isCharKey(event)" onKeyUp="this.value=this.value.toUpperCase()" name="nombres" id="nombres" type="text" size="50" value="<?= $nombres;?>" placeholder="Ingrese el Nombre" class="campoTexto" required />
               <label>Peso (Kg):</label>
-              <input tabindex=7 maxlength=5 title="Ingrese el peso del estudiante expresado en kg" onKeyPress="return isNumberKey(event)" name="peso" id="peso" type="text" size="50" value="<?= $peso;?>" placeholder="Ingreso el Peso del Estudiante expresado en Kg" class="campoTexto" required />
+              <input tabindex=9 maxlength=5 title="Ingrese el peso del estudiante expresado en kg" onKeyPress="return isNumberKey(event)" name="peso" id="peso" type="text" size="50" value="<?= $peso;?>" placeholder="Ingreso el Peso del Estudiante expresado en Kg" class="campoTexto" required />
               <label>Fecha de Nacimiento:</label>
-              <input tabindex=9 title="Seleccione el fecha de Nacimiento" name="fecha_nacimiento_estudiante" id="fecha_nacimiento_estudiante" type="text" size="50" value="<?= $fecha_nacimiento;?>" placeholder="Ingrese la Fecha de Nacimiento" class="campoTexto" readonly required />
+              <input tabindex=11 title="Seleccione el fecha de Nacimiento" name="fecha_nacimiento_estudiante" id="fecha_nacimiento_estudiante" type="text" size="50" value="<?= $fecha_nacimiento;?>" placeholder="Ingrese la Fecha de Nacimiento" class="campoTexto" readonly required />
               <label>Dirección:</label>
-              <textarea tabindex=11 onKeyUp="this.value=this.value.toUpperCase()" title="Ingrese la dirección del persona" name="direccion" id="direccion" rows=5 placeholder="Ingrese la Dirección" required /><?php echo $direccion;?></textarea>
+              <textarea tabindex=13 onKeyUp="this.value=this.value.toUpperCase()" title="Ingrese la dirección del persona" name="direccion" id="direccion" rows=5 placeholder="Ingrese la Dirección" required /><?php echo $direccion;?></textarea>
               <label>Grado Escolar:</label>
-              <select tabindex=14 name="grado_escolar" id="grado_escolar" title="Seleccione el Grado Escolar" class='lista' required >
+              <select tabindex=16 name="grado_escolar" id="grado_escolar" title="Seleccione el Grado Escolar" class='lista' required >
                 <option value="">Selecione una opción</option>
                 <option value="1" <?php if($grado_escolar=="1"){ echo "selected";}?>>1er Año</option>
                 <option value="2" <?php if($grado_escolar=="2"){ echo "selected";}?>>2do Año</option>
                 <option value="3" <?php if($grado_escolar=="3"){ echo "selected";}?>>3er Año</option>
                 <option value="4" <?php if($grado_escolar=="4"){ echo "selected";}?>>4to Año</option>
                 <option value="5" <?php if($grado_escolar=="5"){ echo "selected";}?>>5to Año</option>
+                <option value="6" <?php if($grado_escolar=="6"){ echo "selected";}?>>6to Año</option>
               </select>
               <label>Plantel de Procedencia:</label>
-              <select tabindex=16 id="codigo_plantel" name="codigo_plantel" title="Seleccione un Plantel" class="lista" required >
+              <select tabindex=18 id="codigo_plantel" name="codigo_plantel" title="Seleccione un Plantel" class="lista" required >
               <option value="" selected>Seleccione un Plantel</option>
               <?php
                 require_once("../clases/class_bd.php");
@@ -102,20 +124,30 @@
                 <option value="F" <?php if($genero=="F"){ echo "selected";}?>>Femenino</option>
                 <option value="M" <?php if($genero=="M"){ echo "selected";}?>>Masculino</option>
               </select>
-              <label>Código de la Canaima:</label>
-              <input tabindex=4 onKeyUp="this.value=this.value.toUpperCase()" title="Ingrese el código de la canaima asignada" maxlength=20 name="codigo_canaima" id="codigo_canaima" type="text" size="10" value="<?= $codigo_canaima;?>" placeholder="Ingrese el código de la canaima" class="campoTexto" />
+              <label>Lateralidad:</label>
+              <select tabindex=4 name="lateralidad" id="lateralidad" title="Seleccione la Lateralidad del estudiante" class='lista' required >
+                <option value="">Selecione una opción</option>
+                <option value="D" <?php if($lateralidad=="D"){ echo "selected";}?>>Derecho</option>
+                <option value="I" <?php if($lateralidad=="I"){ echo "selected";}?>>Izquierdo</option>
+              </select>
+              <label>Canaima Operativa:</label>
+              <select tabindex=6 name="canaima_operativa" id="canaima_operativa" title="Indique si la canaima esta operativa o no" class='lista' required >
+                <option value="">Selecione una opción</option>
+                <option value="Y" <?php if($canaima_operativa=="Y"){ echo "selected";}?>>Sí</option>
+                <option value="N" <?php if($canaima_operativa=="N"){ echo "selected";}?>>No</option>
+              </select>
               <label>Apellido(s):</label>
-              <input tabindex=6 title="Ingrese el(los) apellido(s) del Estudiante" onKeyPress="return isCharKey(event)" onKeyUp="this.value=this.value.toUpperCase()" name="apellidos" id="apellidos" type="text" size="50" value="<?= $apellidos;?>" placeholder="Ingrese el Apellido" class="campoTexto" required />
+              <input tabindex=8 title="Ingrese el(los) apellido(s) del Estudiante" onKeyPress="return isCharKey(event)" onKeyUp="this.value=this.value.toUpperCase()" name="apellidos" id="apellidos" type="text" size="50" value="<?= $apellidos;?>" placeholder="Ingrese el Apellido" class="campoTexto" required />
               <label>Estatura (Cm):</label>
-              <input tabindex=8 maxlength=5 title="Ingrese la estatura del estudiante expresado en cm" onKeyPress="return isNumberKey(event)" name="estatura" id="estatura" type="text" size="50" value="<?= $estatura;?>" placeholder="Ingreso la Estatura del Estudiante expresado en Cm" class="campoTexto" required />
+              <input tabindex=10 maxlength=5 title="Ingrese la estatura del estudiante expresado en cm" onKeyPress="return isNumberKey(event)" name="estatura" id="estatura" type="text" size="50" value="<?= $estatura;?>" placeholder="Ingreso la Estatura del Estudiante expresado en Cm" class="campoTexto" required />
               <label>Lugar de Nacimiento:</label>
-              <input tabindex=10 title="Seleccione un Municipio" onKeyUp="this.value=this.value.toUpperCase()" name="lugar_nacimiento" id="lugar_nacimiento" type="text" size="50" value="<?= $lugar_nacimiento;?>" placeholder="Seleccione un municipio" class="campoTexto" required />
+              <input tabindex=12 title="Seleccione un Municipio" onKeyUp="this.value=this.value.toUpperCase()" name="lugar_nacimiento" id="lugar_nacimiento" type="text" size="50" value="<?= $lugar_nacimiento;?>" placeholder="Seleccione un municipio" class="campoTexto" required />
               <label>Teléfono de Habitación:</label>
-              <input tabindex=12 maxlength=11 title="Ingrese el número de habitación" onKeyPress="return isNumberKey(event)" name="telefono_habitacion" id="telefono_habitacion" type="text" size="50" value="<?= $telefono_habitacion;?>" placeholder="Ingreso el Número de Habitación" class="campoTexto" required />
+              <input tabindex=14 maxlength=11 title="Ingrese el número de habitación" onKeyPress="return isNumberKey(event)" name="telefono_habitacion" id="telefono_habitacion" type="text" size="50" value="<?= $telefono_habitacion;?>" placeholder="Ingreso el Número de Habitación" class="campoTexto" required />
               <label>Correo Electrónico:</label>
-              <input tabindex=13 title="Ingrese el correo electrónico del persona" onKeyPress="return isEmail(event,this.value)" onKeyUp="this.value=this.value.toLowerCase()" name="email" id="email" type="text" size="50" value="<?= $email;?>" placeholder="Ingrese el Correo Electrónico" class="campoTexto" />
+              <input tabindex=15 title="Ingrese el correo electrónico del persona" onKeyPress="return isEmail(event,this.value)" onKeyUp="this.value=this.value.toLowerCase()" name="email" id="email" type="text" size="50" value="<?= $email;?>" placeholder="Ingrese el Correo Electrónico" class="campoTexto" />
               <label>Sección:</label>
-              <input tabindex=15 title="Seleccione una sección" onKeyUp="this.value=this.value.toUpperCase()" name="seccion" id="seccion" type="text" size="50" value="<?= $seccion;?>" placeholder="Seleccione una sección" class="campoTexto" />
+              <input tabindex=17 title="Seleccione una sección" onKeyUp="this.value=this.value.toUpperCase()" name="seccion" id="seccion" type="text" size="50" value="<?= $seccion;?>" placeholder="Seleccione una sección" class="campoTexto" />
             </div> 
           </div>    
             <strong class="obligatorio">Los campos resaltados en rojo son obligatorios</strong>

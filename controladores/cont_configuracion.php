@@ -48,6 +48,12 @@ if(isset($_POST['numero_preguntas']))
 if(isset($_POST['numero_preguntasaresponder']))
   $numero_preguntasaresponder=trim($_POST['numero_preguntasaresponder']);
 
+if(isset($_POST['dias_inactividad']))
+  $dias_inactividad=trim($_POST['dias_inactividad']);
+
+if(isset($_POST['maxsesion']))
+  $maxsesion=trim($_POST['maxsesion']);
+
 
 include_once("../clases/class_configuracion.php");
 $configuracion=new Configuracion();
@@ -66,6 +72,8 @@ if($operacion=='Registrar'){
   $configuracion->intentos_fallidos($intentos_fallidos);
   $configuracion->numero_preguntas($numero_preguntas);
   $configuracion->numero_preguntasaresponder($numero_preguntasaresponder);
+  $configuracion->dias_inactividad($dias_inactividad);
+  $configuracion->maxsesion($maxsesion);
   if(!$configuracion->Comprobar()){
     if($configuracion->Registrar())
       $confirmacion=1;
@@ -103,6 +111,8 @@ if($operacion=='Modificar'){
   $configuracion->intentos_fallidos($intentos_fallidos);
   $configuracion->numero_preguntas($numero_preguntas);
   $configuracion->numero_preguntasaresponder($numero_preguntasaresponder);
+  $configuracion->dias_inactividad($dias_inactividad);
+  $configuracion->maxsesion($maxsesion);
   if($configuracion->Actualizar())
     $confirmacion=1;
   else
@@ -174,6 +184,8 @@ if($operacion=='Consultar'){
     $_SESSION['datos']['intentos_fallidos']=$configuracion->intentos_fallidos();
     $_SESSION['datos']['numero_preguntas']=$configuracion->numero_preguntas();
     $_SESSION['datos']['numero_preguntasaresponder']=$configuracion->numero_preguntasaresponder();
+    $_SESSION['datos']['dias_inactividad']=$configuracion->dias_inactividad();
+    $_SESSION['datos']['maxsesion']=$configuracion->maxsesion();
     $_SESSION['datos']['estatus']=$configuracion->estatus_configuracion();
     header("Location: ../vistas/?configuracion");
   }else{

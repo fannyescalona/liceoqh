@@ -9,9 +9,19 @@ $Usuario->password(trim($_POST['contrasena']));
 $res=$Usuario->Buscar();
 if($res!=null){
    if($res[0]['estado']==4){
-      $_SESSION['datos']['mensaje']="Usuario bloqueado, contacte al administrador!";
+      $_SESSION['datos']['mensaje']="¡Usuario bloqueado, contacte al administrador!";
       header("Location: ../");
-   }else{
+   }
+   else if($res[0]['sesion_abierta']==$res[0]['maxsesion']){
+      $_SESSION['datos']['mensaje']="¡Alcanzó el máximo de sesiones abiertas permitidas!";
+      header("Location: ../");
+   }
+   else if($res[0]['dias_ultimasesion']>=$res[0]['dias_inactividad']){
+      $Usuario->Bloquear_Por_Inactividad();
+      $_SESSION['datos']['mensaje']="¡Usuario bloqueado por inactividad, contacte al administrador!";
+      header("Location: ../");
+   }
+   else{
       $_SESSION['user_name']=$res[0]['name'];
       $_SESSION['fullname_user']=$res[0]['fullname_user'];
       $_SESSION['user_cedula']=$res[0]['cedula'];
@@ -33,12 +43,13 @@ if($res!=null){
       $_SESSION['user_pregunta']=$preguntas;
       $_SESSION['user_respuesta']=$respuestas;
       $Usuario->Intento_Fallido(false);
+      $Usuario->Administrar_Sesion(true);
       header("Location: ../vistas/");
    }
 }else{
    $Usuario->Intento_Fallido(true);
    $Usuario->Bloquear_Usuario();
-   $_SESSION['datos']['mensaje']="Usuario/Clave incorrecto!";
+   $_SESSION['datos']['mensaje']="¡Usuario/Clave incorrecto!";
    header("Location: ../");
 }
 ?>

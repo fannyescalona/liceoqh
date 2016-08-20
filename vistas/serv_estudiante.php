@@ -49,23 +49,6 @@ else{
 ?>
 <br><br>
 <?php if(!isset($_GET['l'])){
-  require_once("../clases/class_bd.php");
-  $mysql=new Conexion();
-  $sql = "SELECT descripcion,
-  date_format(fecha_inicio,'%d/%m/%Y') fecha_inicio,date_format(fecha_cierre,'%d/%m/%Y') fecha_cierre,
-  CASE WHEN datediff(fecha_cierre,now()) >0 THEN 'Y' ELSE 'N' END AS actualizable 
-  FROM tinscripcion WHERE fecha_desactivacion IS NULL";
-  $query = $mysql->Ejecutar($sql);
-  if($mysql->Total_Filas($query)==0)
-    $actualizable='N';
-  while ($row = $mysql->Respuesta($query)){
-    echo "<span style='font-weight: bold;'> \"".$row['descripcion']."  FECHA DE INICIO: </span>".$row['fecha_inicio']." <span style='font-weight: bold;'>FECHA DE CIERRE: </span>".$row['fecha_cierre']."<span style='font-weight: bold;'> \"</span><br /><br />";
-    $actualizable=$row['actualizable'];
-  }
-  /*if($actualizable=="N"){
-    echo "<strong class='obligatorio'>¡No es posible cargar el formulario, ya que termino el período de Inscripción terminó o no existe!</strong>";
-  }
-  else{*/
   ?>
 <div class="form_externo" >
   <script src="../js/uds_estudiante.js"> </script>
