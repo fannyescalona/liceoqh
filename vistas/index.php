@@ -121,6 +121,8 @@ if(isset($_SESSION['user_estado'])){
                   else if(isset($_GET['estado'])) include("serv_estado.php"); //listo
                   else if(isset($_GET['municipio'])) include("serv_municipio.php"); //listo
                   else if(isset($_GET['parroquia'])) include("serv_parroquia.php"); //listo
+                  else if(isset($_GET['ambiente'])) include("serv_ambiente.php"); //listo
+                  else if(isset($_GET['bloque_hora'])) include("serv_bloque_hora.php"); //listo
                   else if(isset($_GET['materia'])) include("serv_materia.php"); //listo
                   else if(isset($_GET['modulo'])) include("serv_modulo.php"); //listo
                   else if(isset($_GET['seccion'])) include("serv_seccion.php"); //listo
@@ -132,6 +134,7 @@ if(isset($_SESSION['user_estado'])){
                   else if(isset($_GET['ano_academico'])) include("serv_ano_academico.php"); //listo
                   else if(isset($_GET['lapso'])) include("serv_lapso.php"); //listo  
                   else if(isset($_GET['bitacora'])) include("serv_auditoria.php"); //listo
+                  else if(isset($_GET['horario'])) include("serv_horario.php"); //listo
                   else if(isset($_GET['inscripcion'])) include("serv_inscripcion.php"); //listo
                   else if(isset($_GET['asignar_seccion'])) include("serv_asignarseccion.php"); //listo
                   else if(isset($_GET['proceso_inscripcion'])) include("serv_procesoinscripcion.php"); //listo

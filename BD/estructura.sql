@@ -262,6 +262,39 @@ CREATE TABLE tano_academico (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
+--
+-- Table structure for table tambiente
+--
+
+DROP TABLE IF EXISTS tambiente;
+
+CREATE TABLE tambiente (
+  codigo_ambiente int(11) NOT NULL AUTO_INCREMENT,
+  descripcion varchar(60) COLLATE utf8_spanish_ci NOT NULL,
+  tipo_ambiente char(1) NOT NULL DEFAULT '0',
+  fecha_desactivacion date DEFAULT NULL,
+  PRIMARY KEY (codigo_ambiente)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+--
+--
+-- Table structure for table tbloque_hora
+--
+
+DROP TABLE IF EXISTS tbloque_hora;
+
+CREATE TABLE tbloque_hora (
+  codigo_bloque_hora int(11) NOT NULL AUTO_INCREMENT,
+  descripcion varchar(60) COLLATE utf8_spanish_ci,
+  hora_inicio time NOT NULL,
+  hora_fin time NOT NULL,
+  receso char(1) NOT NULL DEFAULT 'N',
+  turno char(1) NOT NULL DEFAULT 'M',
+  fecha_desactivacion date DEFAULT NULL,
+  PRIMARY KEY (codigo_bloque_hora)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+--
 -- Table structure for table tmateria
 --
 
@@ -603,6 +636,31 @@ CREATE TABLE tmateria_seccion_docente (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
+-- Table structure for table thorario_docente
+--
+
+DROP TABLE IF EXISTS thorario;
+
+CREATE TABLE thorario (
+  codigo_horario int(11) NOT NULL AUTO_INCREMENT,
+  dia int(11) NOT NULL,
+  codigo_bloque_hora int(11) NOT NULL,
+  codigo_ambiente int(11) NOT NULL,
+  codigo_ano_academico int(11) NOT NULL,
+  codigo_materia char(7) COLLATE utf8_spanish_ci NOT NULL,
+  seccion char(5) COLLATE utf8_spanish_ci NOT NULL,
+  cedula_docente char(10) COLLATE utf8_spanish_ci NOT NULL,
+  fecha_desactivacion date DEFAULT NULL,
+  PRIMARY KEY(codigo_horario),
+  CONSTRAINT fk_thorario_tbloque_hora FOREIGN KEY(codigo_bloque_hora) REFERENCES tbloque_hora (codigo_bloque_hora) ON UPDATE CASCADE,
+  CONSTRAINT fk_thorario_tambiente FOREIGN KEY(codigo_ambiente) REFERENCES tambiente (codigo_ambiente) ON UPDATE CASCADE,
+  CONSTRAINT fk_thorario_tano_academico FOREIGN KEY(codigo_ano_academico) REFERENCES tano_academico (codigo_ano_academico) ON UPDATE CASCADE,
+  CONSTRAINT fk_thorario_tmateria FOREIGN KEY (codigo_materia) REFERENCES tmateria (codigo_materia) ON UPDATE CASCADE,
+  CONSTRAINT fk_thorario_tseccion FOREIGN KEY (seccion) REFERENCES tseccion (seccion) ON UPDATE CASCADE,
+  CONSTRAINT fk_thorario_tpersona FOREIGN KEY (cedula_docente) REFERENCES tpersona (cedula) ON UPDATE CASCADE 
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+--
 -- Table structure for table tpre_inscripcion
 --
 
@@ -718,3 +776,44 @@ CREATE TABLE tcontrasena (
   fecha_modificacion timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   CONSTRAINT tcontrasena_ibfk_1 FOREIGN KEY (nombre_usuario) REFERENCES tusuario (nombre_usuario) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+--
+--  View structure for vhorario
+--
+
+CREATE OR REPLACE VIEW vhorario AS 
+  SELECT pr.nombres AS nombre,
+  pr.apellidos AS apellido,
+  CONCAT(h.codigo_bloque_hora,'-',h.dia) AS celda,
+  pr.cedula AS cedula,
+  h.dia,
+  h.codigo_bloque_hora,
+  h.codigo_materia AS materia,
+  h.cedula_docente AS profesor,
+  h.codigo_ambiente,
+  h.seccion,
+  h.codigo_ano_academico,
+  tm.descripcion AS nombre_materia,
+  ta.descripcion AS nombre_ambiente,
+  CONCAT(bh.hora_inicio,'-',bh.hora_fin) AS hora,
+  s.descripcion AS nombre_seccion, 
+  COALESCE(pr.carga_horaria,0) AS maxhoras 
+  FROM thorario h
+  LEFT JOIN tseccion s ON s.seccion = h.seccion
+  LEFT JOIN tpersona pr ON pr.cedula = h.cedula_docente
+  LEFT JOIN tmateria tm ON tm.codigo_materia = h.codigo_materia
+  LEFT JOIN tambiente ta ON ta.codigo_ambiente = h.codigo_ambiente
+  LEFT JOIN tbloque_hora bh ON bh.codigo_bloque_hora = h.codigo_bloque_hora;
+
+--
+--  View structure for vmateria_seccion_horario
+--
+
+CREATE OR REPLACE VIEW vmateria_seccion_horario AS 
+  SELECT s.seccion,
+  count(h.codigo_materia) AS cantidad_materia_horario,
+  count(msd.codigo_materia) AS cantidad_materia_seccion
+  FROM tseccion s
+  LEFT JOIN tmateria_seccion_docente msd ON s.seccion = msd.seccion
+  LEFT JOIN thorario h ON h.seccion = s.seccion
+  GROUP BY s.seccion, msd.codigo_materia;
