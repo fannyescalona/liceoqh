@@ -60,6 +60,10 @@
       alert("Debe ingresar la edad máxima para cursar el primer año!");
       validado=false;
     }
+    else if(parseInt($('#edad_maxima_primer_anio').val())<10){
+      alert("La edad máxima para cursar el primer año debe ser mayor que 10!");
+      validado=false;
+    }
     else if($('#nota_aprobacion').val()==""){
       alert("Debe ingresar la nota para aprobar las materias!");
       validado=false;

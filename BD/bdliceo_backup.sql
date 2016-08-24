@@ -19,6 +19,7 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `bdliceo`
 --
+DROP DATABASE `bdliceo`;
 CREATE DATABASE IF NOT EXISTS `bdliceo` DEFAULT CHARACTER SET utf8 COLLATE utf8_spanish_ci;
 USE `bdliceo`;
 
