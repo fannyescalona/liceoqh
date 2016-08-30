@@ -218,7 +218,7 @@ require_once("../clases/class_bd.php");
          
          $lobjPdf->Output('documento.pdf',"I");
          }else{
-            echo "ERROR AL GENERAR ESTE REPORTE!";          
+            include ("error.html");     
           }
 ?>
 

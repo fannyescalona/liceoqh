@@ -164,7 +164,7 @@
 
 	// Se manda el archivo al navegador web, con el nombre que se indica (Excel2007)
 	header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-	header('Content-Disposition: attachment;filename="Listado Parroquias.xlsx"');
+	header('Content-Disposition: attachment;filename="Listado Parroquias.xls"');
 	header('Cache-Control: max-age=0');
 
 	$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');

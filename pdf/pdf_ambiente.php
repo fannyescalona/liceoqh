@@ -11,7 +11,7 @@
   $this->Cell(0,6,"UNIDAD EDUCATIVA NACIONAL QUEBRADA HONDA",0,1,"C");
     $this->Cell(0,6,"\"Sistema de Ingreso Estudiantes y Contol de Notas\"",0,1,"C");
        $this->Ln(15); 
-   $this->Cell(0,6,'LISTADO DE LOS AMBIENTE DE CLASES',0,1,"C");
+   $this->Cell(0,6,'LISTADO DE AMBIENTES DE CLASES',0,1,"C");
    $this->Ln(5);
     
     
@@ -27,7 +27,7 @@
                   //$this->Cell($anchura,$altura,utf8_decode('N°'),1,0,'L',$color_fondo); 
                   $this->Cell($anchura*2,$altura,utf8_decode('CÓDIGO'),1,0,'L',$color_fondo); 
                   $this->Cell($anchura*4,$altura,utf8_decode('NOMBRE'),1,0,'L',$color_fondo); 
-                  $this->Cell($anchura*4,$altura,'TIPO',1,0,'L',$color_fondo); 
+                  $this->Cell($anchura*4,$altura,'TIPO DE AMBIENTE',1,0,'L',$color_fondo); 
                   $this->Cell($anchura*2+6,$altura,'ESTATUS',1,1,'L',$color_fondo); 
                   $this->Cell($avnzar); 
                   }
@@ -185,13 +185,13 @@ function NbLines($w,$txt)
   require_once("../clases/class_bd.php");
   $mysql=new Conexion();
   $sql="SELECT codigo_ambiente, descripcion,
-    (CASE WHEN tipo_ambiente IS 1 THEN  'Aula de clases'
-          WHEN tipo_ambiente IS 2 THEN 'Cancha Deportiva' 
-          WHEN tipo_ambiente IS 3 THEN 'Laboratorio'
-    ELSE 'Taller' END) AS tipo 
-    (CASE WHEN fecha_desactivacion IS NULL THEN  'Activo' 
-    ELSE 'Desactivado' END) AS estatus 
-    FROM tambiente";
+        (CASE WHEN tipo_ambiente = 1 THEN  'Aula de clases'
+              WHEN tipo_ambiente = 2 THEN 'Cancha Deportiva' 
+              WHEN tipo_ambiente = 3 THEN 'Laboratorio'
+              ELSE 'Taller' END) AS tipo ,
+        (CASE WHEN fecha_desactivacion IS NULL THEN  'Activo' 
+        ELSE 'Desactivado' END) AS estatus 
+        FROM tambiente";
   $i=-1;
   $data=$mysql->Ejecutar($sql);
     if($mysql->Total_Filas($data)!=0){
@@ -217,6 +217,6 @@ function NbLines($w,$txt)
          
          $lobjPdf->Output('documento.pdf',"I");
          }else{
-            echo "<script> swal('ERROR AL GENERAR ESTE REPORTE!').then(function(){ window.close(); });</script>";          
+            include ("error.html");          
           }
 ?>

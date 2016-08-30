@@ -212,6 +212,6 @@ function NbLines($w,$txt)
          
          $lobjPdf->Output('documento.pdf',"I");
          }else{
-           echo "<script> swal('ERROR AL GENERAR ESTE REPORTE!').then(function(){ window.close(); });</script>";          
+           include ("error.html");     
           }
 ?>

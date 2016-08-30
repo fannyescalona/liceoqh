@@ -210,6 +210,6 @@ function NbLines($w,$txt)
          
          $lobjPdf->Output('documento.pdf',"I");
          }else{
-            echo "ERROR AL GENERAR ESTE REPORTE!";          
+            include ("error.html");     
           }
 ?>

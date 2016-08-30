@@ -1,75 +1,77 @@
 <?php
-  class clsFpdf extends FPDF {
-     var $widths;
+	class clsFpdf extends FPDF {
+	   var $widths;
       var $aligns;
-   //Cabecera de página
-    public function Header()
-    {
+	 //Cabecera de página
+		public function Header()
+		{
       $this->Image("../images/cintillo_reportes.jpg" , 10 ,5, 270 , 25, "JPG" ,$_SERVER['HTTP_HOST']."/liceoqh/vistas/");
       $this->Ln(25);  
       $this->SetFont('Arial','B',12);  
       $this->Cell(0,6,"UNIDAD EDUCATIVA NACIONAL QUEBRADA HONDA",0,1,"C");
       $this->Cell(0,6,"\"Sistema de Ingreso Estudiantes y Contol de Notas\"",0,1,"C");
        $this->Ln(15); 
-   $this->Cell(0,6,utf8_decode('PERIODOS DE INSCRIPCIÓN'),0,1,"C");
+   $this->Cell(0,6,'LISTADO BLOQUE DE HORA',0,1,"C");
    $this->Ln(5);
-    
-    
-     $this->SetFillColor(0,0,140); 
-         $avnzar=60;
+		
+		
+	   $this->SetFillColor(0,0,140); 
+         $avnzar=35;
          $altura=7;
-         $anchura=10;
-         $color_fondo=false;
-         $this->SetFont('Arial','B',10);
-         //$this->Row(array("N°","Codigo","Perfil","Estatus"));
-         $this->SetTextColor(0,0,0);
-                $this->Cell($avnzar);
-                  //$this->Cell($anchura,$altura,utf8_decode('N°'),1,0,'L',$color_fondo); 
-                  $this->Cell($anchura*4,$altura,utf8_decode('PERIODO'),1,0,'L',$color_fondo); 
-                  $this->Cell($anchura*3,$altura,'FECHA INICIO',1,0,'L',$color_fondo);
-                  $this->Cell($anchura*3,$altura,utf8_decode('FECHA FIN'),1,0,'L',$color_fondo);
-                  $this->Cell($anchura*3,$altura,'FECHA CIERRE',1,0,'L',$color_fondo); 
-                  $this->Cell($anchura*2+5,$altura,'ESTATUS',1,1,'L',$color_fondo);  
-                  $this->Cell($avnzar); 
-                  }
+    	   $anchura=10;
+    	   $color_fondo=false;
+    	   $this->SetFont('Arial','B',10);
+    	   //$this->Row(array("N°","Codigo","Perfil","Estatus"));
+    	   $this->SetTextColor(0,0,0);
+    	          $this->Cell($avnzar);
+    	            //$this->Cell($anchura,$altura,utf8_decode('N°'),1,0,'L',$color_fondo); 
+    	            $this->Cell($anchura*2,$altura,utf8_decode('CÓDIGO'),1,0,'L',$color_fondo); 
+    	            $this->Cell($anchura*5,$altura,utf8_decode('NOMBRE'),1,0,'L',$color_fondo); 
+    	            $this->Cell($anchura*3,$altura,'HORA INICIO',1,0,'L',$color_fondo); 
+    	            $this->Cell($anchura*3,$altura,'HORA FIN',1,0,'L',$color_fondo); 
+    	            $this->Cell($anchura*2+5,$altura,'TURNO',1,0,'L',$color_fondo); 
+    	            $this->Cell($anchura*2,$altura,'RECESO',1,0,'L',$color_fondo);
+                  $this->Cell($anchura*2+6,$altura,'ESTATUS',1,1,'L',$color_fondo);
+    	            $this->Cell($avnzar); 		
+		}
 
-    //Pie de página
-  public function Footer()
-    {
-      //Posición: a 2 cm del final
-      $this->SetY(-20);
-      //Arial italic 8
-        $this->SetFont("Arial","I",8);
-      //Dirección
-      //Número de página
-      //$this->Cell(0,5,utf8_decode("Pagina ").$this->PageNo()."/{nb}",0,1,"C");
-         $this->SetFont('Arial','',13);
-           $this->SetFillColor(240,240,240);
-            $this->SetTextColor(200, 200, 200);     
-          $this->Cell(0,5,utf8_decode("______________________________________________________________________________________________________________"),0,1,"C",false);
-         $this->SetFont('Arial','',9);
-        $this->SetTextColor(0,0,0);     
+		//Pie de página
+	public function Footer()
+		{
+			//Posición: a 2 cm del final
+			$this->SetY(-20);
+			//Arial italic 8
+			  $this->SetFont("Arial","I",8);
+			//Dirección
+			//Número de página
+			//$this->Cell(0,5,utf8_decode("Pagina ").$this->PageNo()."/{nb}",0,1,"C");
+			   $this->SetFont('Arial','',13);
+	         $this->SetFillColor(240,240,240);
+            $this->SetTextColor(200, 200, 200);			
+		    	$this->Cell(0,5,utf8_decode("______________________________________________________________________________________________________________"),0,1,"C",false);
+			   $this->SetFont('Arial','',9);
+				$this->SetTextColor(0,0,0);			
             $this->Cell(254);
             $this->Cell(25,8,utf8_decode('Página ').$this->PageNo()."/{nb}",0,1,'C',true);
-      //Fecha
+			//Fecha
        
-       //setlocale(LC_ALL,"es_VE.UTF8");
-       $this->Ln(-7);
-        $this->SetFont("Arial","I",6);
-          $avanzar=23;
-      $this->Cell($avanzar);  
+		   //setlocale(LC_ALL,"es_VE.UTF8");
+		   $this->Ln(-7);
+			  $this->SetFont("Arial","I",6);
+    	    $avanzar=23;
+      $this->Cell($avanzar);	
       $uni="Unidad Educativa Nacional Quebrada Honda.";
       $dir="Dirección: Calle 03 Centro Poblado B Quebrado Honda, Agua Blanca Estado Portuguesa,República Bolivariana de Venezuela.";
       $tel="Teléfono: (+58) 0255-8084598";
-      $this->Cell(130,4,utf8_decode($uni),0,1,"L");
-      $this->Cell($avanzar);  
-      $this->Cell(130,4,utf8_decode($dir),0,1,"L");
-      $this->Cell($avanzar);  
-      $this->Cell(130,4,utf8_decode($tel),0,1,"L");
-    
-    }
-    
-    function SetWidths($w)
+    	$this->Cell(130,4,utf8_decode($uni),0,1,"L");
+    	$this->Cell($avanzar);	
+    	$this->Cell(130,4,utf8_decode($dir),0,1,"L");
+    	$this->Cell($avanzar);	
+    	$this->Cell(130,4,utf8_decode($tel),0,1,"L");
+		
+		}
+		
+		function SetWidths($w)
 {
     //Set the array of column widths
     $this->widths=$w;
@@ -171,9 +173,9 @@ function NbLines($w,$txt)
     }
     return $nl;
 }
-    }
-    //generar el listado 
-    setlocale(LC_ALL,"es_VE.UTF8");
+		}
+		//generar el listado 
+		setlocale(LC_ALL,"es_VE.UTF8");
    $lobjPdf=new clsFpdf();
    $lobjPdf->AddPage("L");
    $lobjPdf->AliasNbPages();
@@ -182,40 +184,45 @@ function NbLines($w,$txt)
    
     $lobjPdf->SetFont('Arial','',12);
    //Table with 20 rows and 5 columns
-      $lobjPdf->SetWidths(array(40,30,30,30,25));
+      $lobjPdf->SetWidths(array(20,50,30,30,25,20,26));
   require_once("../clases/class_bd.php");
   $mysql=new Conexion();
-    $sql="SELECT i.descripcion periodo,  
-    DATE_FORMAT(i.fecha_inicio,'%d/%m/%Y') inicio, DATE_FORMAT(i.fecha_fin,'%d/%m/%Y') fin, DATE_FORMAT(i.fecha_cierre,'%d/%m/%Y') cierre,
-    (CASE WHEN i.fecha_desactivacion IS NULL THEN  'Activo' ELSE 'Desactivado' END) AS estatus
-    FROM tinscripcion i 
-    WHERE 1";
+  $sql="SELECT codigo_bloque_hora, hora_inicio, hora_fin, descripcion, 
+          (CASE WHEN receso = 'Y' THEN  'Si' 
+          ELSE 'No' END) AS receso,
+          (CASE WHEN turno = 'M' THEN  'Mañana' 
+          ELSE 'Tarde' END) AS turno ,
+          (CASE WHEN fecha_desactivacion IS NULL THEN  'Activo' 
+    	    ELSE 'Desactivado' END) AS estatus 
+          FROM tbloque_hora";
   $i=-1;
   $data=$mysql->Ejecutar($sql);
     if($mysql->Total_Filas($data)!=0){
-         $lobjPdf->SetFillColor(0,0,140); 
-         $avnzar=60;
+    	   $lobjPdf->SetFillColor(0,0,140); 
+         $avnzar=35;
          $altura=7;
-         $anchura=10;
-         $color_fondo=false;
-         $lobjPdf->SetFont('Arial','B',10);
-         //$lobjPdf->Row(array("N°","Codigo","Perfil","Estatus"));
-         $lobjPdf->SetTextColor(0,0,0);
-         $lobjPdf->SetFont('Arial','',8);
-         $lobjPdf->SetTextColor(0,0,0); 
-         $xxxx=0;
+    	   $anchura=10;
+    	   $color_fondo=false;
+    	   $lobjPdf->SetFont('Arial','B',10);
+    	   //$lobjPdf->Row(array("N°","Codigo","Perfil","Estatus"));
+    	   $lobjPdf->SetTextColor(0,0,0);
+    	   $lobjPdf->SetFont('Arial','',8);
+    	   $lobjPdf->SetTextColor(0,0,0); 
+    	   $xxxx=0;
          while($tperfil=$mysql->Respuesta($data)){
          $lobjPdf->Row(array(
-        utf8_decode(ucwords($tperfil['periodo'])),
-        utf8_decode(ucwords($tperfil['inicio'])),
-        utf8_decode(ucwords($tperfil['fin'])),
-        utf8_decode(ucwords($tperfil['cierre'])),
-        utf8_decode(ucwords($tperfil['estatus']))));
-          $lobjPdf->Cell($avnzar);         
+         utf8_decode(ucwords($tperfil['codigo_bloque_hora'])),
+         utf8_decode(ucwords($tperfil['descripcion'])),
+         utf8_decode(ucwords($tperfil['hora_inicio'])),
+         utf8_decode(ucwords($tperfil['hora_fin'])),
+         utf8_decode(ucwords($tperfil['turno'])),
+         utf8_decode(ucwords($tperfil['receso'])),
+         utf8_decode(ucwords($tperfil['estatus']))));
+         $lobjPdf->Cell($avnzar);         
          }
          
          $lobjPdf->Output('documento.pdf',"I");
          }else{
-            include ("error.html");         
-          }
+            include ("error.html");      	
+         	}
 ?>
