@@ -1,7 +1,4 @@
 <?php
-      require_once("../librerias/fpdf/fpdf.php");
-      $servicio=$_GET['serv'];
-   session_start();
   class clsFpdf extends FPDF {
      var $widths;
       var $aligns;
@@ -218,7 +215,7 @@ require_once("../clases/class_bd.php");
          $lobjPdf->Cell($avnzar);         
          }
          
-         $lobjPdf->Output('documento',"I");
+         $lobjPdf->Output('documento.pdf',"I");
          }else{
             echo "ERROR AL GENERAR ESTE REPORTE!";          
           }

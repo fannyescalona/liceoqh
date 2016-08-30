@@ -45,6 +45,7 @@ if(array_search($servicio_solicitado,$servicios_permitidos)!==false){
       <option value="1" <?php if($tipo_ambiente=="1"){ echo "selected";}?>>AULA DE CLASES</option>
       <option value="2" <?php if($tipo_ambiente=="2"){ echo "selected";}?>>CANCHA DEPORTIVA</option>
       <option value="3" <?php if($tipo_ambiente=="3"){ echo "selected";}?>>LABORATORIO</option>
+      <option value="3" <?php if($tipo_ambiente=="4"){ echo "selected";}?>>TALLER</option>
      </select>
      <strong class="obligatorio">Los campos resaltados en rojo son obligatorios</strong>
    </div>   

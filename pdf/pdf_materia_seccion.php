@@ -1,7 +1,4 @@
 <?php
-      require_once("../librerias/fpdf/fpdf.php");
-
-   session_start();
 	class clsFpdf extends FPDF {
 	   var $widths;
       var $aligns;
@@ -263,7 +260,7 @@ function NbLines($w,$txt)
 
          
          }
-         $lobjPdf->Output("documento","I");
+         $lobjPdf->Output("documento.pdf","I");
        }else{
             echo "ERROR AL GENERAR ESTE REPORTE!";         	
          	}

@@ -7,16 +7,16 @@
     {
       $this->Image("../images/cintillo_reportes.jpg" , 10 ,5, 270 , 25, "JPG" ,$_SERVER['HTTP_HOST']."/liceoqh/vistas/");
       $this->Ln(25);  
-      $this->SetFont('Arial','B',12);  
-      $this->Cell(0,6,"UNIDAD EDUCATIVA NACIONAL QUEBRADA HONDA",0,1,"C");
-      $this->Cell(0,6,"\"Sistema de Ingreso Estudiantes y Contol de Notas\"",0,1,"C");
+   $this->SetFont('Arial','B',12);  
+  $this->Cell(0,6,"UNIDAD EDUCATIVA NACIONAL QUEBRADA HONDA",0,1,"C");
+    $this->Cell(0,6,"\"Sistema de Ingreso Estudiantes y Contol de Notas\"",0,1,"C");
        $this->Ln(15); 
-   $this->Cell(0,6,'LISTADO DE LOS PAISES',0,1,"C");
+   $this->Cell(0,6,'LISTADO DE LOS AMBIENTE DE CLASES',0,1,"C");
    $this->Ln(5);
     
     
      $this->SetFillColor(0,0,140); 
-         $avnzar=85;
+         $avnzar=70;
          $altura=7;
          $anchura=10;
          $color_fondo=false;
@@ -24,11 +24,11 @@
          //$this->Row(array("N°","Codigo","Perfil","Estatus"));
          $this->SetTextColor(0,0,0);
                 $this->Cell($avnzar);
-                   //$lobjPdf->Cell($anchura*2,$altura,utf8_decode('N°'),1,0,'T',$color_fondo); 
-      $this->Cell($anchura*2,$altura,utf8_decode('CÓDIGO'),1,0,'L',$color_fondo); 
-      $this->Cell($anchura*4,$altura,utf8_decode('NOMBRE DEL PAÍS'),1,0,'L',$color_fondo); 
-      $this->Cell($anchura*4,$altura,'ESTATUS',1,1,'L',$color_fondo); 
-      
+                  //$this->Cell($anchura,$altura,utf8_decode('N°'),1,0,'L',$color_fondo); 
+                  $this->Cell($anchura*2,$altura,utf8_decode('CÓDIGO'),1,0,'L',$color_fondo); 
+                  $this->Cell($anchura*4,$altura,utf8_decode('NOMBRE'),1,0,'L',$color_fondo); 
+                  $this->Cell($anchura*4,$altura,'TIPO',1,0,'L',$color_fondo); 
+                  $this->Cell($anchura*2+6,$altura,'ESTATUS',1,1,'L',$color_fondo); 
                   $this->Cell($avnzar); 
                   }
 
@@ -42,14 +42,14 @@
       //Dirección
       //Número de página
       //$this->Cell(0,5,utf8_decode("Pagina ").$this->PageNo()."/{nb}",0,1,"C");
-         $this->SetFont('Arial','',13);
-           $this->SetFillColor(240,240,240);
-            $this->SetTextColor(200, 200, 200);     
-          $this->Cell(0,5,utf8_decode("______________________________________________________________________________________________________________"),0,1,"C",false);
-         $this->SetFont('Arial','',9);
-        $this->SetTextColor(0,0,0);     
-            $this->Cell(254);
-            $this->Cell(25,8,utf8_decode('Página ').$this->PageNo()."/{nb}",0,1,'C',true);
+      $this->SetFont('Arial','',13);
+      $this->SetFillColor(240,240,240);
+      $this->SetTextColor(200, 200, 200);     
+      $this->Cell(0,5,utf8_decode("______________________________________________________________________________________________________________"),0,1,"C",false);
+      $this->SetFont('Arial','',9);
+      $this->SetTextColor(0,0,0);     
+      $this->Cell(254);
+      $this->Cell(25,8,utf8_decode('Página ').$this->PageNo()."/{nb}",0,1,'C',true);
       //Fecha
        
        //setlocale(LC_ALL,"es_VE.UTF8");
@@ -174,7 +174,6 @@ function NbLines($w,$txt)
     //generar el listado 
     setlocale(LC_ALL,"es_VE.UTF8");
    $lobjPdf=new clsFpdf();
-   
    $lobjPdf->AddPage("L");
    $lobjPdf->AliasNbPages();
 
@@ -185,14 +184,19 @@ function NbLines($w,$txt)
       $lobjPdf->SetWidths(array(20,40,40,26));
   require_once("../clases/class_bd.php");
   $mysql=new Conexion();
-    $sql="select *,
+  $sql="SELECT codigo_ambiente, descripcion,
+    (CASE WHEN tipo_ambiente IS 1 THEN  'Aula de clases'
+          WHEN tipo_ambiente IS 2 THEN 'Cancha Deportiva' 
+          WHEN tipo_ambiente IS 3 THEN 'Laboratorio'
+    ELSE 'Taller' END) AS tipo 
     (CASE WHEN fecha_desactivacion IS NULL THEN  'Activo' 
-    ELSE 'Desactivado' END) AS estatus from tpais";
-   $i=-1;
+    ELSE 'Desactivado' END) AS estatus 
+    FROM tambiente";
+  $i=-1;
   $data=$mysql->Ejecutar($sql);
     if($mysql->Total_Filas($data)!=0){
          $lobjPdf->SetFillColor(0,0,140); 
-         $avnzar=85;
+         $avnzar=70;
          $altura=7;
          $anchura=10;
          $color_fondo=false;
@@ -204,14 +208,15 @@ function NbLines($w,$txt)
          $xxxx=0;
          while($tperfil=$mysql->Respuesta($data)){
          $lobjPdf->Row(array(
-         utf8_decode(ucwords($tperfil['codigo_pais'])),
-         utf8_decode(ucwords($tperfil['descripcion'])),
-         utf8_decode(ucwords($tperfil['estatus']))));
-          $lobjPdf->Cell($avnzar);         
+         utf8_decode(ucwords(strtolower(@utf8_decode($tperfil['codigo_ambiente'])))),
+         utf8_decode(ucwords(strtolower(@utf8_decode($tperfil['descripcion'])))),
+         utf8_decode(ucwords(strtolower(@utf8_decode($tperfil['tipo'])))),
+         utf8_decode(ucwords(strtolower(@utf8_decode($tperfil['estatus']))))));
+             $lobjPdf->Cell($avnzar);         
          }
          
          $lobjPdf->Output('documento.pdf',"I");
          }else{
-           echo "<script> swal('ERROR AL GENERAR ESTE REPORTE!').then(function(){ window.close(); });</script>";          
+            echo "<script> swal('ERROR AL GENERAR ESTE REPORTE!').then(function(){ window.close(); });</script>";          
           }
 ?>
