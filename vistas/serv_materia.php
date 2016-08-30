@@ -12,14 +12,20 @@ if(isset($_SESSION['datos'])){
   @$descripcion=$_SESSION['datos']['descripcion'];
   @$codigo_materia=$_SESSION['datos']['codigo_materia'];
   @$unidad_curricular=$_SESSION['datos']['unidad_curricular'];
+  @$hora_academica=$_SESSION['datos']['hora_academica'];
+  @$materia_compuesta=$_SESSION['datos']['materia_compuesta'];
   @$grado_escolar=$_SESSION['datos']['grado_escolar'];
+  @$codigo_materia_padre=$_SESSION['datos']['codigo_materia_padre'];
   @$estatus=$_SESSION['datos']['estatus'];
 }
 else{
   @$descripcion=null;
   @$codigo_materia=null;
   @$unidad_curricular=null;
+  @$hora_academica=null;
+  @$materia_compuesta="N";
   @$grado_escolar=null;
+  @$codigo_materia_padre=null;
   @$estatus=null;
 }
 ?>
@@ -37,7 +43,9 @@ else{
       <label>Materia:</label>
       <input title="Ingrese el nombre de la materia" onKeyUp="this.value=this.value.toUpperCase()" name="descripcion" id="descripcion" type="text" size="50" value="<?= $descripcion;?>" required placeholder="Ingrese el nombre de la materia" class="campoTexto"/>
       <label>Unidad curricular:</label>
-      <input title="Ingrese la unidad curricular" onKeyUp="this.value=this.value.toUpperCase()" name="unidad_curricular" id="unidad_curricular" type="text" size="50" value="<?= $unidad_curricular;?>" required placeholder="Ingrese la unidad curricular" class="campoTexto"/>
+      <input title="Ingrese la unidad curricular" onKeyPress="return isNumberKey(event)" name="unidad_curricular" id="unidad_curricular" type="text" size="50" value="<?= $unidad_curricular;?>" required placeholder="Ingrese la unidad curricular" class="campoTexto"/>
+      <label>Horas Academicas:</label>
+      <input title="Ingrese las horas academicas" onKeyPress="return isNumberKey(event)" name="hora_academica" id="hora_academica" type="text" size="50" value="<?= $hora_academica;?>" required placeholder="Ingrese la hora academica" class="campoTexto"/>
       <label>Grado Escolar:</label>
       <select tabindex=4 name="grado_escolar" id="grado_escolar" title="Seleccione el Grado Escolar" class='lista' required >
         <option value="">Selecione una opción</option>
@@ -46,7 +54,34 @@ else{
         <option value="3" <?php if($grado_escolar=="3"){ echo "selected";}?>>3er Año</option>
         <option value="4" <?php if($grado_escolar=="4"){ echo "selected";}?>>4to Año</option>
         <option value="5" <?php if($grado_escolar=="5"){ echo "selected";}?>>5to Año</option>
+        <option value="6" <?php if($grado_escolar=="6"){ echo "selected";}?>>6to Año</option>
       </select>
+     <label>Depende de otra Materia:</label>
+      <input type="hidden" name="materia_compuesta_oculta" id="materia_compuesta_oculta" >
+      <input tabindex=1 name="materia_compuesta" id="materia_compuestaY" type="radio" value="Y" <?php if($materia_compuesta=="Y"){ echo "checked='checked'"; } ?>  required />
+      <span>SÍ</span>
+      <input tabindex=2 name="materia_compuesta" id="materia_compuestaN" type="radio" value="N" <?php if($materia_compuesta=="N"){ echo "checked='checked'"; } ?> required />
+      <span>NO</span>
+      <br>
+      <div id="materia_oculta" style="display: none;">
+        <label>Seleccione una Materia:</label>
+        <select name="codigo_materia_padre" id="codigo_materia_padre" title="Seleccione una Materia" required="" class="campoTexto"/>
+        <option value=''>Seleccione una Materia</option>
+          <?php
+            require_once("../clases/class_bd.php");
+            $mysql=new Conexion();
+            $sql = "SELECT codigo_materia,INITCAP(CONCAT(codigo_materia,' - ',descripcion)) AS descripcion FROM tmateria WHERE materia_compuesta = 'N' AND fecha_desactivacion IS NULL ORDER BY codigo_materia_padre";
+            $query = $mysql->Ejecutar($sql);
+            while ($row = $mysql->Respuesta($query)){
+              if($row['codigo_materia']==$codigo_materia_padre){
+                echo "<option value='".$row['codigo_materia']."' selected>".$row['descripcion']."</option>";
+              }else{
+                echo "<option value='".$row['codigo_materia']."'>".$row['descripcion']."</option>";
+              }
+            }
+          ?>
+        </select>
+      </div>
       <strong class="obligatorio">Los campos resaltados en rojo son obligatorios</strong>
     </div>
     <br>

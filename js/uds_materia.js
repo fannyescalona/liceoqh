@@ -1,3 +1,21 @@
+$(document).ready(function(){
+	if($("#materia_compuestaN").attr('checked'))
+		$("#materia_oculta").hide();
+	if($("#materia_compuestaY").attr('checked'))
+		$("#materia_oculta").show();
+
+	$("input[name=materia_compuesta]").click(function(){
+		if($('input:radio[name=materia_compuesta]:checked').val()=="N"){
+			$("#materia_oculta").hide();
+			$("#materia_compuesta_oculta").val("N");
+		}
+		else{
+			$("#materia_oculta").show();
+			$("#materia_compuesta_oculta").val("Y");
+		}
+	});
+});
+
 function validar_formulario(param){
 //para validar en caso que no retorne false
 permitido=true;
@@ -5,6 +23,9 @@ permitido=true;
 valor2=document.getElementById('codigo_materia').value;
 valor=document.getElementById('descripcion').value;
 valor3=document.getElementById('unidad_curricular').value;
+valor4=document.getElementById('grado_escolar').value;
+valor5=document.getElementById('materia_compuesta_oculta').value;
+valor6=document.getElementById('codigo_materia_padre').value;
 if(devuelve_boton(param)=="Registrar" || devuelve_boton(param)=="Modificar"){
 	if(valor2.replace(/^\s+|\s+$/gi,"").length==0){ //para no permitir que se quede en blanco
 		alert('Ingrese el código de la materia')
@@ -15,6 +36,12 @@ if(devuelve_boton(param)=="Registrar" || devuelve_boton(param)=="Modificar"){
 	
 	}else if(valor3.replace(/^\s+|\s+$/gi,"").length==0){ //para no permitir que se quede en blanco
 		alert('Ingrese la unidad curricular')
+		permitido=false;
+	}else if(valor4.replace(/^\s+|\s+$/gi,"").length==0){ //para no permitir que se quede en blanco
+		alert('Seleccione el grado escolar')
+		permitido=false;
+	}else if(valor5=="Y" && valor6.replace(/^\s+|\s+$/gi,"").length==0){ //para no permitir que se quede en blanco
+		alert('Seleccione la materia padre')
 		permitido=false;
 	}
 }
@@ -32,5 +59,5 @@ if(devuelve_boton(param)=="Desactivar"){
 
 document.getElementById("operacion").value=devuelve_boton(param);
 if(permitido==true)
-document.getElementById("form").submit();
+	document.getElementById("form").submit();
 }

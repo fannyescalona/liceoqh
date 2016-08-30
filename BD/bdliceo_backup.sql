@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tiempo de generación: 21-08-2016 a las 17:01:20
+-- Tiempo de generación: 29-08-2016 a las 23:05:34
 -- Versión del servidor: 5.5.49-0+deb8u1
 -- Versión de PHP: 5.6.22-0+deb8u1
 
@@ -302,7 +302,7 @@ CREATE TABLE IF NOT EXISTS `tauditoria` (
   `usuario_aplicacion` char(15) COLLATE utf8_spanish_ci NOT NULL,
   `query` text COLLATE utf8_spanish_ci NOT NULL,
   `fecha` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB AUTO_INCREMENT=3436 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3448 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
 -- Volcado de datos para la tabla `tauditoria`
@@ -3741,15 +3741,27 @@ INSERT INTO `tauditoria` (`id`, `ip`, `so`, `navigador`, `usuario_base_de_datos`
 (3424, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'insert into tbloque_hora (descripcion,hora_inicio,hora_fin,turno,receso) values (''B-4'',''13:15'',''14:45'',''T'',''N'');', '2016-08-21 18:17:14'),
 (3425, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'insert into tbloque_hora (descripcion,hora_inicio,hora_fin,turno,receso) values (''RECESO'',''14:45'',''14:55'',''T'',''Y'');', '2016-08-21 18:17:49'),
 (3426, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'insert into tbloque_hora (descripcion,hora_inicio,hora_fin,turno,receso) values (''B-5'',''14:55'',''16:30'',''T'',''N'');', '2016-08-21 18:18:27'),
-(3427, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO thorario(dia,codigo_bloque_hora,codigo_ambiente,codigo_ano_academico,codigo_materia,seccion,cedula_docente)\r\n			VALUES (''1'',''2'',''1'',''1'',''INGL001'',''1'',''V121212121'')', '2016-08-21 20:23:09'),
+(3427, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO thorario(dia,codigo_bloque_hora,codigo_ambiente,codigo_ano_academico,codigo_materia,seccion,cedula_docente)\r\n     VALUES (''1'',''2'',''1'',''1'',''INGL001'',''1'',''V121212121'')', '2016-08-21 20:23:09'),
 (3428, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'DELETE FROM thorario WHERE codigo_ambiente=''1'' and seccion=''1''', '2016-08-21 20:24:43'),
-(3429, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO thorario(dia,codigo_bloque_hora,codigo_ambiente,codigo_ano_academico,codigo_materia,seccion,cedula_docente)\r\n			VALUES (''1'',''2'',''1'',''1'',''INGL001'',''1'',''V121212121'')', '2016-08-21 20:24:43'),
+(3429, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO thorario(dia,codigo_bloque_hora,codigo_ambiente,codigo_ano_academico,codigo_materia,seccion,cedula_docente)\r\n     VALUES (''1'',''2'',''1'',''1'',''INGL001'',''1'',''V121212121'')', '2016-08-21 20:24:43'),
 (3430, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'DELETE FROM thorario WHERE codigo_ambiente=''1'' and seccion=''1''', '2016-08-21 20:36:04'),
-(3431, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO thorario(dia,codigo_bloque_hora,codigo_ambiente,codigo_ano_academico,codigo_materia,seccion,cedula_docente)\r\n			VALUES (''1'',''2'',''1'',''1'',''INGL001'',''1'',''V121212121'')', '2016-08-21 20:36:04'),
+(3431, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO thorario(dia,codigo_bloque_hora,codigo_ambiente,codigo_ano_academico,codigo_materia,seccion,cedula_docente)\r\n     VALUES (''1'',''2'',''1'',''1'',''INGL001'',''1'',''V121212121'')', '2016-08-21 20:36:04'),
 (3432, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'update tseccion set seccion=''SECC'',descripcion=''PRIMERO B'',turno=''M'',grado_escolar=''1'', capacidad_min=''10'',capacidad_max=''40'' where (seccion=''SECC'');', '2016-08-21 20:37:07'),
 (3433, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'DELETE FROM tmateria_seccion_docente WHERE (seccion=''SECC'');', '2016-08-21 20:37:08'),
 (3434, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tmateria_seccion_docente(seccion,codigo_materia,cedula_docente) VALUES (''SECC'',''INGL001'',''V121212121'');', '2016-08-21 20:37:08'),
-(3435, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO thorario(dia,codigo_bloque_hora,codigo_ambiente,codigo_ano_academico,codigo_materia,seccion,cedula_docente)\r\n			VALUES (''1'',''4'',''1'',''1'',''INGL001'',''SECC'',''V121212121'')', '2016-08-21 20:37:46');
+(3435, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO thorario(dia,codigo_bloque_hora,codigo_ambiente,codigo_ano_academico,codigo_materia,seccion,cedula_docente)\r\n     VALUES (''1'',''4'',''1'',''1'',''INGL001'',''SECC'',''V121212121'')', '2016-08-21 20:37:46'),
+(3436, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'update tusuario set intento_fallido=0 where (nombre_usuario=''V123456789'')', '2016-08-30 00:32:01'),
+(3437, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'update tusuario set sesion_abierta=(sesion_abierta+1),fecha_ultimasesion = CURDATE() where (nombre_usuario=''V123456789'')', '2016-08-30 00:32:02'),
+(3438, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'insert into tservicio (descripcion,url,orden,codigo_modulo) values (''DESBLOQUEAR USUARIO'',''DESBLOQUEARUSUARIO'',''10'',''6'');', '2016-08-30 00:34:32'),
+(3439, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'update tperfil set descripcion=''ADMINISTRADOR'',codigo_configuracion=1 where (codigo_perfil=''1'');', '2016-08-30 00:35:39'),
+(3440, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'DELETE FROM tservicio_usuario_opcion where (codigo_perfil=''1'');', '2016-08-30 00:35:39'),
+(3441, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',1,1),(''1'',1,2),(''1'',1,3),(''1'',1,4),(''1'',1,5),(''1'',1,6),(''1'',1,7),(''1'',2,1),(''1'',2,2),(''1'',2,3),(''1'',2,4),(''1'',2,5),(''1'',2,6),(''1'',2,7),(''1'',3,1),(''1'',3,2),(''1'',3,3),(''1'',3,4),(''1'',3,5),(''1'',3,6),(''1'',3,7),(''1'',4,1),(''1'',4,2),(''1'',4,3),(''1'',4,4),(''1'',4,5),(''1'',4,6),(''1'',4,7),(''1'',5,1),(''1'',5,2),(''1'',5,3),(''1'',5,4),(''1'',5,5),(''1'',5,6),(''1'',5,7),(''1'',6,1),(''1'',6,2),(''1'',6,3),(''1'',6,4),(''1'',6,5),(''1'',6,6),(''1'',6,7),(''1'',7,1),(''1'',7,2),(''1'',7,3),(''1'',7,4),(''1'',7,5),(''1'',7,6),(''1'',7,7),(''1'',8,1),(''1'',8,2),(''1'',8,3),(''1'',8,4),(''1'',8,5),(''1'',8,6),(''1'',8,7),(''1'',9,1),(''1'',9,2),(''1'',9,3),(''1'',9,4),(''1'',9,5),(''1'',9,6),(''1'',9,7),(''1'',10,1),(''1'',10,2),(''1'',10,3),(''1'',10,4),(''1'',10,5),(''1'',10,6),(''1'',10,7),(''1'',11,1),(''1'',11,2),(''1'',11,3),(''1'',11,4),(''1'',11,5),(''1'',11,6),(''1'',11,7),(''1'',12,1),(''1'',12,2),(''1'',12,3),(''1'',12,4),(''1'',12,5),(''1'',12,6),(''1'',12,7),(''1'',13,1),(''1'',13,2),(''1'',13,3),(''1'',13,4),(''1'',13,5),(''1'',13,6),(''1'',13,7),(''1'',14,1),(''1'',14,2),(''1'',14,3),(''1'',14,4),(''1'',14,5),(''1'',14,6),(''1'',14,7),(''1'',15,1),(''1'',15,2),(''1'',15,3),(''1'',15,4),(''1'',15,5),(''1'',15,6),(''1'',15,7),(''1'',39,1),(''1'',39,2),(''1'',39,3),(''1'',39,4),(''1'',39,5),(''1'',39,6),(''1'',39,7),(''1'',16,1),(''1'',16,2),(''1'',16,3),(''1'',16,4),(''1'',16,5),(''1'',16,6),(''1'',16,7),(''1'',19,1),(''1'',19,2),(''1'',19,3),(''1'',19,4),(''1'',19,5),(''1'',19,6),(''1'',19,7),(''1'',20,1),(''1'',20,2),(''1'',20,3),(''1'',20,4),(''1'',20,5),(''1'',20,6),(''1'',20,7),(''1'',21,1),(''1'',21,2),(''1'',21,3),(''1'',21,4),(''1'',21,5),(''1'',21,6),(''1'',21,7),(''1'',22,1),(''1'',22,2),(''1'',22,3),(''1'',22,4),(''1'',22,5),(''1'',22,6),(''1'',22,7),(''1'',23,1),(''1'',23,2),(''1'',23,3),(''1'',23,4),(''1'',23,5),(''1'',23,6),(''1'',23,7),(''1'',24,1),(''1'',24,2),(''1'',24,3),(''1'',24,4),(''1'',24,5),(''1'',24,6),(''1'',24,7),(''1'',25,1),(''1'',25,2),(''1'',25,3),(''1'',25,4),(''1'',25,5),(''1'',25,6),(''1'',25,7),(''1'',26,1),(''1'',26,2),(''1'',26,3),(''1'',26,4),(''1'',26,5),(''1'',26,6),(''1'',26,7),(''1'',27,1),(''1'',27,2),(''1'',27,3),(''1'',27,4),(''1'',27,5),(''1'',27,6),(''1'',27,7),(''1'',36,1),(''1'',36,2),(''1'',36,3),(''1'',36,4),(''1'',36,5),(''1'',36,6),(''1'',36,7),(''1'',28,1),(''1'',28,2),(''1'',28,3),(''1'',28,4),(''1'',28,5),(''1'',28,6),(''1'',28,7),(''1'',29,1),(''1'',29,2),(''1'',29,3),(''1'',29,4),(''1'',29,5),(''1'',29,6),(''1'',29,7),(''1'',30,1),(''1'',30,2),(''1'',30,3),(''1'',30,4),(''1'',30,5),(''1'',30,6),(''1'',30,7),(''1'',31,1),(''1'',31,2),(''1'',31,3),(''1'',31,4),(''1'',31,5),(''1'',31,6),(''1'',31,7),(''1'',32,1),(''1'',32,2),(''1'',32,3),(''1'',32,4),(''1'',32,5),(''1'',32,6),(''1'',32,7),(''1'',33,1),(''1'',33,2),(''1'',33,3),(''1'',33,4),(''1'',33,5),(''1'',33,6),(''1'',33,7),(''1'',34,1),(''1'',34,2),(''1'',34,3),(''1'',34,4),(''1'',34,5),(''1'',34,6),(''1'',34,7),(''1'',35,1),(''1'',35,2),(''1'',35,3),(''1'',35,4),(''1'',35,5),(''1'',35,6),(''1'',35,7),(''1'',37,1),(''1'',37,2),(''1'',37,3),(''1'',37,4),(''1'',37,5),(''1'',37,6),(''1'',37,7),(''1'',38,1),(''1'',38,2),(''1'',38,3),(''1'',38,4),(''1'',38,5),(''1'',38,6),(''1'',38,7),(''1'',42,NULL),(''1'',17,1),(''1'',17,2),(''1'',17,3),(''1'',17,4),(''1'',17,5),(''1'',17,6),(''1'',17,7),(''1'',18,1),(''1'',18,2),(''1'',18,3),(''1'',18,4),(''1'',18,5),(''1'',18,6),(''1'',18,7),(''1'',40,1),(''1'',40,2),(''1'',40,3),(''1'',40,4),(''1'',40,5),(''1'',40,6),(''1'',40,7),(''1'',41,1),(''1'',41,2),(''1'',41,3),(''1'',41,4),(''1'',41,5),(''1'',41,6),(''1'',41,7);', '2016-08-30 00:35:39'),
+(3442, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'UPDATE tcontrasena SET estado=1 WHERE nombre_usuario=''V13131313'' AND estado = 4', '2016-08-30 00:38:40'),
+(3443, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'update tservicio set descripcion=''HISTÓRICO DE CAMBIOS'',url=''BITACORA'',orden=''11'',codigo_modulo=''6'' where (codigo_servicio=''35'');', '2016-08-30 00:39:22'),
+(3444, '::1', 'Linux', 'Google Chrome', 'admin@localhost', '', 'update tusuario set sesion_abierta=(CASE WHEN sesion_abierta = 0 THEN 0 ELSE sesion_abierta-1 END) where (nombre_usuario='''')', '2016-08-30 01:31:44'),
+(3445, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'update tusuario set intento_fallido=0 where (nombre_usuario=''V123456789'')', '2016-08-30 01:31:57'),
+(3446, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'update tusuario set sesion_abierta=(sesion_abierta+1),fecha_ultimasesion = CURDATE() where (nombre_usuario=''V123456789'')', '2016-08-30 01:31:57'),
+(3447, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'update tmateria set codigo_materia=''NBOF001'',descripcion=''NOCIONES BASICAS DE OFICINA'',unidad_curricular=3,hora_academica=4,materia_compuesta=''N'',grado_escolar=''1'',codigo_materia_padre=NULL where (codigo_materia=''NBOF001'');', '2016-08-30 02:58:38');
 
 -- --------------------------------------------------------
 
@@ -3886,16 +3898,16 @@ CREATE TABLE IF NOT EXISTS `tcontrasena` (
 --
 
 INSERT INTO `tcontrasena` (`nombre_usuario`, `contrasena`, `estado`, `fecha_modificacion`) VALUES
-('V123456789', '1f82ea75c5cc526729e2d581aeb3aeccfef4407e', 0, '2016-01-09 20:19:04'),
-('V123456789', '791acae9d7efbefc2b489747af71cc2f6870554d', 0, '2016-01-14 14:24:57'),
-('V123456789', 'bcd5c3e4b7e24e1ec1c57a32ea101a2c114dc364', 0, '2016-01-14 14:29:02'),
-('V123456789', '47923b00e914a6343c38d79f78b45959fc4049e9', 0, '2016-01-17 17:49:42'),
-('V13131313', '1f82ea75c5cc526729e2d581aeb3aeccfef4407e', 0, '2016-01-15 01:26:08'),
-('V13131313', '791acae9d7efbefc2b489747af71cc2f6870554d', 2, '2016-01-15 16:02:45'),
 ('V121212121', '1f82ea75c5cc526729e2d581aeb3aeccfef4407e', 0, '2016-01-15 01:41:06'),
 ('V121212121', '791acae9d7efbefc2b489747af71cc2f6870554d', 1, '2016-01-15 01:41:06'),
+('V123456789', '1f82ea75c5cc526729e2d581aeb3aeccfef4407e', 0, '2016-01-09 20:19:04'),
+('V123456789', '2e5f402b1f0117f9f7217a3e8cbff136b1e304ad', 1, '2016-08-16 01:37:05'),
+('V123456789', '47923b00e914a6343c38d79f78b45959fc4049e9', 0, '2016-01-17 17:49:42'),
+('V123456789', '791acae9d7efbefc2b489747af71cc2f6870554d', 0, '2016-01-14 14:24:57'),
 ('V123456789', '7e199bc85c0fdded08fe2bc5375527e89d1e9f6d', 0, '2016-08-16 01:37:05'),
-('V123456789', '2e5f402b1f0117f9f7217a3e8cbff136b1e304ad', 1, '2016-08-16 01:37:05');
+('V123456789', 'bcd5c3e4b7e24e1ec1c57a32ea101a2c114dc364', 0, '2016-01-14 14:29:02'),
+('V13131313', '1f82ea75c5cc526729e2d581aeb3aeccfef4407e', 0, '2016-01-15 01:26:08'),
+('V13131313', '791acae9d7efbefc2b489747af71cc2f6870554d', 1, '2016-08-30 00:38:40');
 
 -- --------------------------------------------------------
 
@@ -4050,7 +4062,10 @@ CREATE TABLE IF NOT EXISTS `tmateria` (
   `codigo_materia` char(7) COLLATE utf8_spanish_ci NOT NULL,
   `descripcion` varchar(100) COLLATE utf8_spanish_ci NOT NULL,
   `unidad_curricular` int(11) NOT NULL DEFAULT '0',
+  `hora_academica` int(11) NOT NULL DEFAULT '0',
   `grado_escolar` char(1) COLLATE utf8_spanish_ci NOT NULL DEFAULT '1',
+  `materia_compuesta` char(1) COLLATE utf8_spanish_ci NOT NULL DEFAULT 'N',
+  `codigo_materia_padre` char(7) COLLATE utf8_spanish_ci DEFAULT NULL,
   `fecha_desactivacion` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
@@ -4058,64 +4073,64 @@ CREATE TABLE IF NOT EXISTS `tmateria` (
 -- Volcado de datos para la tabla `tmateria`
 --
 
-INSERT INTO `tmateria` (`codigo_materia`, `descripcion`, `unidad_curricular`, `grado_escolar`, `fecha_desactivacion`) VALUES
-('AGRIC00', 'AGRICULTURA', 3, '1', NULL),
-('BIO001', 'CIENCIAS BIOLOGICAS', 6, '2', NULL),
-('BIO002', 'CIENCIAS BIOLOGICAS', 6, '3', NULL),
-('BIO003', 'CIENCIAS BIOLOGICAS', 6, '4', NULL),
-('BIO004', 'CIENCIAS BIOLOGICAS', 6, '5', NULL),
-('CAST001', 'CASTELLANO Y LITERATURA', 5, '1', NULL),
-('CAST002', 'CASTELLANO Y LITERATURA', 5, '2', NULL),
-('CAST003', 'CASTELLANO Y LITERATURA', 4, '3', NULL),
-('CAST004', 'CASTELLANO Y LITERATURA', 3, '4', NULL),
-('CAST005', 'CASTELLANO Y LITERATURA', 2, '5', NULL),
-('CST001', 'CIENCIAS DE LA TIERRA', 5, '5', NULL),
-('DIB001', 'DIBUJO', 2, '4', NULL),
-('EDART00', 'EDUCACION ARTISTICA', 2, '1', NULL),
-('EDART02', 'EDUCACION ARTISTICA', 3, '2', NULL),
-('EDUCF00', 'EDUCACION FAMILIAR Y CIUDADANA', 2, '1', NULL),
-('EDUCF02', 'EDUCACION FISICA', 4, '2', NULL),
-('EDUCF03', 'EDUCACION FISICA', 4, '3', NULL),
-('EDUCF04', 'EDUCACION FISICA', 2, '4', NULL),
-('EDUCF05', 'EDUCACION FISICA', 2, '5', NULL),
-('EDUCS00', 'EDUCACION PARA LA SALUD', 2, '2', NULL),
-('EDUFIS0', 'EDUCACION FISICA', 4, '1', NULL),
-('EPT001', 'EDUCACION PARA EL TRABAJO', 6, '1', NULL),
-('EPT002', 'EDUCACION PARA EL TRABAJO', 8, '2', NULL),
-('EPT003', 'EDUCACION PARA EL TRABAJO', 8, '3', NULL),
-('ESTN001', 'ESTUDIO DE LA NATURALEZA', 6, '1', NULL),
-('FIL001', 'FILOSOFIA', 3, '4', NULL),
-('FIS001', 'FISICA', 8, '3', NULL),
-('FIS002', 'FISICA', 6, '4', NULL),
-('FIS003', 'FISICA', 6, '5', NULL),
-('FRUT001', 'FRUTICULTURA', 4, '3', NULL),
-('GEOG001', 'GEOGRAFIA GENERAL', 3, '1', NULL),
-('GEOV001', 'GEOGRAFIA DE VENEZUELA', 4, '3', NULL),
-('GEOV02', 'GEOGRAFIA DE VENEZUELA', 3, '5', NULL),
-('HISTC00', 'HISTORIA CONTEMPORANEA DE VENEZUELA', 4, '4', NULL),
-('HISU001', 'HISTORIA UNIVERSAL', 4, '2', NULL),
-('HISV001', 'HISTORIA DE VENEZUELA', 3, '1', NULL),
-('HISV002', 'HISTORIA DE VENEZUELA', 2, '2', NULL),
-('HISV003', 'HISTORIA DE VENEZUELA(CAT. BOL)', 2, '3', NULL),
-('HORT001', 'HORTICULTURA', 4, '2', NULL),
-('INF001', 'INFORMATICA', 4, '2', NULL),
-('INF002', 'INFORMATICA', 4, '3', NULL),
-('INGL001', 'INGLES', 4, '1', NULL),
-('INGL002', 'INGLES', 3, '2', NULL),
-('INGL003', 'INGLES', 3, '3', NULL),
-('INGL004', 'INGLES', 3, '4', NULL),
-('INGL005', 'INGLES', 3, '5', NULL),
-('IPM001', 'INSTRUCCION PREMILITAR', 2, '4', NULL),
-('IPM2', 'INSTRUCCION PREMILITAR', 2, '5', NULL),
-('MAT001', 'MATEMATICA', 4, '1', NULL),
-('MAT002', 'MATEMATICA', 4, '2', NULL),
-('MAT003', 'MATEMATICA', 3, '3', NULL),
-('MAT004', 'MATEMATICA', 4, '4', NULL),
-('MAT005', 'MATEMATICA', 4, '5', NULL),
-('NBOF001', 'NOCIONES BASICAS DE OFICINA', 3, '1', NULL),
-('QUIM001', 'QUIMICA', 7, '3', NULL),
-('QUIM002', 'QUIMICA', 6, '4', NULL),
-('QUIM003', 'QUIMICA', 6, '5', NULL);
+INSERT INTO `tmateria` (`codigo_materia`, `descripcion`, `unidad_curricular`, `hora_academica`, `grado_escolar`, `materia_compuesta`, `codigo_materia_padre`, `fecha_desactivacion`) VALUES
+('AGRIC00', 'AGRICULTURA', 3, 0, '1', 'N', NULL, NULL),
+('BIO001', 'CIENCIAS BIOLOGICAS', 6, 0, '2', 'N', NULL, NULL),
+('BIO002', 'CIENCIAS BIOLOGICAS', 6, 0, '3', 'N', NULL, NULL),
+('BIO003', 'CIENCIAS BIOLOGICAS', 6, 0, '4', 'N', NULL, NULL),
+('BIO004', 'CIENCIAS BIOLOGICAS', 6, 0, '5', 'N', NULL, NULL),
+('CAST001', 'CASTELLANO Y LITERATURA', 5, 0, '1', 'N', NULL, NULL),
+('CAST002', 'CASTELLANO Y LITERATURA', 5, 0, '2', 'N', NULL, NULL),
+('CAST003', 'CASTELLANO Y LITERATURA', 4, 0, '3', 'N', NULL, NULL),
+('CAST004', 'CASTELLANO Y LITERATURA', 3, 0, '4', 'N', NULL, NULL),
+('CAST005', 'CASTELLANO Y LITERATURA', 2, 0, '5', 'N', NULL, NULL),
+('CST001', 'CIENCIAS DE LA TIERRA', 5, 0, '5', 'N', NULL, NULL),
+('DIB001', 'DIBUJO', 2, 0, '4', 'N', NULL, NULL),
+('EDART00', 'EDUCACION ARTISTICA', 2, 0, '1', 'N', NULL, NULL),
+('EDART02', 'EDUCACION ARTISTICA', 3, 0, '2', 'N', NULL, NULL),
+('EDUCF00', 'EDUCACION FAMILIAR Y CIUDADANA', 2, 0, '1', 'N', NULL, NULL),
+('EDUCF02', 'EDUCACION FISICA', 4, 0, '2', 'N', NULL, NULL),
+('EDUCF03', 'EDUCACION FISICA', 4, 0, '3', 'N', NULL, NULL),
+('EDUCF04', 'EDUCACION FISICA', 2, 0, '4', 'N', NULL, NULL),
+('EDUCF05', 'EDUCACION FISICA', 2, 0, '5', 'N', NULL, NULL),
+('EDUCS00', 'EDUCACION PARA LA SALUD', 2, 0, '2', 'N', NULL, NULL),
+('EDUFIS0', 'EDUCACION FISICA', 4, 0, '1', 'N', NULL, NULL),
+('EPT001', 'EDUCACION PARA EL TRABAJO', 6, 0, '1', 'N', NULL, NULL),
+('EPT002', 'EDUCACION PARA EL TRABAJO', 8, 0, '2', 'N', NULL, NULL),
+('EPT003', 'EDUCACION PARA EL TRABAJO', 8, 0, '3', 'N', NULL, NULL),
+('ESTN001', 'ESTUDIO DE LA NATURALEZA', 6, 0, '1', 'N', NULL, NULL),
+('FIL001', 'FILOSOFIA', 3, 0, '4', 'N', NULL, NULL),
+('FIS001', 'FISICA', 8, 0, '3', 'N', NULL, NULL),
+('FIS002', 'FISICA', 6, 0, '4', 'N', NULL, NULL),
+('FIS003', 'FISICA', 6, 0, '5', 'N', NULL, NULL),
+('FRUT001', 'FRUTICULTURA', 4, 0, '3', 'N', NULL, NULL),
+('GEOG001', 'GEOGRAFIA GENERAL', 3, 0, '1', 'N', NULL, NULL),
+('GEOV001', 'GEOGRAFIA DE VENEZUELA', 4, 0, '3', 'N', NULL, NULL),
+('GEOV02', 'GEOGRAFIA DE VENEZUELA', 3, 0, '5', 'N', NULL, NULL),
+('HISTC00', 'HISTORIA CONTEMPORANEA DE VENEZUELA', 4, 0, '4', 'N', NULL, NULL),
+('HISU001', 'HISTORIA UNIVERSAL', 4, 0, '2', 'N', NULL, NULL),
+('HISV001', 'HISTORIA DE VENEZUELA', 3, 0, '1', 'N', NULL, NULL),
+('HISV002', 'HISTORIA DE VENEZUELA', 2, 0, '2', 'N', NULL, NULL),
+('HISV003', 'HISTORIA DE VENEZUELA(CAT. BOL)', 2, 0, '3', 'N', NULL, NULL),
+('HORT001', 'HORTICULTURA', 4, 0, '2', 'N', NULL, NULL),
+('INF001', 'INFORMATICA', 4, 0, '2', 'N', NULL, NULL),
+('INF002', 'INFORMATICA', 4, 0, '3', 'N', NULL, NULL),
+('INGL001', 'INGLES', 4, 0, '1', 'N', NULL, NULL),
+('INGL002', 'INGLES', 3, 0, '2', 'N', NULL, NULL),
+('INGL003', 'INGLES', 3, 0, '3', 'N', NULL, NULL),
+('INGL004', 'INGLES', 3, 0, '4', 'N', NULL, NULL),
+('INGL005', 'INGLES', 3, 0, '5', 'N', NULL, NULL),
+('IPM001', 'INSTRUCCION PREMILITAR', 2, 0, '4', 'N', NULL, NULL),
+('IPM2', 'INSTRUCCION PREMILITAR', 2, 0, '5', 'N', NULL, NULL),
+('MAT001', 'MATEMATICA', 4, 0, '1', 'N', NULL, NULL),
+('MAT002', 'MATEMATICA', 4, 0, '2', 'N', NULL, NULL),
+('MAT003', 'MATEMATICA', 3, 0, '3', 'N', NULL, NULL),
+('MAT004', 'MATEMATICA', 4, 0, '4', 'N', NULL, NULL),
+('MAT005', 'MATEMATICA', 4, 0, '5', 'N', NULL, NULL),
+('NBOF001', 'NOCIONES BASICAS DE OFICINA', 3, 4, '1', 'N', NULL, NULL),
+('QUIM001', 'QUIMICA', 7, 0, '3', 'N', NULL, NULL),
+('QUIM002', 'QUIMICA', 6, 0, '4', 'N', NULL, NULL),
+('QUIM003', 'QUIMICA', 6, 0, '5', 'N', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -4927,7 +4942,7 @@ CREATE TABLE IF NOT EXISTS `tservicio` (
   `orden` decimal(10,0) DEFAULT '0',
   `codigo_modulo` int(11) NOT NULL,
   `fecha_desactivacion` date DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
 -- Volcado de datos para la tabla `tservicio`
@@ -4968,13 +4983,14 @@ INSERT INTO `tservicio` (`codigo_servicio`, `descripcion`, `url`, `orden`, `codi
 (32, 'NUEVO USUARIO', 'NUEVOUSUARIO', 6, 6, NULL),
 (33, 'MÍ PERFIL', 'PERFIL', 6, 6, NULL),
 (34, 'CAMBIAR CONTRASEÑA', 'CAMBIARCONTRASENA', 7, 6, NULL),
-(35, 'HISTÓRICO DE CAMBIOS', 'BITACORA', 9, 6, NULL),
+(35, 'HISTÓRICO DE CAMBIOS', 'BITACORA', 11, 6, NULL),
 (36, 'BOLETIN', 'REP_BOLETIN', 10, 5, NULL),
 (37, 'CONFIGURACIÓN DEL PERFIL', 'CONFIGURACION', 4, 6, NULL),
 (38, 'CONFIGURACIÓN DEL NEGOCIO', 'CONFIGURACION_NEGOCIO', 0, 6, NULL),
 (39, 'AMBIENTE DE CLASES', 'AMBIENTE', 3, 3, NULL),
 (40, 'BLOQUE DE HORA', 'BLOQUE_HORA', 1, 8, NULL),
-(41, 'HORARIO', 'HORARIO', 2, 8, NULL);
+(41, 'HORARIO', 'HORARIO', 2, 8, NULL),
+(42, 'DESBLOQUEAR USUARIO', 'DESBLOQUEARUSUARIO', 10, 6, NULL);
 
 -- --------------------------------------------------------
 
@@ -5322,6 +5338,7 @@ INSERT INTO `tservicio_usuario_opcion` (`codigo_opcion`, `codigo_servicio`, `cod
 (5, 38, 1),
 (6, 38, 1),
 (7, 38, 1),
+(NULL, 42, 1),
 (1, 17, 1),
 (2, 17, 1),
 (3, 17, 1),
@@ -5375,7 +5392,7 @@ CREATE TABLE IF NOT EXISTS `tusuario` (
 
 INSERT INTO `tusuario` (`nombre_usuario`, `cedula`, `codigo_perfil`, `intento_fallido`, `activar_caducidad`, `sesion_abierta`, `fecha_ultimasesion`, `fecha_desactivacion`) VALUES
 ('V121212121', 'V121212121', 2, 2, 1, 0, NULL, NULL),
-('V123456789', 'V123456789', 1, 0, 1, 1, '2016-08-21', NULL),
+('V123456789', 'V123456789', 1, 0, 1, 3, '2016-08-29', NULL),
 ('V13131313', 'V13131313', 1, 3, 1, 0, NULL, NULL);
 
 -- --------------------------------------------------------
@@ -5481,7 +5498,7 @@ ALTER TABLE `tconfiguracion_negocio`
 -- Indices de la tabla `tcontrasena`
 --
 ALTER TABLE `tcontrasena`
- ADD KEY `tcontrasena_ibfk_1` (`nombre_usuario`);
+ ADD PRIMARY KEY (`nombre_usuario`,`contrasena`), ADD KEY `tcontrasena_ibfk_1` (`nombre_usuario`);
 
 --
 -- Indices de la tabla `tcontrol_notas`
@@ -5517,7 +5534,7 @@ ALTER TABLE `tlapso`
 -- Indices de la tabla `tmateria`
 --
 ALTER TABLE `tmateria`
- ADD PRIMARY KEY (`codigo_materia`);
+ ADD PRIMARY KEY (`codigo_materia`), ADD KEY `codigo_materia_padre` (`codigo_materia_padre`);
 
 --
 -- Indices de la tabla `tmateria_seccion_docente`
@@ -5633,7 +5650,7 @@ MODIFY `codigo_ano_academico` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 -- AUTO_INCREMENT de la tabla `tauditoria`
 --
 ALTER TABLE `tauditoria`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3436;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3448;
 --
 -- AUTO_INCREMENT de la tabla `tbloque_hora`
 --
@@ -5733,7 +5750,7 @@ MODIFY `codigo_respuesta` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
 -- AUTO_INCREMENT de la tabla `tservicio`
 --
 ALTER TABLE `tservicio`
-MODIFY `codigo_servicio` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=42;
+MODIFY `codigo_servicio` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=43;
 --
 -- Restricciones para tablas volcadas
 --
@@ -5762,18 +5779,24 @@ ADD CONSTRAINT `fk_testado_tpais` FOREIGN KEY (`codigo_pais`) REFERENCES `tpais`
 -- Filtros para la tabla `thorario`
 --
 ALTER TABLE `thorario`
-ADD CONSTRAINT `fk_thorario_tbloque_hora` FOREIGN KEY (`codigo_bloque_hora`) REFERENCES `tbloque_hora` (`codigo_bloque_hora`) ON UPDATE CASCADE,
 ADD CONSTRAINT `fk_thorario_tambiente` FOREIGN KEY (`codigo_ambiente`) REFERENCES `tambiente` (`codigo_ambiente`) ON UPDATE CASCADE,
 ADD CONSTRAINT `fk_thorario_tano_academico` FOREIGN KEY (`codigo_ano_academico`) REFERENCES `tano_academico` (`codigo_ano_academico`) ON UPDATE CASCADE,
+ADD CONSTRAINT `fk_thorario_tbloque_hora` FOREIGN KEY (`codigo_bloque_hora`) REFERENCES `tbloque_hora` (`codigo_bloque_hora`) ON UPDATE CASCADE,
 ADD CONSTRAINT `fk_thorario_tmateria` FOREIGN KEY (`codigo_materia`) REFERENCES `tmateria` (`codigo_materia`) ON UPDATE CASCADE,
-ADD CONSTRAINT `fk_thorario_tseccion` FOREIGN KEY (`seccion`) REFERENCES `tseccion` (`seccion`) ON UPDATE CASCADE,
-ADD CONSTRAINT `fk_thorario_tpersona` FOREIGN KEY (`cedula_docente`) REFERENCES `tpersona` (`cedula`) ON UPDATE CASCADE;
+ADD CONSTRAINT `fk_thorario_tpersona` FOREIGN KEY (`cedula_docente`) REFERENCES `tpersona` (`cedula`) ON UPDATE CASCADE,
+ADD CONSTRAINT `fk_thorario_tseccion` FOREIGN KEY (`seccion`) REFERENCES `tseccion` (`seccion`) ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `tlapso`
 --
 ALTER TABLE `tlapso`
 ADD CONSTRAINT `fk_tlapso_tanoacademico` FOREIGN KEY (`codigo_ano_academico`) REFERENCES `tano_academico` (`codigo_ano_academico`) ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `tmateria`
+--
+ALTER TABLE `tmateria`
+ADD CONSTRAINT `fk_materia_padre` FOREIGN KEY (`codigo_materia_padre`) REFERENCES `tmateria` (`codigo_materia`) ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `tmateria_seccion_docente`

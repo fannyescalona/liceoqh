@@ -10,10 +10,19 @@ if(isset($_POST['descripcion']))
 $descripcion=ucfirst(trim($_POST['descripcion']));
 
 if(isset($_POST['unidad_curricular']))
-$unidad_curricular=ucfirst(trim($_POST['unidad_curricular']));
+$unidad_curricular=trim($_POST['unidad_curricular']);
+
+if(isset($_POST['hora_academica']))
+$hora_academica=trim($_POST['hora_academica']);
+
+if(isset($_POST['materia_compuesta']))
+$materia_compuesta=ucfirst(trim($_POST['materia_compuesta']));
 
 if(isset($_POST['grado_escolar']))
 $grado_escolar=ucfirst(trim($_POST['grado_escolar']));
+
+if(isset($_POST['codigo_materia_padre']))
+$codigo_materia_padre = $_POST['materia_compuesta'] == "Y" ? trim($_POST['codigo_materia_padre']) : "";
 
 include_once("../clases/class_materia.php");
 $materia=new Materia();
@@ -21,7 +30,10 @@ if($operacion=='Registrar'){
   $materia->codigo_materia($codigo_materia);
   $materia->descripcion($descripcion);
   $materia->unidad_curricular($unidad_curricular);
+  $materia->hora_academica($hora_academica);
+  $materia->materia_compuesta($materia_compuesta);
   $materia->grado_escolar($grado_escolar);
+  $materia->codigo_materia_padre($codigo_materia_padre);
   if(!$materia->Comprobar()){
     if($materia->Registrar())
       $confirmacion=1;
@@ -48,7 +60,10 @@ if($operacion=='Modificar'){
   $materia->codigo_materia($codigo_materia);
   $materia->descripcion($descripcion);
   $materia->unidad_curricular($unidad_curricular);
+  $materia->hora_academica($hora_academica);
+  $materia->materia_compuesta($materia_compuesta);
   $materia->grado_escolar($grado_escolar);
+  $materia->codigo_materia_padre($codigo_materia_padre);
   if($materia->Actualizar($_POST['oldcodigo_materia']))
     $confirmacion=1;
   else
@@ -109,7 +124,10 @@ if($operacion=='Consultar'){
     $_SESSION['datos']['codigo_materia']=$materia->codigo_materia();
     $_SESSION['datos']['descripcion']=$materia->descripcion();
     $_SESSION['datos']['unidad_curricular']=$materia->unidad_curricular();
+    $_SESSION['datos']['hora_academica']=$materia->hora_academica();
+    $_SESSION['datos']['materia_compuesta']=$materia->materia_compuesta();
     $_SESSION['datos']['grado_escolar']=$materia->grado_escolar();
+    $_SESSION['datos']['codigo_materia_padre']=$materia->codigo_materia_padre();
     $_SESSION['datos']['estatus']=$materia->estatus_materia();
     header("Location: ../vistas/?materia");
   }else{

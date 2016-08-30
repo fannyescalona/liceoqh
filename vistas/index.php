@@ -115,6 +115,7 @@ if(isset($_SESSION['user_estado'])){
                   else if(isset($_GET['cambiarcontrasena'])) include("serv_cambiar_contrasena.php"); //listo
                   else if(isset($_GET['configuracion'])) include("serv_configuracion.php"); //listo
                   else if(isset($_GET['perfiles'])) include("serv_perfil.php"); //listo
+                  else if(isset($_GET['desbloquearusuario'])) include("serv_desbloquearusuario.php"); //listo
                   else if(isset($_GET['cargo'])) include("serv_cargo.php"); //listo
                   else if(isset($_GET['botones'])) include("serv_opciones.php"); //listo
                   else if(isset($_GET['pais'])) include("serv_pais.php"); //listo

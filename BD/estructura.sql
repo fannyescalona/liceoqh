@@ -305,6 +305,9 @@ CREATE TABLE tmateria (
   descripcion varchar(100) COLLATE utf8_spanish_ci NOT NULL,
   unidad_curricular int(11) NOT NULL DEFAULT '0',
   grado_escolar char(1) NOT NULL DEFAULT '1',
+  materia_compuesta char(1) NOT NULL DEFAULT 'N',
+  hora_academica int(11) NOT NULL DEFAULT 0,
+  codigo_materia_padre char(7) COLLATE utf8_spanish_ci NULL,
   fecha_desactivacion date DEFAULT NULL,
   PRIMARY KEY (codigo_materia)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
@@ -774,6 +777,7 @@ CREATE TABLE tcontrasena (
   contrasena varchar(255) COLLATE utf8_spanish_ci NOT NULL,
   estado int(11) NOT NULL DEFAULT '3' COMMENT '0 clave usado 1 usuario activo 2 caducidad de clave 3 usuario nuevo 4 usuario bloqueado',
   fecha_modificacion timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  CONSTRAINT pk_contrasena PRIMARY KEY(nombre_usuario,contrasena),
   CONSTRAINT tcontrasena_ibfk_1 FOREIGN KEY (nombre_usuario) REFERENCES tusuario (nombre_usuario) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 

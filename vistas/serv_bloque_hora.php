@@ -46,9 +46,9 @@ else{
      <label>Nombre:</label>
      <input title="Ingrese el nombre del bloque de hora" onKeyUp="this.value=this.value.toUpperCase()" name="descripcion" id="descripcion" type="text" size="50" value="<?= $descripcion;?>" required placeholder="Ingrese el nombre del bloque de hora" class="campoTexto"/>
      <label>Hora Inicio:</label>
-     <input title="Ingrese la hora de inicio del bloque de hora" onKeyUp="this.value=this.value.toUpperCase()" name="hora_inicio" id="hora_inicio" type="text" size="50" value="<?= $hora_inicio;?>" required readonly class="campoTexto"/>
+     <input title="Ingrese la hora de inicio del bloque de hora" name="hora_inicio" id="hora_inicio" type="text" size="50" value="<?= $hora_inicio;?>" required readonly class="campoTexto"/>
      <label>Hora Fin:</label>
-     <input title="Ingrese la hora de salida del bloque de hora" onKeyUp="this.value=this.value.toUpperCase()" name="hora_fin" id="hora_fin" type="text" size="50" value="<?= $hora_fin;?>" required readonly class="campoTexto"/>
+     <input title="Ingrese la hora de salida del bloque de hora" name="hora_fin" id="hora_fin" type="text" size="50" value="<?= $hora_fin;?>" required readonly class="campoTexto"/>
      <label>Turno:</label>
      <select name="turno" id="turno" title="Seleccione un turno para el bloque de hora" placeholder="Seleccione un turno" class="campoTexto" required >
       <option value=''>Seleccione un Turno</option>

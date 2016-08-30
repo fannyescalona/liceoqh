@@ -307,7 +307,7 @@ class Usuario{
 			return null;
 	}
 
-	public function DesbloquearUsuario($user){
+	public function DesbloquearUsuario(){
 		$sql="UPDATE tcontrasena SET estado=1 WHERE nombre_usuario='$this->user_name' AND estado = 4";
 		if($this->mysql->Ejecutar($sql)!=null){
 			return true;
