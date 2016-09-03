@@ -196,7 +196,9 @@ function salir(){
 }
 
 //Asignamos al alert la configuración de noty
-window.alert = function (message,msgtype = 'info',msghtml = '') {
+window.alert = function (message,msgtype,msghtml) {
+    var msgtype = (typeof msgtype !== 'undefined') ?  msgtype : 'info';
+    var msghtml = (typeof msghtml !== 'undefined') ?  msghtml : '';
     swal({
         title: stringUnicode(message),
         type: msgtype,

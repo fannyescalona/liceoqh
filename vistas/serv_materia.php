@@ -41,7 +41,7 @@ else{
       <input type="hidden" name="oldcodigo_materia" id="oldcodigo_materia" value="<?= $codigo_materia;?>">
       <input title="Ingrese el código de la materia" onKeyUp="this.value=this.value.toUpperCase()" name="codigo_materia" id="codigo_materia" type="text" size="10" value="<?= $codigo_materia;?>" required placeholder="Ingrese el código de la materia " class="campoTexto"/> 
       <label>Materia:</label>
-      <input title="Ingrese el nombre de la materia" onKeyUp="this.value=this.value.toUpperCase()" name="descripcion" id="descripcion" type="text" size="50" value="<?= $descripcion;?>" required placeholder="Ingrese el nombre de la materia" class="campoTexto"/>
+      <input autocomplete=off title="Ingrese el nombre de la materia" onKeyUp="this.value=this.value.toUpperCase()" name="descripcion" id="descripcion" type="text" size="50" value="<?= $descripcion;?>" required placeholder="Ingrese el nombre de la materia" class="campoTexto"/>
       <label>Unidad curricular:</label>
       <input title="Ingrese la unidad curricular" onKeyPress="return isNumberKey(event)" name="unidad_curricular" id="unidad_curricular" type="text" size="50" value="<?= $unidad_curricular;?>" required placeholder="Ingrese la unidad curricular" class="campoTexto"/>
       <label>Horas Academicas:</label>
