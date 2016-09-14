@@ -1,13 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.2.12deb2+deb8u1
+-- version 3.5.1
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tiempo de generación: 29-08-2016 a las 23:05:34
--- Versión del servidor: 5.5.49-0+deb8u1
--- Versión de PHP: 5.6.22-0+deb8u1
+-- Tiempo de generación: 14-09-2016 a las 01:01:01
+-- Versión del servidor: 5.5.24-log
+-- Versión de PHP: 5.4.3
 
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
 
@@ -19,9 +19,9 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `bdliceo`
 --
-DROP DATABASE `bdliceo`;
-CREATE DATABASE IF NOT EXISTS `bdliceo` DEFAULT CHARACTER SET utf8 COLLATE utf8_spanish_ci;
-USE `bdliceo`;
+DROP DATABASE bdliceo;
+CREATE DATABASE bdliceo;
+USE bdliceo;
 
 DELIMITER $$
 --
@@ -249,11 +249,12 @@ DELIMITER ;
 
 DROP TABLE IF EXISTS `tambiente`;
 CREATE TABLE IF NOT EXISTS `tambiente` (
-`codigo_ambiente` int(11) NOT NULL,
+  `codigo_ambiente` int(11) NOT NULL AUTO_INCREMENT,
   `descripcion` varchar(60) COLLATE utf8_spanish_ci NOT NULL,
   `tipo_ambiente` char(1) COLLATE utf8_spanish_ci NOT NULL DEFAULT '0',
-  `fecha_desactivacion` date DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+  `fecha_desactivacion` date DEFAULT NULL,
+  PRIMARY KEY (`codigo_ambiente`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=5 ;
 
 --
 -- Volcado de datos para la tabla `tambiente`
@@ -273,11 +274,12 @@ INSERT INTO `tambiente` (`codigo_ambiente`, `descripcion`, `tipo_ambiente`, `fec
 
 DROP TABLE IF EXISTS `tano_academico`;
 CREATE TABLE IF NOT EXISTS `tano_academico` (
-`codigo_ano_academico` int(11) NOT NULL,
+  `codigo_ano_academico` int(11) NOT NULL AUTO_INCREMENT,
   `descripcion` char(10) COLLATE utf8_spanish_ci NOT NULL,
   `cerrado` char(1) COLLATE utf8_spanish_ci NOT NULL DEFAULT 'N',
-  `fecha_desactivacion` date DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+  `fecha_desactivacion` date DEFAULT NULL,
+  PRIMARY KEY (`codigo_ano_academico`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=2 ;
 
 --
 -- Volcado de datos para la tabla `tano_academico`
@@ -294,15 +296,16 @@ INSERT INTO `tano_academico` (`codigo_ano_academico`, `descripcion`, `cerrado`, 
 
 DROP TABLE IF EXISTS `tauditoria`;
 CREATE TABLE IF NOT EXISTS `tauditoria` (
-`id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `ip` varchar(15) COLLATE utf8_spanish_ci NOT NULL,
   `so` varchar(50) COLLATE utf8_spanish_ci NOT NULL,
   `navigador` varchar(35) COLLATE utf8_spanish_ci NOT NULL,
   `usuario_base_de_datos` varchar(60) COLLATE utf8_spanish_ci NOT NULL,
   `usuario_aplicacion` char(15) COLLATE utf8_spanish_ci NOT NULL,
   `query` text COLLATE utf8_spanish_ci NOT NULL,
-  `fecha` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB AUTO_INCREMENT=3448 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+  `fecha` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=3448 ;
 
 --
 -- Volcado de datos para la tabla `tauditoria`
@@ -3771,29 +3774,31 @@ INSERT INTO `tauditoria` (`id`, `ip`, `so`, `navigador`, `usuario_base_de_datos`
 
 DROP TABLE IF EXISTS `tbloque_hora`;
 CREATE TABLE IF NOT EXISTS `tbloque_hora` (
-`codigo_bloque_hora` int(11) NOT NULL,
+  `codigo_bloque_hora` int(11) NOT NULL AUTO_INCREMENT,
   `hora_inicio` time NOT NULL,
   `hora_fin` time NOT NULL,
+  `hora_academica` int(11) NOT NULL DEFAULT '2',
   `receso` char(1) COLLATE utf8_spanish_ci NOT NULL DEFAULT 'N',
   `descripcion` varchar(60) COLLATE utf8_spanish_ci DEFAULT NULL,
   `turno` char(1) COLLATE utf8_spanish_ci NOT NULL DEFAULT 'M',
-  `fecha_desactivacion` date DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+  `fecha_desactivacion` date DEFAULT NULL,
+  PRIMARY KEY (`codigo_bloque_hora`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=10 ;
 
 --
 -- Volcado de datos para la tabla `tbloque_hora`
 --
 
-INSERT INTO `tbloque_hora` (`codigo_bloque_hora`, `hora_inicio`, `hora_fin`, `receso`, `descripcion`, `turno`, `fecha_desactivacion`) VALUES
-(1, '07:00:00', '07:30:00', 'Y', 'RECIBIMIENTO - ACTO CÍVICO', 'M', NULL),
-(2, '07:30:00', '09:00:00', 'N', 'B-1', 'M', NULL),
-(3, '09:00:00', '09:15:00', 'Y', 'RECESO', 'M', NULL),
-(4, '09:15:00', '10:45:00', 'N', 'B-2', 'M', NULL),
-(5, '10:45:00', '12:15:00', 'N', 'B-3', 'M', NULL),
-(6, '12:15:00', '13:15:00', 'Y', 'ALMUERZO', 'T', NULL),
-(7, '13:15:00', '14:45:00', 'N', 'B-4', 'T', NULL),
-(8, '14:45:00', '14:55:00', 'Y', 'RECESO', 'T', NULL),
-(9, '14:55:00', '16:30:00', 'N', 'B-5', 'T', NULL);
+INSERT INTO `tbloque_hora` (`codigo_bloque_hora`, `hora_inicio`, `hora_fin`, `hora_academica`, `receso`, `descripcion`, `turno`, `fecha_desactivacion`) VALUES
+(1, '07:00:00', '07:30:00', 0, 'Y', 'RECIBIMIENTO - ACTO CÍVICO', 'M', NULL),
+(2, '07:30:00', '09:00:00', 2, 'N', 'B-1', 'M', NULL),
+(3, '09:00:00', '09:15:00', 0, 'Y', 'RECESO', 'M', NULL),
+(4, '09:15:00', '10:45:00', 2, 'N', 'B-2', 'M', NULL),
+(5, '10:45:00', '12:15:00', 2, 'N', 'B-3', 'M', NULL),
+(6, '12:15:00', '13:15:00', 0, 'Y', 'ALMUERZO', 'T', NULL),
+(7, '13:15:00', '14:45:00', 2, 'N', 'B-4', 'T', NULL),
+(8, '14:45:00', '14:55:00', 0, 'Y', 'RECESO', 'T', NULL),
+(9, '14:55:00', '16:30:00', 2, 'N', 'B-5', 'T', NULL);
 
 -- --------------------------------------------------------
 
@@ -3803,10 +3808,11 @@ INSERT INTO `tbloque_hora` (`codigo_bloque_hora`, `hora_inicio`, `hora_fin`, `re
 
 DROP TABLE IF EXISTS `tcargo`;
 CREATE TABLE IF NOT EXISTS `tcargo` (
-`codigo_cargo` int(15) NOT NULL,
+  `codigo_cargo` int(15) NOT NULL AUTO_INCREMENT,
   `descripcion` varchar(100) COLLATE utf8_spanish_ci NOT NULL,
-  `fecha_desactivacion` date DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+  `fecha_desactivacion` date DEFAULT NULL,
+  PRIMARY KEY (`codigo_cargo`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=6 ;
 
 --
 -- Volcado de datos para la tabla `tcargo`
@@ -3827,7 +3833,7 @@ INSERT INTO `tcargo` (`codigo_cargo`, `descripcion`, `fecha_desactivacion`) VALU
 
 DROP TABLE IF EXISTS `tconfiguracion`;
 CREATE TABLE IF NOT EXISTS `tconfiguracion` (
-`codigo_configuracion` int(11) NOT NULL,
+  `codigo_configuracion` int(11) NOT NULL AUTO_INCREMENT,
   `descripcion` varchar(30) COLLATE utf8_spanish_ci NOT NULL,
   `longitud_minclave` int(11) NOT NULL DEFAULT '6',
   `longitud_maxclave` int(11) NOT NULL DEFAULT '10',
@@ -3843,8 +3849,9 @@ CREATE TABLE IF NOT EXISTS `tconfiguracion` (
   `maxsesion` int(11) NOT NULL DEFAULT '5',
   `numero_preguntas` int(11) NOT NULL DEFAULT '1',
   `numero_preguntasaresponder` int(11) NOT NULL DEFAULT '1',
-  `fecha_desactivacion` date DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+  `fecha_desactivacion` date DEFAULT NULL,
+  PRIMARY KEY (`codigo_configuracion`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=3 ;
 
 --
 -- Volcado de datos para la tabla `tconfiguracion`
@@ -3862,15 +3869,16 @@ INSERT INTO `tconfiguracion` (`codigo_configuracion`, `descripcion`, `longitud_m
 
 DROP TABLE IF EXISTS `tconfiguracion_negocio`;
 CREATE TABLE IF NOT EXISTS `tconfiguracion_negocio` (
-`codigo_configuracion_negocio` int(11) NOT NULL,
+  `codigo_configuracion_negocio` int(11) NOT NULL AUTO_INCREMENT,
   `inscripcion_abierta` char(1) COLLATE utf8_spanish_ci NOT NULL DEFAULT 'Y',
   `carga_nota_abierta` char(1) COLLATE utf8_spanish_ci NOT NULL DEFAULT 'Y',
   `edad_maxima_primer_anio` int(11) DEFAULT '0',
   `nota_minima` float(10,2) NOT NULL DEFAULT '1.00',
   `nota_maxima` float(10,2) NOT NULL DEFAULT '20.00',
   `nota_aprobacion` float(10,2) NOT NULL DEFAULT '10.00',
-  `fecha_desactivacion` date DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+  `fecha_desactivacion` date DEFAULT NULL,
+  PRIMARY KEY (`codigo_configuracion_negocio`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=3 ;
 
 --
 -- Volcado de datos para la tabla `tconfiguracion_negocio`
@@ -3890,7 +3898,9 @@ CREATE TABLE IF NOT EXISTS `tcontrasena` (
   `nombre_usuario` char(10) COLLATE utf8_spanish_ci NOT NULL,
   `contrasena` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
   `estado` int(11) NOT NULL DEFAULT '3' COMMENT '0 clave usado 1 usuario activo 2 caducidad de clave 3 usuario nuevo 4 usuario bloqueado',
-  `fecha_modificacion` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  `fecha_modificacion` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`nombre_usuario`,`contrasena`),
+  KEY `tcontrasena_ibfk_1` (`nombre_usuario`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
@@ -3917,12 +3927,16 @@ INSERT INTO `tcontrasena` (`nombre_usuario`, `contrasena`, `estado`, `fecha_modi
 
 DROP TABLE IF EXISTS `tcontrol_notas`;
 CREATE TABLE IF NOT EXISTS `tcontrol_notas` (
-`codigo_controlnotas` int(11) NOT NULL,
+  `codigo_controlnotas` int(11) NOT NULL AUTO_INCREMENT,
   `codigo_msd` int(11) NOT NULL,
   `cedula_estudiante` char(10) COLLATE utf8_spanish_ci NOT NULL,
   `codigo_lapso` int(11) NOT NULL,
-  `notafinal` int(11) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+  `notafinal` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`codigo_controlnotas`),
+  KEY `fk_tcontrolnotas_msd` (`codigo_msd`),
+  KEY `fk_tcontrolnotas_lapso` (`codigo_lapso`),
+  KEY `fk_tcontrolnotas_estudiante` (`cedula_estudiante`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=5 ;
 
 --
 -- Volcado de datos para la tabla `tcontrol_notas`
@@ -3940,11 +3954,13 @@ INSERT INTO `tcontrol_notas` (`codigo_controlnotas`, `codigo_msd`, `cedula_estud
 
 DROP TABLE IF EXISTS `testado`;
 CREATE TABLE IF NOT EXISTS `testado` (
-`codigo_estado` int(11) NOT NULL,
+  `codigo_estado` int(11) NOT NULL AUTO_INCREMENT,
   `descripcion` varchar(35) COLLATE utf8_spanish_ci NOT NULL,
   `codigo_pais` int(11) NOT NULL,
-  `fecha_desactivacion` date DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+  `fecha_desactivacion` date DEFAULT NULL,
+  PRIMARY KEY (`codigo_estado`),
+  KEY `fk_testado_tpais` (`codigo_pais`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=27 ;
 
 --
 -- Volcado de datos para la tabla `testado`
@@ -3954,27 +3970,29 @@ INSERT INTO `testado` (`codigo_estado`, `descripcion`, `codigo_pais`, `fecha_des
 (1, 'PORTUGUESA', 1, NULL),
 (2, 'LARA', 1, NULL),
 (3, 'AMAZONAS', 1, NULL),
-(4, 'ANZOATEGUI', 1, NULL),
+(4, 'ANZOÁTEGUI', 1, NULL),
 (5, 'APURE', 1, NULL),
 (6, 'ARAGUA', 1, NULL),
-(7, 'BOLIVAR', 1, NULL),
+(7, 'BOLÍVAR', 1, NULL),
 (8, 'CARABOBO', 1, NULL),
 (9, 'COJEDES', 1, NULL),
 (10, 'DELTA MACURO', 1, NULL),
-(11, 'MERIDA', 1, NULL),
+(11, 'MÉRIDA', 1, NULL),
 (12, 'DISTRITO CAPITAL', 1, NULL),
-(13, 'FALCON', 1, NULL),
-(14, 'GUARICO', 1, NULL),
+(13, 'FALCÓN', 1, NULL),
+(14, 'GUÁRICO', 1, NULL),
 (15, 'MIRANDA', 1, NULL),
 (16, 'MONAGAS', 1, NULL),
 (17, 'BARINAS', 1, NULL),
 (18, 'NUEVA ESPARTA', 1, NULL),
-(19, 'TACHIRA', 1, NULL),
+(19, 'TÁCHIRA', 1, NULL),
 (20, 'TRUJILLO', 1, NULL),
 (21, 'VARGAS', 1, NULL),
 (22, 'YARACUY', 1, NULL),
 (23, 'ZULIA', 1, NULL),
-(24, 'SUCRE', 1, NULL);
+(24, 'SUCRE', 1, NULL),
+(25, 'DELTA AMACURO', 1, NULL),
+(26, 'DEPENDENCIAS FEDERALES', 1, NULL);
 
 -- --------------------------------------------------------
 
@@ -3984,7 +4002,7 @@ INSERT INTO `testado` (`codigo_estado`, `descripcion`, `codigo_pais`, `fecha_des
 
 DROP TABLE IF EXISTS `thorario`;
 CREATE TABLE IF NOT EXISTS `thorario` (
-`codigo_horario` int(11) NOT NULL,
+  `codigo_horario` int(11) NOT NULL AUTO_INCREMENT,
   `dia` int(11) NOT NULL,
   `codigo_bloque_hora` int(11) NOT NULL,
   `codigo_ambiente` int(11) NOT NULL,
@@ -3992,8 +4010,15 @@ CREATE TABLE IF NOT EXISTS `thorario` (
   `codigo_materia` char(7) COLLATE utf8_spanish_ci NOT NULL,
   `seccion` char(5) COLLATE utf8_spanish_ci NOT NULL,
   `cedula_docente` char(10) COLLATE utf8_spanish_ci NOT NULL,
-  `fecha_desactivacion` date DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+  `fecha_desactivacion` date DEFAULT NULL,
+  PRIMARY KEY (`codigo_horario`),
+  KEY `fk_thorario_tbloque_hora` (`codigo_bloque_hora`),
+  KEY `fk_thorario_tambiente` (`codigo_ambiente`),
+  KEY `fk_thorario_tano_academico` (`codigo_ano_academico`),
+  KEY `fk_thorario_tmateria` (`codigo_materia`),
+  KEY `fk_thorario_tseccion` (`seccion`),
+  KEY `fk_thorario_tpersona` (`cedula_docente`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=5 ;
 
 --
 -- Volcado de datos para la tabla `thorario`
@@ -4011,13 +4036,14 @@ INSERT INTO `thorario` (`codigo_horario`, `dia`, `codigo_bloque_hora`, `codigo_a
 
 DROP TABLE IF EXISTS `tinscripcion`;
 CREATE TABLE IF NOT EXISTS `tinscripcion` (
-`codigo_inscripcion` int(11) NOT NULL,
+  `codigo_inscripcion` int(11) NOT NULL AUTO_INCREMENT,
   `descripcion` varchar(60) COLLATE utf8_spanish_ci NOT NULL,
   `fecha_inicio` date NOT NULL,
   `fecha_fin` date NOT NULL,
   `fecha_cierre` date NOT NULL,
-  `fecha_desactivacion` date DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+  `fecha_desactivacion` date DEFAULT NULL,
+  PRIMARY KEY (`codigo_inscripcion`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=2 ;
 
 --
 -- Volcado de datos para la tabla `tinscripcion`
@@ -4034,13 +4060,15 @@ INSERT INTO `tinscripcion` (`codigo_inscripcion`, `descripcion`, `fecha_inicio`,
 
 DROP TABLE IF EXISTS `tlapso`;
 CREATE TABLE IF NOT EXISTS `tlapso` (
-`codigo_lapso` int(11) NOT NULL,
+  `codigo_lapso` int(11) NOT NULL AUTO_INCREMENT,
   `descripcion` varchar(35) COLLATE utf8_spanish_ci NOT NULL,
   `fecha_inicio` date NOT NULL,
   `fecha_fin` date NOT NULL,
   `codigo_ano_academico` int(11) NOT NULL,
-  `fecha_desactivacion` date DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+  `fecha_desactivacion` date DEFAULT NULL,
+  PRIMARY KEY (`codigo_lapso`),
+  KEY `fk_tlapso_tanoacademico` (`codigo_ano_academico`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=4 ;
 
 --
 -- Volcado de datos para la tabla `tlapso`
@@ -4066,7 +4094,9 @@ CREATE TABLE IF NOT EXISTS `tmateria` (
   `grado_escolar` char(1) COLLATE utf8_spanish_ci NOT NULL DEFAULT '1',
   `materia_compuesta` char(1) COLLATE utf8_spanish_ci NOT NULL DEFAULT 'N',
   `codigo_materia_padre` char(7) COLLATE utf8_spanish_ci DEFAULT NULL,
-  `fecha_desactivacion` date DEFAULT NULL
+  `fecha_desactivacion` date DEFAULT NULL,
+  PRIMARY KEY (`codigo_materia`),
+  KEY `codigo_materia_padre` (`codigo_materia_padre`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
@@ -4140,11 +4170,15 @@ INSERT INTO `tmateria` (`codigo_materia`, `descripcion`, `unidad_curricular`, `h
 
 DROP TABLE IF EXISTS `tmateria_seccion_docente`;
 CREATE TABLE IF NOT EXISTS `tmateria_seccion_docente` (
-`codigo_msd` int(11) NOT NULL,
+  `codigo_msd` int(11) NOT NULL AUTO_INCREMENT,
   `codigo_materia` char(7) COLLATE utf8_spanish_ci NOT NULL,
   `seccion` char(5) COLLATE utf8_spanish_ci NOT NULL,
-  `cedula_docente` char(10) COLLATE utf8_spanish_ci NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+  `cedula_docente` char(10) COLLATE utf8_spanish_ci NOT NULL,
+  PRIMARY KEY (`codigo_msd`),
+  KEY `fk_tmateria_seccion_tmateria` (`codigo_materia`),
+  KEY `fk_tmateria_seccion_tseccion` (`seccion`),
+  KEY `fk_tmateria_seccion_tpersona` (`cedula_docente`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=15 ;
 
 --
 -- Volcado de datos para la tabla `tmateria_seccion_docente`
@@ -4166,12 +4200,13 @@ INSERT INTO `tmateria_seccion_docente` (`codigo_msd`, `codigo_materia`, `seccion
 
 DROP TABLE IF EXISTS `tmodulo`;
 CREATE TABLE IF NOT EXISTS `tmodulo` (
-`codigo_modulo` int(11) NOT NULL,
+  `codigo_modulo` int(11) NOT NULL AUTO_INCREMENT,
   `descripcion` varchar(70) COLLATE utf8_spanish_ci NOT NULL,
   `icono` varchar(200) COLLATE utf8_spanish_ci NOT NULL DEFAULT 'icon-list-alt',
   `orden` int(11) NOT NULL DEFAULT '0',
-  `fecha_desactivacion` date DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+  `fecha_desactivacion` date DEFAULT NULL,
+  PRIMARY KEY (`codigo_modulo`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=9 ;
 
 --
 -- Volcado de datos para la tabla `tmodulo`
@@ -4195,18 +4230,20 @@ INSERT INTO `tmodulo` (`codigo_modulo`, `descripcion`, `icono`, `orden`, `fecha_
 
 DROP TABLE IF EXISTS `tmunicipio`;
 CREATE TABLE IF NOT EXISTS `tmunicipio` (
-`codigo_municipio` int(11) NOT NULL,
+  `codigo_municipio` int(11) NOT NULL AUTO_INCREMENT,
   `descripcion` varchar(50) COLLATE utf8_spanish_ci NOT NULL,
   `codigo_estado` int(11) NOT NULL,
-  `fecha_desactivacion` varchar(45) COLLATE utf8_spanish_ci DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=332 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+  `fecha_desactivacion` varchar(45) COLLATE utf8_spanish_ci DEFAULT NULL,
+  PRIMARY KEY (`codigo_municipio`),
+  KEY `fk_tmunicipio_testado` (`codigo_estado`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=381 ;
 
 --
 -- Volcado de datos para la tabla `tmunicipio`
 --
 
 INSERT INTO `tmunicipio` (`codigo_municipio`, `descripcion`, `codigo_estado`, `fecha_desactivacion`) VALUES
-(1, 'PÁEZ', 1, NULL),
+(1, 'PAEZ', 23, NULL),
 (2, 'AGUA BLANCA', 1, NULL),
 (3, 'SAN RAFAEL DE ONOTO', 1, NULL),
 (4, 'ANDRES MATA', 24, NULL),
@@ -4214,7 +4251,7 @@ INSERT INTO `tmunicipio` (`codigo_municipio`, `descripcion`, `codigo_estado`, `f
 (6, 'ANDRES ELOY BLANCO', 24, NULL),
 (7, 'TUREN', 1, NULL),
 (8, 'ARAURE', 1, NULL),
-(9, 'SUCRE', 1, NULL),
+(9, 'SUCRE', 23, NULL),
 (10, 'GUANARE', 1, NULL),
 (11, 'GUANARITO', 1, NULL),
 (12, 'MONSEÑOR JOSE VICENTE DE UNDA', 1, NULL),
@@ -4231,81 +4268,81 @@ INSERT INTO `tmunicipio` (`codigo_municipio`, `descripcion`, `codigo_estado`, `f
 (23, 'RIO NEGRO', 3, NULL),
 (24, 'ANACO', 4, NULL),
 (25, 'ARAGUA', 4, NULL),
-(26, 'BOLIVAR', 4, NULL),
-(27, 'BRUZUAL', 4, NULL),
-(28, 'CAJIGAL', 4, NULL),
+(26, 'BOLIVAR', 22, NULL),
+(27, 'BRUZUAL', 22, NULL),
+(28, 'CAJIGAL', 24, NULL),
 (29, 'CARVAJAL', 4, NULL),
 (30, 'DIEGO BAUTISTA URBANEJA', 4, NULL),
 (31, 'FREITES', 4, NULL),
 (32, 'GUANIPA', 4, NULL),
 (33, 'GUANTA', 4, NULL),
-(34, 'INDEPENDENCIA', 4, NULL),
-(35, 'LIBERTAD', 4, NULL),
+(34, 'INDEPENDENCIA', 22, NULL),
+(35, 'LIBERTAD', 19, NULL),
 (36, 'MCGREGOR', 4, NULL),
-(37, 'MIRANDA', 4, NULL),
+(37, 'MIRANDA', 23, NULL),
 (38, 'MONAGAS', 4, NULL),
 (39, 'PEÑALVER', 4, NULL),
-(40, 'PIRITU', 4, NULL),
+(40, 'PIRITU', 13, NULL),
 (41, 'SAN JUAN DE CAPISTRANO', 4, NULL),
 (42, 'SANTA ANA', 4, NULL),
-(43, 'SIMON RODRIGUEZ', 4, NULL),
-(44, 'SOTILLO', 4, NULL),
+(43, 'SIMON RODRIGUEZ', 19, NULL),
+(44, 'SOTILLO', 16, NULL),
 (45, 'ACHAGUAS', 5, NULL),
 (46, 'BIRUACA', 5, NULL),
 (47, 'MUÑOZ', 5, NULL),
 (48, 'PEDRO CAMEJO', 5, NULL),
-(49, 'ROMULO GALLEGOS', 5, NULL),
+(49, 'ROMULO GALLEGOS', 9, NULL),
 (50, 'SAN FERNANDO', 5, NULL),
-(51, 'PAEZ', 5, NULL),
-(52, 'BOLIVAR', 6, NULL),
+(51, 'PAEZ', 23, NULL),
+(52, 'BOLIVAR', 22, NULL),
 (53, 'CAMATAGUA', 6, NULL),
 (54, 'FRANCISCO LINARES ALCANTARA', 6, NULL),
-(55, 'GIRARDOT', 6, NULL),
+(55, 'GIRARDOT', 9, NULL),
 (56, 'JOSE ANGEL LAMAS', 6, NULL),
-(57, 'JOSE FELIX RIBAS', 6, NULL),
+(57, 'JOSE FELIX RIBAS', 14, NULL),
 (58, 'JOSE RAFAEL REVENGA', 6, NULL),
-(59, 'LIBERTADOR', 6, NULL),
+(59, 'LIBERTADOR', 19, NULL),
 (60, 'MARIO BRICEÑO IRAGORRY', 6, NULL),
 (61, 'OCUMARE DE LA COSTA DE ORO', 6, NULL),
 (62, 'SAN CASIMIRO', 6, NULL),
 (63, 'SAN SEBASTIAN', 6, NULL),
 (64, 'SANTIAGO MARIÑO', 6, NULL),
 (65, 'SANTOS MICHELENA', 6, NULL),
-(66, 'SUCRE', 6, NULL),
-(67, 'TOVAR', 6, NULL),
-(68, 'URDANETA', 6, NULL),
-(69, 'ZAMORA', 6, NULL),
+(66, 'SUCRE', 23, NULL),
+(67, 'TOVAR', 11, NULL),
+(68, 'URDANETA', 20, NULL),
+(69, 'ZAMORA', 15, NULL),
 (70, 'ALBERTO ARVELO TORREALBA', 17, NULL),
-(71, 'ANDRES ELOY BLANCO', 17, NULL),
+(71, 'ANDRES ELOY BLANCO', 24, NULL),
 (72, 'ANTONIO JOSE DE SUCRE', 17, NULL),
-(73, 'ARISMENDI', 17, NULL),
+(73, 'ARISMENDI', 24, NULL),
 (74, 'BARINAS', 17, NULL),
-(75, 'BOLIVAR', 17, NULL),
+(75, 'BOLIVAR', 22, NULL),
 (76, 'CRUZ PAREDES', 17, NULL),
-(77, 'EZEQUIEL ZAMORA', 17, NULL),
+(77, 'EZEQUIEL ZAMORA', 16, NULL),
 (78, 'OBISPOS', 17, NULL),
 (79, 'PEDRAZA', 17, NULL),
 (80, 'ROJAS', 17, NULL),
 (81, 'SOSA', 17, NULL),
 (82, 'CARONI', 7, NULL),
 (83, 'CEDEÑO', 7, NULL),
-(84, 'EL CALLAO', 17, NULL),
+(84, 'EL CALLAO', 7, NULL),
 (85, 'GRAN SABANA', 7, NULL),
 (86, 'HERES', 7, NULL),
-(87, 'PIAR', 7, NULL),
+(87, 'PIAR', 16, NULL),
 (88, 'RAUL LEON', 7, NULL),
 (89, 'ROSCIO', 7, NULL),
 (90, 'SIFONTES', 7, NULL),
-(91, 'SUCRE', 7, NULL),
+(91, 'SUCRE', 23, NULL),
 (92, 'PADRE PEDRO CHEN', 7, NULL),
 (93, 'BEJUMA', 8, NULL),
 (94, 'CARLOS ARVELO', 8, NULL),
 (95, 'DIEGO IBARRA', 8, NULL),
 (96, 'GUACARA', 8, NULL),
 (97, 'JUAN JOSE MORA', 8, NULL),
-(98, 'LIBERTADOR', 8, NULL),
+(98, 'LIBERTADOR', 19, NULL),
 (99, 'LOS GUAYOS', 8, NULL),
-(100, 'MIRANDA', 8, NULL),
+(100, 'MIRANDA', 23, NULL),
 (101, 'MONTALBAN', 8, NULL),
 (102, 'NAGUANAGUA', 8, NULL),
 (103, 'PUERTO CABELLO', 8, NULL),
@@ -4313,18 +4350,18 @@ INSERT INTO `tmunicipio` (`codigo_municipio`, `descripcion`, `codigo_estado`, `f
 (105, 'SAN JOAQUIN', 8, NULL),
 (106, 'VALENCIA', 8, NULL),
 (107, 'ANZOATEGUI', 9, NULL),
-(108, 'FALCON', 9, NULL),
+(108, 'FALCON', 13, NULL),
 (109, 'GIRARDOT', 9, NULL),
 (110, 'LIMA BLANCO', 9, NULL),
 (111, 'PAO DE SAN JUAN BAUTISTA', 9, NULL),
 (112, 'RICAURTE', 9, NULL),
 (113, 'ROMULO', 9, NULL),
-(114, 'ANTONIO DIAZ', 10, NULL),
-(115, 'CASACOIMA', 10, NULL),
-(116, 'PEDERNALES', 10, NULL),
-(117, 'TUCUPITA', 10, NULL),
-(118, 'ACOSTA', 13, NULL),
-(119, 'BOLIVAR', 13, NULL),
+(114, 'ANTONIO DIAZ', 25, NULL),
+(115, 'CASACOIMA', 25, NULL),
+(116, 'PEDERNALES', 25, NULL),
+(117, 'TUCUPITA', 25, NULL),
+(118, 'ACOSTA', 16, NULL),
+(119, 'BOLIVAR', 22, NULL),
 (120, 'BUCHIVACOA', 13, NULL),
 (121, 'CACIQUE MANAURE', 13, NULL),
 (122, 'CARIRUBANA', 13, NULL),
@@ -4336,22 +4373,22 @@ INSERT INTO `tmunicipio` (`codigo_municipio`, `descripcion`, `codigo_estado`, `f
 (128, 'JACURA', 13, NULL),
 (129, 'LOS TAQUES', 13, NULL),
 (130, 'MAUROA', 13, NULL),
-(131, 'MIRANDA', 13, NULL),
+(131, 'MIRANDA', 23, NULL),
 (132, 'MONSEÑOR ITURRIZA', 13, NULL),
 (133, 'PALMASOLA', 13, NULL),
 (134, 'PETIT', 13, NULL),
 (135, 'PIRITU', 13, NULL),
-(136, 'SAN FRANCISCO', 13, NULL),
+(136, 'SAN FRANCISCO', 23, NULL),
 (137, 'SILVA', 13, NULL),
-(138, 'SUCRE', 13, NULL),
+(138, 'SUCRE', 23, NULL),
 (139, 'TOCOPERO', 13, NULL),
 (140, 'UNION', 13, NULL),
 (141, 'URUMACO', 13, NULL),
-(142, 'ZAMORA', 13, NULL),
+(142, 'ZAMORA', 15, NULL),
 (143, 'ESTERIOS DE CAMAGUAN', 14, NULL),
 (144, 'CHAGUARAMOS', 14, NULL),
 (145, 'EL SOCORRO', 14, NULL),
-(146, 'FRANCISCO DE MIRANDA', 14, NULL),
+(146, 'FRANCISCO DE MIRANDA', 19, NULL),
 (147, 'JOSE FELIX RIBAS', 14, NULL),
 (148, 'JOSE TADEO MONAGAS', 14, NULL),
 (149, 'JUAN GERMAN ROSCIO', 14, NULL),
@@ -4363,7 +4400,7 @@ INSERT INTO `tmunicipio` (`codigo_municipio`, `descripcion`, `codigo_estado`, `f
 (155, 'SAN GERONIMO DE GUAYABAL', 14, NULL),
 (156, 'SAN JOSE DE GUARIBA', 14, NULL),
 (157, 'SANTA MARIA DE IPIRE', 14, NULL),
-(158, 'ANDRES ELOY BLANCO', 2, NULL),
+(158, 'ANDRES ELOY BLANCO', 24, NULL),
 (159, 'CRESPO', 2, NULL),
 (160, 'IRIBARREN', 2, NULL),
 (161, 'JIMENEZ', 2, NULL),
@@ -4371,9 +4408,9 @@ INSERT INTO `tmunicipio` (`codigo_municipio`, `descripcion`, `codigo_estado`, `f
 (163, 'PALAVECINO', 2, NULL),
 (164, 'SIMON PLANAS', 2, NULL),
 (165, 'TORRES', 2, NULL),
-(166, 'URDANETA', 2, NULL),
+(166, 'URDANETA', 20, NULL),
 (167, 'ALBERTO ADRIANI', 11, NULL),
-(168, 'ANDRES BELLO', 11, NULL),
+(168, 'ANDRES BELLO', 20, NULL),
 (169, 'ANTONIO PINTO SALINAS', 11, NULL),
 (170, 'ARICAGUA', 11, NULL),
 (171, 'ARZOBISPO CHACON', 11, NULL),
@@ -4383,20 +4420,20 @@ INSERT INTO `tmunicipio` (`codigo_municipio`, `descripcion`, `codigo_estado`, `f
 (175, 'GUARAQUE', 11, NULL),
 (176, 'JULIO CESAR SALAS', 11, NULL),
 (177, 'JUSTO BRICEÑO', 11, NULL),
-(178, 'LIBERTADOR', 11, NULL),
-(179, 'MIRANDA', 11, NULL),
+(178, 'LIBERTADOR', 19, NULL),
+(179, 'MIRANDA', 23, NULL),
 (180, 'OBISPO RAMOS DE LARA', 11, NULL),
 (181, 'PADRE NOGUERA', 11, NULL),
 (182, 'PUEBLO LLANO', 11, NULL),
 (183, 'RANGEL', 11, NULL),
 (184, 'RIBAS DAVILA', 11, NULL),
 (185, 'SANTOS MARTINA', 11, NULL),
-(186, 'SUCRE', 11, NULL),
+(186, 'SUCRE', 23, NULL),
 (187, 'TOVAR', 11, NULL),
 (188, 'TULIO FEBRES CORDERO', 11, NULL),
 (189, 'ZEA', 11, NULL),
 (190, 'ASEVEDO', 15, NULL),
-(191, 'ANDRES BELLO', 15, NULL),
+(191, 'ANDRES BELLO', 20, NULL),
 (192, 'BARUTA', 15, NULL),
 (193, 'BRION', 15, NULL),
 (194, 'BUROZ', 15, NULL),
@@ -4405,24 +4442,24 @@ INSERT INTO `tmunicipio` (`codigo_municipio`, `descripcion`, `codigo_estado`, `f
 (197, 'CRISTOBAL ROJAS', 15, NULL),
 (198, 'EL ATILLO', 15, NULL),
 (199, 'GUAICAIPURO', 15, NULL),
-(200, 'INDEPENDENCIA', 15, NULL),
+(200, 'INDEPENDENCIA', 22, NULL),
 (201, 'LANDER', 15, NULL),
 (202, 'LOS SALIAS', 15, NULL),
-(203, 'PAEZ', 15, NULL),
+(203, 'PAEZ', 23, NULL),
 (204, 'PAZ CASTILLO', 15, NULL),
 (205, 'PEDRO GUAL', 15, NULL),
 (206, 'PLAZA', 15, NULL),
-(207, 'SIMON BOLIVAR', 15, NULL),
+(207, 'SIMON BOLIVAR', 23, NULL),
 (208, 'SOCRE', 15, NULL),
-(209, 'URDANETA', 15, NULL),
+(209, 'URDANETA', 20, NULL),
 (210, 'ZAMORA', 15, NULL),
 (211, 'ACOSTA', 16, NULL),
 (212, 'AGUASAY', 16, NULL),
-(213, 'BOLIVAR', 16, NULL),
+(213, 'BOLIVAR', 22, NULL),
 (214, 'CARIPEL', 16, NULL),
 (215, 'CEDEÑO', 16, NULL),
 (216, 'EZEQUIEL ZAMORA', 16, NULL),
-(217, 'LIBERTADOR', 16, NULL),
+(217, 'LIBERTADOR', 19, NULL),
 (218, 'MATURIN', 16, NULL),
 (219, 'PIAR', 16, NULL),
 (220, 'PUNCERES', 16, NULL),
@@ -4430,7 +4467,7 @@ INSERT INTO `tmunicipio` (`codigo_municipio`, `descripcion`, `codigo_estado`, `f
 (222, 'SOTILLO', 16, NULL),
 (223, 'URACOA', 16, NULL),
 (224, 'ANTOLIN DEL CAMPO', 18, NULL),
-(225, 'ARISMENDI', 18, NULL),
+(225, 'ARISMENDI', 24, NULL),
 (226, 'DIAZ', 18, NULL),
 (227, 'GRACIAS', 18, NULL),
 (228, 'GOMEZ', 18, NULL),
@@ -4443,27 +4480,27 @@ INSERT INTO `tmunicipio` (`codigo_municipio`, `descripcion`, `codigo_estado`, `f
 (235, 'ARISMENDI', 24, NULL),
 (236, 'BENITEZ', 24, NULL),
 (237, 'BERMUDEZ', 24, NULL),
-(238, 'BOLIVAR', 24, NULL),
+(238, 'BOLIVAR', 22, NULL),
 (239, 'CAJIGAL', 24, NULL),
 (240, 'CRUZ SALMERON ACOSTA', 24, NULL),
-(241, 'LIBERTADOR', 24, NULL),
+(241, 'LIBERTADOR', 19, NULL),
 (242, 'MARIÑO', 24, NULL),
 (243, 'MEJIA', 24, NULL),
 (244, 'MONTES', 24, NULL),
 (245, 'RIBERO', 24, NULL),
-(246, 'SUCRE', 24, NULL),
+(246, 'SUCRE', 23, NULL),
 (247, 'VALDEZ', 24, NULL),
-(248, 'ANDRES BELLO', 19, NULL),
+(248, 'ANDRES BELLO', 20, NULL),
 (249, 'ANTONIO ROMULO COSTA', 19, NULL),
 (250, 'AYACUCHO', 19, NULL),
-(251, 'BOLIVAR', 19, NULL),
+(251, 'BOLIVAR', 22, NULL),
 (252, 'CARDENAS', 19, NULL),
 (253, 'CORDOVA', 19, NULL),
 (254, 'FERNANDEZ FEO', 19, NULL),
 (255, 'FRANCISCO DE MIRANDA', 19, NULL),
 (256, 'GARCIA DE HEVIA', 19, NULL),
 (257, 'GUASIMOS', 19, NULL),
-(258, 'INDEPENDENCIA', 19, NULL),
+(258, 'INDEPENDENCIA', 22, NULL),
 (259, 'JAUREGUI', 19, NULL),
 (260, 'JOSE MARIA VARGAS', 19, NULL),
 (261, 'JUNIN', 19, NULL),
@@ -4477,44 +4514,44 @@ INSERT INTO `tmunicipio` (`codigo_municipio`, `descripcion`, `codigo_estado`, `f
 (269, 'SAN CRISTOBAL', 19, NULL),
 (270, 'SEBORUCO', 19, NULL),
 (271, 'SIMON RODRIGUEZ', 19, NULL),
-(272, 'SUCRE', 19, NULL),
+(272, 'SUCRE', 23, NULL),
 (273, 'TORBES', 19, NULL),
 (274, 'URIBANTE', 19, NULL),
 (275, 'SAN JUDAS TADEO', 19, NULL),
 (276, 'RAFAEL URDANETA', 19, NULL),
 (277, 'ANDRES BELLO', 20, NULL),
 (278, 'BOCONO', 20, NULL),
-(279, 'BOLIVAR', 20, NULL),
+(279, 'BOLIVAR', 22, NULL),
 (280, 'CANDELARIA', 20, NULL),
 (281, 'CARACHE', 20, NULL),
 (282, 'ESCUQUE', 20, NULL),
 (283, 'JOSE FELIPE MARQUEZ CAÑIZALEZ', 20, NULL),
 (284, 'JUAN VICENTE CAMPOS ELIAS', 20, NULL),
 (285, 'LA CEIBA', 20, NULL),
-(286, 'MIRANDA', 20, NULL),
+(286, 'MIRANDA', 23, NULL),
 (287, 'MONTE CARMELO', 20, NULL),
 (288, 'MOTATAN', 20, NULL),
 (289, 'PAMPAN', 20, NULL),
 (290, 'PAMPANITO', 20, NULL),
 (291, 'RAFAEL RANGEL', 20, NULL),
 (292, 'SAN RAFAEL DE CARVAJAL', 20, NULL),
-(293, 'SUCRE', 20, NULL),
+(293, 'SUCRE', 23, NULL),
 (294, 'TRUJILLO', 20, NULL),
 (295, 'URDANETA', 20, NULL),
 (296, 'VALERA', 20, NULL),
 (297, 'VARGAS', 21, NULL),
-(298, 'ARISTIDES BASTIDAS', 21, NULL),
-(299, 'BOLIVAR', 21, NULL),
-(300, 'BRUZUAL', 21, NULL),
-(301, 'COCOROTE', 21, NULL),
-(302, 'INDEPENDENCIA', 21, NULL),
-(303, 'JOSE ANTONIO PAEZ', 21, NULL),
-(304, 'LA TRINIDAD', 21, NULL),
-(305, 'MANUEL MONGE', 21, NULL),
-(306, 'NIRGUA', 21, NULL),
+(298, 'ARISTIDES BASTIDAS', 22, NULL),
+(299, 'BOLIVAR', 22, NULL),
+(300, 'BRUZUAL', 22, NULL),
+(301, 'COCOROTE', 22, NULL),
+(302, 'INDEPENDENCIA', 22, NULL),
+(303, 'JOSE ANTONIO PAEZ', 22, NULL),
+(304, 'LA TRINIDAD', 22, NULL),
+(305, 'MANUEL MONGE', 22, NULL),
+(306, 'NIRGUA', 22, NULL),
 (307, 'PEÑA', 21, NULL),
-(308, 'SAN FELIPE', 21, NULL),
-(309, 'SUCRE', 21, NULL),
+(308, 'SAN FELIPE', 22, NULL),
+(309, 'SUCRE', 23, NULL),
 (310, 'VEROES', 21, NULL),
 (311, 'ALMIRANTE PADILLA', 23, NULL),
 (312, 'BARALT', 23, NULL),
@@ -4536,7 +4573,56 @@ INSERT INTO `tmunicipio` (`codigo_municipio`, `descripcion`, `codigo_estado`, `f
 (328, 'SANTA RITA', 23, NULL),
 (329, 'SIMON BOLIVAR', 23, NULL),
 (330, 'SUCRE', 23, NULL),
-(331, 'VALMORE RODRIGUEZ', 23, NULL);
+(331, 'VALMORE RODRIGUEZ', 23, NULL),
+(332, 'MANAPIARE', 3, NULL),
+(333, 'FERNANDO PEÃ±ALVER', 4, NULL),
+(334, 'FRANCISCO DEL CARMEN CARVAJAL', 4, NULL),
+(335, 'GENERAL SIR ARTHUR MCGREGOR', 4, NULL),
+(336, 'JOSE GREGORIO MONAGAS', 4, NULL),
+(337, 'JUAN ANTONIO SOTILLO', 4, NULL),
+(338, 'JUAN MANUEL CAJIGAL', 4, NULL),
+(339, 'MANUEL EZEQUIEL BRUZUAL', 4, NULL),
+(340, 'PEDRO MARIA FREITES', 4, NULL),
+(341, 'SAN JOSE DE GUANIPA', 4, NULL),
+(342, 'MUÃ±OZ', 5, NULL),
+(343, 'ATANASIO GIRARDOT', 6, NULL),
+(344, 'MARIO BRICEÃ±O IRAGORRY', 6, NULL),
+(345, 'SANTIAGO MARIÃ±O', 6, NULL),
+(346, 'ANGOSTURA (RAUL LEONI)', 7, NULL),
+(347, 'CEDEÃ±O', 16, NULL),
+(348, 'PADRE PEDRO CHIEN', 7, NULL),
+(349, 'SAN CARLOS', 9, NULL),
+(350, 'TINACO', 9, NULL),
+(351, 'TINAQUILLO', 9, NULL),
+(352, 'JOSE LAURENCIO SILVA', 13, NULL),
+(353, 'MONSEÃ±OR ITURRIZA', 13, NULL),
+(354, 'CAMAGUAN', 14, NULL),
+(355, 'CHAGUARAMAS', 14, NULL),
+(356, 'SAN JOSE DE GUARIBE', 14, NULL),
+(357, 'SEBASTIAN FRANCISCO DE MIRANDA', 14, NULL),
+(358, 'CARDENAL QUINTERO', 11, NULL),
+(359, 'JUSTO BRICEÃ±O', 11, NULL),
+(360, 'OBISPO RAMOS DE LORA', 11, NULL),
+(361, 'RIVAS DAVILA', 11, NULL),
+(362, 'SANTOS MARQUINA', 11, NULL),
+(363, 'ACEVEDO', 15, NULL),
+(364, 'CARRIZAL', 15, NULL),
+(365, 'EL HATILLO', 15, NULL),
+(366, 'CARIPE', 16, NULL),
+(367, 'GARCIA', 18, NULL),
+(368, 'MARIÃ±O', 24, NULL),
+(369, 'VILLALBA', 18, NULL),
+(370, 'ESTELLER', 1, NULL),
+(371, 'MONSEÃ±OR JOSE VICENTE DE UNDA', 1, NULL),
+(372, 'CORDOBA', 19, NULL),
+(373, 'PEDRO MARIA UREÃ±A', 19, NULL),
+(374, 'JOSE FELIPE MARQUEZ CAÃ±IZALEZ', 20, NULL),
+(375, 'JOSE JOAQUIN VEROES', 22, NULL),
+(376, 'PEÃ±A', 22, NULL),
+(377, 'URACHICHE', 22, NULL),
+(378, 'JESUS MARIA SEMPRUN', 23, NULL),
+(379, 'LA CAÃ±ADA DE URDANETA', 23, NULL),
+(380, 'MACHIQUES DE PERIJA', 23, NULL);
 
 -- --------------------------------------------------------
 
@@ -4546,12 +4632,13 @@ INSERT INTO `tmunicipio` (`codigo_municipio`, `descripcion`, `codigo_estado`, `f
 
 DROP TABLE IF EXISTS `topcion`;
 CREATE TABLE IF NOT EXISTS `topcion` (
-`codigo_opcion` int(11) NOT NULL,
+  `codigo_opcion` int(11) NOT NULL AUTO_INCREMENT,
   `descripcion` varchar(45) COLLATE utf8_spanish_ci NOT NULL,
   `icono` varchar(200) COLLATE utf8_spanish_ci NOT NULL DEFAULT 'icon-pencil',
   `orden` int(11) NOT NULL,
-  `fecha_desactivacion` date DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+  `fecha_desactivacion` date DEFAULT NULL,
+  PRIMARY KEY (`codigo_opcion`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=8 ;
 
 --
 -- Volcado de datos para la tabla `topcion`
@@ -4574,10 +4661,11 @@ INSERT INTO `topcion` (`codigo_opcion`, `descripcion`, `icono`, `orden`, `fecha_
 
 DROP TABLE IF EXISTS `tpais`;
 CREATE TABLE IF NOT EXISTS `tpais` (
-`codigo_pais` int(11) NOT NULL,
+  `codigo_pais` int(11) NOT NULL AUTO_INCREMENT,
   `descripcion` varchar(35) COLLATE utf8_spanish_ci NOT NULL,
-  `fecha_desactivacion` varchar(45) COLLATE utf8_spanish_ci DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+  `fecha_desactivacion` varchar(45) COLLATE utf8_spanish_ci DEFAULT NULL,
+  PRIMARY KEY (`codigo_pais`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=33 ;
 
 --
 -- Volcado de datos para la tabla `tpais`
@@ -4625,10 +4713,11 @@ INSERT INTO `tpais` (`codigo_pais`, `descripcion`, `fecha_desactivacion`) VALUES
 
 DROP TABLE IF EXISTS `tparentesco`;
 CREATE TABLE IF NOT EXISTS `tparentesco` (
-`codigo_parentesco` int(11) NOT NULL,
+  `codigo_parentesco` int(11) NOT NULL AUTO_INCREMENT,
   `descripcion` varchar(35) COLLATE utf8_spanish_ci NOT NULL,
-  `fecha_desactivacion` varchar(45) COLLATE utf8_spanish_ci DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+  `fecha_desactivacion` varchar(45) COLLATE utf8_spanish_ci DEFAULT NULL,
+  PRIMARY KEY (`codigo_parentesco`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=6 ;
 
 --
 -- Volcado de datos para la tabla `tparentesco`
@@ -4649,11 +4738,13 @@ INSERT INTO `tparentesco` (`codigo_parentesco`, `descripcion`, `fecha_desactivac
 
 DROP TABLE IF EXISTS `tparroquia`;
 CREATE TABLE IF NOT EXISTS `tparroquia` (
-`codigo_parroquia` int(11) NOT NULL,
+  `codigo_parroquia` int(11) NOT NULL AUTO_INCREMENT,
   `descripcion` varchar(50) COLLATE utf8_spanish_ci NOT NULL,
   `fecha_desactivacion` varchar(45) COLLATE utf8_spanish_ci DEFAULT NULL,
-  `codigo_municipio` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+  `codigo_municipio` int(11) NOT NULL,
+  PRIMARY KEY (`codigo_parroquia`),
+  KEY `fk_tparroquia_tmunicipio` (`codigo_municipio`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=980 ;
 
 --
 -- Volcado de datos para la tabla `tparroquia`
@@ -4667,8 +4758,8 @@ INSERT INTO `tparroquia` (`codigo_parroquia`, `descripcion`, `fecha_desactivacio
 (5, 'AGUA BLANCA', NULL, 2),
 (6, 'ARAURE', NULL, 8),
 (7, 'RIO ACARIGUA', NULL, 8),
-(8, 'PIRITU', NULL, 4),
-(9, 'UVERAL', NULL, 4),
+(8, 'PIRITU', NULL, 40),
+(9, 'UVERAL', NULL, 370),
 (10, 'CORDOVA', NULL, 10),
 (11, 'GUANARE', NULL, 10),
 (12, 'SAN JOSE DE LA MONTAÑA', NULL, 10),
@@ -4691,15 +4782,954 @@ INSERT INTO `tparroquia` (`codigo_parroquia`, `descripcion`, `fecha_desactivacio
 (29, 'FLORIDA', NULL, 5),
 (30, 'EL PLAYON', NULL, 5),
 (31, 'BISCUCUY', NULL, 9),
-(32, 'CONCEPCION', NULL, 9),
+(32, 'CONCEPCION', NULL, 379),
 (33, 'SAN JOSE DE SAGUAZ', NULL, 9),
 (34, 'SAN RAFAEL DE PALO ALZADO', NULL, 9),
 (35, 'UVENCIO ANTONIO VELASQUEZ', NULL, 9),
 (36, 'VILLA ROSA', NULL, 9),
 (37, 'VILLA BRUZUAL', NULL, 7),
 (38, 'CANELONES', NULL, 7),
-(39, 'SANTA CRUZ', NULL, 7),
-(40, 'SAN ISIDRO LABRADOR', NULL, 7);
+(39, 'SANTA CRUZ', NULL, 281),
+(40, 'SAN ISIDRO LABRADOR', NULL, 7),
+(41, 'ALTO ORINOCO', NULL, 17),
+(42, 'HUACHAMACARE ACANAÃ±A', NULL, 17),
+(43, 'MARAWAKA TOKY SHAMANAÃ±A', NULL, 17),
+(44, 'MAVAKA MAVAKA', NULL, 17),
+(45, 'SIERRA PARIMA PARIMABE', NULL, 17),
+(46, 'CANAME GUARINUMA', NULL, 18),
+(47, 'UCATA LAJA LISA', NULL, 18),
+(48, 'YAPACANA MACURUCO', NULL, 18),
+(49, 'FERNANDO GIRON TOVAR', NULL, 19),
+(50, 'LUIS ALBERTO GOMEZ', NULL, 19),
+(51, 'PAHUEÃ±A LIMON DE PARHUEÃ±A', NULL, 19),
+(52, 'PLATANILLAL PLATANILLAL', NULL, 19),
+(53, 'GUAYAPO', NULL, 20),
+(54, 'MUNDUAPO', NULL, 20),
+(55, 'SAMARIAPO', NULL, 20),
+(56, 'SIPAPO', NULL, 20),
+(57, 'ALTO VENTUARI', NULL, 332),
+(58, 'BAJO VENTUARI', NULL, 332),
+(59, 'MEDIO VENTUARI', NULL, 332),
+(60, 'COMUNIDAD', NULL, 22),
+(61, 'VICTORINO', NULL, 22),
+(62, 'CASIQUIARE', NULL, 23),
+(63, 'COCUY', NULL, 23),
+(64, 'SAN CARLOS DE RIO NEGRO', NULL, 23),
+(65, 'SOLANO', NULL, 23),
+(66, 'ANACO', NULL, 24),
+(67, 'SAN JOAQUIN', NULL, 105),
+(68, 'ARAGUA DE BARCELONA', NULL, 25),
+(69, 'CACHIPO', NULL, 220),
+(70, 'EL MORRO', NULL, 59),
+(71, 'LECHERIA', NULL, 30),
+(72, 'PUERTO PIRITU', NULL, 333),
+(73, 'SAN MIGUEL', NULL, 278),
+(74, 'SUCRE', NULL, 9),
+(75, 'ATAPIRIRE', NULL, 146),
+(76, 'BOCA DEL PAO', NULL, 146),
+(77, 'EL PAO', NULL, 111),
+(78, 'PARIAGUAN', NULL, 146),
+(79, 'SANTA BARBARA', NULL, 315),
+(80, 'VALLE DE GUANAPE', NULL, 334),
+(81, 'CALATRAVA', NULL, 335),
+(82, 'EL CHAPARRO', NULL, 335),
+(83, 'TOMAS ALFARO', NULL, 335),
+(84, 'CHORRERON', NULL, 33),
+(85, 'GUANTA', NULL, 33),
+(86, 'MAMO', NULL, 34),
+(87, 'SOLEDAD', NULL, 34),
+(88, 'MAPIRE', NULL, 336),
+(89, 'PIAR', NULL, 336),
+(90, 'SAN DIEGO DE CABRUTICA', NULL, 336),
+(91, 'SANTA CLARA', NULL, 336),
+(92, 'UVERITO', NULL, 354),
+(93, 'ZUATA', NULL, 57),
+(94, 'POZUELOS', NULL, 337),
+(95, 'PUERTO LA CRUZ', NULL, 337),
+(96, 'ONOTO', NULL, 338),
+(97, 'SAN PABLO', NULL, 9),
+(98, 'EL CARITO', NULL, 35),
+(99, 'LA ROMEREÃ±A', NULL, 35),
+(100, 'SAN MATEO', NULL, 35),
+(101, 'SANTA INES', NULL, 9),
+(102, 'CLARINES', NULL, 339),
+(103, 'GUANAPE', NULL, 339),
+(104, 'SABANA DE UCHIRE', NULL, 339),
+(105, 'CANTAURA', NULL, 340),
+(106, 'LIBERTADOR', NULL, 312),
+(107, 'SANTA ROSA', NULL, 237),
+(108, 'URICA', NULL, 340),
+(109, 'SAN FRANCISCO', NULL, 136),
+(110, 'SAN JOSE DE GUANIPA', NULL, 341),
+(111, 'BOCA DE CHAVEZ', NULL, 41),
+(112, 'BOCA DE UCHIRE', NULL, 41),
+(113, 'PUEBLO NUEVO', NULL, 312),
+(114, 'SANTA ANA', NULL, 289),
+(115, 'BERGATIN', NULL, 207),
+(116, 'CAIGUA', NULL, 207),
+(117, 'EL CARMEN', NULL, 278),
+(118, 'EL PILAR', NULL, 236),
+(119, 'NARICUAL', NULL, 207),
+(120, 'SAN CRSITOBAL', NULL, 207),
+(121, 'EDMUNDO BARRIOS', NULL, 43),
+(122, 'MIGUEL OTERO SILVA', NULL, 43),
+(123, 'ACHAGUAS', NULL, 45),
+(124, 'APURITO', NULL, 45),
+(125, 'EL YAGUAL', NULL, 45),
+(126, 'GUACHARA', NULL, 45),
+(127, 'MUCURITAS', NULL, 45),
+(128, 'QUESERAS DEL MEDIO', NULL, 45),
+(129, 'BIRUACA', NULL, 46),
+(130, 'BRUZUAL', NULL, 141),
+(131, 'MANTECAL', NULL, 342),
+(132, 'QUINTERO', NULL, 342),
+(133, 'RINCON HONDO', NULL, 342),
+(134, 'SAN VICENTE', NULL, 218),
+(135, 'ARAMENDI', NULL, 1),
+(136, 'EL AMPARO', NULL, 67),
+(137, 'GUASDUALITO', NULL, 1),
+(138, 'SAN CAMILO', NULL, 1),
+(139, 'URDANETA', NULL, 68),
+(140, 'CODAZZI', NULL, 48),
+(141, 'CUNAVICHE', NULL, 48),
+(142, 'SAN JUAN DE PAYARA', NULL, 48),
+(143, 'ELORZA', NULL, 49),
+(144, 'LA TRINIDAD', NULL, 304),
+(145, 'EL RECREO', NULL, 59),
+(146, 'PEÃ±ALVER', NULL, 50),
+(147, 'SAN FERNANDO', NULL, 244),
+(148, 'SAN RAFAEL DE ATAMAICA', NULL, 50),
+(149, 'ANDRES ELOY BLANCO', NULL, 37),
+(150, 'CHORONI', NULL, 343),
+(151, 'JOAQUIN CRESPO', NULL, 343),
+(152, 'JOSE CASANOVA GODOY', NULL, 343),
+(153, 'LAS DELICIAS', NULL, 343),
+(154, 'LOS TACARIGUA', NULL, 343),
+(155, 'MADRE MARIA DE SAN JOSE', NULL, 343),
+(156, 'PEDRO JOSE OVALLES', NULL, 343),
+(157, 'BOLIVAR', NULL, 323),
+(158, 'CAMATAGUA', NULL, 53),
+(159, 'CARMEN DE CURA', NULL, 53),
+(160, 'FRANCISCO DE MIRANDA', NULL, 146),
+(161, 'MOSEÃ±OR FELICIANO GONZALEZ', NULL, 54),
+(162, 'SANTA RITA', NULL, 328),
+(163, 'CASTOR NIEVES RIOS', NULL, 57),
+(164, 'JOSE FELIX RIBAS', NULL, 79),
+(165, 'LAS GUACAMAYAS', NULL, 57),
+(166, 'PAO DE ZARATE', NULL, 57),
+(167, 'JOSE RAFAEL REVENGA', NULL, 58),
+(168, 'PALO NEGRO', NULL, 59),
+(169, 'SAN MARTIN DE PORRES', NULL, 59),
+(170, 'CAÃ±A DE AZUCAR', NULL, 344),
+(171, 'EL LIMON', NULL, 344),
+(172, 'OCUMARE DE LA COSTA', NULL, 61),
+(173, 'GÃ¼IRIPA', NULL, 62),
+(174, 'OLLAS DE CARAMACATE', NULL, 62),
+(175, 'SAN CASIMIRO', NULL, 62),
+(176, 'VALLE MORIN', NULL, 62),
+(177, 'SAN SEBASTIAN', NULL, 269),
+(178, 'ALFREDO PACHECO MIRANDA', NULL, 345),
+(179, 'AREVALO APONTE', NULL, 345),
+(180, 'CHUAO', NULL, 345),
+(181, 'SAMAN DE GÃ¼ERE', NULL, 345),
+(182, 'TURMERO', NULL, 345),
+(183, 'SANTOS MICHELENA', NULL, 65),
+(184, 'TIARA', NULL, 65),
+(185, 'BELLA VISTA', NULL, 9),
+(186, 'CAGUA', NULL, 9),
+(187, 'TOVAR', NULL, 67),
+(188, 'LAS PEÃ±ITAS', NULL, 68),
+(189, 'SAN FRANCISCO DE CARA', NULL, 68),
+(190, 'TAGUAY', NULL, 68),
+(191, 'AUGUSTO MIJARES', NULL, 69),
+(192, 'MAGDALENO', NULL, 69),
+(193, 'SAN FRANCISCO DE ASIS', NULL, 69),
+(194, 'VALLES DE TUCUTUNEMO', NULL, 69),
+(195, 'ZAMORA', NULL, 69),
+(196, 'JUAN ANTONIO RODRIGUEZ DOMINGUEZ', NULL, 74),
+(197, 'SABANETA', NULL, 37),
+(198, 'EL CANTON', NULL, 6),
+(199, 'PUERTO VIVAS', NULL, 6),
+(200, 'SANTA CRUZ DE GUACAS', NULL, 6),
+(201, 'ANDRES BELLO', NULL, 379),
+(202, 'NICOLAS PULIDO', NULL, 72),
+(203, 'TICOPORO', NULL, 72),
+(204, 'ARISMENDI', NULL, 73),
+(205, 'GUADARRAMA', NULL, 73),
+(206, 'LA UNION', NULL, 282),
+(207, 'SAN ANTONIO', NULL, 37),
+(208, 'ALBERTO ARVELO LARRIVA', NULL, 74),
+(209, 'ALTO BARINAS', NULL, 74),
+(210, 'BARINAS', NULL, 74),
+(211, 'CORAZON DE JESUS', NULL, 74),
+(212, 'DOMINGA ORTIZ DE PAEZ', NULL, 74),
+(213, 'MANUEL PALACIO FAJARDO', NULL, 74),
+(214, 'RAMON IGNACIO MENDEZ', NULL, 77),
+(215, 'ROMULO BETANCOURT', NULL, 313),
+(216, 'SAN SILVESTRE', NULL, 74),
+(217, 'SANTA LUCIA', NULL, 323),
+(218, 'TORUMOS', NULL, 74),
+(219, 'ALTAMIRA DE CACERES', NULL, 26),
+(220, 'BARINITAS', NULL, 26),
+(221, 'CALDERAS', NULL, 26),
+(222, 'BARRANCAS', NULL, 44),
+(223, 'EL SOCORRO', NULL, 374),
+(224, 'MAZPARRITO', NULL, 76),
+(225, 'JOSE IGNACIO DEL PUMAR', NULL, 77),
+(226, 'PEDRO BRICEÃ±O MENDEZ', NULL, 77),
+(227, 'EL REAL', NULL, 78),
+(228, 'GUASIMITOS', NULL, 78),
+(229, 'LA LUZ', NULL, 78),
+(230, 'OBISPOS', NULL, 78),
+(231, 'CIUDAD BOLIVIA', NULL, 79),
+(232, 'JOSE IGNACIO BRICEÃ±O', NULL, 79),
+(233, 'PAEZ', NULL, 1),
+(234, 'DOLORES', NULL, 80),
+(235, 'LIBERTAD', NULL, 380),
+(236, 'PALACIO FAJARDO', NULL, 80),
+(237, 'CIUDAD DE NUTRIAS', NULL, 81),
+(238, 'EL REGALO', NULL, 81),
+(239, 'PUERTO NUTRIAS', NULL, 81),
+(240, 'SANTA CATALINA', NULL, 237),
+(241, 'BARCELONETA', NULL, 346),
+(242, 'RAUL LEONI', NULL, 323),
+(243, '5 DE JULIO', NULL, 82),
+(244, 'CACHAMAY', NULL, 82),
+(245, 'CHIRICA', NULL, 82),
+(246, 'DALLA COSTA', NULL, 90),
+(247, 'ONCE DE ABRIL', NULL, 82),
+(248, 'POZO VERDE', NULL, 82),
+(249, 'SIMON BOLIVAR', NULL, 93),
+(250, 'UNARE', NULL, 82),
+(251, 'UNIVERSIDAD', NULL, 82),
+(252, 'VISTA AL SOL', NULL, 82),
+(253, 'YOCOIMA', NULL, 82),
+(254, 'ALTAGRACIA', NULL, 59),
+(255, 'ASCENSION FARRERAS', NULL, 347),
+(256, 'CEDEÃ±O', NULL, 347),
+(257, 'GUANIAMO', NULL, 347),
+(258, 'LA URBANA', NULL, 347),
+(259, 'PIJIGUAOS', NULL, 347),
+(260, 'EL CALLAO', NULL, 84),
+(261, 'GRAN SABANA', NULL, 85),
+(262, 'IKABARU', NULL, 85),
+(263, 'AGUA SALADA', NULL, 86),
+(264, 'CATEDRAL', NULL, 59),
+(265, 'JOSE ANTONIO PAEZ', NULL, 303),
+(266, 'LA SABANITA', NULL, 86),
+(267, 'MARHUANTA', NULL, 86),
+(268, 'ORINOCO', NULL, 86),
+(269, 'PANAPANA', NULL, 86),
+(270, 'VISTA HERMOSA', NULL, 86),
+(271, 'ZEA', NULL, 189),
+(272, 'PADRE PEDRO CHIEN', NULL, 348),
+(273, 'RIO GRANDE', NULL, 348),
+(274, 'PEDRO COVA', NULL, 87),
+(275, 'ROSCIO', NULL, 89),
+(276, 'SALOM', NULL, 306),
+(277, 'SAN ISIDRO', NULL, 323),
+(278, 'SIFONTES', NULL, 90),
+(279, 'ARIPAO', NULL, 9),
+(280, 'GUARATARO', NULL, 9),
+(281, 'LAS MAJADAS', NULL, 9),
+(282, 'MOITACO', NULL, 9),
+(283, 'BEJUMA', NULL, 93),
+(284, 'CANOABO', NULL, 93),
+(285, 'CARABOBO', NULL, 94),
+(286, 'GÃ¼IGÃ¼E', NULL, 94),
+(287, 'TACARIGUA', NULL, 94),
+(288, 'AGUAS CALIENTES', NULL, 95),
+(289, 'MARIARA', NULL, 95),
+(290, 'CIUDAD ALIANZA', NULL, 96),
+(291, 'GUACARA', NULL, 96),
+(292, 'YAGUA', NULL, 97),
+(293, 'MORON', NULL, 97),
+(294, 'INDEPENDENCIA', NULL, 34),
+(295, 'TOCUYITO', NULL, 59),
+(296, 'LOS GUAYOS', NULL, 99),
+(297, 'MIRANDA', NULL, 37),
+(298, 'MONTALBAN', NULL, 172),
+(299, 'NAGUANAGUA', NULL, 102),
+(300, 'BARTOLOME SALOM', NULL, 103),
+(301, 'BORBURATA', NULL, 103),
+(302, 'DEMOCRACIA', NULL, 103),
+(303, 'FRATERNIDAD', NULL, 103),
+(304, 'GOAIGOAZA', NULL, 103),
+(305, 'JUAN JOSE FLORES', NULL, 103),
+(306, 'PATANEMO', NULL, 103),
+(307, 'UNION', NULL, 236),
+(308, 'SAN DIEGO', NULL, 104),
+(309, 'CANDELARIA', NULL, 106),
+(310, 'MIGUEL PEÃ±A', NULL, 106),
+(311, 'NEGRO PRIMERO', NULL, 106),
+(312, 'RAFAEL URDANETA', NULL, 331),
+(313, 'SAN BLAS', NULL, 106),
+(314, 'SAN JOSE', NULL, 59),
+(315, 'COJEDES', NULL, 107),
+(316, 'JUAN DE MATA SUAREZ', NULL, 107),
+(317, 'EL BAUL', NULL, 55),
+(318, 'LA AGUADITA', NULL, 110),
+(319, 'MACAPO', NULL, 110),
+(320, 'LIBERTAD DE COJEDES', NULL, 112),
+(321, 'ROMULO GALLEGOS', NULL, 9),
+(322, 'JUAN ANGEL BRAVO', NULL, 349),
+(323, 'MANUEL MANRIQUE', NULL, 207),
+(324, 'SAN CARLOS DE AUSTRIA', NULL, 349),
+(325, 'GENERAL EN JEFE JOSE LAURENCIO SILVA', NULL, 350),
+(326, 'TINAQUILLO', NULL, 351),
+(327, 'ALMIRANTE LUIS BRION', NULL, 114),
+(328, 'CURIAPO', NULL, 114),
+(329, 'FRANCISCO ANICETO LUGO', NULL, 114),
+(330, 'MANUEL RENAUD', NULL, 114),
+(331, 'PADRE BARRAL', NULL, 114),
+(332, 'SANTOS DE ABELGAS', NULL, 114),
+(333, 'CINCO DE JULIO', NULL, 115),
+(334, 'IMATACA', NULL, 115),
+(335, 'JUAN BAUTISTA ARISMENDI', NULL, 115),
+(336, 'MANUEL PIAR', NULL, 115),
+(337, 'LUIS BELTRAN PRIETO FIGUEROA', NULL, 116),
+(338, 'PEDERNALES', NULL, 116),
+(339, 'JOSE VIDAL MARCANO', NULL, 117),
+(340, 'JUAN MILLAN', NULL, 117),
+(341, 'LEONARDO RUIZ PINEDA', NULL, 117),
+(342, 'MARISCAL ANTONIO JOSE DE SUCRE', NULL, 117),
+(343, 'MONSEÃ±OR ARGIMIRO GARCIA', NULL, 117),
+(344, 'SAN JOSE (DELTA AMACURO)', NULL, 117),
+(345, 'SAN RAFAEL (DELTA AMACURO)', NULL, 117),
+(346, 'VIRGEN DEL VALLE', NULL, 117),
+(347, 'CAPADARE', NULL, 118),
+(348, 'LA PASTORA', NULL, 59),
+(349, 'SAN JUAN DE LOS CAYOS', NULL, 118),
+(350, 'ARACUA', NULL, 26),
+(351, 'LA PEÃ±A', NULL, 26),
+(352, 'SAN LUIS', NULL, 296),
+(353, 'BARIRO', NULL, 120),
+(354, 'BOROJO', NULL, 120),
+(355, 'CAPATARIDA', NULL, 120),
+(356, 'GUAJIRO', NULL, 120),
+(357, 'SEQUE', NULL, 120),
+(358, 'VALLE DE EROA', NULL, 120),
+(359, 'ZAZARIDA', NULL, 69),
+(360, 'CACIQUE MANAURE', NULL, 121),
+(361, 'CARIRUBANA', NULL, 122),
+(362, 'NORTE', NULL, 122),
+(363, 'URBANA PUNTA CARDON', NULL, 122),
+(364, 'ACURIGUA', NULL, 123),
+(365, 'GUAIBACOA', NULL, 123),
+(366, 'LA VELA DE CORO', NULL, 123),
+(367, 'LAS CALDERAS', NULL, 123),
+(368, 'MACORUCA', NULL, 123),
+(369, 'DABAJURO', NULL, 124),
+(370, 'AGUA CLARA', NULL, 125),
+(371, 'AVARIA', NULL, 125),
+(372, 'PEDREGAL', NULL, 125),
+(373, 'PIEDRA GRANDE', NULL, 125),
+(374, 'PURURECHE', NULL, 125),
+(375, 'ADAURE', NULL, 108),
+(376, 'ADICORA', NULL, 108),
+(377, 'BARAIVED', NULL, 108),
+(378, 'BUENA VISTA', NULL, 287),
+(379, 'EL HATO', NULL, 108),
+(380, 'EL VINCULO', NULL, 108),
+(381, 'JADACAQUIVA', NULL, 108),
+(382, 'MORUY', NULL, 108),
+(383, 'AGUA LARGA', NULL, 127),
+(384, 'CHURUGUARA', NULL, 127),
+(385, 'EL PAUJI', NULL, 127),
+(386, 'MAPARARI', NULL, 127),
+(387, 'AGUA LINDA', NULL, 128),
+(388, 'ARAURIMA', NULL, 128),
+(389, 'JACURA', NULL, 128),
+(390, 'BOCA DE AROA', NULL, 352),
+(391, 'TUCACAS', NULL, 352),
+(392, 'JUDIBANA', NULL, 129),
+(393, 'LOS TAQUES', NULL, 129),
+(394, 'CASIGUA', NULL, 130),
+(395, 'MENE DE MAUROA', NULL, 130),
+(396, 'SAN FELIX', NULL, 130),
+(397, 'GUZMAN GUILLERMO', NULL, 37),
+(398, 'MITARE', NULL, 37),
+(399, 'RIO SECO', NULL, 37),
+(400, 'SAN GABRIEL', NULL, 37),
+(401, 'BOCA DEL TOCUYO', NULL, 353),
+(402, 'CHICHIRIVICHE', NULL, 353),
+(403, 'TOCUYO DE LA COSTA', NULL, 353),
+(404, 'PALMASOLA', NULL, 133),
+(405, 'CABURE', NULL, 134),
+(406, 'COLINA', NULL, 134),
+(407, 'CURIMAGUA', NULL, 134),
+(408, 'SAN JOSE DE LA COSTA', NULL, 40),
+(409, 'PECAYA', NULL, 276),
+(410, 'TOCOPERO', NULL, 139),
+(411, 'EL CHARAL', NULL, 140),
+(412, 'LAS VEGAS DEL TUY', NULL, 140),
+(413, 'SANTA CRUZ DE BUCARAL', NULL, 140),
+(414, 'URUMACO', NULL, 141),
+(415, 'LA CIENAGA', NULL, 69),
+(416, 'LA SOLEDAD', NULL, 69),
+(417, 'PUEBLO CUMAREBO', NULL, 69),
+(418, 'PUERTO CUMAREBO', NULL, 69),
+(419, 'CAMAGUAN', NULL, 354),
+(420, 'PUERTO MIRANDA', NULL, 354),
+(421, 'CHAGUARAMAS', NULL, 59),
+(422, 'SAN RAFAEL DE LAYA', NULL, 57),
+(423, 'TUCUPIDO', NULL, 57),
+(424, 'ALTAGRACIA DE ORITUCO', NULL, 148),
+(425, 'CARLOS SOUBLETTE', NULL, 297),
+(426, 'LIBERTAD DE ORITUCO', NULL, 148),
+(427, 'PASO REAL DE MACAIRA', NULL, 148),
+(428, 'SAN FRANCISCO DE MACAIRA', NULL, 148),
+(429, 'SAN FRANCISCO JAVIER DE LEZAMA', NULL, 148),
+(430, 'SAN RAFAEL DE ORITUCO', NULL, 148),
+(431, 'CANTACLARO', NULL, 149),
+(432, 'PARAPARA', NULL, 149),
+(433, 'SAN JUAN DE LOS MORROS', NULL, 149),
+(434, 'EL SOMBRERO', NULL, 150),
+(435, 'SOSA', NULL, 150),
+(436, 'CABRUTA', NULL, 151),
+(437, 'LAS MERCEDES', NULL, 165),
+(438, 'SANTA RITA DE MANAPIRE', NULL, 151),
+(439, 'ESPINO', NULL, 152),
+(440, 'VALLE DE LA PASCUA', NULL, 152),
+(441, 'ORTIZ', NULL, 154),
+(442, 'SAN FRANCISCO DE TIZNADOS', NULL, 154),
+(443, 'SAN JOSE DE TIZNADOS', NULL, 154),
+(444, 'SAN LORENZO DE TIZNADOS', NULL, 154),
+(445, 'SAN JOSE DE UNARE', NULL, 153),
+(446, 'ZARAZA', NULL, 153),
+(447, 'CAZORLA', NULL, 155),
+(448, 'GUAYABAL', NULL, 155),
+(449, 'SAN JOSE DE GUARIBE', NULL, 356),
+(450, 'ALTAMIRA', NULL, 157),
+(451, 'SANTA MARIA DE IPIRE', NULL, 157),
+(452, 'CAPITAL URBANA CALABOZO', NULL, 357),
+(453, 'EL CALVARIO', NULL, 357),
+(454, 'EL RASTRO', NULL, 357),
+(455, 'GUARDATINAJAS', NULL, 357),
+(456, 'PIO TAMAYO', NULL, 6),
+(457, 'QUEBRADA HONDA DE GUACHE', NULL, 6),
+(458, 'YACAMBU', NULL, 6),
+(459, 'FREITEZ', NULL, 159),
+(460, 'JOSE MARIA BLANCO', NULL, 159),
+(461, 'AGUEDO FELIPE ALVARADO', NULL, 160),
+(462, 'EL CUJI', NULL, 160),
+(463, 'JUAN DE VILLEGAS', NULL, 160),
+(464, 'JUAREZ', NULL, 160),
+(465, 'TAMACA', NULL, 160),
+(466, 'CORONEL MARIANO PERAZA ', NULL, 161),
+(467, 'CUARA', NULL, 161),
+(468, 'DIEGO DE LOZADA', NULL, 161),
+(469, 'JOSE BERNARDO DORANTE', NULL, 161),
+(470, 'JUAN BAUTISTA RODRIGUEZ', NULL, 161),
+(471, 'PARAISO DE SAN JOSE', NULL, 161),
+(472, 'TINTORERO', NULL, 161),
+(473, 'ANZOATEGUI', NULL, 162),
+(474, 'GUARICO', NULL, 162),
+(475, 'HILARIO LUNA Y LUNA', NULL, 162),
+(476, 'HUMOCARO ALTO', NULL, 162),
+(477, 'HUMOCARO BAJO', NULL, 162),
+(478, 'LA CANDELARIA', NULL, 59),
+(479, 'MORAN', NULL, 162),
+(480, 'AGUA VIVA', NULL, 163),
+(481, 'CABUDARE', NULL, 163),
+(482, 'JOSE GREGORIO BASTIDAS', NULL, 163),
+(483, 'BURIA', NULL, 164),
+(484, 'GUSTAVO VEGAS LEON', NULL, 164),
+(485, 'SARARE', NULL, 164),
+(486, 'ANTONIO DIAZ', NULL, 165),
+(487, 'CAMACARO', NULL, 165),
+(488, 'CASTAÃ±EDA', NULL, 165),
+(489, 'CECILIO ZUBILLAGA', NULL, 165),
+(490, 'CHIQUINQUIRA', NULL, 323),
+(491, 'EL BLANCO', NULL, 165),
+(492, 'ESPINOZA DE LOS MONTEROS', NULL, 165),
+(493, 'HERIBERTO ARROYO', NULL, 165),
+(494, 'LARA', NULL, 165),
+(495, 'MANUEL MORILLO', NULL, 165),
+(496, 'MONTAÃ±A VERDE', NULL, 165),
+(497, 'MONTES DE OCA', NULL, 165),
+(498, 'REYES VARGAS', NULL, 165),
+(499, 'TORRES', NULL, 165),
+(500, 'TRINIDAD SAMUEL', NULL, 165),
+(501, 'MOROTURO', NULL, 68),
+(502, 'SIQUISIQUE', NULL, 68),
+(503, 'XAGUAS', NULL, 68),
+(504, 'GABRIEL PICON GONZALEZ', NULL, 167),
+(505, 'HECTOR AMABLE MORA', NULL, 167),
+(506, 'JOSE NUCETE SARDI', NULL, 167),
+(507, 'PRESIDENTE BETANCOURT', NULL, 167),
+(508, 'PRESIDENTE PAEZ', NULL, 167),
+(509, 'PRESIDENTE ROMULO GALLEGOS', NULL, 167),
+(510, 'PULIDO MENDEZ', NULL, 167),
+(511, 'LA AZULITA', NULL, 168),
+(512, 'MESA BOLIVAR', NULL, 169),
+(513, 'MESA DE LAS PALMAS', NULL, 169),
+(514, 'SANTA CRUZ DE MORA', NULL, 169),
+(515, 'ARICAGUA', NULL, 244),
+(516, 'CANAGUA', NULL, 171),
+(517, 'CAPURI', NULL, 171),
+(518, 'CHACANTA', NULL, 171),
+(519, 'EL MOLINO', NULL, 171),
+(520, 'GUAIMARAL', NULL, 171),
+(521, 'MUCUCHACHI', NULL, 171),
+(522, 'MUCUTUY', NULL, 171),
+(523, 'ACEQUIAS', NULL, 172),
+(524, 'FERNANDEZ PEÃ±A', NULL, 172),
+(525, 'JAJI', NULL, 172),
+(526, 'LA MESA', NULL, 172),
+(527, 'MATRIZ', NULL, 294),
+(528, 'SAN JOSE DEL SUR', NULL, 172),
+(529, 'FLORENCIO RAMIREZ', NULL, 173),
+(530, 'TUCANI', NULL, 173),
+(531, 'LAS PIEDRAS', NULL, 358),
+(532, 'SANTO DOMINGO', NULL, 254),
+(533, 'GUARAQUE', NULL, 175),
+(534, 'MESA DE QUINTERO', NULL, 175),
+(535, 'RIO NEGRO', NULL, 380),
+(536, 'ARAPUEY', NULL, 176),
+(537, 'PALMIRA', NULL, 176),
+(538, 'SAN CRISTOBAL DE TORONDOY', NULL, 359),
+(539, 'TORONDOY', NULL, 359),
+(540, 'ANTONIO SPINETTI DINI', NULL, 59),
+(541, 'ARIAS', NULL, 59),
+(542, 'CARACCIOLO PARRA PEREZ', NULL, 59),
+(543, 'DOMINGO PEÃ±A', NULL, 59),
+(544, 'EL LLANO', NULL, 67),
+(545, 'GONZALO PICON FEBRES', NULL, 59),
+(546, 'JACINTO PLAZA', NULL, 59),
+(547, 'JUAN RODRIGUEZ SUAREZ', NULL, 59),
+(548, 'LASSO DE LA VEGA', NULL, 59),
+(549, 'LOS NEVADOS', NULL, 59),
+(550, 'MARIANO PICON SALAS', NULL, 59),
+(551, 'MILLA', NULL, 59),
+(552, 'OSUNA RODRIGUEZ', NULL, 59),
+(553, 'SAGRARIO', NULL, 59),
+(554, 'LA VENTA', NULL, 37),
+(555, 'PIÃ±ANGO', NULL, 37),
+(556, 'TIMOTES', NULL, 37),
+(557, 'ELOY PAREDES', NULL, 360),
+(558, 'SAN RAFAEL DE ALCAZAR', NULL, 360),
+(559, 'SANTA ELENA DE ARENALES', NULL, 360),
+(560, 'SANTA MARIA DE CAPARO', NULL, 181),
+(561, 'PUEBLO LLANO', NULL, 182),
+(562, 'CACUTE', NULL, 183),
+(563, 'LA TOMA', NULL, 183),
+(564, 'MUCUCHIES', NULL, 183),
+(565, 'MUCURUBA', NULL, 183),
+(566, 'SAN RAFAEL', NULL, 322),
+(567, 'BAILADORES', NULL, 361),
+(568, 'GERONIMO MALDONADO', NULL, 361),
+(569, 'TABAY', NULL, 362),
+(570, 'CHIGUARA', NULL, 9),
+(571, 'ESTANQUEZ', NULL, 9),
+(572, 'LA TRAMPA', NULL, 9),
+(573, 'LAGUNILLAS', NULL, 9),
+(574, 'PUEBLO NUEVO DEL SUR', NULL, 9),
+(575, 'SAN JUAN', NULL, 59),
+(576, 'MARIA DE LA CONCEPCION PALACIOS BLANCO', NULL, 188),
+(577, 'NUEVA BOLIVIA', NULL, 188),
+(578, 'SANTA APOLONIA', NULL, 285),
+(579, 'CAÃ±O EL TIGRE', NULL, 189),
+(580, 'ARAGÃ¼ITA', NULL, 363),
+(581, 'AREVALO GONZALEZ', NULL, 363),
+(582, 'CAPAYA', NULL, 363),
+(583, 'CAUCAGUA', NULL, 363),
+(584, 'EL CAFE', NULL, 363),
+(585, 'MARIZAPA', NULL, 363),
+(586, 'PANAQUIRE', NULL, 363),
+(587, 'RIBAS', NULL, 363),
+(588, 'CUMBO', NULL, 168),
+(589, 'SAN JOSE DE BARLOVENTO', NULL, 168),
+(590, 'EL CAFETAL', NULL, 192),
+(591, 'LAS MINAS', NULL, 192),
+(592, 'NUESTRA SEÃ±ORA DEL ROSARIO', NULL, 192),
+(593, 'CURIEPE', NULL, 193),
+(594, 'HIGUEROTE', NULL, 193),
+(595, 'TACARIGUA DE BRION', NULL, 193),
+(596, 'MAMPORAL', NULL, 194),
+(597, 'CARRIZAL', NULL, 364),
+(598, 'CHACAO', NULL, 196),
+(599, 'CHARALLAVE', NULL, 197),
+(600, 'LAS BRISAS', NULL, 197),
+(601, 'EL HATILLO', NULL, 365),
+(602, 'ALTAGRACIA DE LA MONTAÃ±A', NULL, 199),
+(603, 'CECILIO ACOSTA', NULL, 323),
+(604, 'EL JARILLO', NULL, 199),
+(605, 'LOS TEQUES', NULL, 199),
+(606, 'PARACOTOS', NULL, 199),
+(607, 'SAN PEDRO', NULL, 59),
+(608, 'TACATA', NULL, 199),
+(609, 'CARTANAL', NULL, 34),
+(610, 'SANTA TERESA DEL TUY', NULL, 34),
+(611, 'LA DEMOCRACIA', NULL, 201),
+(612, 'OCUMARE DEL TUY', NULL, 201),
+(613, 'SAN ANTONIO DE LOS ALTOS', NULL, 202),
+(614, 'EL GUAPO', NULL, 1),
+(615, 'PAPARO', NULL, 1),
+(616, 'RIO CHICO', NULL, 1),
+(617, 'SAN FERNANDO DEL GUAPO', NULL, 1),
+(618, 'TACARIGUA DE LA LAGUNA', NULL, 1),
+(619, 'SANTA LUCIA DEL TUY', NULL, 204),
+(620, 'CUPIRA', NULL, 205),
+(621, 'MACHURUCUTO', NULL, 205),
+(622, 'GUARENAS', NULL, 206),
+(623, 'SAN ANTONIO DE YARE', NULL, 207),
+(624, 'SAN FRANCISCO DE YARE', NULL, 207),
+(625, 'CAUCAGÃ¼ITA', NULL, 9),
+(626, 'FILAS DE MARICHE', NULL, 9),
+(627, 'LA DOLORITA', NULL, 9),
+(628, 'LEONCIO MARTINEZ', NULL, 9),
+(629, 'PETARE', NULL, 9),
+(630, 'CUA', NULL, 68),
+(631, 'NUEVA CUA', NULL, 68),
+(632, 'GUATIRE', NULL, 69),
+(633, 'SAN ANTONIO DE MATURIN', NULL, 118),
+(634, 'SAN FRANCISCO DE MATURIN', NULL, 118),
+(635, 'AGUASAY', NULL, 212),
+(636, 'CARIPITO', NULL, 26),
+(637, 'CARIPE', NULL, 366),
+(638, 'EL GUACHARO', NULL, 366),
+(639, 'LA GUANOTA', NULL, 366),
+(640, 'SABANA DE PIEDRA', NULL, 366),
+(641, 'SAN AGUSTIN', NULL, 59),
+(642, 'TERESEN', NULL, 366),
+(643, 'AREO', NULL, 347),
+(644, 'CAPITAL CEDEÃ±O', NULL, 347),
+(645, 'SAN FELIX DE CANTALICIO', NULL, 347),
+(646, 'VIENTO FRESCO', NULL, 347),
+(647, 'EL TEJERO', NULL, 77),
+(648, 'PUNTA DE MATA', NULL, 77),
+(649, 'LAS ALHUACAS', NULL, 59),
+(650, 'TABASCA', NULL, 59),
+(651, 'TEMBLADOR', NULL, 59),
+(652, 'ALTO DE LOS GODOS', NULL, 218),
+(653, 'BOQUERON', NULL, 218),
+(654, 'EL COROZO', NULL, 218),
+(655, 'EL FURRIAL', NULL, 218),
+(656, 'JUSEPIN', NULL, 218),
+(657, 'LA CRUZ', NULL, 218),
+(658, 'LA PICA', NULL, 218),
+(659, 'LAS COCUIZAS', NULL, 218),
+(660, 'SAN SIMON', NULL, 218),
+(661, 'APARICIO', NULL, 87),
+(662, 'ARAGUA DE MATURIN', NULL, 87),
+(663, 'CHAGUAMAL', NULL, 87),
+(664, 'EL PINTO', NULL, 87),
+(665, 'GUANAGUANA', NULL, 87),
+(666, 'LA TOSCANA', NULL, 87),
+(667, 'TAGUAYA', NULL, 87),
+(668, 'QUIRIQUIRE', NULL, 220),
+(669, 'LOS BARRANCOS DE FAJARDO', NULL, 44),
+(670, 'URACOA', NULL, 223),
+(671, 'ANTOLIN DEL CAMPO', NULL, 224),
+(672, 'SAN JUAN BAUTISTA', NULL, 269),
+(673, 'ZABALA', NULL, 226),
+(674, 'FRANCISCO FAJARDO', NULL, 367),
+(675, 'GARCIA', NULL, 367),
+(676, 'GUEVARA', NULL, 228),
+(677, 'MATASIETE', NULL, 228),
+(678, 'AGUIRRE', NULL, 229),
+(679, 'MANEIRO', NULL, 229),
+(680, 'ADRIAN', NULL, 230),
+(681, 'JUAN GRIEGO', NULL, 230),
+(682, 'YAGUARAPARO', NULL, 28),
+(683, 'PORLAMAR', NULL, 368),
+(684, 'BOCA DE RIO', NULL, 232),
+(685, 'SAN FRANCISCO DE MACANAO', NULL, 232),
+(686, 'LOS BALEALES', NULL, 233),
+(687, 'TUBORES', NULL, 233),
+(688, 'VICENTE FUENTES', NULL, 369),
+(689, 'VILLALBA', NULL, 369),
+(690, 'CAPITAL ARAURE', NULL, 8),
+(691, 'CAPITAL ESTELLER', NULL, 370),
+(692, 'CORDOBA', NULL, 372),
+(693, 'SAN JOSE DE LA MONTAÃ±A', NULL, 10),
+(694, 'VIRGEN DE LA COROMOTO', NULL, 10),
+(695, 'MONSEÃ±OR JOSE VICENTE DE UNDA', NULL, 371),
+(696, 'PEÃ±A BLANCA', NULL, 371),
+(697, 'CAPITAL OSPINO', NULL, 13),
+(698, 'CAÃ±O DELGADITO', NULL, 14),
+(699, 'ANTOLIN TOVAR', NULL, 16),
+(700, 'SAN GENARO DE BOCONOITO', NULL, 16),
+(701, 'THERMO MORLES', NULL, 3),
+(702, 'SANTA ROSALIA', NULL, 59),
+(703, 'TUREN', NULL, 7),
+(704, 'MARIÃ±O', NULL, 6),
+(705, 'SAN JOSE DE AEROCUAR', NULL, 4),
+(706, 'TAVERA ACOSTA', NULL, 4),
+(707, 'ANTONIO JOSE DE SUCRE', NULL, 374),
+(708, 'EL MORRO DE PUERTO SANTO', NULL, 73),
+(709, 'PUERTO SANTO', NULL, 73),
+(710, 'RIO CARIBE', NULL, 73),
+(711, 'SAN JUAN DE LAS GALDONAS', NULL, 73),
+(712, 'EL RINCON', NULL, 236),
+(713, 'GENERAL FRANCISCO ANTONIO VAQUEZ', NULL, 236),
+(714, 'GUARAUNOS', NULL, 236),
+(715, 'TUNAPUICITO', NULL, 236),
+(716, 'MARACAPANA', NULL, 237),
+(717, 'SANTA TERESA', NULL, 59),
+(718, 'EL PAUJIL', NULL, 28),
+(719, 'CHACOPATA', NULL, 240),
+(720, 'CRUZ SALMERON ACOSTA', NULL, 240),
+(721, 'MANICUARE', NULL, 240),
+(722, 'CAMPO ELIAS', NULL, 27),
+(723, 'TUNAPUY', NULL, 59),
+(724, 'CAMPO CLARO', NULL, 368),
+(725, 'IRAPA', NULL, 368),
+(726, 'MARAVAL', NULL, 368),
+(727, 'SAN ANTONIO DE IRAPA', NULL, 368),
+(728, 'SORO', NULL, 368),
+(729, 'MEJIA', NULL, 243),
+(730, 'ARENAS', NULL, 244),
+(731, 'COGOLLAR', NULL, 244),
+(732, 'CUMANACOA', NULL, 244),
+(733, 'SAN LORENZO', NULL, 244),
+(734, 'CATUARO', NULL, 245),
+(735, 'RENDON', NULL, 245),
+(736, 'SAN CRUZ', NULL, 245),
+(737, 'SANTA MARIA', NULL, 245),
+(738, 'VILLA FRONTADO (MUELLE DE CARIACO)', NULL, 245),
+(739, 'AYACUCHO', NULL, 278),
+(740, 'GRAN MARISCAL', NULL, 9),
+(741, 'VALENTIN VALIENTE', NULL, 9),
+(742, 'BIDEAU', NULL, 247),
+(743, 'CRISTOBAL COLON', NULL, 247),
+(744, 'GÃ¼IRIA', NULL, 247),
+(745, 'PUNTA DE PIEDRAS', NULL, 247),
+(746, 'ANTONIO ROMULO COSTA', NULL, 249),
+(747, 'RIVAS BERTI', NULL, 250),
+(748, 'SAN PEDRO DEL RIO', NULL, 250),
+(749, 'GENERAL JUAN VICENTE GOMEZ', NULL, 26),
+(750, 'ISAIAS MEDINA ANGARITA', NULL, 26),
+(751, 'PALOTAL', NULL, 26),
+(752, 'AMENODORO ANGEL LAMUS', NULL, 252),
+(753, 'CARDENAS', NULL, 274),
+(754, 'LA FLORIDA', NULL, 252),
+(755, 'ALBERTO ADRIANI', NULL, 254),
+(756, 'FERNANDEZ FEO', NULL, 254),
+(757, 'BOCA DE GRITA', NULL, 256),
+(758, 'GARCIA DE HEVIA', NULL, 256),
+(759, 'GUASIMOS', NULL, 257),
+(760, 'JUAN GERMAN ROSCIO', NULL, 34),
+(761, 'ROMAN CARDENAS', NULL, 34),
+(762, 'EMILIO CONSTANTINO GUERRERO', NULL, 259),
+(763, 'JAUREGUI', NULL, 259),
+(764, 'MONSEÃ±OR MIGUEL ANTONIO SALAS', NULL, 259),
+(765, 'JOSE MARIA VARGAS', NULL, 260),
+(766, 'BRAMON', NULL, 261),
+(767, 'JUNIN', NULL, 9),
+(768, 'LA PETROLEA', NULL, 261),
+(769, 'QUINIMARI', NULL, 261),
+(770, 'CIPRIANO CASTRO', NULL, 35),
+(771, 'MANUEL FELIPE RUGELES', NULL, 35),
+(772, 'DORADAS', NULL, 59),
+(773, 'EMETERIO OCHOA', NULL, 59),
+(774, 'SAN JOAQUIN DE NAVAY', NULL, 59),
+(775, 'CONSTITUCION', NULL, 264),
+(776, 'LOBATERA', NULL, 264),
+(777, 'MICHELENA', NULL, 265),
+(778, 'LA PALMITA', NULL, 266),
+(779, 'PANAMERICANO', NULL, 266),
+(780, 'NUEVA ARCADIA', NULL, 373),
+(781, 'PEDRO MARIA UREÃ±A', NULL, 373),
+(782, 'DELICIAS', NULL, 276),
+(783, 'BOCONO', NULL, 278),
+(784, 'HERNANDEZ', NULL, 268),
+(785, 'SAMUEL DARIO MALDONADO', NULL, 268),
+(786, 'DR. FRANCISCO ROMERO LOBO', NULL, 269),
+(787, 'LA CONCORDIA', NULL, 269),
+(788, 'PEDRO MARIA MORANTES', NULL, 269),
+(789, 'SAN JUDAS TADEO', NULL, 275),
+(790, 'SEBORUCO', NULL, 270),
+(791, 'SIMON RODRIGUEZ', NULL, 316),
+(792, 'ELEAZAR LOPEZ CONTRERAS', NULL, 320),
+(793, 'TORBES', NULL, 273),
+(794, 'JUAN PABLO PEÃ±ALOSA', NULL, 274),
+(795, 'POTOSI', NULL, 274),
+(796, 'URIBANTE', NULL, 274),
+(797, 'ARAGUANEY', NULL, 168),
+(798, 'EL JAGUITO', NULL, 168),
+(799, 'LA ESPERANZA', NULL, 168),
+(800, 'SANTA ISABEL', NULL, 168),
+(801, 'BURBUSAY', NULL, 278),
+(802, 'GENERAL RIBAS', NULL, 278),
+(803, 'GUARAMACAL', NULL, 278),
+(804, 'MONSEÃ±OR JAUREGUI', NULL, 278),
+(805, 'MOSQUEY', NULL, 278),
+(806, 'RAFAEL RANGEL', NULL, 278),
+(807, 'VEGA DE GUARAMACAL', NULL, 278),
+(808, 'CHEREGÃ¼E', NULL, 26),
+(809, 'GRANADOS', NULL, 26),
+(810, 'SABANA GRANDE', NULL, 26),
+(811, 'ARNOLDO GABALDON', NULL, 284),
+(812, 'BOLIVIA', NULL, 280),
+(813, 'CARRILLO', NULL, 280),
+(814, 'CEGARRA', NULL, 280),
+(815, 'CHEJENDE', NULL, 280),
+(816, 'MANUEL SALVADOR ULLOA', NULL, 280),
+(817, 'CARACHE', NULL, 281),
+(818, 'CUICAS', NULL, 281),
+(819, 'LA CONCEPCION', NULL, 317),
+(820, 'PANAMERICANA', NULL, 281),
+(821, 'ESCUQUE', NULL, 282),
+(822, 'SABANA LIBRE', NULL, 282),
+(823, 'LOS CAPRICHOS', NULL, 374),
+(824, 'EL PROGRESO', NULL, 285),
+(825, 'LA CEIBA', NULL, 285),
+(826, 'TRES DE FEBRERO', NULL, 285),
+(827, 'AGUA CALIENTE', NULL, 37),
+(828, 'AGUA SANTA', NULL, 37),
+(829, 'EL CENIZO', NULL, 37),
+(830, 'EL DIVIDIVE', NULL, 37),
+(831, 'VALERITA', NULL, 37),
+(832, 'MONTE CARMELO', NULL, 287),
+(833, 'SANTA MARIA DEL HORCON', NULL, 287),
+(834, 'EL BAÃ±O', NULL, 288),
+(835, 'JALISCO', NULL, 288),
+(836, 'MOTATAN', NULL, 288),
+(837, 'FLOR DE PATRIA', NULL, 289),
+(838, 'LA PAZ', NULL, 289),
+(839, 'PAMPAN', NULL, 289),
+(840, 'PAMPANITO', NULL, 290),
+(841, 'PAMPANITO II', NULL, 290),
+(842, 'BETIJOQUE', NULL, 291),
+(843, 'JOSE GREGORIO HERNANDEZ', NULL, 291),
+(844, 'LA PUEBLITA', NULL, 291),
+(845, 'LOS CEDROS', NULL, 291),
+(846, 'ANTONIO NICOLAS BRICEÃ±O', NULL, 292),
+(847, 'CAMPO ALEGRE', NULL, 292),
+(848, 'CARVAJAL', NULL, 292),
+(849, 'JOSE LEONARDO SUAREZ', NULL, 292),
+(850, 'EL PARAISO', NULL, 59),
+(851, 'SABANA DE MENDOZA', NULL, 9),
+(852, 'VALMORE RODRIGUEZ', NULL, 9),
+(853, 'ANDRES LINARES', NULL, 294),
+(854, 'CRISTOBAL MENDOZA', NULL, 294),
+(855, 'CRUZ CARRILLO', NULL, 294),
+(856, 'MONSEÃ±OR CARRILLO', NULL, 294),
+(857, 'TRES ESQUINAS', NULL, 294),
+(858, 'CABIMBU', NULL, 68),
+(859, 'JAJO', NULL, 68),
+(860, 'LA MESA DE ESNUJAQUE', NULL, 68),
+(861, 'LA QUEBRADA', NULL, 68),
+(862, 'SANTIAGO', NULL, 68),
+(863, 'TUÃ±AME', NULL, 68),
+(864, 'JUAN IGNACIO MONTILLA', NULL, 296),
+(865, 'LA BEATRIZ', NULL, 296),
+(866, 'LA PUERTA', NULL, 296),
+(867, 'MENDOZA DEL VALLE DE MOMBOY', NULL, 296),
+(868, 'MERCEDES DIAZ', NULL, 296),
+(869, 'CARABALLEDA', NULL, 297),
+(870, 'CARAYACA', NULL, 297),
+(871, 'CARUAO CHUSPA', NULL, 297),
+(872, 'CATIA LA MAR', NULL, 297),
+(873, 'EL JUNKO', NULL, 297),
+(874, 'LA GUAIRA', NULL, 297),
+(875, 'MACUTO', NULL, 297),
+(876, 'MAIQUETIA', NULL, 297),
+(877, 'NAIGUATA', NULL, 297),
+(878, 'URIMARE', NULL, 297),
+(879, 'ARISTIDES BASTIDAS', NULL, 298),
+(880, 'CHIVACOA', NULL, 27),
+(881, 'COCOROTE', NULL, 301),
+(882, 'EL GUAYABO', NULL, 375),
+(883, 'FARRIAR', NULL, 375),
+(884, 'MANUEL MONGE', NULL, 305),
+(885, 'NIRGUA', NULL, 306),
+(886, 'TEMERLA', NULL, 306),
+(887, 'SAN ANDRES', NULL, 376),
+(888, 'YARITAGUA', NULL, 376),
+(889, 'ALBARICO', NULL, 308),
+(890, 'SAN FELIPE', NULL, 308),
+(891, 'SAN JAVIER', NULL, 308),
+(892, 'URACHICHE', NULL, 377),
+(893, 'ISLA DE TOAS', NULL, 311),
+(894, 'MONAGAS', NULL, 311),
+(895, 'GENERAL URDANETA', NULL, 312),
+(896, 'MANUEL GUANIPA MATOS', NULL, 312),
+(897, 'MARCELINO BRICEÃ±O', NULL, 312),
+(898, 'SAN TIMOTEO', NULL, 312),
+(899, 'AMBROSIO', NULL, 313),
+(900, 'ARISTIDES CALVANI', NULL, 313),
+(901, 'CARMEN HERRERA', NULL, 313),
+(902, 'GERMAN RIOS LINARES', NULL, 313),
+(903, 'JORGE HERNANDEZ', NULL, 313),
+(904, 'LA ROSA', NULL, 313),
+(905, 'PUNTA GORDA', NULL, 313),
+(906, 'SAN BENITO', NULL, 313),
+(907, 'ENCONTRADOS', NULL, 314),
+(908, 'UDON PEREZ', NULL, 314),
+(909, 'MORALITO', NULL, 315),
+(910, 'SAN CARLOS DEL ZULIA', NULL, 315),
+(911, 'SANTA CRUZ DEL ZULIA', NULL, 315),
+(912, 'URRIBARRI', NULL, 315),
+(913, 'CARLOS QUEVEDO', NULL, 316),
+(914, 'FRANCISCO JAVIER PULGAR', NULL, 316),
+(915, 'GUAMO-GAVILANES', NULL, 316),
+(916, 'JOSE RAMON YEPEZ', NULL, 317),
+(917, 'MARIANO PARRA LEON', NULL, 317),
+(918, 'BARI', NULL, 378),
+(919, 'JESUS MARIA SEMPRUN', NULL, 378),
+(920, 'EL CARMELO', NULL, 379),
+(921, 'POTRERITOS', NULL, 379),
+(922, 'ALONSO DE OJEDA', NULL, 320),
+(923, 'CAMPO LARA', NULL, 320),
+(924, 'VENEZUELA', NULL, 320),
+(925, 'BARTOLOME DE LAS CASAS', NULL, 380),
+(926, 'SAN JOSE DE PERIJA', NULL, 380),
+(927, 'LA SIERRITA', NULL, 322),
+(928, 'LAS PARCELAS', NULL, 322),
+(929, 'LUIS DE VICENTE', NULL, 322),
+(930, 'MONSEÃ±OR MARCOS SERGIO GODOY', NULL, 322),
+(931, 'RICAURTE', NULL, 322),
+(932, 'TAMARE', NULL, 322),
+(933, 'ANTONIO BORJAS ROMERO', NULL, 323),
+(934, 'CACIQUE MARA', NULL, 323),
+(935, 'CARRACCIOLO PARRA PEREZ', NULL, 323),
+(936, 'COQUIVACOA', NULL, 323),
+(937, 'CRISTO DE ARANZA', NULL, 323),
+(938, 'FRANCISCO EUGENIO BUSTAMANTE', NULL, 323),
+(939, 'IDELFONZO VASQUEZ', NULL, 323),
+(940, 'JUANA DE AVILA', NULL, 323),
+(941, 'LUIS HURTADO HIGUERA', NULL, 323),
+(942, 'MANUEL DAGNINO', NULL, 323),
+(943, 'OLEGARIO VILLALOBOS', NULL, 323),
+(944, 'VENANCIO PULGAR', NULL, 323),
+(945, 'ANA MARIA CAMPOS', NULL, 37),
+(946, 'FARIA', NULL, 37),
+(947, 'ALTA GUAJIRA', NULL, 1),
+(948, 'ELIAS SANCHEZ RUBIO', NULL, 1),
+(949, 'GUAJIRA', NULL, 1),
+(950, 'SINAMAICA', NULL, 1),
+(951, 'DONALDO GARCIA', NULL, 326),
+(952, 'EL ROSARIO', NULL, 326),
+(953, 'SIXTO ZAMBRANO', NULL, 326),
+(954, 'DOMITILA FLORES', NULL, 136),
+(955, 'EL BAJO', NULL, 136),
+(956, 'FRANCISCO OCHOA', NULL, 136),
+(957, 'LOS CORTIJOS', NULL, 136),
+(958, 'MARCIAL HERNANDEZ', NULL, 136),
+(959, 'EL MENE', NULL, 328),
+(960, 'JOSE CENOBIO URRIBARRI', NULL, 328),
+(961, 'PEDRO LUCAS URRIBARRI', NULL, 328),
+(962, 'RAFAEL MARIA BARALT', NULL, 207),
+(963, 'BOBURES', NULL, 9),
+(964, 'EL BATEY', NULL, 9),
+(965, 'GIBRALTAR', NULL, 9),
+(966, 'HERAS', NULL, 9),
+(967, 'MONSEÃ±OR ARTURO ALVAREZ', NULL, 9),
+(968, 'LA VICTORIA', NULL, 331),
+(969, 'RAUL CUENCA', NULL, 331),
+(970, '23 DE ENERO', NULL, 59),
+(971, 'ANTIMANO', NULL, 59),
+(972, 'CARICUAO', NULL, 59),
+(973, 'COCHE', NULL, 59),
+(974, 'EL JUNQUITO', NULL, 59),
+(975, 'EL VALLE', NULL, 59),
+(976, 'LA VEGA', NULL, 59),
+(977, 'MACARAO', NULL, 59),
+(978, 'SAN BERNARDINO', NULL, 59),
+(979, 'SUCRE_CATIA', NULL, 59);
 
 -- --------------------------------------------------------
 
@@ -4709,11 +5739,13 @@ INSERT INTO `tparroquia` (`codigo_parroquia`, `descripcion`, `fecha_desactivacio
 
 DROP TABLE IF EXISTS `tperfil`;
 CREATE TABLE IF NOT EXISTS `tperfil` (
-`codigo_perfil` int(11) NOT NULL,
+  `codigo_perfil` int(11) NOT NULL AUTO_INCREMENT,
   `descripcion` varchar(45) COLLATE utf8_spanish_ci NOT NULL,
   `codigo_configuracion` int(11) NOT NULL,
-  `fecha_desactivacion` date DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+  `fecha_desactivacion` date DEFAULT NULL,
+  PRIMARY KEY (`codigo_perfil`),
+  KEY `codigo_configuracion` (`codigo_configuracion`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=3 ;
 
 --
 -- Volcado de datos para la tabla `tperfil`
@@ -4752,7 +5784,11 @@ CREATE TABLE IF NOT EXISTS `tpersona` (
   `nivel_academico` varchar(30) COLLATE utf8_spanish_ci DEFAULT NULL,
   `carga_horaria` int(11) DEFAULT '0',
   `codigo_plantel` char(11) COLLATE utf8_spanish_ci DEFAULT NULL,
-  `fecha_desactivacion` date DEFAULT NULL
+  `fecha_desactivacion` date DEFAULT NULL,
+  PRIMARY KEY (`cedula`),
+  KEY `fk_tpersona_tparroquia` (`lugar_nacimiento`),
+  KEY `fk_tpersona_tcargo` (`codigo_cargo`),
+  KEY `fk_tpersona_tplantel` (`codigo_plantel`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
@@ -4799,7 +5835,9 @@ CREATE TABLE IF NOT EXISTS `tplantel` (
   `localidad` varchar(20) COLLATE utf8_spanish_ci DEFAULT NULL,
   `email` varchar(150) COLLATE utf8_spanish_ci DEFAULT NULL,
   `codigo_municipio` int(11) NOT NULL,
-  `fecha_desactivacion` varchar(45) COLLATE utf8_spanish_ci DEFAULT NULL
+  `fecha_desactivacion` varchar(45) COLLATE utf8_spanish_ci DEFAULT NULL,
+  PRIMARY KEY (`codigo_plantel`),
+  KEY `fk_tplantel_tmunicipio` (`codigo_municipio`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
@@ -4820,7 +5858,7 @@ INSERT INTO `tplantel` (`codigo_plantel`, `nombre`, `direccion`, `telefono_habit
 
 DROP TABLE IF EXISTS `tproceso_inscripcion`;
 CREATE TABLE IF NOT EXISTS `tproceso_inscripcion` (
-`codigo_procesoinscripcion` int(11) NOT NULL,
+  `codigo_procesoinscripcion` int(11) NOT NULL AUTO_INCREMENT,
   `codigo_inscripcion` int(11) NOT NULL,
   `fecha_inscripcion` date NOT NULL,
   `codigo_ano_academico` int(11) NOT NULL,
@@ -4853,8 +5891,19 @@ CREATE TABLE IF NOT EXISTS `tproceso_inscripcion` (
   `seccion` char(5) COLLATE utf8_spanish_ci DEFAULT NULL,
   `grado_escolar` char(1) COLLATE utf8_spanish_ci NOT NULL DEFAULT '1',
   `proceso_completado` char(1) COLLATE utf8_spanish_ci NOT NULL DEFAULT 'N',
-  `estatus` char(1) COLLATE utf8_spanish_ci NOT NULL DEFAULT '1'
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+  `estatus` char(1) COLLATE utf8_spanish_ci NOT NULL DEFAULT '1',
+  PRIMARY KEY (`codigo_procesoinscripcion`),
+  KEY `fk_tpi_tinscrip` (`codigo_inscripcion`),
+  KEY `fk_tpi_taa` (`codigo_ano_academico`),
+  KEY `fk_tpi_tdocente` (`cedula_docente`),
+  KEY `fk_tpi_testudiante` (`cedula_estudiante`),
+  KEY `fk_tpi_tmadre` (`cedula_madre`),
+  KEY `fk_tpi_tpadre` (`cedula_padre`),
+  KEY `fk_tpi_trepresentante` (`cedula_representante`),
+  KEY `fk_tpi_tparentesco` (`codigo_parentesco`),
+  KEY `fk_tpi_tlugartrabajo` (`lugar_trabajo`),
+  KEY `fk_tpi_tseccion` (`seccion`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=9 ;
 
 --
 -- Volcado de datos para la tabla `tproceso_inscripcion`
@@ -4878,11 +5927,13 @@ INSERT INTO `tproceso_inscripcion` (`codigo_procesoinscripcion`, `codigo_inscrip
 
 DROP TABLE IF EXISTS `trespuesta_secreta`;
 CREATE TABLE IF NOT EXISTS `trespuesta_secreta` (
-`codigo_respuesta` int(11) NOT NULL,
+  `codigo_respuesta` int(11) NOT NULL AUTO_INCREMENT,
   `nombre_usuario` char(10) COLLATE utf8_spanish_ci NOT NULL,
   `pregunta` varchar(60) COLLATE utf8_spanish_ci NOT NULL,
-  `respuesta` varchar(60) COLLATE utf8_spanish_ci NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+  `respuesta` varchar(60) COLLATE utf8_spanish_ci NOT NULL,
+  PRIMARY KEY (`codigo_respuesta`),
+  KEY `nombre_usuario` (`nombre_usuario`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=9 ;
 
 --
 -- Volcado de datos para la tabla `trespuesta_secreta`
@@ -4911,7 +5962,8 @@ CREATE TABLE IF NOT EXISTS `tseccion` (
   `capacidad_min` int(11) NOT NULL DEFAULT '5',
   `capacidad_max` int(11) NOT NULL DEFAULT '40',
   `grado_escolar` char(1) COLLATE utf8_spanish_ci NOT NULL DEFAULT '1',
-  `fecha_desactivacion` date DEFAULT NULL
+  `fecha_desactivacion` date DEFAULT NULL,
+  PRIMARY KEY (`seccion`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
@@ -4936,61 +5988,64 @@ INSERT INTO `tseccion` (`seccion`, `descripcion`, `turno`, `capacidad_min`, `cap
 
 DROP TABLE IF EXISTS `tservicio`;
 CREATE TABLE IF NOT EXISTS `tservicio` (
-`codigo_servicio` int(11) NOT NULL,
+  `codigo_servicio` int(11) NOT NULL AUTO_INCREMENT,
   `descripcion` varchar(45) COLLATE utf8_spanish_ci NOT NULL,
   `url` varchar(200) COLLATE utf8_spanish_ci DEFAULT NULL,
   `orden` decimal(10,0) DEFAULT '0',
   `codigo_modulo` int(11) NOT NULL,
-  `fecha_desactivacion` date DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+  `fecha_desactivacion` date DEFAULT NULL,
+  PRIMARY KEY (`codigo_servicio`),
+  UNIQUE KEY `url` (`url`),
+  KEY `tservicios_ibfk_1` (`codigo_modulo`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=43 ;
 
 --
 -- Volcado de datos para la tabla `tservicio`
 --
 
 INSERT INTO `tservicio` (`codigo_servicio`, `descripcion`, `url`, `orden`, `codigo_modulo`, `fecha_desactivacion`) VALUES
-(1, 'PAÍS', 'PAIS', 1, 1, NULL),
-(2, 'ESTADO', 'ESTADO', 2, 1, NULL),
-(3, 'MUNICIPIO', 'MUNICIPIO', 3, 1, NULL),
-(4, 'PARROQUIA', 'PARROQUIA', 4, 1, NULL),
-(5, 'PLANTEL', 'PLANTEL', 1, 2, NULL),
-(6, 'CARGO', 'CARGO', 2, 2, NULL),
-(7, 'PERSONA', 'PERSONA', 3, 2, NULL),
-(8, 'PARENTESCO', 'PARENTESCO', 4, 2, NULL),
-(9, 'AÑO ACADÉMICO', 'ANO_ACADEMICO', 2, 3, NULL),
-(10, 'LAPSO', 'LAPSO', 3, 3, NULL),
-(11, 'MATERIA', 'MATERIA', 4, 3, NULL),
-(12, 'SECCIÓN', 'SECCION', 6, 3, NULL),
-(13, 'ESTUDIANTES', 'ESTUDIANTE', 7, 3, NULL),
-(14, 'CERRAR AÑO ACADÉMICO', 'CERRAR_ANOACADEMICO', 7, 3, NULL),
-(15, 'INSCRIPCIÓN', 'INSCRIPCION', 8, 3, NULL),
-(16, 'ASIGNACIÓN DE NOTAS', 'ASIGNAR_NOTAS', 1, 4, NULL),
-(17, 'PROCESO DE INSCRIPCIÓN', 'PROCESO_INSCRIPCION', 1, 7, NULL),
-(18, 'ASIGNACIÓN DE SECCIONES', 'ASIGNAR_SECCION', 10, 7, NULL),
-(19, 'FICHA DE INSCRIPCIÓN', 'REP_FICHAINSCRIPCION', 1, 5, NULL),
-(20, 'CONSTANCIA DE ESTUDIO', 'REP_CONSTANCIAESTUDIO', 2, 5, NULL),
-(21, 'HISTORIAL DEL PERSONAL ADMINISTRATIVO', 'REP_HISTORIALPERSONAL', 3, 5, NULL),
-(22, 'ESTUDIANTES POR GRADO ESCOLAR', 'REP_ESTUDIANTESPORGRADO', 4, 5, NULL),
-(23, 'ESTUDIANTES POR SECCIÓN', 'REP_ESTUDIANTESPORSECCION', 5, 5, NULL),
-(24, 'ESTUDIANTES NUEVO INGRESO', 'REP_ESTUDIANTESNUEVOINGRESO', 6, 5, NULL),
-(25, 'LISTADO DE DOCENTES', 'REP_DOCENTES', 7, 5, NULL),
-(26, 'LISTADO DE DOCENTES POR MATERIA', 'REP_DOCENTESPORMATERIA', 8, 5, NULL),
-(27, 'NOTAS CERTIFICADAS', 'REP_NOTASCERTIFICADAS', 9, 5, NULL),
-(28, 'MÓDULO', 'MODULO', 1, 6, NULL),
-(29, 'SERVICIOS', 'SERVICIO', 2, 6, NULL),
-(30, 'BOTONERA', 'BOTONES', 3, 6, NULL),
-(31, 'PERFIL', 'PERFILES', 5, 6, NULL),
-(32, 'NUEVO USUARIO', 'NUEVOUSUARIO', 6, 6, NULL),
-(33, 'MÍ PERFIL', 'PERFIL', 6, 6, NULL),
-(34, 'CAMBIAR CONTRASEÑA', 'CAMBIARCONTRASENA', 7, 6, NULL),
-(35, 'HISTÓRICO DE CAMBIOS', 'BITACORA', 11, 6, NULL),
-(36, 'BOLETIN', 'REP_BOLETIN', 10, 5, NULL),
-(37, 'CONFIGURACIÓN DEL PERFIL', 'CONFIGURACION', 4, 6, NULL),
-(38, 'CONFIGURACIÓN DEL NEGOCIO', 'CONFIGURACION_NEGOCIO', 0, 6, NULL),
-(39, 'AMBIENTE DE CLASES', 'AMBIENTE', 3, 3, NULL),
-(40, 'BLOQUE DE HORA', 'BLOQUE_HORA', 1, 8, NULL),
-(41, 'HORARIO', 'HORARIO', 2, 8, NULL),
-(42, 'DESBLOQUEAR USUARIO', 'DESBLOQUEARUSUARIO', 10, 6, NULL);
+(1, 'PAÍS', 'PAIS', '1', 1, NULL),
+(2, 'ESTADO', 'ESTADO', '2', 1, NULL),
+(3, 'MUNICIPIO', 'MUNICIPIO', '3', 1, NULL),
+(4, 'PARROQUIA', 'PARROQUIA', '4', 1, NULL),
+(5, 'PLANTEL', 'PLANTEL', '1', 2, NULL),
+(6, 'CARGO', 'CARGO', '2', 2, NULL),
+(7, 'PERSONA', 'PERSONA', '3', 2, NULL),
+(8, 'PARENTESCO', 'PARENTESCO', '4', 2, NULL),
+(9, 'AÑO ACADÉMICO', 'ANO_ACADEMICO', '2', 3, NULL),
+(10, 'LAPSO', 'LAPSO', '3', 3, NULL),
+(11, 'MATERIA', 'MATERIA', '4', 3, NULL),
+(12, 'SECCIÓN', 'SECCION', '6', 3, NULL),
+(13, 'ESTUDIANTES', 'ESTUDIANTE', '7', 3, NULL),
+(14, 'CERRAR AÑO ACADÉMICO', 'CERRAR_ANOACADEMICO', '7', 3, NULL),
+(15, 'INSCRIPCIÓN', 'INSCRIPCION', '8', 3, NULL),
+(16, 'ASIGNACIÓN DE NOTAS', 'ASIGNAR_NOTAS', '1', 4, NULL),
+(17, 'PROCESO DE INSCRIPCIÓN', 'PROCESO_INSCRIPCION', '1', 7, NULL),
+(18, 'ASIGNACIÓN DE SECCIONES', 'ASIGNAR_SECCION', '10', 7, NULL),
+(19, 'FICHA DE INSCRIPCIÓN', 'REP_FICHAINSCRIPCION', '1', 5, NULL),
+(20, 'CONSTANCIA DE ESTUDIO', 'REP_CONSTANCIAESTUDIO', '2', 5, NULL),
+(21, 'HISTORIAL DEL PERSONAL ADMINISTRATIVO', 'REP_HISTORIALPERSONAL', '3', 5, NULL),
+(22, 'ESTUDIANTES POR GRADO ESCOLAR', 'REP_ESTUDIANTESPORGRADO', '4', 5, NULL),
+(23, 'ESTUDIANTES POR SECCIÓN', 'REP_ESTUDIANTESPORSECCION', '5', 5, NULL),
+(24, 'ESTUDIANTES NUEVO INGRESO', 'REP_ESTUDIANTESNUEVOINGRESO', '6', 5, NULL),
+(25, 'LISTADO DE DOCENTES', 'REP_DOCENTES', '7', 5, NULL),
+(26, 'LISTADO DE DOCENTES POR MATERIA', 'REP_DOCENTESPORMATERIA', '8', 5, NULL),
+(27, 'NOTAS CERTIFICADAS', 'REP_NOTASCERTIFICADAS', '9', 5, NULL),
+(28, 'MÓDULO', 'MODULO', '1', 6, NULL),
+(29, 'SERVICIOS', 'SERVICIO', '2', 6, NULL),
+(30, 'BOTONERA', 'BOTONES', '3', 6, NULL),
+(31, 'PERFIL', 'PERFILES', '5', 6, NULL),
+(32, 'NUEVO USUARIO', 'NUEVOUSUARIO', '6', 6, NULL),
+(33, 'MÍ PERFIL', 'PERFIL', '6', 6, NULL),
+(34, 'CAMBIAR CONTRASEÑA', 'CAMBIARCONTRASENA', '7', 6, NULL),
+(35, 'HISTÓRICO DE CAMBIOS', 'BITACORA', '11', 6, NULL),
+(36, 'BOLETIN', 'REP_BOLETIN', '10', 5, NULL),
+(37, 'CONFIGURACIÓN DEL PERFIL', 'CONFIGURACION', '4', 6, NULL),
+(38, 'CONFIGURACIÓN DEL NEGOCIO', 'CONFIGURACION_NEGOCIO', '0', 6, NULL),
+(39, 'AMBIENTE DE CLASES', 'AMBIENTE', '3', 3, NULL),
+(40, 'BLOQUE DE HORA', 'BLOQUE_HORA', '1', 8, NULL),
+(41, 'HORARIO', 'HORARIO', '2', 8, NULL),
+(42, 'DESBLOQUEAR USUARIO', 'DESBLOQUEARUSUARIO', '10', 6, NULL);
 
 -- --------------------------------------------------------
 
@@ -5002,7 +6057,10 @@ DROP TABLE IF EXISTS `tservicio_usuario_opcion`;
 CREATE TABLE IF NOT EXISTS `tservicio_usuario_opcion` (
   `codigo_opcion` int(11) DEFAULT NULL,
   `codigo_servicio` int(11) NOT NULL,
-  `codigo_perfil` int(11) NOT NULL
+  `codigo_perfil` int(11) NOT NULL,
+  KEY `fk_tservicio_usuario_opcion_topcion` (`codigo_opcion`),
+  KEY `fk_tservicio_usuario_opcion_tservicio` (`codigo_servicio`),
+  KEY `fk_tservicio_usuario_opcion_tperfil` (`codigo_perfil`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
@@ -5383,7 +6441,10 @@ CREATE TABLE IF NOT EXISTS `tusuario` (
   `activar_caducidad` int(11) NOT NULL DEFAULT '1',
   `sesion_abierta` int(11) NOT NULL DEFAULT '0',
   `fecha_ultimasesion` date DEFAULT NULL,
-  `fecha_desactivacion` date DEFAULT NULL
+  `fecha_desactivacion` date DEFAULT NULL,
+  PRIMARY KEY (`nombre_usuario`),
+  KEY `tusuario_ibfk_1` (`cedula`),
+  KEY `tusuario_ibfk_2` (`codigo_perfil`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
@@ -5449,309 +6510,6 @@ DROP TABLE IF EXISTS `vmateria_seccion_horario`;
 CREATE ALGORITHM=UNDEFINED DEFINER=`admin`@`%` SQL SECURITY DEFINER VIEW `vmateria_seccion_horario` AS select `s`.`seccion` AS `seccion`,count(`h`.`codigo_materia`) AS `cantidad_materia_horario`,count(`msd`.`codigo_materia`) AS `cantidad_materia_seccion` from ((`tseccion` `s` left join `tmateria_seccion_docente` `msd` on((`s`.`seccion` = `msd`.`seccion`))) left join `thorario` `h` on((`h`.`seccion` = `s`.`seccion`))) group by `s`.`seccion`,`msd`.`codigo_materia`;
 
 --
--- Índices para tablas volcadas
---
-
---
--- Indices de la tabla `tambiente`
---
-ALTER TABLE `tambiente`
- ADD PRIMARY KEY (`codigo_ambiente`);
-
---
--- Indices de la tabla `tano_academico`
---
-ALTER TABLE `tano_academico`
- ADD PRIMARY KEY (`codigo_ano_academico`);
-
---
--- Indices de la tabla `tauditoria`
---
-ALTER TABLE `tauditoria`
- ADD PRIMARY KEY (`id`);
-
---
--- Indices de la tabla `tbloque_hora`
---
-ALTER TABLE `tbloque_hora`
- ADD PRIMARY KEY (`codigo_bloque_hora`);
-
---
--- Indices de la tabla `tcargo`
---
-ALTER TABLE `tcargo`
- ADD PRIMARY KEY (`codigo_cargo`);
-
---
--- Indices de la tabla `tconfiguracion`
---
-ALTER TABLE `tconfiguracion`
- ADD PRIMARY KEY (`codigo_configuracion`);
-
---
--- Indices de la tabla `tconfiguracion_negocio`
---
-ALTER TABLE `tconfiguracion_negocio`
- ADD PRIMARY KEY (`codigo_configuracion_negocio`);
-
---
--- Indices de la tabla `tcontrasena`
---
-ALTER TABLE `tcontrasena`
- ADD PRIMARY KEY (`nombre_usuario`,`contrasena`), ADD KEY `tcontrasena_ibfk_1` (`nombre_usuario`);
-
---
--- Indices de la tabla `tcontrol_notas`
---
-ALTER TABLE `tcontrol_notas`
- ADD PRIMARY KEY (`codigo_controlnotas`), ADD KEY `fk_tcontrolnotas_msd` (`codigo_msd`), ADD KEY `fk_tcontrolnotas_lapso` (`codigo_lapso`), ADD KEY `fk_tcontrolnotas_estudiante` (`cedula_estudiante`);
-
---
--- Indices de la tabla `testado`
---
-ALTER TABLE `testado`
- ADD PRIMARY KEY (`codigo_estado`), ADD KEY `fk_testado_tpais` (`codigo_pais`);
-
---
--- Indices de la tabla `thorario`
---
-ALTER TABLE `thorario`
- ADD PRIMARY KEY (`codigo_horario`), ADD KEY `fk_thorario_tbloque_hora` (`codigo_bloque_hora`), ADD KEY `fk_thorario_tambiente` (`codigo_ambiente`), ADD KEY `fk_thorario_tano_academico` (`codigo_ano_academico`), ADD KEY `fk_thorario_tmateria` (`codigo_materia`), ADD KEY `fk_thorario_tseccion` (`seccion`), ADD KEY `fk_thorario_tpersona` (`cedula_docente`);
-
---
--- Indices de la tabla `tinscripcion`
---
-ALTER TABLE `tinscripcion`
- ADD PRIMARY KEY (`codigo_inscripcion`);
-
---
--- Indices de la tabla `tlapso`
---
-ALTER TABLE `tlapso`
- ADD PRIMARY KEY (`codigo_lapso`), ADD KEY `fk_tlapso_tanoacademico` (`codigo_ano_academico`);
-
---
--- Indices de la tabla `tmateria`
---
-ALTER TABLE `tmateria`
- ADD PRIMARY KEY (`codigo_materia`), ADD KEY `codigo_materia_padre` (`codigo_materia_padre`);
-
---
--- Indices de la tabla `tmateria_seccion_docente`
---
-ALTER TABLE `tmateria_seccion_docente`
- ADD PRIMARY KEY (`codigo_msd`), ADD KEY `fk_tmateria_seccion_tmateria` (`codigo_materia`), ADD KEY `fk_tmateria_seccion_tseccion` (`seccion`), ADD KEY `fk_tmateria_seccion_tpersona` (`cedula_docente`);
-
---
--- Indices de la tabla `tmodulo`
---
-ALTER TABLE `tmodulo`
- ADD PRIMARY KEY (`codigo_modulo`);
-
---
--- Indices de la tabla `tmunicipio`
---
-ALTER TABLE `tmunicipio`
- ADD PRIMARY KEY (`codigo_municipio`), ADD KEY `fk_tmunicipio_testado` (`codigo_estado`);
-
---
--- Indices de la tabla `topcion`
---
-ALTER TABLE `topcion`
- ADD PRIMARY KEY (`codigo_opcion`);
-
---
--- Indices de la tabla `tpais`
---
-ALTER TABLE `tpais`
- ADD PRIMARY KEY (`codigo_pais`);
-
---
--- Indices de la tabla `tparentesco`
---
-ALTER TABLE `tparentesco`
- ADD PRIMARY KEY (`codigo_parentesco`);
-
---
--- Indices de la tabla `tparroquia`
---
-ALTER TABLE `tparroquia`
- ADD PRIMARY KEY (`codigo_parroquia`), ADD KEY `fk_tparroquia_tmunicipio` (`codigo_municipio`);
-
---
--- Indices de la tabla `tperfil`
---
-ALTER TABLE `tperfil`
- ADD PRIMARY KEY (`codigo_perfil`), ADD KEY `codigo_configuracion` (`codigo_configuracion`);
-
---
--- Indices de la tabla `tpersona`
---
-ALTER TABLE `tpersona`
- ADD PRIMARY KEY (`cedula`), ADD KEY `fk_tpersona_tparroquia` (`lugar_nacimiento`), ADD KEY `fk_tpersona_tcargo` (`codigo_cargo`), ADD KEY `fk_tpersona_tplantel` (`codigo_plantel`);
-
---
--- Indices de la tabla `tplantel`
---
-ALTER TABLE `tplantel`
- ADD PRIMARY KEY (`codigo_plantel`), ADD KEY `fk_tplantel_tmunicipio` (`codigo_municipio`);
-
---
--- Indices de la tabla `tproceso_inscripcion`
---
-ALTER TABLE `tproceso_inscripcion`
- ADD PRIMARY KEY (`codigo_procesoinscripcion`), ADD KEY `fk_tpi_tinscrip` (`codigo_inscripcion`), ADD KEY `fk_tpi_taa` (`codigo_ano_academico`), ADD KEY `fk_tpi_tdocente` (`cedula_docente`), ADD KEY `fk_tpi_testudiante` (`cedula_estudiante`), ADD KEY `fk_tpi_tmadre` (`cedula_madre`), ADD KEY `fk_tpi_tpadre` (`cedula_padre`), ADD KEY `fk_tpi_trepresentante` (`cedula_representante`), ADD KEY `fk_tpi_tparentesco` (`codigo_parentesco`), ADD KEY `fk_tpi_tlugartrabajo` (`lugar_trabajo`), ADD KEY `fk_tpi_tseccion` (`seccion`);
-
---
--- Indices de la tabla `trespuesta_secreta`
---
-ALTER TABLE `trespuesta_secreta`
- ADD PRIMARY KEY (`codigo_respuesta`), ADD KEY `nombre_usuario` (`nombre_usuario`);
-
---
--- Indices de la tabla `tseccion`
---
-ALTER TABLE `tseccion`
- ADD PRIMARY KEY (`seccion`);
-
---
--- Indices de la tabla `tservicio`
---
-ALTER TABLE `tservicio`
- ADD PRIMARY KEY (`codigo_servicio`), ADD UNIQUE KEY `url` (`url`), ADD KEY `tservicios_ibfk_1` (`codigo_modulo`);
-
---
--- Indices de la tabla `tservicio_usuario_opcion`
---
-ALTER TABLE `tservicio_usuario_opcion`
- ADD KEY `fk_tservicio_usuario_opcion_topcion` (`codigo_opcion`), ADD KEY `fk_tservicio_usuario_opcion_tservicio` (`codigo_servicio`), ADD KEY `fk_tservicio_usuario_opcion_tperfil` (`codigo_perfil`);
-
---
--- Indices de la tabla `tusuario`
---
-ALTER TABLE `tusuario`
- ADD PRIMARY KEY (`nombre_usuario`), ADD KEY `tusuario_ibfk_1` (`cedula`), ADD KEY `tusuario_ibfk_2` (`codigo_perfil`);
-
---
--- AUTO_INCREMENT de las tablas volcadas
---
-
---
--- AUTO_INCREMENT de la tabla `tambiente`
---
-ALTER TABLE `tambiente`
-MODIFY `codigo_ambiente` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
---
--- AUTO_INCREMENT de la tabla `tano_academico`
---
-ALTER TABLE `tano_academico`
-MODIFY `codigo_ano_academico` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
---
--- AUTO_INCREMENT de la tabla `tauditoria`
---
-ALTER TABLE `tauditoria`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3448;
---
--- AUTO_INCREMENT de la tabla `tbloque_hora`
---
-ALTER TABLE `tbloque_hora`
-MODIFY `codigo_bloque_hora` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=10;
---
--- AUTO_INCREMENT de la tabla `tcargo`
---
-ALTER TABLE `tcargo`
-MODIFY `codigo_cargo` int(15) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
---
--- AUTO_INCREMENT de la tabla `tconfiguracion`
---
-ALTER TABLE `tconfiguracion`
-MODIFY `codigo_configuracion` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
---
--- AUTO_INCREMENT de la tabla `tconfiguracion_negocio`
---
-ALTER TABLE `tconfiguracion_negocio`
-MODIFY `codigo_configuracion_negocio` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
---
--- AUTO_INCREMENT de la tabla `tcontrol_notas`
---
-ALTER TABLE `tcontrol_notas`
-MODIFY `codigo_controlnotas` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
---
--- AUTO_INCREMENT de la tabla `testado`
---
-ALTER TABLE `testado`
-MODIFY `codigo_estado` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=25;
---
--- AUTO_INCREMENT de la tabla `thorario`
---
-ALTER TABLE `thorario`
-MODIFY `codigo_horario` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
---
--- AUTO_INCREMENT de la tabla `tinscripcion`
---
-ALTER TABLE `tinscripcion`
-MODIFY `codigo_inscripcion` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
---
--- AUTO_INCREMENT de la tabla `tlapso`
---
-ALTER TABLE `tlapso`
-MODIFY `codigo_lapso` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
---
--- AUTO_INCREMENT de la tabla `tmateria_seccion_docente`
---
-ALTER TABLE `tmateria_seccion_docente`
-MODIFY `codigo_msd` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=15;
---
--- AUTO_INCREMENT de la tabla `tmodulo`
---
-ALTER TABLE `tmodulo`
-MODIFY `codigo_modulo` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
---
--- AUTO_INCREMENT de la tabla `tmunicipio`
---
-ALTER TABLE `tmunicipio`
-MODIFY `codigo_municipio` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=332;
---
--- AUTO_INCREMENT de la tabla `topcion`
---
-ALTER TABLE `topcion`
-MODIFY `codigo_opcion` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
---
--- AUTO_INCREMENT de la tabla `tpais`
---
-ALTER TABLE `tpais`
-MODIFY `codigo_pais` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=33;
---
--- AUTO_INCREMENT de la tabla `tparentesco`
---
-ALTER TABLE `tparentesco`
-MODIFY `codigo_parentesco` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
---
--- AUTO_INCREMENT de la tabla `tparroquia`
---
-ALTER TABLE `tparroquia`
-MODIFY `codigo_parroquia` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=41;
---
--- AUTO_INCREMENT de la tabla `tperfil`
---
-ALTER TABLE `tperfil`
-MODIFY `codigo_perfil` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
---
--- AUTO_INCREMENT de la tabla `tproceso_inscripcion`
---
-ALTER TABLE `tproceso_inscripcion`
-MODIFY `codigo_procesoinscripcion` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
---
--- AUTO_INCREMENT de la tabla `trespuesta_secreta`
---
-ALTER TABLE `trespuesta_secreta`
-MODIFY `codigo_respuesta` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
---
--- AUTO_INCREMENT de la tabla `tservicio`
---
-ALTER TABLE `tservicio`
-MODIFY `codigo_servicio` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=43;
---
 -- Restricciones para tablas volcadas
 --
 
@@ -5759,126 +6517,126 @@ MODIFY `codigo_servicio` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=43;
 -- Filtros para la tabla `tcontrasena`
 --
 ALTER TABLE `tcontrasena`
-ADD CONSTRAINT `tcontrasena_ibfk_1` FOREIGN KEY (`nombre_usuario`) REFERENCES `tusuario` (`nombre_usuario`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `tcontrasena_ibfk_1` FOREIGN KEY (`nombre_usuario`) REFERENCES `tusuario` (`nombre_usuario`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `tcontrol_notas`
 --
 ALTER TABLE `tcontrol_notas`
-ADD CONSTRAINT `fk_tcontrolnotas_estudiante` FOREIGN KEY (`cedula_estudiante`) REFERENCES `tpersona` (`cedula`) ON UPDATE CASCADE,
-ADD CONSTRAINT `fk_tcontrolnotas_lapso` FOREIGN KEY (`codigo_lapso`) REFERENCES `tlapso` (`codigo_lapso`) ON UPDATE CASCADE,
-ADD CONSTRAINT `fk_tcontrolnotas_msd` FOREIGN KEY (`codigo_msd`) REFERENCES `tmateria_seccion_docente` (`codigo_msd`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `fk_tcontrolnotas_estudiante` FOREIGN KEY (`cedula_estudiante`) REFERENCES `tpersona` (`cedula`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_tcontrolnotas_lapso` FOREIGN KEY (`codigo_lapso`) REFERENCES `tlapso` (`codigo_lapso`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_tcontrolnotas_msd` FOREIGN KEY (`codigo_msd`) REFERENCES `tmateria_seccion_docente` (`codigo_msd`) ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `testado`
 --
 ALTER TABLE `testado`
-ADD CONSTRAINT `fk_testado_tpais` FOREIGN KEY (`codigo_pais`) REFERENCES `tpais` (`codigo_pais`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `fk_testado_tpais` FOREIGN KEY (`codigo_pais`) REFERENCES `tpais` (`codigo_pais`) ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `thorario`
 --
 ALTER TABLE `thorario`
-ADD CONSTRAINT `fk_thorario_tambiente` FOREIGN KEY (`codigo_ambiente`) REFERENCES `tambiente` (`codigo_ambiente`) ON UPDATE CASCADE,
-ADD CONSTRAINT `fk_thorario_tano_academico` FOREIGN KEY (`codigo_ano_academico`) REFERENCES `tano_academico` (`codigo_ano_academico`) ON UPDATE CASCADE,
-ADD CONSTRAINT `fk_thorario_tbloque_hora` FOREIGN KEY (`codigo_bloque_hora`) REFERENCES `tbloque_hora` (`codigo_bloque_hora`) ON UPDATE CASCADE,
-ADD CONSTRAINT `fk_thorario_tmateria` FOREIGN KEY (`codigo_materia`) REFERENCES `tmateria` (`codigo_materia`) ON UPDATE CASCADE,
-ADD CONSTRAINT `fk_thorario_tpersona` FOREIGN KEY (`cedula_docente`) REFERENCES `tpersona` (`cedula`) ON UPDATE CASCADE,
-ADD CONSTRAINT `fk_thorario_tseccion` FOREIGN KEY (`seccion`) REFERENCES `tseccion` (`seccion`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `fk_thorario_tambiente` FOREIGN KEY (`codigo_ambiente`) REFERENCES `tambiente` (`codigo_ambiente`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_thorario_tano_academico` FOREIGN KEY (`codigo_ano_academico`) REFERENCES `tano_academico` (`codigo_ano_academico`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_thorario_tbloque_hora` FOREIGN KEY (`codigo_bloque_hora`) REFERENCES `tbloque_hora` (`codigo_bloque_hora`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_thorario_tmateria` FOREIGN KEY (`codigo_materia`) REFERENCES `tmateria` (`codigo_materia`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_thorario_tpersona` FOREIGN KEY (`cedula_docente`) REFERENCES `tpersona` (`cedula`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_thorario_tseccion` FOREIGN KEY (`seccion`) REFERENCES `tseccion` (`seccion`) ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `tlapso`
 --
 ALTER TABLE `tlapso`
-ADD CONSTRAINT `fk_tlapso_tanoacademico` FOREIGN KEY (`codigo_ano_academico`) REFERENCES `tano_academico` (`codigo_ano_academico`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `fk_tlapso_tanoacademico` FOREIGN KEY (`codigo_ano_academico`) REFERENCES `tano_academico` (`codigo_ano_academico`) ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `tmateria`
 --
 ALTER TABLE `tmateria`
-ADD CONSTRAINT `fk_materia_padre` FOREIGN KEY (`codigo_materia_padre`) REFERENCES `tmateria` (`codigo_materia`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `fk_materia_padre` FOREIGN KEY (`codigo_materia_padre`) REFERENCES `tmateria` (`codigo_materia`) ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `tmateria_seccion_docente`
 --
 ALTER TABLE `tmateria_seccion_docente`
-ADD CONSTRAINT `fk_tmateria_seccion_tmateria` FOREIGN KEY (`codigo_materia`) REFERENCES `tmateria` (`codigo_materia`) ON UPDATE CASCADE,
-ADD CONSTRAINT `fk_tmateria_seccion_tpersona` FOREIGN KEY (`cedula_docente`) REFERENCES `tpersona` (`cedula`) ON UPDATE CASCADE,
-ADD CONSTRAINT `fk_tmateria_seccion_tseccion` FOREIGN KEY (`seccion`) REFERENCES `tseccion` (`seccion`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `fk_tmateria_seccion_tmateria` FOREIGN KEY (`codigo_materia`) REFERENCES `tmateria` (`codigo_materia`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_tmateria_seccion_tpersona` FOREIGN KEY (`cedula_docente`) REFERENCES `tpersona` (`cedula`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_tmateria_seccion_tseccion` FOREIGN KEY (`seccion`) REFERENCES `tseccion` (`seccion`) ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `tmunicipio`
 --
 ALTER TABLE `tmunicipio`
-ADD CONSTRAINT `fk_tmunicipio_testado` FOREIGN KEY (`codigo_estado`) REFERENCES `testado` (`codigo_estado`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `fk_tmunicipio_testado` FOREIGN KEY (`codigo_estado`) REFERENCES `testado` (`codigo_estado`) ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `tparroquia`
 --
 ALTER TABLE `tparroquia`
-ADD CONSTRAINT `fk_tparroquia_tmunicipio` FOREIGN KEY (`codigo_municipio`) REFERENCES `tmunicipio` (`codigo_municipio`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `fk_tparroquia_tmunicipio` FOREIGN KEY (`codigo_municipio`) REFERENCES `tmunicipio` (`codigo_municipio`) ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `tperfil`
 --
 ALTER TABLE `tperfil`
-ADD CONSTRAINT `tperfil_ibfk_1` FOREIGN KEY (`codigo_configuracion`) REFERENCES `tconfiguracion` (`codigo_configuracion`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `tperfil_ibfk_1` FOREIGN KEY (`codigo_configuracion`) REFERENCES `tconfiguracion` (`codigo_configuracion`) ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `tpersona`
 --
 ALTER TABLE `tpersona`
-ADD CONSTRAINT `fk_tpersona_tcargo` FOREIGN KEY (`codigo_cargo`) REFERENCES `tcargo` (`codigo_cargo`) ON UPDATE CASCADE,
-ADD CONSTRAINT `fk_tpersona_tparroquia` FOREIGN KEY (`lugar_nacimiento`) REFERENCES `tparroquia` (`codigo_parroquia`) ON UPDATE CASCADE,
-ADD CONSTRAINT `fk_tpersona_tplantel` FOREIGN KEY (`codigo_plantel`) REFERENCES `tplantel` (`codigo_plantel`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `fk_tpersona_tcargo` FOREIGN KEY (`codigo_cargo`) REFERENCES `tcargo` (`codigo_cargo`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_tpersona_tparroquia` FOREIGN KEY (`lugar_nacimiento`) REFERENCES `tparroquia` (`codigo_parroquia`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_tpersona_tplantel` FOREIGN KEY (`codigo_plantel`) REFERENCES `tplantel` (`codigo_plantel`) ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `tplantel`
 --
 ALTER TABLE `tplantel`
-ADD CONSTRAINT `fk_tplantel_tmunicipio` FOREIGN KEY (`codigo_municipio`) REFERENCES `tmunicipio` (`codigo_municipio`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `fk_tplantel_tmunicipio` FOREIGN KEY (`codigo_municipio`) REFERENCES `tmunicipio` (`codigo_municipio`) ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `tproceso_inscripcion`
 --
 ALTER TABLE `tproceso_inscripcion`
-ADD CONSTRAINT `fk_tpi_taa` FOREIGN KEY (`codigo_ano_academico`) REFERENCES `tano_academico` (`codigo_ano_academico`) ON UPDATE CASCADE,
-ADD CONSTRAINT `fk_tpi_tdocente` FOREIGN KEY (`cedula_docente`) REFERENCES `tpersona` (`cedula`) ON UPDATE CASCADE,
-ADD CONSTRAINT `fk_tpi_testudiante` FOREIGN KEY (`cedula_estudiante`) REFERENCES `tpersona` (`cedula`) ON UPDATE CASCADE,
-ADD CONSTRAINT `fk_tpi_tinscrip` FOREIGN KEY (`codigo_inscripcion`) REFERENCES `tinscripcion` (`codigo_inscripcion`) ON UPDATE CASCADE,
-ADD CONSTRAINT `fk_tpi_tlugartrabajo` FOREIGN KEY (`lugar_trabajo`) REFERENCES `tparroquia` (`codigo_parroquia`) ON UPDATE CASCADE,
-ADD CONSTRAINT `fk_tpi_tmadre` FOREIGN KEY (`cedula_madre`) REFERENCES `tpersona` (`cedula`) ON UPDATE CASCADE,
-ADD CONSTRAINT `fk_tpi_tpadre` FOREIGN KEY (`cedula_padre`) REFERENCES `tpersona` (`cedula`) ON UPDATE CASCADE,
-ADD CONSTRAINT `fk_tpi_tparentesco` FOREIGN KEY (`codigo_parentesco`) REFERENCES `tparentesco` (`codigo_parentesco`) ON UPDATE CASCADE,
-ADD CONSTRAINT `fk_tpi_trepresentante` FOREIGN KEY (`cedula_representante`) REFERENCES `tpersona` (`cedula`) ON UPDATE CASCADE,
-ADD CONSTRAINT `fk_tpi_tseccion` FOREIGN KEY (`seccion`) REFERENCES `tseccion` (`seccion`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `fk_tpi_taa` FOREIGN KEY (`codigo_ano_academico`) REFERENCES `tano_academico` (`codigo_ano_academico`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_tpi_tdocente` FOREIGN KEY (`cedula_docente`) REFERENCES `tpersona` (`cedula`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_tpi_testudiante` FOREIGN KEY (`cedula_estudiante`) REFERENCES `tpersona` (`cedula`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_tpi_tinscrip` FOREIGN KEY (`codigo_inscripcion`) REFERENCES `tinscripcion` (`codigo_inscripcion`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_tpi_tlugartrabajo` FOREIGN KEY (`lugar_trabajo`) REFERENCES `tparroquia` (`codigo_parroquia`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_tpi_tmadre` FOREIGN KEY (`cedula_madre`) REFERENCES `tpersona` (`cedula`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_tpi_tpadre` FOREIGN KEY (`cedula_padre`) REFERENCES `tpersona` (`cedula`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_tpi_tparentesco` FOREIGN KEY (`codigo_parentesco`) REFERENCES `tparentesco` (`codigo_parentesco`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_tpi_trepresentante` FOREIGN KEY (`cedula_representante`) REFERENCES `tpersona` (`cedula`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_tpi_tseccion` FOREIGN KEY (`seccion`) REFERENCES `tseccion` (`seccion`) ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `trespuesta_secreta`
 --
 ALTER TABLE `trespuesta_secreta`
-ADD CONSTRAINT `trespuesta_secreta_ibfk_1` FOREIGN KEY (`nombre_usuario`) REFERENCES `tusuario` (`nombre_usuario`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `trespuesta_secreta_ibfk_1` FOREIGN KEY (`nombre_usuario`) REFERENCES `tusuario` (`nombre_usuario`) ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `tservicio`
 --
 ALTER TABLE `tservicio`
-ADD CONSTRAINT `tservicios_ibfk_1` FOREIGN KEY (`codigo_modulo`) REFERENCES `tmodulo` (`codigo_modulo`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `tservicios_ibfk_1` FOREIGN KEY (`codigo_modulo`) REFERENCES `tmodulo` (`codigo_modulo`) ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `tservicio_usuario_opcion`
 --
 ALTER TABLE `tservicio_usuario_opcion`
-ADD CONSTRAINT `fk_tservicio_usuario_opcion_topcion` FOREIGN KEY (`codigo_opcion`) REFERENCES `topcion` (`codigo_opcion`) ON UPDATE CASCADE,
-ADD CONSTRAINT `fk_tservicio_usuario_opcion_tperfil` FOREIGN KEY (`codigo_perfil`) REFERENCES `tperfil` (`codigo_perfil`) ON UPDATE CASCADE,
-ADD CONSTRAINT `fk_tservicio_usuario_opcion_tservicio` FOREIGN KEY (`codigo_servicio`) REFERENCES `tservicio` (`codigo_servicio`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `fk_tservicio_usuario_opcion_topcion` FOREIGN KEY (`codigo_opcion`) REFERENCES `topcion` (`codigo_opcion`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_tservicio_usuario_opcion_tperfil` FOREIGN KEY (`codigo_perfil`) REFERENCES `tperfil` (`codigo_perfil`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_tservicio_usuario_opcion_tservicio` FOREIGN KEY (`codigo_servicio`) REFERENCES `tservicio` (`codigo_servicio`) ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `tusuario`
 --
 ALTER TABLE `tusuario`
-ADD CONSTRAINT `tusuario_ibfk_1` FOREIGN KEY (`cedula`) REFERENCES `tpersona` (`cedula`) ON UPDATE CASCADE,
-ADD CONSTRAINT `tusuario_ibfk_2` FOREIGN KEY (`codigo_perfil`) REFERENCES `tperfil` (`codigo_perfil`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `tusuario_ibfk_1` FOREIGN KEY (`cedula`) REFERENCES `tpersona` (`cedula`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `tusuario_ibfk_2` FOREIGN KEY (`codigo_perfil`) REFERENCES `tperfil` (`codigo_perfil`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
