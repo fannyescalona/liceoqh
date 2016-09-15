@@ -7,6 +7,7 @@ function validar_formulario(param){
 	valor3=document.getElementById('hora_inicio').value;
 	valor4=document.getElementById('hora_fin').value;
 	valor5=document.getElementById('turno').value;
+	valor6=document.getElementById('hora_academica').value;
 	if(devuelve_boton(param)=="Registrar" || devuelve_boton(param)=="Modificar"){
 		if(valor.replace(/^\s+|\s+$/gi,"").length==0){ //para no permitir que se queda en blanco
 			alert('Ingrese el nombre del bloque de hora')
@@ -18,6 +19,10 @@ function validar_formulario(param){
 		}
 		else if(valor4.replace(/^\s+|\s+$/gi,"").length==0){ //para no permitir que se queda en blanco
 			alert('Ingrese la hora de salida del bloque de hora')
+			permitido=false;
+		}
+		else if(valor6.replace(/^\s+|\s+$/gi,"").length==0){ //para no permitir que se queda en blanco
+			alert('Ingrese la cantidad de horas académicas que equivale el bloque de hora')
 			permitido=false;
 		}
 		else if(valor3 > valor4){ //para no permitir que se queda en blanco

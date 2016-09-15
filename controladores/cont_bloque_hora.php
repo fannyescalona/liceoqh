@@ -18,6 +18,9 @@ $hora_inicio=trim($_POST['hora_inicio']);
 if(isset($_POST['hora_fin']))
 $hora_fin=trim($_POST['hora_fin']);
 
+if(isset($_POST['hora_academica']))
+$hora_academica=trim($_POST['hora_academica']);
+
 if(isset($_POST['turno']))
 $turno=ucfirst(trim($_POST['turno']));
 
@@ -31,6 +34,7 @@ if($operacion=='Registrar'){
   $bloque_hora->descripcion($descripcion);
   $bloque_hora->hora_inicio($hora_inicio);
   $bloque_hora->hora_fin($hora_fin);
+  $bloque_hora->hora_academica($hora_academica);
   $bloque_hora->turno($turno);
   $bloque_hora->receso($receso);
   if(!$bloque_hora->Comprobar()){
@@ -60,6 +64,7 @@ if($operacion=='Modificar'){
   $bloque_hora->descripcion($descripcion);
   $bloque_hora->hora_inicio($hora_inicio);
   $bloque_hora->hora_fin($hora_fin);
+  $bloque_hora->hora_academica($hora_academica);
   $bloque_hora->turno($turno);
   $bloque_hora->receso($receso);
   if($bloque_hora->Actualizar())
@@ -125,6 +130,7 @@ if($operacion=='Consultar'){
     $_SESSION['datos']['descripcion']=$bloque_hora->descripcion();
     $_SESSION['datos']['hora_inicio']=$bloque_hora->hora_inicio();
     $_SESSION['datos']['hora_fin']=$bloque_hora->hora_fin();
+    $_SESSION['datos']['hora_academica']=$bloque_hora->hora_academica();
     $_SESSION['datos']['turno']=$bloque_hora->turno();
     $_SESSION['datos']['receso']=$bloque_hora->receso();
     $_SESSION['datos']['estatus']=$bloque_hora->estatus_bloque_hora();

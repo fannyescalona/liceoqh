@@ -19,6 +19,7 @@ if(array_search($servicio_solicitado,$servicios_permitidos)!==false){
   @$descripcion=$_SESSION['datos']['descripcion'];
   @$hora_inicio=$_SESSION['datos']['hora_inicio'];
   @$hora_fin=$_SESSION['datos']['hora_fin'];
+  @$hora_academica=$_SESSION['datos']['hora_academica'];
   @$receso=$_SESSION['datos']['receso'];
   @$turno=$_SESSION['datos']['turno'];
   @$estatus=$_SESSION['datos']['estatus'];
@@ -28,6 +29,7 @@ else{
   @$descripcion=null;
   @$hora_inicio=null;
   @$hora_fin=null;
+  @$hora_academica=null;
   @$receso="N";
   @$turno=null;
   @$estatus=null;
@@ -49,6 +51,8 @@ else{
      <input title="Ingrese la hora de inicio del bloque de hora" name="hora_inicio" id="hora_inicio" type="text" size="50" value="<?= $hora_inicio;?>" required readonly class="campoTexto"/>
      <label>Hora Fin:</label>
      <input title="Ingrese la hora de salida del bloque de hora" name="hora_fin" id="hora_fin" type="text" size="50" value="<?= $hora_fin;?>" required readonly class="campoTexto"/>
+     <label>Horas Académicas:</label>
+     <input title="Ingrese la cantidad de horas académicas que equivale el bloque de hora" maxlength=2 onKeyPress="return isNumberKey(event)" name="hora_academica" id="hora_academica" type="text" size="50" value="<?= $hora_academica;?>" required class="campoTexto"/>
      <label>Turno:</label>
      <select name="turno" id="turno" title="Seleccione un turno para el bloque de hora" placeholder="Seleccione un turno" class="campoTexto" required >
       <option value=''>Seleccione un Turno</option>
@@ -86,6 +90,7 @@ else{
      <td>Nombre</td>
      <td>Hora Inicio</td>
      <td>Hora Fin</td>
+     <td>Horas Académicas</td>
      <td>Turno</td>
      <td>Receso</td>
    </tr>
@@ -96,7 +101,7 @@ else{
    $mysql=new Conexion();
 
 //Sentencia sql (sin limit) 
-  $_pagi_sql = "SELECT codigo_bloque_hora,descripcion,hora_inicio,hora_fin,
+  $_pagi_sql = "SELECT codigo_bloque_hora,descripcion,hora_inicio,hora_fin,hora_academica,
   date_format(hora_inicio,'%r') AS hora_inicio_formateada,date_format(hora_fin,'%r') AS hora_fin_formateada,
   CASE WHEN turno = 'M' THEN 'MAÑANA' ELSE 'TARDE' END AS turno,CASE WHEN receso = 'Y' THEN 'SÍ' ELSE 'NO' END AS receso 
   FROM tbloque_hora where fecha_desactivacion is null order by codigo_bloque_hora desc"; 
@@ -116,6 +121,7 @@ else{
     <td align='left'>".$row['descripcion']."</td>
     <td align='left'>".$row['hora_inicio_formateada']."</td>
     <td align='left'>".$row['hora_fin_formateada']."</td>
+    <td align='left'>".$row['hora_academica']."</td>
     <td align='left'>".$row['turno']."</td>
     <td align='left'>".$row['receso']."</td></tr>"; 
   } 

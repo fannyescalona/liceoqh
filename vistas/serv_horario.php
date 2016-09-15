@@ -62,7 +62,7 @@
                 </tr>
                 <tr> 
                   <td><label>Profesor</label>
-                    <input class="input-xlarge" type="text" name="cedula_persona" id="cedula_persona" onKeyUp="this.value=this.value.toUpperCase()" maxlength=10 /> 
+                    <input class="input-xlarge" type="text" name="cedula_persona" id="cedula_persona" onKeyUp="this.value=this.value.toUpperCase()" disabled=""/>
                   </td>
                   <td><label>Materia</label>
                     <select class="bootstrap-select form-control" id="codigo_materia" name="codigo_materia" disabled="">
@@ -87,8 +87,8 @@
                   <td>Miércoles</td>
                   <td>Jueves</td>
                   <td>Viernes</td>
-                  <td>Sabado</td>
-                  <td>Domingo</td>
+                  <!-- <td>Sabado</td>
+                  <td>Domingo</td> -->
                 </tr>
                 <?php 
                 for($i=0;$i<count($get_hora['id']);$i++){
@@ -97,27 +97,28 @@
                 <tr>
                   <?php  
                     $hora=$get_hora['hora_inicio'][$i]."<br>".$get_hora['hora_fin'][$i]; 
-                    $hora_title = $get_hora['hora_inicio'][$i]." - ".$get_hora['hora_fin'][$i]; 
+                    $hora_title = $get_hora['hora_inicio'][$i]." - ".$get_hora['hora_fin'][$i];
+                    $hora_academica = $get_hora['hora_academica'][$i];
                     echo "<td>".$get_hora['descripcion'][$i]."</td>";
                     echo "<td>".$hora."</td>";
                     $x=trim($get_hora['id'][$i]);
                   ?>
-                  <td id="<?php echo $x."-1"; ?>" title="<?php echo $hora_title;?>" <?php if(in_array($x."-1",$id_hora,true)) echo "class='h_academica'";  ?>>  </td>
-                  <td id="<?php echo $x."-2"; ?>" title="<?php echo $hora_title;?>"  <?php if(in_array($x."-2",$id_hora,true)) echo "class='h_academica'";  ?>>  </td>
-                  <td id="<?php echo $x."-3"; ?>" title="<?php echo $hora_title;?>"  <?php if(in_array($x."-3",$id_hora,true)) echo "class='h_academica'";  ?>>  </td>
-                  <td id="<?php echo $x."-4"; ?>" title="<?php echo $hora_title;?>"  <?php if(in_array($x."-4",$id_hora,true)) echo "class='h_academica'"; ?>>  </td>
-                  <td id="<?php echo $x."-5"; ?>" title="<?php echo $hora_title;?>"  <?php if(in_array($x."-5",$id_hora,true)) echo "class='h_academica'"; ?>>  </td>
-                  <?php 
+                  <td id="<?php echo $x."-1"; ?>" data-hora_academica="<?php echo $hora_academica; ?>" title="<?php echo $hora_title;?>" <?php if(in_array($x."-1",$id_hora,true)) echo "class='h_academica'";  ?>>  </td>
+                  <td id="<?php echo $x."-2"; ?>" data-hora_academica="<?php echo $hora_academica; ?>" title="<?php echo $hora_title;?>"  <?php if(in_array($x."-2",$id_hora,true)) echo "class='h_academica'";  ?>>  </td>
+                  <td id="<?php echo $x."-3"; ?>" data-hora_academica="<?php echo $hora_academica; ?>" title="<?php echo $hora_title;?>"  <?php if(in_array($x."-3",$id_hora,true)) echo "class='h_academica'";  ?>>  </td>
+                  <td id="<?php echo $x."-4"; ?>" data-hora_academica="<?php echo $hora_academica; ?>" title="<?php echo $hora_title;?>"  <?php if(in_array($x."-4",$id_hora,true)) echo "class='h_academica'"; ?>>  </td>
+                  <td id="<?php echo $x."-5"; ?>" data-hora_academica="<?php echo $hora_academica; ?>" title="<?php echo $hora_title;?>"  <?php if(in_array($x."-5",$id_hora,true)) echo "class='h_academica'"; ?>>  </td>
+                  <!--<?php 
                     if($get_hora['id_turno'][$i]!='N'){ 
                   ?>
-                  <td id="<?php echo $x."-6"; ?>"  title="<?php echo $hora_title;?>"  class="weekend_noche"><i>No Laboral</i></td>
-                  <td id="<?php echo $x."-0"; ?>"  title="<?php echo $hora_title;?>"  class="weekend_noche"><i>No Laboral</i></td>
+                  <td id="<?php echo $x."-6"; ?>"  data-hora_academica="<?php echo $hora_academica; ?>" title="<?php echo $hora_title;?>"  class="weekend_noche"><i>No Laboral</i></td>
+                  <td id="<?php echo $x."-0"; ?>"  data-hora_academica="<?php echo $hora_academica; ?>" title="<?php echo $hora_title;?>"  class="weekend_noche"><i>No Laboral</i></td>
                   <?php
                     }else{
                   ?>
-                  <td id="<?php echo $x."-6"; ?>" title="<?php echo $hora_title;?>" <?php if(in_array($x."-6",$id_hora,true)) echo "class='h_academica'"; ?>>  </td>
-                  <td id="<?php echo $x."-0"; ?>" title="<?php echo $hora_title;?>" <?php if(in_array($x."-0",$id_hora,true)) echo "class='h_academica'"; ?>>  </td>
-                  <?php }?>
+                  <td id="<?php echo $x."-6"; ?>" data-hora_academica="<?php echo $hora_academica; ?>" title="<?php echo $hora_title;?>" <?php if(in_array($x."-6",$id_hora,true)) echo "class='h_academica'"; ?>>  </td>
+                  <td id="<?php echo $x."-0"; ?>" data-hora_academica="<?php echo $hora_academica; ?>" title="<?php echo $hora_title;?>" <?php if(in_array($x."-0",$id_hora,true)) echo "class='h_academica'"; ?>>  </td>
+                  <?php }?> -->
                 </tr>
                 <?php
                   }else{
@@ -134,7 +135,7 @@
                   <td id="<?php echo $x."-3"; ?>" <?php if(in_array($x."-3",@$id_hora,true)) echo "class='h_academica'";?> <?php if(in_array($x."-3",$id_celda,true)) echo "class='asignado'";?>> <?php if(in_array($x."-3",$id_celda,true)){$valor=array_search($x."-3",$id_celda);echo "Asignado<input id='$x-3_vo' type='hidden' name='contenidos[]' value='".$id_celda[$valor]."-".$ambiente[$valor]."-".$desc[$valor]."'/>"."<img src='../images/marca.png' alt='".$desc[$valor]."'/>";} ?>  </td>
                   <td id="<?php echo $x."-4"; ?>" <?php if(in_array($x."-4",@$id_hora,true)) echo "class='h_academica'";?> <?php if(in_array($x."-4",$id_celda,true)) echo "class='asignado'";?>> <?php if(in_array($x."-4",$id_celda,true)){$valor=array_search($x."-4",$id_celda);echo "Asignado<input id='$x-4_vo' type='hidden' name='contenidos[]' value='".$id_celda[$valor]."-".$ambiente[$valor]."-".$desc[$valor]."'/>"."<img src='../images/marca.png' alt='".$desc[$valor]."'/>";} ?>  </td>
                   <td id="<?php echo $x."-5"; ?>" <?php if(in_array($x."-5",@$id_hora,true)) echo "class='h_academica'";?> <?php if(in_array($x."-5",$id_celda,true)) echo "class='asignado'";?>> <?php if(in_array($x."-5",$id_celda,true)){$valor=array_search($x."-5",$id_celda);echo "Asignado<input id='$x-5_vo' type='hidden' name='contenidos[]' value='".$id_celda[$valor]."-".$ambiente[$valor]."-".$desc[$valor]."'/>"."<img src='../images/marca.png' alt='".$desc[$valor]."'/>";} ?>  </td>
-                  <?php 
+                  <!--<?php 
                     if($get_hora['id_turno'][$i]!='N'){
                   ?>
                   <td id="<?php echo $x."-6"; ?>"  class="weekend_noche" <?php if(in_array($x."-6",@$id_hora,true)) echo "class='h_academica'";?> <?php if(in_array($x."-6",$id_celda,true)) echo "class='asignado'";?> > <i>No Laborable</i> <?php if(in_array($x."-6",$id_celda,true)){$valor=array_search($x."-6",$id_celda);echo "Asignado<input id='$x-6_vo' type='hidden' name='contenidos[]' value='".$id_celda[$valor]."-".$ambiente[$valor]."-".$desc[$valor]."'/>"."<img src='../images/marca.png' alt='".$desc[$valor]."'/>";} ?>  </td>
@@ -146,7 +147,7 @@
                   <td id="<?php echo $x."-0"; ?>" <?php if(in_array($x."-0",@$id_hora,true)) echo "class='h_academica'";?> <?php if(in_array($x."-0",$id_celda,true)) echo "class='asignado'";?>><?php if(in_array($x."-0",$id_celda,true)){$valor=array_search($x."-0",$id_celda);echo "Asignado<input id='$x-0_vo' type='hidden' name='contenidos[]' value='".$id_celda[$valor]."-".$ambiente[$valor]."-".$desc[$valor]."'/>"."<img src='../images/marca.png' alt='".$desc[$valor]."'/>";} ?>  </td>      
                   <?php
                     }
-                  ?>
+                  ?> -->
                   </tr>
                 <?php
                   }

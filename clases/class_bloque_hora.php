@@ -6,6 +6,7 @@
      private $descripcion;
      private $hora_inicio;
      private $hora_fin;
+     private $hora_academica;
      private $turno;
      private $receso;
      private $estatus_bloque_hora; 
@@ -18,6 +19,7 @@
      $this->descripcion=null;
      $this->hora_inicio=null;
      $this->hora_fin=null;
+     $this->hora_academica=null;
      $this->turno=null;
      $this->receso=null;
      $this->error=null;
@@ -77,6 +79,15 @@
 	 }
    }
    
+   public function hora_academica(){
+   $Num_Parametro=func_num_args();
+	 if($Num_Parametro==0) return $this->hora_academica;
+     
+	 if($Num_Parametro>0){
+	   $this->hora_academica=func_get_arg(0);
+	 }
+   }
+   
    public function turno(){
    $Num_Parametro=func_num_args();
 	 if($Num_Parametro==0) return $this->turno;
@@ -114,7 +125,7 @@
    }      
 
    public function Registrar(){
-    $sql="insert into tbloque_hora (descripcion,hora_inicio,hora_fin,turno,receso) values ('$this->descripcion','$this->hora_inicio','$this->hora_fin','$this->turno','$this->receso');";
+    $sql="insert into tbloque_hora (descripcion,hora_inicio,hora_fin,hora_academica,turno,receso) values ('$this->descripcion','$this->hora_inicio','$this->hora_fin','$this->hora_academica','$this->turno','$this->receso');";
     if($this->mysql->Ejecutar($sql)!=null)
 	return true;
 	else{
@@ -143,7 +154,7 @@
    }
    
     public function Actualizar(){
-    $sql="update tbloque_hora set descripcion='$this->descripcion',hora_inicio='$this->hora_inicio',hora_fin='$this->hora_fin',turno='$this->turno',receso='$this->receso' where (codigo_bloque_hora='$this->codigo_bloque_hora');";
+    $sql="update tbloque_hora set descripcion='$this->descripcion',hora_inicio='$this->hora_inicio',hora_fin='$this->hora_fin',hora_academica='$this->hora_academica',turno='$this->turno',receso='$this->receso' where (codigo_bloque_hora='$this->codigo_bloque_hora');";
     if($this->mysql->Ejecutar($sql)!=null)
 	return true;
 	else{
@@ -161,6 +172,7 @@
 	$this->descripcion($tbloque_hora['descripcion']);
 	$this->hora_inicio($tbloque_hora['hora_inicio']);
 	$this->hora_fin($tbloque_hora['hora_fin']);
+	$this->hora_academica($tbloque_hora['hora_academica']);
 	$this->turno($tbloque_hora['turno']);
 	$this->receso($tbloque_hora['receso']);
    	$this->estatus_bloque_hora($tbloque_hora['estatus_bloque_hora']);
@@ -181,6 +193,7 @@
 		$this->descripcion($tbloque_hora['descripcion']);
 		$this->hora_inicio($tbloque_hora['hora_inicio']);
 		$this->hora_fin($tbloque_hora['hora_fin']);
+		$this->hora_academica($tbloque_hora['hora_academica']);
 		$this->turno($tbloque_hora['turno']);
 		$this->receso($tbloque_hora['receso']);
 		$this->fecha_desactivacion($tbloque_hora['fecha_desactivacion']);

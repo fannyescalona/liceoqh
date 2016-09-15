@@ -120,7 +120,7 @@
 				$condicion.="AND (turno='T' or turno='N')";
 			}
 			$sql="SELECT codigo_bloque_hora, descripcion, DATE_FORMAT(hora_inicio,'%h:%i %p') AS hora_inicio,
-			DATE_FORMAT(hora_fin,'%h:%i %p') AS hora_fin,turno 
+			DATE_FORMAT(hora_fin,'%h:%i %p') AS hora_fin,turno,hora_academica  
 			FROM tbloque_hora 
 			$condicion
 			ORDER BY codigo_bloque_hora ASC,turno ASC,hora_inicio DESC,hora_fin DESC";
@@ -132,7 +132,8 @@
 				$R['hora']['id'][$i]=$hora['codigo_bloque_hora']; 
 				$R['hora']['descripcion'][$i]=$hora['descripcion'];          
 				$R['hora']['hora_inicio'][$i]=$hora['hora_inicio'];               
-				$R['hora']['hora_fin'][$i]=$hora['hora_fin'];               
+				$R['hora']['hora_fin'][$i]=$hora['hora_fin'];
+				$R['hora']['hora_academica'][$i]=$hora['hora_academica'];         
 				$R['hora']['id_turno'][$i]=$hora['turno'];               
 			}
 			return $R['hora'];

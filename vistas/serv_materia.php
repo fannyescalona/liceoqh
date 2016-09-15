@@ -44,8 +44,8 @@ else{
       <input autocomplete=off title="Ingrese el nombre de la materia" onKeyUp="this.value=this.value.toUpperCase()" name="descripcion" id="descripcion" type="text" size="50" value="<?= $descripcion;?>" required placeholder="Ingrese el nombre de la materia" class="campoTexto"/>
       <label>Unidad curricular:</label>
       <input title="Ingrese la unidad curricular" onKeyPress="return isNumberKey(event)" name="unidad_curricular" id="unidad_curricular" type="text" size="50" value="<?= $unidad_curricular;?>" required placeholder="Ingrese la unidad curricular" class="campoTexto"/>
-      <label>Horas Academicas:</label>
-      <input title="Ingrese las horas academicas" onKeyPress="return isNumberKey(event)" name="hora_academica" id="hora_academica" type="text" size="50" value="<?= $hora_academica;?>" required placeholder="Ingrese la hora academica" class="campoTexto"/>
+      <label>Horas Académicas:</label>
+      <input title="Ingrese las horas académicas" onKeyPress="return isNumberKey(event)" name="hora_academica" id="hora_academica" type="text" size="50" value="<?= $hora_academica;?>" required placeholder="Ingrese la hora academica" class="campoTexto"/>
       <label>Grado Escolar:</label>
       <select tabindex=4 name="grado_escolar" id="grado_escolar" title="Seleccione el Grado Escolar" class='lista' required >
         <option value="">Selecione una opción</option>
@@ -107,6 +107,7 @@ else{
      <tr> 
        <td>Código </td>
        <td>Materia</td>
+       <td>Horas Académias</td>
        <td>Unidad Curricular</td>
        <td>Grado Escolar</td>
      </tr>
@@ -115,7 +116,7 @@ else{
     require_once("../clases/class_bd.php");
     $mysql=new Conexion();
     //Sentencia sql (sin limit) 
-    $_pagi_sql = "SELECT codigo_materia,descripcion,unidad_curricular,
+    $_pagi_sql = "SELECT codigo_materia,descripcion,hora_academica,unidad_curricular,
     CASE grado_escolar WHEN '1' THEN '1er Año' WHEN '2' THEN '2do Año' WHEN '3' THEN '3er Año' WHEN '4' THEN '4to Año' WHEN '5' THEN '5to Año' WHEN '6' THEN '6to Año' END AS grado_escolar
     FROM tmateria where fecha_desactivacion is null order by codigo_materia desc";
     //cantidad de resultados por página (opcional, por defecto 20) 
@@ -131,6 +132,7 @@ else{
       echo "<tr style='cursor: pointer;' id='".$row['codigo_materia']."' onclick='enviarForm(this.id)'>
       <td style='width:20%;'>".$row['codigo_materia']."</td>
       <td align='left'>".$row['descripcion']."</td>
+      <td align='left'>".$row['hora_academica']."</td>
       <td align='left'>".$row['unidad_curricular']."</td>
       <td align='left'>".$row['grado_escolar']."</td></tr>"; 
     }

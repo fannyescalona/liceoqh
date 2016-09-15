@@ -120,7 +120,7 @@ function Principal(){
 	$("#btaceptar").live("click",Enviar);
 	$("#ok").on("click",celdaID);
 	$("#tb_horario").live("click",function(){
-		indice_asignado=$("td.seleccionado").size();
+		indice_asignado=$("td.seleccionado").attr("data-hora_academica");
 	});
 	$("#btaceptar").on("mouseover",function(){
 		$(this).prop("src","../images/add_hover.png")
@@ -130,11 +130,11 @@ function Principal(){
 	});
 
 	$("#codigo_materia").on('change',function (){
-		if(!($(this).val()=="null" ||$(this).val()=="")){
+		if(!($(this).val()=="null" || $(this).val()=="")){
 			$("#cedula_persona").prop("disabled","");
 		}else{
-			$("#cedula_persona > option[value='']").attr("selected",true);       
-			$("#cedula_persona").prop("disabled","disabled");
+			$("#cedula_persona").attr("value","");
+			$("#cedula_persona").prop("disabled","false");
 		}
 	});			  	
 
@@ -153,7 +153,21 @@ function Principal(){
 
 	//Búsquedas del docente por autocompletar.
 	$('#cedula_persona').autocomplete({
-		source:'../autocomplete/docente.php', 
+		source: function(request,response){
+			var Data = {term : request.term, seccion: $("#seccion").val(), codigo_materia: $("#codigo_materia").val()};
+			$.ajax({
+                url: '../autocomplete/docente.php',
+                dataType: "json",
+                data: Data,
+                success: function(data) {
+                    response(data);
+                },
+                error: function(jqXHR, textStatus, errorThrown){
+                    alert('¡Error al procesar la petición! '+textStatus+" "+errorThrown+" "+jqXHR);
+                    console.log(jqXHR);
+                }
+            });
+		}, 
 		minLength:1,
 		select: function (event, ui){
 			docente=ui.item.value;
@@ -170,8 +184,8 @@ function mostrar_alt(){
 
 function desactivar(){
 	if($(this).attr('class')=='seleccionado'){
-		HoraAsignado--;
-		HoraLibre++;
+		HoraAsignado-=parseInt($(this).attr('data-hora_academica'));
+		HoraLibre+=parseInt($(this).attr('data-hora_academica'));
 		$("#celdalibre").html(HoraLibre);
 		$("#celdaasignado").html(HoraAsignado);
 		$($(this)).removeAttr('class');		  
@@ -186,27 +200,29 @@ function celdaID(){
 
 function Seleccionar(){
 	if($(this).attr('class')==undefined){
-		if(HoraTotal>HoraAsignado){
-			HoraAsignado++;
-			HoraLibre--;
+		HoraAsignado+=parseInt($(this).attr('data-hora_academica'));
+		HoraLibre-=parseInt($(this).attr('data-hora_academica'));
+		if(HoraLibre>0 || HoraAsignado==HoraTotal){
 			$(this).removeClass($(this).attr('class')).addClass("seleccionado");
 			$("#celdalibre").html(HoraLibre);
 			$("#celdaasignado").html(HoraAsignado);
 		}else{
-			alert("<font style='color:red'>No puede selecciona m&#225;s "+indice_asignado+"/"+document.getElementById("L").value+"</font>");
+			HoraAsignado-=parseInt($(this).attr('data-hora_academica'));
+			HoraLibre+=parseInt($(this).attr('data-hora_academica'));
+			alert("Error al seleccionar bloque de hora","info","<font style='color:red;'>Horas Académicas del Bloque: "+indice_asignado+" <br> Asignados: "+HoraAsignado+" <br> Libre: "+HoraLibre+"</font>");
 		}
 	}
 }
 
-function ExtraerDatos(){ 
+function ExtraerDatos(){
 	$(this).removeClass('asignado');
 	$(this).removeAttr('title');
 	$(this).removeAttr('class');
 	id=$(this).prop('id')+'_vo';
 	$("#"+id).remove();
 	this.innerHTML='';
-	HoraAsignado--;
-	HoraLibre++;
+	HoraAsignado-=parseInt($(this).attr('data-hora_academica'));
+	HoraLibre+=parseInt($(this).attr('data-hora_academica'));
 	$("#celdalibre").html(HoraLibre);
 	$("#celdaasignado").html(HoraAsignado);
 }
