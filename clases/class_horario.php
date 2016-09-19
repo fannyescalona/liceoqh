@@ -533,10 +533,24 @@
 		}
 
 		public function Resultado_Json_de_Consulta_Horas_Maximas($a,$b){
-			$sql="SELECT COUNT(h.celda) AS asignado, MAX(p.carga_horaria)-COUNT(h.celda) AS libre, MAX(p.carga_horaria) AS total 
+			$sql="SELECT SUM(h.hora_academica) AS asignado, MAX(p.carga_horaria)-SUM(h.hora_academica) AS libre, MAX(p.carga_horaria) AS total 
 			FROM tpersona p 
 			LEFT JOIN vhorario h ON p.cedula = h.profesor AND h.codigo_ano_academico = $a 
 			WHERE p.cedula = '$b'";
+			$query=$this->objBD->Ejecutar($sql);
+			$rows = array();
+			while($Actividad=$this->objBD->Respuesta_assoc($query)) {
+				$rows[] = $Actividad;
+			}
+			$json=json_encode($rows);
+			return $json;
+		}
+
+		public function Resultado_Json_de_Consulta_Horas_Materia_Maximas($a,$b){
+			$sql="SELECT SUM(h.hora_academica) AS asignado, MAX(m.hora_academica)-SUM(h.hora_academica) AS libre, MAX(m.hora_academica) AS total 
+			FROM tmateria m 
+			LEFT JOIN vhorario h ON m.codigo_materia = h.materia AND h.codigo_ano_academico = $a 
+			WHERE m.codigo_materia = '$b'";
 			$query=$this->objBD->Ejecutar($sql);
 			$rows = array();
 			while($Actividad=$this->objBD->Respuesta_assoc($query)) {

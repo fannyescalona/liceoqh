@@ -62,7 +62,10 @@
                 </tr>
                 <tr> 
                   <td><label>Profesor</label>
-                    <input class="input-xlarge" type="text" name="cedula_persona" id="cedula_persona" onKeyUp="this.value=this.value.toUpperCase()" disabled=""/>
+                    <!-- <input class="input-xlarge" type="text" name="cedula_persona" id="cedula_persona" onKeyUp="this.value=this.value.toUpperCase()" disabled=""/> -->
+                    <select class="bootstrap-select form-control" id="cedula_persona" name="cedula_persona" disabled="">
+                      <option value="">Elige una opción...</option>
+                    </select>
                   </td>
                   <td><label>Materia</label>
                     <select class="bootstrap-select form-control" id="codigo_materia" name="codigo_materia" disabled="">
@@ -155,12 +158,21 @@
                 ?>
                 <tr>
                   <td colspan=9>
-                  <br>
-                  <br>
-                  <button type="button" id="btnGuardar" class="btn btn-large btn-primary"> <i class="icon-hdd"></i>&nbsp;Aceptar</button>
-                  <a href="?horario"><button type="button" class="btn btn-large btn-primary"/><i class="icon-repeat"></i>&nbsp;Volver</button></a>
+                    <br>
+                    <button type="button" id="btnGuardar" class="btn btn-large btn-primary"> <i class="icon-hdd"></i>&nbsp;Aceptar</button>
+                    <a href="?horario"><button type="button" class="btn btn-large btn-primary"/><i class="icon-repeat"></i>&nbsp;Volver</button></a>
+                  </td>
                 </tr>
                 <tr>
+                  <td class="tr_header" colspan="3">Horas del Docente</td>
+                  <td></td>
+                  <td class="tr_header" colspan="3">Horas de la Materia</td>
+                </tr>
+                <tr>
+                  <td>Asignado</td>
+                  <td>Libre</td>
+                  <td>Total</td>
+                  <td></td>
                   <td>Asignado</td>
                   <td>Libre</td>
                   <td>Total</td>
@@ -169,14 +181,23 @@
                   <td id="celdaasignado" class=""></td>
                   <td id="celdalibre" class=""></td> 
                   <td id="celdatotal" class=""></td>
+                  <td></td>
+                  <td id="celdamateriaasignado" class=""></td>
+                  <td id="celdamaterialibre" class=""></td> 
+                  <td id="celdamateriatotal" class=""></td>
                 </tr>
                 <tr>
-                  <td colspan=3><?php echo "Turno: ".ucwords(str_replace("manana","mañana",$turno));?></td>
+                  <td class="tr_footer" colspan=3><?php echo "Turno: ".ucwords(str_replace("manana","mañana",$turno));?></td>
+                  <td></td>
+                  <td class="tr_footer" colspan=3><?php echo "Turno: ".ucwords(str_replace("manana","mañana",$turno));?></td>
                 </tr>
               </table>
               <input  type="hidden" value="0" id="T"/>
               <input  type="hidden" value="0" id="L"/>
               <input  type="hidden" value="0" id="A"/>
+              <input  type="hidden" value="0" id="MT"/>
+              <input  type="hidden" value="0" id="ML"/>
+              <input  type="hidden" value="0" id="MA"/>
             </fieldset>
           </form>
         </fieldset>

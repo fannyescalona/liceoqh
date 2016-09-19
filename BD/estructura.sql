@@ -801,7 +801,9 @@ CREATE OR REPLACE VIEW vhorario AS
   ta.descripcion AS nombre_ambiente,
   CONCAT(bh.hora_inicio,'-',bh.hora_fin) AS hora,
   s.descripcion AS nombre_seccion, 
-  COALESCE(pr.carga_horaria,0) AS maxhoras 
+  COALESCE(pr.carga_horaria,0) AS maxhoras,
+  COALESCE(tm.hora_academica,0) AS maxhoramateria,
+  COALESCE(bh.hora_academica,0) AS hora_academica  
   FROM thorario h
   LEFT JOIN tseccion s ON s.seccion = h.seccion
   LEFT JOIN tpersona pr ON pr.cedula = h.cedula_docente

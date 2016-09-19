@@ -1,6 +1,9 @@
 var HoraAsignado=0;
 var HoraTotal=0;
 var HoraLibre=0;
+var HoraMAsignado=0;
+var HoraMTotal=0;
+var HoraMLibre=0;
 var indice=0;
 var indice_asignado=0;
 
@@ -27,6 +30,37 @@ function cargar_hora_maxima(elegido){
 			HoraAsignado=parseInt(document.getElementById("A").value);
 			HoraTotal=parseInt(document.getElementById("T").value);
 			HoraLibre=parseInt(document.getElementById("L").value);
+		}
+	});
+}
+
+function cargar_hora_materia(elegido){
+	elegido1=$("#codigo_ano_academico").val();
+	var parametros={"materia":elegido,"codigo_ano_academico": elegido1,"combo":"horas_materia"};
+	$.ajax({
+		data: 	parametros,
+		url: 	'../controladores/control_ajax2.php',
+		type: 	'post',
+		success: 	function(response){
+			console.log(response);
+			sacar_valor=$.parseJSON(response);
+			//	Campos Visibles
+			$('#celdamateriaasignado').html(sacar_valor[0].asignado);
+			$('#celdamaterialibre').html(sacar_valor[0].libre);
+			$('#celdamateriatotal').html(sacar_valor[0].total);
+			//	Campos Ocultos
+			$('#MA').val(sacar_valor[0].asignado);
+			$('#ML').val(sacar_valor[0].libre);
+			$('#MT').val(sacar_valor[0].total);
+			//	Agregar valor a las variables
+			HoraMAsignado=parseInt(document.getElementById("MA").value);
+			HoraMTotal=parseInt(document.getElementById("MT").value);
+			HoraMLibre=parseInt(document.getElementById("ML").value);
+		},
+		error: function(jqXHR, textStatus, errorThrown){
+        	console.log(textStatus);
+        	console.log(errorThrown);
+        	console.log(jqXHR);
 		}
 	});
 }
@@ -130,13 +164,31 @@ function Principal(){
 	});
 
 	$("#codigo_materia").on('change',function (){
-		if(!($(this).val()=="null" || $(this).val()=="")){
+		/*if(!($(this).val()=="null" || $(this).val()=="")){
 			$("#cedula_persona").prop("disabled","");
 		}else{
 			$("#cedula_persona").attr("value","");
 			$("#cedula_persona").prop("disabled","false");
+		}*/
+		if($(this).val()=="null" || $(this).val()==""){
+			$("#cedula_persona").html("<option value='null'>Elige una opcion...</option>").attr("disabled","disabled");
+		}else{
+			$("#cedula_persona > option[value='']").attr("selected",true);       
+			$("#cedula_persona").attr("disabled",false);
 		}
-	});			  	
+		$("#codigo_materia option:selected").each(function () {
+			elegido=$(this).val();
+			seccion=$("#seccion").val();
+			$.post("../controladores/control_ajax.php", { elegido: elegido,seccion: seccion,combo: "materia" }, function(data){
+			$("#cedula_persona").html(data);
+			});
+		});
+		cargar_hora_materia($(this).val());
+	}); 
+
+	$('#cedula_persona').on('change',function(){
+		cargar_hora_maxima($(this).val());
+	});
 
 	$('#btnGuardar').on("click",function(){
 		var send = true;
@@ -152,7 +204,7 @@ function Principal(){
 	});
 
 	//Búsquedas del docente por autocompletar.
-	$('#cedula_persona').autocomplete({
+	/*$('#cedula_persona').autocomplete({
 		source: function(request,response){
 			var Data = {term : request.term, seccion: $("#seccion").val(), codigo_materia: $("#codigo_materia").val()};
 			$.ajax({
@@ -175,6 +227,7 @@ function Principal(){
 			cargar_hora_maxima(docente[0]);
 		}
 	});
+	*/
 }
 
 function mostrar_alt(){
@@ -188,6 +241,11 @@ function desactivar(){
 		HoraLibre+=parseInt($(this).attr('data-hora_academica'));
 		$("#celdalibre").html(HoraLibre);
 		$("#celdaasignado").html(HoraAsignado);
+		//	Para las materias
+		HoraMAsignado-=parseInt($(this).attr('data-hora_academica'));
+		HoraMLibre+=parseInt($(this).attr('data-hora_academica'));
+		$("#celdamaterialibre").html(HoraMLibre);
+		$("#celdamateriaasignado").html(HoraMAsignado);
 		$($(this)).removeAttr('class');		  
 	}
 }
@@ -202,14 +260,25 @@ function Seleccionar(){
 	if($(this).attr('class')==undefined){
 		HoraAsignado+=parseInt($(this).attr('data-hora_academica'));
 		HoraLibre-=parseInt($(this).attr('data-hora_academica'));
-		if(HoraLibre>0 || HoraAsignado==HoraTotal){
-			$(this).removeClass($(this).attr('class')).addClass("seleccionado");
-			$("#celdalibre").html(HoraLibre);
-			$("#celdaasignado").html(HoraAsignado);
+		//	Para la materia
+		HoraMAsignado+=parseInt($(this).attr('data-hora_academica'));
+		HoraMLibre-=parseInt($(this).attr('data-hora_academica'));
+		if(HoraMLibre>0 || HoraMAsignado==HoraMTotal){
+			if(HoraLibre>0 || HoraAsignado==HoraTotal){
+				$(this).removeClass($(this).attr('class')).addClass("seleccionado");
+				$("#celdalibre").html(HoraLibre);
+				$("#celdaasignado").html(HoraAsignado);
+				$("#celdamaterialibre").html(HoraMLibre);
+				$("#celdamateriaasignado").html(HoraMAsignado);
+			}else{
+				HoraAsignado-=parseInt($(this).attr('data-hora_academica'));
+				HoraLibre+=parseInt($(this).attr('data-hora_academica'));
+				alert("Error al seleccionar bloque de hora","info","<font style='color:red;'>Horas Académicas del Bloque: "+indice_asignado+" <br> Horas del Docente Asignadas: "+HoraAsignado+" <br> Horas del Docente Libre: "+HoraLibre+"</font>");
+			}
 		}else{
-			HoraAsignado-=parseInt($(this).attr('data-hora_academica'));
-			HoraLibre+=parseInt($(this).attr('data-hora_academica'));
-			alert("Error al seleccionar bloque de hora","info","<font style='color:red;'>Horas Académicas del Bloque: "+indice_asignado+" <br> Asignados: "+HoraAsignado+" <br> Libre: "+HoraLibre+"</font>");
+			HoraMAsignado-=parseInt($(this).attr('data-hora_academica'));
+			HoraMLibre+=parseInt($(this).attr('data-hora_academica'));
+			alert("Error al seleccionar bloque de hora","info","<font style='color:red;'>Horas Académicas del Bloque: "+indice_asignado+" <br> Horas de la Materia Asignadas: "+HoraMAsignado+" <br> Horas de la Materia Libre: "+HoraMLibre+"</font>");
 		}
 	}
 }
@@ -225,6 +294,11 @@ function ExtraerDatos(){
 	HoraLibre+=parseInt($(this).attr('data-hora_academica'));
 	$("#celdalibre").html(HoraLibre);
 	$("#celdaasignado").html(HoraAsignado);
+	//	Para las materias
+	HoraMAsignado-=parseInt($(this).attr('data-hora_academica'));
+	HoraMLibre+=parseInt($(this).attr('data-hora_academica'));
+	$("#celdamaterialibre").html(HoraMLibre);
+	$("#celdamateriaasignado").html(HoraMAsignado);
 }
 
 function Enviar(){

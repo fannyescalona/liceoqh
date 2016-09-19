@@ -1,8 +1,6 @@
 .html_horario{
 background:#eee url(../imagenes/png/fondo.png) !important; 
 }
-
-
 tr:nth-child(n+3) > td{
 width: 20px;
 height: 20px;
@@ -73,17 +71,15 @@ background: url(../images/bg.jpg);
 border: 0px !important;
 font-weight: bold;
 }
-#tb_horario tr:last-of-type  td{
-background: #8B0000;
-color: #fff;
-
-
--webkit-border-bottom-right-radius: 20px;
--webkit-border-bottom-left-radius: 20px;
--moz-border-radius-bottomright: 20px;
--moz-border-radius-bottomleft: 20px;
-border-bottom-right-radius: 20px;
-border-bottom-left-radius: 20px;
+#tb_horario .tr_footer {
+	background: #8B0000;
+	color: #fff;
+	-webkit-border-bottom-right-radius: 20px;
+	-webkit-border-bottom-left-radius: 20px;
+	-moz-border-radius-bottomright: 20px;
+	-moz-border-radius-bottomleft: 20px;
+	border-bottom-right-radius: 20px;
+	border-bottom-left-radius: 20px;
 }
 #filtro_tabla_horario{
 margin : 0px auto;  
@@ -164,4 +160,15 @@ footer{
     #F7F6F6 90%
     );
 
+}
+
+#tb_horario .tr_header {
+    background: #8B0000;
+    color: #fff;
+    -webkit-border-top-right-radius: 20px;
+    -webkit-border-top-left-radius: 20px;
+    -moz-border-radius-topright: 20px;
+    -moz-border-radius-topleft: 20px;
+    border-top-right-radius: 20px;
+    border-top-left-radius: 20px;
 }
