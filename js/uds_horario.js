@@ -34,15 +34,14 @@ function cargar_hora_maxima(elegido){
 	});
 }
 
-function cargar_hora_materia(elegido){
+function cargar_hora_materia(seccion,materia,docente){
 	elegido1=$("#codigo_ano_academico").val();
-	var parametros={"materia":elegido,"codigo_ano_academico": elegido1,"combo":"horas_materia"};
+	var parametros={"seccion":seccion,"materia":materia,"docente":docente,"codigo_ano_academico": elegido1,"combo":"horas_materia"};
 	$.ajax({
 		data: 	parametros,
 		url: 	'../controladores/control_ajax2.php',
 		type: 	'post',
 		success: 	function(response){
-			console.log(response);
 			sacar_valor=$.parseJSON(response);
 			//	Campos Visibles
 			$('#celdamateriaasignado').html(sacar_valor[0].asignado);
@@ -76,12 +75,12 @@ function cargar_datos(){
 			url:   '../controladores/control_ajax2.php',
 			type:  'post',
 			success:  function (response) {
-				sacar_valor=$.parseJSON(response);				  
+				sacar_valor=$.parseJSON(response); 
 				for(i=0;i<sacar_valor.length;i++){
 					datos=sacar_valor[i].celda+"*"+sacar_valor[i].seccion+"*"+sacar_valor[i].codigo_ambiente+"*"+sacar_valor[i].materia+"*"+sacar_valor[i].profesor;				   
 					campo="<input type='hidden' name='contenidos[]' id='"+sacar_valor[i].celda+"_vo'  value='"+datos+"'/>";
 					dia=Array("Domingo","Lunes","Martes","Miercoles","Jueves","Viernes","Sabado");
-					datos_img="<div id=\"div-msg\">Día: "+dia[sacar_valor[i].dia]+"<br>Hora: "+sacar_valor[i].hora+"<br>Materia: "+sacar_valor[i].nombre_materia+"<br>Prof: "+sacar_valor[i].nombre+" "+sacar_valor[i].apellido+"<br>Aula: "+sacar_valor[i].nombre_ambiente+"</div>";
+					datos_img="<div id=\"div-msg\">Día: "+dia[sacar_valor[i].dia]+"<br>Hora: "+sacar_valor[i].hora+"<br>Materia: "+sacar_valor[i].nombre_materia+"<br>Prof: "+sacar_valor[i].nombre+" "+sacar_valor[i].apellido+"<br>Aula: "+sacar_valor[i].nombre_ambiente+"<br>Sección: "+sacar_valor[i].nombre_seccion+"</div>";
 					var img="<img src='../images/marca.png' alt='"+datos_img+"'/>";
 					$("#"+sacar_valor[i].celda).removeAttr('class').html('').html('Asignado').addClass("asignado").append(campo).append(img);
 				}
@@ -180,14 +179,16 @@ function Principal(){
 			elegido=$(this).val();
 			seccion=$("#seccion").val();
 			$.post("../controladores/control_ajax.php", { elegido: elegido,seccion: seccion,combo: "materia" }, function(data){
-			$("#cedula_persona").html(data);
+				$("#cedula_persona").html(data);
 			});
 		});
-		cargar_hora_materia($(this).val());
 	}); 
 
 	$('#cedula_persona').on('change',function(){
+		//	Cargamos las horas consumidas del docuente
 		cargar_hora_maxima($(this).val());
+		//	Cargamos las horas consumidas del docente en la materia seleccionada
+		cargar_hora_materia($('#seccion').val(),$('#codigo_materia').val(),$(this).val());
 	});
 
 	$('#btnGuardar').on("click",function(){
@@ -263,6 +264,7 @@ function Seleccionar(){
 		//	Para la materia
 		HoraMAsignado+=parseInt($(this).attr('data-hora_academica'));
 		HoraMLibre-=parseInt($(this).attr('data-hora_academica'));
+		indice_asignado=parseInt($(this).attr('data-hora_academica'));
 		if(HoraMLibre>0 || HoraMAsignado==HoraMTotal){
 			if(HoraLibre>0 || HoraAsignado==HoraTotal){
 				$(this).removeClass($(this).attr('class')).addClass("seleccionado");
@@ -340,7 +342,7 @@ function Enviar(){
 			eldia=dia[x[1]];
 			var iii = $("#codigo_ambiente option:selected").text();
 			datos_img="<div id=\"div-msg\">Día: "+eldia+"<br>Hora: "+$(this).prop('title')+"<br>Materia: "+ 
-			$("#codigo_materia option:selected").text()+"<br>Prof: "+$("#cedula_persona").val()+"<br>Aula: "+iii+"</div>";
+			$("#codigo_materia option:selected").text()+"<br>Prof: "+$("#cedula_persona").val()+"<br>Aula: "+iii+"<br>Sección: "+$("#seccion option:selected").text()+"</div>";
 			if(validar_profesor_horario($(this).prop("id"),profesor))				   
 				anadir_contenido($(this),datos,datos_img);
 		});

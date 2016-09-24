@@ -1,0 +1,580 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="horario" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="8905015a-6f1b-4ceb-a825-4a18293d673b">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="seccion" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="cedula_docente" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="codigo_ano_academico" class="java.math.BigDecimal">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT CASE WHEN bh.receso = 'Y' THEN '' ELSE bh.descripcion END AS nombrebh,
+CASE WHEN bh.receso = 'N' THEN '' ELSE bh.descripcion END AS nombresemana,
+bh.receso,CONCAT(DATE_FORMAT(bh.hora_inicio,'%h:%i %p'),' - ',DATE_FORMAT(bh.hora_fin,'%h:%i %p')) AS hora,
+MAX(CASE WHEN h.dia = 1 THEN
+CONCAT('Aula: ',h.nombre_ambiente)
+ELSE '' END) AS bloque_lunes_ambiente,
+MAX(CASE WHEN h.dia = 1 THEN
+CONCAT('Sección: ',h.nombre_seccion)
+ELSE '' END) AS bloque_lunes_seccion,
+MAX(CASE WHEN h.dia = 1 THEN
+CONCAT('Materia: ',h.nombre_materia)
+ELSE '' END) AS bloque_lunes_materia,
+MAX(CASE WHEN h.dia = 1 THEN
+CONCAT('Prof: ',h.nombre,' ',h.apellido)
+ELSE '' END) AS bloque_lunes_docente,
+MAX(CASE WHEN h.dia = 2 THEN
+CONCAT('Aula: ',h.nombre_ambiente)
+ELSE '' END) AS bloque_martes_ambiente,
+MAX(CASE WHEN h.dia = 2 THEN
+CONCAT('Sección: ',h.nombre_seccion)
+ELSE '' END) AS bloque_martes_seccion,
+MAX(CASE WHEN h.dia = 2 THEN
+CONCAT('Materia: ',h.nombre_materia)
+ELSE '' END) AS bloque_martes_materia,
+MAX(CASE WHEN h.dia = 2 THEN
+CONCAT('Prof: ',h.nombre,' ',h.apellido)
+ELSE '' END) AS bloque_martes_docente,
+MAX(CASE WHEN h.dia = 3 THEN
+CONCAT('Aula: ',h.nombre_ambiente)
+ELSE '' END) AS bloque_miercoles_ambiente,
+MAX(CASE WHEN h.dia = 3 THEN
+CONCAT('Sección: ',h.nombre_seccion)
+ELSE '' END) AS bloque_miercoles_seccion,
+MAX(CASE WHEN h.dia = 3 THEN
+CONCAT('Materia: ',h.nombre_materia)
+ELSE '' END) AS bloque_miercoles_materia,
+MAX(CASE WHEN h.dia = 3 THEN
+CONCAT('Prof: ',h.nombre,' ',h.apellido)
+ELSE '' END) AS bloque_miercoles_docente,
+MAX(CASE WHEN h.dia = 4 THEN
+CONCAT('Aula: ',h.nombre_ambiente)
+ELSE '' END) AS bloque_jueves_ambiente,
+MAX(CASE WHEN h.dia = 4 THEN
+CONCAT('Sección: ',h.nombre_seccion)
+ELSE '' END) AS bloque_jueves_seccion,
+MAX(CASE WHEN h.dia = 4 THEN
+CONCAT('Materia: ',h.nombre_materia)
+ELSE '' END) AS bloque_jueves_materia,
+MAX(CASE WHEN h.dia = 4 THEN
+CONCAT('Prof: ',h.nombre,' ',h.apellido)
+ELSE '' END) AS bloque_jueves_docente,
+MAX(CASE WHEN h.dia = 5 THEN
+CONCAT('Aula: ',h.nombre_ambiente)
+ELSE '' END) AS bloque_viernes_ambiente,
+MAX(CASE WHEN h.dia = 5 THEN
+CONCAT('Sección: ',h.nombre_seccion)
+ELSE '' END) AS bloque_viernes_seccion,
+MAX(CASE WHEN h.dia = 5 THEN
+CONCAT('Materia: ',h.nombre_materia)
+ELSE '' END) AS bloque_viernes_materia,
+MAX(CASE WHEN h.dia = 5 THEN
+CONCAT('Prof: ',h.nombre,' ',h.apellido)
+ELSE '' END) AS bloque_viernes_docente
+FROM tbloque_hora bh
+LEFT JOIN vhorario h ON bh.codigo_bloque_hora = h.codigo_bloque_hora AND h.codigo_ano_academico = $P{codigo_ano_academico}
+WHERE (h.seccion = $P{seccion} OR $P{seccion} IS NULL) AND (h.profesor = $P{cedula_docente} OR $P{cedula_docente} IS NULL)
+GROUP BY bh.receso,bh.descripcion,bh.hora_inicio,bh.hora_fin
+ORDER BY bh.hora_inicio,bh.hora_fin ASC]]>
+	</queryString>
+	<field name="nombrebh" class="java.lang.String"/>
+	<field name="nombresemana" class="java.lang.String"/>
+	<field name="receso" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="hora" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="bloque_lunes_ambiente" class="java.lang.String"/>
+	<field name="bloque_lunes_seccion" class="java.lang.String"/>
+	<field name="bloque_lunes_materia" class="java.lang.String"/>
+	<field name="bloque_lunes_docente" class="java.lang.String"/>
+	<field name="bloque_martes_ambiente" class="java.lang.String"/>
+	<field name="bloque_martes_seccion" class="java.lang.String"/>
+	<field name="bloque_martes_materia" class="java.lang.String"/>
+	<field name="bloque_martes_docente" class="java.lang.String"/>
+	<field name="bloque_miercoles_ambiente" class="java.lang.String"/>
+	<field name="bloque_miercoles_seccion" class="java.lang.String"/>
+	<field name="bloque_miercoles_materia" class="java.lang.String"/>
+	<field name="bloque_miercoles_docente" class="java.lang.String"/>
+	<field name="bloque_jueves_ambiente" class="java.lang.String"/>
+	<field name="bloque_jueves_seccion" class="java.lang.String"/>
+	<field name="bloque_jueves_materia" class="java.lang.String"/>
+	<field name="bloque_jueves_docente" class="java.lang.String"/>
+	<field name="bloque_viernes_ambiente" class="java.lang.String"/>
+	<field name="bloque_viernes_seccion" class="java.lang.String"/>
+	<field name="bloque_viernes_materia" class="java.lang.String"/>
+	<field name="bloque_viernes_docente" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="145" splitType="Stretch">
+			<image>
+				<reportElement x="0" y="0" width="802" height="71" uuid="5e5c3d8b-1018-4701-870f-c095e8a0c3c1"/>
+				<imageExpression><![CDATA["../images/cintillo_reportes.jpg"]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement mode="Opaque" x="0" y="105" width="802" height="20" forecolor="#FFFFFF" backcolor="#6B6B6B" uuid="377ebb24-a564-4871-b6ee-76acfbf42522"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="16" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["JORNADA ESCOLAR"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="75" width="802" height="20" uuid="79c27220-90a4-4b64-82c0-cd56df94f5d0"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="16" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["REPORTE DE HORARIO"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="125" width="60" height="20" uuid="5d0d7dbc-ee3c-43bd-baa9-f45a43861cfe"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["BLOQUE"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="60" y="125" width="102" height="20" uuid="5ada1753-61f2-4866-8d41-c16ca024d9fc"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["HORA"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="674" y="125" width="128" height="20" uuid="86a3e383-9572-4fab-b00a-2a0136770a4e"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["VIERNES"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="546" y="125" width="128" height="20" uuid="3b47d7e5-3c7f-4b9c-a3aa-6232c8a59bf6"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["JUEVES"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="418" y="125" width="128" height="20" uuid="858034b4-0b1e-4787-a145-35f03a34aa5d"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["MIERCOLES"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="290" y="125" width="128" height="20" uuid="a8d6449d-877a-4406-ab1c-d2b531e4a13a"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["MARTES"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="162" y="125" width="128" height="20" uuid="cef2fb2c-fb00-4374-bbfb-e93ab2ad48ef"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["LUNES"]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<detail>
+		<band height="60" splitType="Stretch">
+			<textField>
+				<reportElement x="60" y="0" width="102" height="60" uuid="bb2e12cb-f5c8-4cee-b7e9-c1358a83d9e5"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{hora}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="162" y="0" width="128" height="15" uuid="1379b633-0447-4e2e-aa66-076ce95545fd">
+					<printWhenExpression><![CDATA[$F{receso}!="Y"]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="6" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{bloque_lunes_ambiente}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="0" width="60" height="60" uuid="6d56d499-78f7-44bf-8951-6361b733b220"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombrebh}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="162" y="0" width="640" height="60" uuid="a8d964f1-cab5-4f81-90ce-7e8788b07d12">
+					<printWhenExpression><![CDATA[$F{receso}!="N"]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombresemana}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="162" y="15" width="128" height="15" uuid="c510e5ef-372a-4965-8bca-ccfddcc6f25c">
+					<printWhenExpression><![CDATA[$F{receso}!="Y"]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="6" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{bloque_lunes_seccion}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="162" y="30" width="128" height="15" uuid="6c0831ee-2f44-4e89-91bf-2426f0799532">
+					<printWhenExpression><![CDATA[$F{receso}!="Y"]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="6" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{bloque_lunes_materia}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="162" y="45" width="128" height="15" uuid="da8a8e19-6bf9-4a60-a7ae-f50ecf7e0b7f">
+					<printWhenExpression><![CDATA[$F{receso}!="Y"]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="6" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{bloque_lunes_docente}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="290" y="15" width="128" height="15" uuid="44cc7551-70b0-4d77-89fd-a10725b9ea1a">
+					<printWhenExpression><![CDATA[$F{receso}!="Y"]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="6" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{bloque_martes_seccion}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="290" y="30" width="128" height="15" uuid="25f9bb0e-7d16-4475-9c88-bf1b09406117">
+					<printWhenExpression><![CDATA[$F{receso}!="Y"]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="6" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{bloque_martes_materia}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="290" y="0" width="128" height="15" uuid="4440eb87-8766-476b-a71d-57cd73e2c6c5">
+					<printWhenExpression><![CDATA[$F{receso}!="Y"]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="6" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{bloque_martes_ambiente}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="290" y="45" width="128" height="15" uuid="e1dbe6ac-7f6a-4086-b173-9ecb70fc6ee2">
+					<printWhenExpression><![CDATA[$F{receso}!="Y"]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="6" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{bloque_martes_docente}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="418" y="15" width="128" height="15" uuid="2de86f04-b2a9-4f6f-89ba-311f0fdaaf1f">
+					<printWhenExpression><![CDATA[$F{receso}!="Y"]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="6" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{bloque_miercoles_seccion}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="418" y="45" width="128" height="15" uuid="7b7cc676-5938-47f4-a298-b7eadbfb4c2f">
+					<printWhenExpression><![CDATA[$F{receso}!="Y"]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="6" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{bloque_miercoles_docente}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="418" y="30" width="128" height="15" uuid="a1502034-e6bb-497d-9462-3159b7ca87ac">
+					<printWhenExpression><![CDATA[$F{receso}!="Y"]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="6" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{bloque_miercoles_materia}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="418" y="0" width="128" height="15" uuid="8f21361d-5a5a-4c4a-867c-212874fe8170">
+					<printWhenExpression><![CDATA[$F{receso}!="Y"]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="6" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{bloque_miercoles_ambiente}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="546" y="15" width="128" height="15" uuid="e9c40451-7172-4d50-a08a-edc266f1878d">
+					<printWhenExpression><![CDATA[$F{receso}!="Y"]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="6" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{bloque_jueves_seccion}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="546" y="0" width="128" height="15" uuid="71aa86a3-fa60-4676-af82-abd8a8e41eb7">
+					<printWhenExpression><![CDATA[$F{receso}!="Y"]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="6" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{bloque_jueves_ambiente}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="546" y="30" width="128" height="15" uuid="6f181832-7277-426f-948e-685fd0740c17">
+					<printWhenExpression><![CDATA[$F{receso}!="Y"]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="6" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{bloque_jueves_materia}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="546" y="45" width="128" height="15" uuid="00aea944-5edf-4a5b-b3d6-ad9846cc7d34">
+					<printWhenExpression><![CDATA[$F{receso}!="Y"]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="6" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{bloque_jueves_docente}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="674" y="30" width="128" height="15" uuid="874a9068-63cd-45a0-9a79-820f8277dd6f">
+					<printWhenExpression><![CDATA[$F{receso}!="Y"]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="6" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{bloque_viernes_materia}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="674" y="0" width="128" height="15" uuid="910dfb9a-8ce2-4559-b78b-4356869dea9a">
+					<printWhenExpression><![CDATA[$F{receso}!="Y"]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="6" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{bloque_viernes_ambiente}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="674" y="45" width="128" height="15" uuid="83c07c0f-d0dd-4ec9-a3ef-51a2c42917e3">
+					<printWhenExpression><![CDATA[$F{receso}!="Y"]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="6" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{bloque_viernes_docente}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="674" y="15" width="128" height="15" uuid="f46c6cde-0b38-48cb-9aad-8687a2c904e7">
+					<printWhenExpression><![CDATA[$F{receso}!="Y"]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="6" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{bloque_viernes_seccion}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

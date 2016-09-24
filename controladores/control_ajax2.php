@@ -25,6 +25,6 @@ if($_POST['combo']=="horas"){
 if($_POST['combo']=="horas_materia"){
 	include_once("../clases/class_horario.php");
 	$horario=new horario();
-	echo $horario->Resultado_Json_de_Consulta_Horas_Materia_Maximas($_POST['codigo_ano_academico'],$_POST['materia']);
+	echo $horario->Resultado_Json_de_Consulta_Horas_Materia_Maximas($_POST['codigo_ano_academico'],$_POST['seccion'],$_POST['materia'],$_POST['docente']);
 }
 ?>

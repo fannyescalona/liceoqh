@@ -251,7 +251,7 @@
 
 		public function Comprobar_existencia(){
 			$sql="SELECT count(*) as valor FROM thorario 
-			where (codigo_ambiente='$this->codigo_ambiente' and seccion='$this->seccion')";
+			where (codigo_ambiente='$this->codigo_ambiente' and seccion='$this->seccion' and cedula_docente = '$this->cedula_docente')";
 			$query=$this->objBD->Ejecutar($sql);
 			$res=$this->objBD->Respuesta($query);
 			if($res['valor']>0)
@@ -262,7 +262,8 @@
 
 		public function Comprobar_horario_profesor(){
 			$sql="SELECT count(*) as valor FROM thorario 
-			WHERE (codigo_materia='$this->codigo_materia' AND seccion='$this->seccion' AND cedula_docente='$this->cedula_docente')";
+			WHERE ( codigo_ano_academico = $this->codigo_ano_academico AND codigo_ambiente = $this->codigo_ambiente AND codigo_bloque_hora = $this->codigo_bloque_hora 
+			AND dia = $this->dia AND codigo_materia='$this->codigo_materia' AND seccion='$this->seccion' AND cedula_docente='$this->cedula_docente')";
 			$query=$this->objBD->Ejecutar($sql);
 			$res=$this->objBD->Respuesta($query);
 			if($res['valor']>0)
@@ -405,7 +406,7 @@
 			$condicion=" (bloque_hora.turno='T' or bloque_hora.turno='N')";
 			}
 
-			$sql="DELETE FROM thorario WHERE codigo_ambiente='$this->codigo_ambiente' and seccion='$this->seccion'";
+			$sql="DELETE FROM thorario WHERE codigo_ambiente='$this->codigo_ambiente' and seccion='$this->seccion' and cedula_docente = '$this->cedula_docente'";
 			if($this->objBD->Ejecutar($sql)!=null)
 				return true;
 			else
@@ -546,11 +547,11 @@
 			return $json;
 		}
 
-		public function Resultado_Json_de_Consulta_Horas_Materia_Maximas($a,$b){
+		public function Resultado_Json_de_Consulta_Horas_Materia_Maximas($a,$b,$c,$d){
 			$sql="SELECT SUM(h.hora_academica) AS asignado, MAX(m.hora_academica)-SUM(h.hora_academica) AS libre, MAX(m.hora_academica) AS total 
 			FROM tmateria m 
-			LEFT JOIN vhorario h ON m.codigo_materia = h.materia AND h.codigo_ano_academico = $a 
-			WHERE m.codigo_materia = '$b'";
+			LEFT JOIN vhorario h ON m.codigo_materia = h.materia AND h.codigo_ano_academico = $a AND h.seccion = '$b' AND h.profesor = '$d' 
+			WHERE m.codigo_materia = '$c'";
 			$query=$this->objBD->Ejecutar($sql);
 			$rows = array();
 			while($Actividad=$this->objBD->Respuesta_assoc($query)) {

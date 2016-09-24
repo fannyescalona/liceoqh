@@ -11,11 +11,19 @@ $horario->codigo_ano_academico($codigo_ano_academico);
 $horario->Transaccion('iniciando');
 
 if(isset($_POST['contenidos'])){
-  $extraer_valor=explode('*',$_POST['contenidos'][0]);
-  $horario->codigo_ambiente($extraer_valor[2]);
-  $horario->seccion($extraer_valor[1]);
-  if($horario->Comprobar_existencia())
-    $horario->Quitar_hora("todos");
+  $filtro = array();
+  foreach ($_POST['contenidos'] as $key => $value) {
+    $extraer_valor=explode('*',$value);
+    array_push($filtro,array('codigo_ambiente' => $extraer_valor[2], 'seccion' => $extraer_valor[1], 'cedula_docente' => $extraer_valor[4]));
+  }
+  $duplicates = array_map("unserialize", array_unique(array_map("serialize", $filtro)));
+  for($i = 0; $i<count($duplicates);$i++){
+    $horario->codigo_ambiente($duplicates[$i]["codigo_ambiente"]);
+    $horario->seccion($duplicates[$i]["seccion"]);
+    $horario->cedula_docente($duplicates[$i]["cedula_docente"]);
+    if($horario->Comprobar_existencia())
+      $horario->Quitar_hora("todos");
+  }
   foreach($_POST['contenidos'] as $x => $y){
     $extraer_valor=explode('*',$y);
     $extraer_valor2=explode('-',$extraer_valor[0]);
@@ -27,8 +35,9 @@ if(isset($_POST['contenidos'])){
     $horario->codigo_materia($extraer_valor[3]);
     $horario->seccion($extraer_valor[1]);
     $horario->cedula_docente($extraer_valor[4]);
-    if(!$horario->Comprobar_horario_profesor())
-      (!$horario->Registrar($_SESSION['user_name']))? $hubo_error=true : '';
+    if(!$horario->Comprobar_horario_profesor()){
+      (!$horario->Registrar($_SESSION['user_name'])) ? $hubo_error=true : '';
+    }
   }
 }else{
   header("Location: ".$_SERVER["HTTP_REFERER"]);
