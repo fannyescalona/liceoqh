@@ -1,13 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.2.12deb2+deb8u2
+-- version 3.5.1
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tiempo de generación: 24-09-2016 a las 09:36:30
--- Versión del servidor: 5.5.52-0+deb8u1
--- Versión de PHP: 5.6.24-0+deb8u1
+-- Tiempo de generación: 24-09-2016 a las 16:04:30
+-- Versión del servidor: 5.5.24-log
+-- Versión de PHP: 5.4.3
 
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
 
@@ -248,11 +248,12 @@ DELIMITER ;
 
 DROP TABLE IF EXISTS `tambiente`;
 CREATE TABLE IF NOT EXISTS `tambiente` (
-`codigo_ambiente` int(11) NOT NULL,
+  `codigo_ambiente` int(11) NOT NULL AUTO_INCREMENT,
   `descripcion` varchar(60) COLLATE utf8_spanish_ci NOT NULL,
   `tipo_ambiente` char(1) COLLATE utf8_spanish_ci NOT NULL DEFAULT '0',
-  `fecha_desactivacion` date DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+  `fecha_desactivacion` date DEFAULT NULL,
+  PRIMARY KEY (`codigo_ambiente`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=5 ;
 
 --
 -- Volcado de datos para la tabla `tambiente`
@@ -272,11 +273,12 @@ INSERT INTO `tambiente` (`codigo_ambiente`, `descripcion`, `tipo_ambiente`, `fec
 
 DROP TABLE IF EXISTS `tano_academico`;
 CREATE TABLE IF NOT EXISTS `tano_academico` (
-`codigo_ano_academico` int(11) NOT NULL,
+  `codigo_ano_academico` int(11) NOT NULL AUTO_INCREMENT,
   `descripcion` char(10) COLLATE utf8_spanish_ci NOT NULL,
   `cerrado` char(1) COLLATE utf8_spanish_ci NOT NULL DEFAULT 'N',
-  `fecha_desactivacion` date DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+  `fecha_desactivacion` date DEFAULT NULL,
+  PRIMARY KEY (`codigo_ano_academico`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=2 ;
 
 --
 -- Volcado de datos para la tabla `tano_academico`
@@ -288,20 +290,38 @@ INSERT INTO `tano_academico` (`codigo_ano_academico`, `descripcion`, `cerrado`, 
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `tasignacion_nota`
+--
+
+DROP TABLE IF EXISTS `tasignacion_nota`;
+CREATE TABLE IF NOT EXISTS `tasignacion_nota` (
+  `codigo_asignacionnotas` int(11) NOT NULL AUTO_INCREMENT,
+  `codigo_plan_evaluacion` int(11) NOT NULL,
+  `cedula_estudiante` char(10) COLLATE utf8_spanish_ci NOT NULL,
+  `notaobtenida` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`codigo_asignacionnotas`),
+  KEY `fk_tasignacionnota_pe` (`codigo_plan_evaluacion`),
+  KEY `fk_tasignacionnota_estudiante` (`cedula_estudiante`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `tauditoria`
 --
 
 DROP TABLE IF EXISTS `tauditoria`;
 CREATE TABLE IF NOT EXISTS `tauditoria` (
-`id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `ip` varchar(15) COLLATE utf8_spanish_ci NOT NULL,
   `so` varchar(50) COLLATE utf8_spanish_ci NOT NULL,
   `navigador` varchar(35) COLLATE utf8_spanish_ci NOT NULL,
   `usuario_base_de_datos` varchar(60) COLLATE utf8_spanish_ci NOT NULL,
   `usuario_aplicacion` char(15) COLLATE utf8_spanish_ci NOT NULL,
   `query` text COLLATE utf8_spanish_ci NOT NULL,
-  `fecha` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB AUTO_INCREMENT=3514 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+  `fecha` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=3514 ;
 
 --
 -- Volcado de datos para la tabla `tauditoria`
@@ -3771,51 +3791,51 @@ INSERT INTO `tauditoria` (`id`, `ip`, `so`, `navigador`, `usuario_base_de_datos`
 (3455, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'update tusuario set intento_fallido=0 where (nombre_usuario=''V123456789'')', '2016-09-24 02:17:32'),
 (3456, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'update tusuario set sesion_abierta=(sesion_abierta+1),fecha_ultimasesion = CURDATE() where (nombre_usuario=''V123456789'')', '2016-09-24 02:17:32'),
 (3457, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'DELETE FROM thorario WHERE codigo_ambiente=''1'' and seccion=''1''', '2016-09-24 02:36:46'),
-(3458, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO thorario(dia,codigo_bloque_hora,codigo_ambiente,codigo_ano_academico,codigo_materia,seccion,cedula_docente)\r\n			VALUES (''1'',''2'',''1'',''1'',''INGL001'',''1'',''V9565053'')', '2016-09-24 02:36:46'),
+(3458, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO thorario(dia,codigo_bloque_hora,codigo_ambiente,codigo_ano_academico,codigo_materia,seccion,cedula_docente)\r\n     VALUES (''1'',''2'',''1'',''1'',''INGL001'',''1'',''V9565053'')', '2016-09-24 02:36:46'),
 (3459, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'DELETE FROM thorario WHERE codigo_ambiente=''1'' and seccion=''1''', '2016-09-24 02:41:10'),
-(3460, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO thorario(dia,codigo_bloque_hora,codigo_ambiente,codigo_ano_academico,codigo_materia,seccion,cedula_docente)\r\n			VALUES (''1'',''2'',''1'',''1'',''INGL001'',''1'',''V9565053'')', '2016-09-24 02:41:10'),
+(3460, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO thorario(dia,codigo_bloque_hora,codigo_ambiente,codigo_ano_academico,codigo_materia,seccion,cedula_docente)\r\n     VALUES (''1'',''2'',''1'',''1'',''INGL001'',''1'',''V9565053'')', '2016-09-24 02:41:10'),
 (3461, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'DELETE FROM thorario WHERE codigo_ambiente=''1'' and seccion=''1''', '2016-09-24 02:44:50'),
-(3462, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO thorario(dia,codigo_bloque_hora,codigo_ambiente,codigo_ano_academico,codigo_materia,seccion,cedula_docente)\r\n			VALUES (''1'',''2'',''1'',''1'',''INGL001'',''1'',''V9565053'')', '2016-09-24 02:44:50'),
-(3463, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO thorario(dia,codigo_bloque_hora,codigo_ambiente,codigo_ano_academico,codigo_materia,seccion,cedula_docente)\r\n			VALUES (''2'',''5'',''1'',''1'',''INGL001'',''1'',''V9565053'')', '2016-09-24 03:02:55'),
-(3464, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO thorario(dia,codigo_bloque_hora,codigo_ambiente,codigo_ano_academico,codigo_materia,seccion,cedula_docente)\r\n			VALUES (''2'',''7'',''1'',''1'',''INGL001'',''SECC'',''V121212121'')', '2016-09-24 03:02:55'),
-(3468, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO thorario(dia,codigo_bloque_hora,codigo_ambiente,codigo_ano_academico,codigo_materia,seccion,cedula_docente)\r\n			VALUES (''1'',''5'',''1'',''1'',''INGL001'',''1'',''V9565053'')', '2016-09-24 03:22:35'),
-(3473, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO thorario(dia,codigo_bloque_hora,codigo_ambiente,codigo_ano_academico,codigo_materia,seccion,cedula_docente)\r\n			VALUES (''1'',''2'',''1'',''1'',''INGL001'',''SECC'',''V121212121'')', '2016-09-24 03:30:19'),
-(3474, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO thorario(dia,codigo_bloque_hora,codigo_ambiente,codigo_ano_academico,codigo_materia,seccion,cedula_docente)\r\n			VALUES (''2'',''2'',''1'',''1'',''INGL001'',''SECC'',''V121212121'')', '2016-09-24 03:30:19'),
-(3475, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO thorario(dia,codigo_bloque_hora,codigo_ambiente,codigo_ano_academico,codigo_materia,seccion,cedula_docente)\r\n			VALUES (''2'',''5'',''1'',''1'',''INGL001'',''SECC'',''V121212121'')', '2016-09-24 03:30:19'),
-(3476, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO thorario(dia,codigo_bloque_hora,codigo_ambiente,codigo_ano_academico,codigo_materia,seccion,cedula_docente)\r\n			VALUES (''3'',''9'',''1'',''1'',''INGL001'',''SECC'',''V121212121'')', '2016-09-24 03:30:19'),
-(3477, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO thorario(dia,codigo_bloque_hora,codigo_ambiente,codigo_ano_academico,codigo_materia,seccion,cedula_docente)\r\n			VALUES (''1'',''2'',''1'',''1'',''INGL001'',''1'',''V9565053'')', '2016-09-24 03:31:47'),
-(3478, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO thorario(dia,codigo_bloque_hora,codigo_ambiente,codigo_ano_academico,codigo_materia,seccion,cedula_docente)\r\n			VALUES (''1'',''5'',''1'',''1'',''INGL001'',''SECC'',''V121212121'')', '2016-09-24 03:31:47'),
-(3479, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO thorario(dia,codigo_bloque_hora,codigo_ambiente,codigo_ano_academico,codigo_materia,seccion,cedula_docente)\r\n			VALUES (''2'',''7'',''1'',''1'',''INGL001'',''1'',''V9565053'')', '2016-09-24 03:31:47'),
-(3480, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO thorario(dia,codigo_bloque_hora,codigo_ambiente,codigo_ano_academico,codigo_materia,seccion,cedula_docente)\r\n			VALUES (''4'',''7'',''1'',''1'',''INGL001'',''SECC'',''V121212121'')', '2016-09-24 03:31:47'),
+(3462, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO thorario(dia,codigo_bloque_hora,codigo_ambiente,codigo_ano_academico,codigo_materia,seccion,cedula_docente)\r\n     VALUES (''1'',''2'',''1'',''1'',''INGL001'',''1'',''V9565053'')', '2016-09-24 02:44:50'),
+(3463, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO thorario(dia,codigo_bloque_hora,codigo_ambiente,codigo_ano_academico,codigo_materia,seccion,cedula_docente)\r\n     VALUES (''2'',''5'',''1'',''1'',''INGL001'',''1'',''V9565053'')', '2016-09-24 03:02:55'),
+(3464, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO thorario(dia,codigo_bloque_hora,codigo_ambiente,codigo_ano_academico,codigo_materia,seccion,cedula_docente)\r\n     VALUES (''2'',''7'',''1'',''1'',''INGL001'',''SECC'',''V121212121'')', '2016-09-24 03:02:55'),
+(3468, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO thorario(dia,codigo_bloque_hora,codigo_ambiente,codigo_ano_academico,codigo_materia,seccion,cedula_docente)\r\n     VALUES (''1'',''5'',''1'',''1'',''INGL001'',''1'',''V9565053'')', '2016-09-24 03:22:35'),
+(3473, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO thorario(dia,codigo_bloque_hora,codigo_ambiente,codigo_ano_academico,codigo_materia,seccion,cedula_docente)\r\n     VALUES (''1'',''2'',''1'',''1'',''INGL001'',''SECC'',''V121212121'')', '2016-09-24 03:30:19'),
+(3474, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO thorario(dia,codigo_bloque_hora,codigo_ambiente,codigo_ano_academico,codigo_materia,seccion,cedula_docente)\r\n     VALUES (''2'',''2'',''1'',''1'',''INGL001'',''SECC'',''V121212121'')', '2016-09-24 03:30:19'),
+(3475, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO thorario(dia,codigo_bloque_hora,codigo_ambiente,codigo_ano_academico,codigo_materia,seccion,cedula_docente)\r\n     VALUES (''2'',''5'',''1'',''1'',''INGL001'',''SECC'',''V121212121'')', '2016-09-24 03:30:19'),
+(3476, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO thorario(dia,codigo_bloque_hora,codigo_ambiente,codigo_ano_academico,codigo_materia,seccion,cedula_docente)\r\n     VALUES (''3'',''9'',''1'',''1'',''INGL001'',''SECC'',''V121212121'')', '2016-09-24 03:30:19'),
+(3477, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO thorario(dia,codigo_bloque_hora,codigo_ambiente,codigo_ano_academico,codigo_materia,seccion,cedula_docente)\r\n     VALUES (''1'',''2'',''1'',''1'',''INGL001'',''1'',''V9565053'')', '2016-09-24 03:31:47'),
+(3478, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO thorario(dia,codigo_bloque_hora,codigo_ambiente,codigo_ano_academico,codigo_materia,seccion,cedula_docente)\r\n     VALUES (''1'',''5'',''1'',''1'',''INGL001'',''SECC'',''V121212121'')', '2016-09-24 03:31:47'),
+(3479, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO thorario(dia,codigo_bloque_hora,codigo_ambiente,codigo_ano_academico,codigo_materia,seccion,cedula_docente)\r\n     VALUES (''2'',''7'',''1'',''1'',''INGL001'',''1'',''V9565053'')', '2016-09-24 03:31:47'),
+(3480, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO thorario(dia,codigo_bloque_hora,codigo_ambiente,codigo_ano_academico,codigo_materia,seccion,cedula_docente)\r\n     VALUES (''4'',''7'',''1'',''1'',''INGL001'',''SECC'',''V121212121'')', '2016-09-24 03:31:47'),
 (3481, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'DELETE FROM thorario WHERE codigo_ambiente=''1'' and seccion=''1''', '2016-09-24 03:41:51'),
-(3482, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO thorario(dia,codigo_bloque_hora,codigo_ambiente,codigo_ano_academico,codigo_materia,seccion,cedula_docente)\r\n			VALUES (''5'',''2'',''1'',''1'',''INGL001'',''1'',''V9565053'')', '2016-09-24 03:41:51'),
-(3483, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO thorario(dia,codigo_bloque_hora,codigo_ambiente,codigo_ano_academico,codigo_materia,seccion,cedula_docente)\r\n			VALUES (''2'',''7'',''1'',''1'',''INGL001'',''1'',''V9565053'')', '2016-09-24 03:41:51'),
+(3482, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO thorario(dia,codigo_bloque_hora,codigo_ambiente,codigo_ano_academico,codigo_materia,seccion,cedula_docente)\r\n     VALUES (''5'',''2'',''1'',''1'',''INGL001'',''1'',''V9565053'')', '2016-09-24 03:41:51'),
+(3483, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO thorario(dia,codigo_bloque_hora,codigo_ambiente,codigo_ano_academico,codigo_materia,seccion,cedula_docente)\r\n     VALUES (''2'',''7'',''1'',''1'',''INGL001'',''1'',''V9565053'')', '2016-09-24 03:41:51'),
 (3484, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'DELETE FROM thorario WHERE codigo_ambiente=''1'' and seccion=''1''', '2016-09-24 03:42:34'),
-(3485, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO thorario(dia,codigo_bloque_hora,codigo_ambiente,codigo_ano_academico,codigo_materia,seccion,cedula_docente)\r\n			VALUES (''5'',''2'',''1'',''1'',''INGL001'',''1'',''V9565053'')', '2016-09-24 03:42:34'),
-(3486, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO thorario(dia,codigo_bloque_hora,codigo_ambiente,codigo_ano_academico,codigo_materia,seccion,cedula_docente)\r\n			VALUES (''2'',''7'',''1'',''1'',''INGL001'',''1'',''V9565053'')', '2016-09-24 03:42:34'),
-(3487, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO thorario(dia,codigo_bloque_hora,codigo_ambiente,codigo_ano_academico,codigo_materia,seccion,cedula_docente)\r\n			VALUES (''1'',''9'',''1'',''1'',''INGL001'',''SECC'',''V121212121'')', '2016-09-24 03:42:34'),
+(3485, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO thorario(dia,codigo_bloque_hora,codigo_ambiente,codigo_ano_academico,codigo_materia,seccion,cedula_docente)\r\n     VALUES (''5'',''2'',''1'',''1'',''INGL001'',''1'',''V9565053'')', '2016-09-24 03:42:34'),
+(3486, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO thorario(dia,codigo_bloque_hora,codigo_ambiente,codigo_ano_academico,codigo_materia,seccion,cedula_docente)\r\n     VALUES (''2'',''7'',''1'',''1'',''INGL001'',''1'',''V9565053'')', '2016-09-24 03:42:34'),
+(3487, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO thorario(dia,codigo_bloque_hora,codigo_ambiente,codigo_ano_academico,codigo_materia,seccion,cedula_docente)\r\n     VALUES (''1'',''9'',''1'',''1'',''INGL001'',''SECC'',''V121212121'')', '2016-09-24 03:42:34'),
 (3488, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'update tusuario set intento_fallido=0 where (nombre_usuario=''V123456789'')', '2016-09-24 11:14:53'),
 (3489, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'update tusuario set sesion_abierta=(sesion_abierta+1),fecha_ultimasesion = CURDATE() where (nombre_usuario=''V123456789'')', '2016-09-24 11:14:53'),
 (3490, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'DELETE FROM thorario WHERE codigo_ambiente=''1'' and seccion=''1''', '2016-09-24 12:17:21'),
 (3491, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'DELETE FROM thorario WHERE codigo_ambiente=''1'' and seccion=''SECC''', '2016-09-24 12:17:21'),
-(3492, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO thorario(dia,codigo_bloque_hora,codigo_ambiente,codigo_ano_academico,codigo_materia,seccion,cedula_docente)\r\n			VALUES (''5'',''2'',''1'',''1'',''INGL001'',''1'',''V9565053'')', '2016-09-24 12:17:21'),
-(3493, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO thorario(dia,codigo_bloque_hora,codigo_ambiente,codigo_ano_academico,codigo_materia,seccion,cedula_docente)\r\n			VALUES (''2'',''4'',''1'',''1'',''INGL001'',''SECC'',''V121212121'')', '2016-09-24 12:17:21'),
-(3494, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO thorario(dia,codigo_bloque_hora,codigo_ambiente,codigo_ano_academico,codigo_materia,seccion,cedula_docente)\r\n			VALUES (''2'',''7'',''1'',''1'',''INGL001'',''1'',''V9565053'')', '2016-09-24 12:17:21'),
-(3495, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO thorario(dia,codigo_bloque_hora,codigo_ambiente,codigo_ano_academico,codigo_materia,seccion,cedula_docente)\r\n			VALUES (''4'',''7'',''1'',''1'',''INGL001'',''SECC'',''V121212121'')', '2016-09-24 12:17:21'),
+(3492, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO thorario(dia,codigo_bloque_hora,codigo_ambiente,codigo_ano_academico,codigo_materia,seccion,cedula_docente)\r\n     VALUES (''5'',''2'',''1'',''1'',''INGL001'',''1'',''V9565053'')', '2016-09-24 12:17:21'),
+(3493, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO thorario(dia,codigo_bloque_hora,codigo_ambiente,codigo_ano_academico,codigo_materia,seccion,cedula_docente)\r\n     VALUES (''2'',''4'',''1'',''1'',''INGL001'',''SECC'',''V121212121'')', '2016-09-24 12:17:21'),
+(3494, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO thorario(dia,codigo_bloque_hora,codigo_ambiente,codigo_ano_academico,codigo_materia,seccion,cedula_docente)\r\n     VALUES (''2'',''7'',''1'',''1'',''INGL001'',''1'',''V9565053'')', '2016-09-24 12:17:21'),
+(3495, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO thorario(dia,codigo_bloque_hora,codigo_ambiente,codigo_ano_academico,codigo_materia,seccion,cedula_docente)\r\n     VALUES (''4'',''7'',''1'',''1'',''INGL001'',''SECC'',''V121212121'')', '2016-09-24 12:17:21'),
 (3496, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'DELETE FROM thorario WHERE codigo_ambiente=''1'' and seccion=''1''', '2016-09-24 12:17:52'),
 (3497, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'DELETE FROM thorario WHERE codigo_ambiente=''1'' and seccion=''SECC''', '2016-09-24 12:17:52'),
-(3498, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO thorario(dia,codigo_bloque_hora,codigo_ambiente,codigo_ano_academico,codigo_materia,seccion,cedula_docente)\r\n			VALUES (''5'',''2'',''1'',''1'',''INGL001'',''1'',''V9565053'')', '2016-09-24 12:17:52'),
-(3499, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO thorario(dia,codigo_bloque_hora,codigo_ambiente,codigo_ano_academico,codigo_materia,seccion,cedula_docente)\r\n			VALUES (''1'',''5'',''1'',''1'',''INGL001'',''SECC'',''V121212121'')', '2016-09-24 12:17:52'),
-(3500, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO thorario(dia,codigo_bloque_hora,codigo_ambiente,codigo_ano_academico,codigo_materia,seccion,cedula_docente)\r\n			VALUES (''2'',''7'',''1'',''1'',''INGL001'',''1'',''V9565053'')', '2016-09-24 12:17:52'),
-(3501, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO thorario(dia,codigo_bloque_hora,codigo_ambiente,codigo_ano_academico,codigo_materia,seccion,cedula_docente)\r\n			VALUES (''4'',''7'',''1'',''1'',''INGL001'',''SECC'',''V121212121'')', '2016-09-24 12:17:52'),
+(3498, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO thorario(dia,codigo_bloque_hora,codigo_ambiente,codigo_ano_academico,codigo_materia,seccion,cedula_docente)\r\n     VALUES (''5'',''2'',''1'',''1'',''INGL001'',''1'',''V9565053'')', '2016-09-24 12:17:52'),
+(3499, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO thorario(dia,codigo_bloque_hora,codigo_ambiente,codigo_ano_academico,codigo_materia,seccion,cedula_docente)\r\n     VALUES (''1'',''5'',''1'',''1'',''INGL001'',''SECC'',''V121212121'')', '2016-09-24 12:17:52'),
+(3500, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO thorario(dia,codigo_bloque_hora,codigo_ambiente,codigo_ano_academico,codigo_materia,seccion,cedula_docente)\r\n     VALUES (''2'',''7'',''1'',''1'',''INGL001'',''1'',''V9565053'')', '2016-09-24 12:17:52'),
+(3501, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO thorario(dia,codigo_bloque_hora,codigo_ambiente,codigo_ano_academico,codigo_materia,seccion,cedula_docente)\r\n     VALUES (''4'',''7'',''1'',''1'',''INGL001'',''SECC'',''V121212121'')', '2016-09-24 12:17:52'),
 (3502, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'DELETE FROM thorario WHERE codigo_ambiente=''1'' and seccion=''SECC'' and cedula_docente = ''V121212121''', '2016-09-24 12:19:09'),
-(3503, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO thorario(dia,codigo_bloque_hora,codigo_ambiente,codigo_ano_academico,codigo_materia,seccion,cedula_docente)\r\n			VALUES (''4'',''7'',''1'',''1'',''INGL001'',''SECC'',''V121212121'')', '2016-09-24 12:19:09'),
-(3504, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO thorario(dia,codigo_bloque_hora,codigo_ambiente,codigo_ano_academico,codigo_materia,seccion,cedula_docente)\r\n			VALUES (''2'',''9'',''1'',''1'',''INGL001'',''SECC'',''V121212121'')', '2016-09-24 12:19:09'),
+(3503, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO thorario(dia,codigo_bloque_hora,codigo_ambiente,codigo_ano_academico,codigo_materia,seccion,cedula_docente)\r\n     VALUES (''4'',''7'',''1'',''1'',''INGL001'',''SECC'',''V121212121'')', '2016-09-24 12:19:09'),
+(3504, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO thorario(dia,codigo_bloque_hora,codigo_ambiente,codigo_ano_academico,codigo_materia,seccion,cedula_docente)\r\n     VALUES (''2'',''9'',''1'',''1'',''INGL001'',''SECC'',''V121212121'')', '2016-09-24 12:19:09'),
 (3505, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'update tseccion set seccion=''SECC2'',descripcion=''SEGUNDO A'',turno=''M'',grado_escolar=''2'', capacidad_min=''40'',capacidad_max=''50'' where (seccion=''SECC2'');', '2016-09-24 12:20:57'),
 (3506, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'DELETE FROM tmateria_seccion_docente WHERE (seccion=''SECC2'');', '2016-09-24 12:20:57'),
 (3507, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tmateria_seccion_docente(seccion,codigo_materia,cedula_docente) VALUES (''SECC2'',''CAST002'',''V18843196''),(''SECC2'',''BIO002'',''V13131313'');', '2016-09-24 12:20:57'),
-(3508, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO thorario(dia,codigo_bloque_hora,codigo_ambiente,codigo_ano_academico,codigo_materia,seccion,cedula_docente)\r\n			VALUES (''1'',''4'',''3'',''1'',''CAST002'',''SECC2'',''V18843196'')', '2016-09-24 12:21:24'),
-(3509, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO thorario(dia,codigo_bloque_hora,codigo_ambiente,codigo_ano_academico,codigo_materia,seccion,cedula_docente)\r\n			VALUES (''1'',''7'',''3'',''1'',''CAST002'',''SECC2'',''V18843196'')', '2016-09-24 12:21:24'),
+(3508, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO thorario(dia,codigo_bloque_hora,codigo_ambiente,codigo_ano_academico,codigo_materia,seccion,cedula_docente)\r\n     VALUES (''1'',''4'',''3'',''1'',''CAST002'',''SECC2'',''V18843196'')', '2016-09-24 12:21:24'),
+(3509, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO thorario(dia,codigo_bloque_hora,codigo_ambiente,codigo_ano_academico,codigo_materia,seccion,cedula_docente)\r\n     VALUES (''1'',''7'',''3'',''1'',''CAST002'',''SECC2'',''V18843196'')', '2016-09-24 12:21:24'),
 (3510, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'insert into tservicio (descripcion,url,orden,codigo_modulo) values (''REPORTE DE HORARIO'',''REP_HORARIO'',''11'',''5'');', '2016-09-24 13:16:39'),
 (3511, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'update tperfil set descripcion=''ADMINISTRADOR'',codigo_configuracion=1 where (codigo_perfil=''1'');', '2016-09-24 13:17:02'),
 (3512, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'DELETE FROM tservicio_usuario_opcion where (codigo_perfil=''1'');', '2016-09-24 13:17:02'),
@@ -3829,15 +3849,16 @@ INSERT INTO `tauditoria` (`id`, `ip`, `so`, `navigador`, `usuario_base_de_datos`
 
 DROP TABLE IF EXISTS `tbloque_hora`;
 CREATE TABLE IF NOT EXISTS `tbloque_hora` (
-`codigo_bloque_hora` int(11) NOT NULL,
+  `codigo_bloque_hora` int(11) NOT NULL AUTO_INCREMENT,
   `hora_inicio` time NOT NULL,
   `hora_fin` time NOT NULL,
   `hora_academica` int(11) NOT NULL DEFAULT '2',
   `receso` char(1) COLLATE utf8_spanish_ci NOT NULL DEFAULT 'N',
   `descripcion` varchar(60) COLLATE utf8_spanish_ci DEFAULT NULL,
   `turno` char(1) COLLATE utf8_spanish_ci NOT NULL DEFAULT 'M',
-  `fecha_desactivacion` date DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+  `fecha_desactivacion` date DEFAULT NULL,
+  PRIMARY KEY (`codigo_bloque_hora`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=10 ;
 
 --
 -- Volcado de datos para la tabla `tbloque_hora`
@@ -3862,10 +3883,11 @@ INSERT INTO `tbloque_hora` (`codigo_bloque_hora`, `hora_inicio`, `hora_fin`, `ho
 
 DROP TABLE IF EXISTS `tcargo`;
 CREATE TABLE IF NOT EXISTS `tcargo` (
-`codigo_cargo` int(15) NOT NULL,
+  `codigo_cargo` int(15) NOT NULL AUTO_INCREMENT,
   `descripcion` varchar(100) COLLATE utf8_spanish_ci NOT NULL,
-  `fecha_desactivacion` date DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+  `fecha_desactivacion` date DEFAULT NULL,
+  PRIMARY KEY (`codigo_cargo`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=6 ;
 
 --
 -- Volcado de datos para la tabla `tcargo`
@@ -3886,7 +3908,7 @@ INSERT INTO `tcargo` (`codigo_cargo`, `descripcion`, `fecha_desactivacion`) VALU
 
 DROP TABLE IF EXISTS `tconfiguracion`;
 CREATE TABLE IF NOT EXISTS `tconfiguracion` (
-`codigo_configuracion` int(11) NOT NULL,
+  `codigo_configuracion` int(11) NOT NULL AUTO_INCREMENT,
   `descripcion` varchar(30) COLLATE utf8_spanish_ci NOT NULL,
   `longitud_minclave` int(11) NOT NULL DEFAULT '6',
   `longitud_maxclave` int(11) NOT NULL DEFAULT '10',
@@ -3902,8 +3924,9 @@ CREATE TABLE IF NOT EXISTS `tconfiguracion` (
   `maxsesion` int(11) NOT NULL DEFAULT '5',
   `numero_preguntas` int(11) NOT NULL DEFAULT '1',
   `numero_preguntasaresponder` int(11) NOT NULL DEFAULT '1',
-  `fecha_desactivacion` date DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+  `fecha_desactivacion` date DEFAULT NULL,
+  PRIMARY KEY (`codigo_configuracion`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=3 ;
 
 --
 -- Volcado de datos para la tabla `tconfiguracion`
@@ -3921,15 +3944,16 @@ INSERT INTO `tconfiguracion` (`codigo_configuracion`, `descripcion`, `longitud_m
 
 DROP TABLE IF EXISTS `tconfiguracion_negocio`;
 CREATE TABLE IF NOT EXISTS `tconfiguracion_negocio` (
-`codigo_configuracion_negocio` int(11) NOT NULL,
+  `codigo_configuracion_negocio` int(11) NOT NULL AUTO_INCREMENT,
   `inscripcion_abierta` char(1) COLLATE utf8_spanish_ci NOT NULL DEFAULT 'Y',
   `carga_nota_abierta` char(1) COLLATE utf8_spanish_ci NOT NULL DEFAULT 'Y',
   `edad_maxima_primer_anio` int(11) DEFAULT '0',
   `nota_minima` float(10,2) NOT NULL DEFAULT '1.00',
   `nota_maxima` float(10,2) NOT NULL DEFAULT '20.00',
   `nota_aprobacion` float(10,2) NOT NULL DEFAULT '10.00',
-  `fecha_desactivacion` date DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+  `fecha_desactivacion` date DEFAULT NULL,
+  PRIMARY KEY (`codigo_configuracion_negocio`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=3 ;
 
 --
 -- Volcado de datos para la tabla `tconfiguracion_negocio`
@@ -3949,7 +3973,9 @@ CREATE TABLE IF NOT EXISTS `tcontrasena` (
   `nombre_usuario` char(10) COLLATE utf8_spanish_ci NOT NULL,
   `contrasena` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
   `estado` int(11) NOT NULL DEFAULT '3' COMMENT '0 clave usado 1 usuario activo 2 caducidad de clave 3 usuario nuevo 4 usuario bloqueado',
-  `fecha_modificacion` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  `fecha_modificacion` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`nombre_usuario`,`contrasena`),
+  KEY `tcontrasena_ibfk_1` (`nombre_usuario`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
@@ -3976,12 +4002,16 @@ INSERT INTO `tcontrasena` (`nombre_usuario`, `contrasena`, `estado`, `fecha_modi
 
 DROP TABLE IF EXISTS `tcontrol_notas`;
 CREATE TABLE IF NOT EXISTS `tcontrol_notas` (
-`codigo_controlnotas` int(11) NOT NULL,
+  `codigo_controlnotas` int(11) NOT NULL AUTO_INCREMENT,
   `codigo_msd` int(11) NOT NULL,
   `cedula_estudiante` char(10) COLLATE utf8_spanish_ci NOT NULL,
   `codigo_lapso` int(11) NOT NULL,
-  `notafinal` int(11) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+  `notafinal` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`codigo_controlnotas`),
+  KEY `fk_tcontrolnotas_msd` (`codigo_msd`),
+  KEY `fk_tcontrolnotas_lapso` (`codigo_lapso`),
+  KEY `fk_tcontrolnotas_estudiante` (`cedula_estudiante`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=5 ;
 
 --
 -- Volcado de datos para la tabla `tcontrol_notas`
@@ -3999,11 +4029,13 @@ INSERT INTO `tcontrol_notas` (`codigo_controlnotas`, `codigo_msd`, `cedula_estud
 
 DROP TABLE IF EXISTS `testado`;
 CREATE TABLE IF NOT EXISTS `testado` (
-`codigo_estado` int(11) NOT NULL,
+  `codigo_estado` int(11) NOT NULL AUTO_INCREMENT,
   `descripcion` varchar(35) COLLATE utf8_spanish_ci NOT NULL,
   `codigo_pais` int(11) NOT NULL,
-  `fecha_desactivacion` date DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+  `fecha_desactivacion` date DEFAULT NULL,
+  PRIMARY KEY (`codigo_estado`),
+  KEY `fk_testado_tpais` (`codigo_pais`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=27 ;
 
 --
 -- Volcado de datos para la tabla `testado`
@@ -4045,7 +4077,7 @@ INSERT INTO `testado` (`codigo_estado`, `descripcion`, `codigo_pais`, `fecha_des
 
 DROP TABLE IF EXISTS `thorario`;
 CREATE TABLE IF NOT EXISTS `thorario` (
-`codigo_horario` int(11) NOT NULL,
+  `codigo_horario` int(11) NOT NULL AUTO_INCREMENT,
   `dia` int(11) NOT NULL,
   `codigo_bloque_hora` int(11) NOT NULL,
   `codigo_ambiente` int(11) NOT NULL,
@@ -4053,8 +4085,15 @@ CREATE TABLE IF NOT EXISTS `thorario` (
   `codigo_materia` char(7) COLLATE utf8_spanish_ci NOT NULL,
   `seccion` char(5) COLLATE utf8_spanish_ci NOT NULL,
   `cedula_docente` char(10) COLLATE utf8_spanish_ci NOT NULL,
-  `fecha_desactivacion` date DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+  `fecha_desactivacion` date DEFAULT NULL,
+  PRIMARY KEY (`codigo_horario`),
+  KEY `fk_thorario_tbloque_hora` (`codigo_bloque_hora`),
+  KEY `fk_thorario_tambiente` (`codigo_ambiente`),
+  KEY `fk_thorario_tano_academico` (`codigo_ano_academico`),
+  KEY `fk_thorario_tmateria` (`codigo_materia`),
+  KEY `fk_thorario_tseccion` (`seccion`),
+  KEY `fk_thorario_tpersona` (`cedula_docente`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=42 ;
 
 --
 -- Volcado de datos para la tabla `thorario`
@@ -4076,13 +4115,14 @@ INSERT INTO `thorario` (`codigo_horario`, `dia`, `codigo_bloque_hora`, `codigo_a
 
 DROP TABLE IF EXISTS `tinscripcion`;
 CREATE TABLE IF NOT EXISTS `tinscripcion` (
-`codigo_inscripcion` int(11) NOT NULL,
+  `codigo_inscripcion` int(11) NOT NULL AUTO_INCREMENT,
   `descripcion` varchar(60) COLLATE utf8_spanish_ci NOT NULL,
   `fecha_inicio` date NOT NULL,
   `fecha_fin` date NOT NULL,
   `fecha_cierre` date NOT NULL,
-  `fecha_desactivacion` date DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+  `fecha_desactivacion` date DEFAULT NULL,
+  PRIMARY KEY (`codigo_inscripcion`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=2 ;
 
 --
 -- Volcado de datos para la tabla `tinscripcion`
@@ -4099,13 +4139,15 @@ INSERT INTO `tinscripcion` (`codigo_inscripcion`, `descripcion`, `fecha_inicio`,
 
 DROP TABLE IF EXISTS `tlapso`;
 CREATE TABLE IF NOT EXISTS `tlapso` (
-`codigo_lapso` int(11) NOT NULL,
+  `codigo_lapso` int(11) NOT NULL AUTO_INCREMENT,
   `descripcion` varchar(35) COLLATE utf8_spanish_ci NOT NULL,
   `fecha_inicio` date NOT NULL,
   `fecha_fin` date NOT NULL,
   `codigo_ano_academico` int(11) NOT NULL,
-  `fecha_desactivacion` date DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+  `fecha_desactivacion` date DEFAULT NULL,
+  PRIMARY KEY (`codigo_lapso`),
+  KEY `fk_tlapso_tanoacademico` (`codigo_ano_academico`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=4 ;
 
 --
 -- Volcado de datos para la tabla `tlapso`
@@ -4131,7 +4173,9 @@ CREATE TABLE IF NOT EXISTS `tmateria` (
   `grado_escolar` char(1) COLLATE utf8_spanish_ci NOT NULL DEFAULT '1',
   `materia_compuesta` char(1) COLLATE utf8_spanish_ci NOT NULL DEFAULT 'N',
   `codigo_materia_padre` char(7) COLLATE utf8_spanish_ci DEFAULT NULL,
-  `fecha_desactivacion` date DEFAULT NULL
+  `fecha_desactivacion` date DEFAULT NULL,
+  PRIMARY KEY (`codigo_materia`),
+  KEY `codigo_materia_padre` (`codigo_materia_padre`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
@@ -4205,11 +4249,15 @@ INSERT INTO `tmateria` (`codigo_materia`, `descripcion`, `unidad_curricular`, `h
 
 DROP TABLE IF EXISTS `tmateria_seccion_docente`;
 CREATE TABLE IF NOT EXISTS `tmateria_seccion_docente` (
-`codigo_msd` int(11) NOT NULL,
+  `codigo_msd` int(11) NOT NULL AUTO_INCREMENT,
   `codigo_materia` char(7) COLLATE utf8_spanish_ci NOT NULL,
   `seccion` char(5) COLLATE utf8_spanish_ci NOT NULL,
-  `cedula_docente` char(10) COLLATE utf8_spanish_ci NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+  `cedula_docente` char(10) COLLATE utf8_spanish_ci NOT NULL,
+  PRIMARY KEY (`codigo_msd`),
+  KEY `fk_tmateria_seccion_tmateria` (`codigo_materia`),
+  KEY `fk_tmateria_seccion_tseccion` (`seccion`),
+  KEY `fk_tmateria_seccion_tpersona` (`cedula_docente`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=17 ;
 
 --
 -- Volcado de datos para la tabla `tmateria_seccion_docente`
@@ -4233,12 +4281,13 @@ INSERT INTO `tmateria_seccion_docente` (`codigo_msd`, `codigo_materia`, `seccion
 
 DROP TABLE IF EXISTS `tmodulo`;
 CREATE TABLE IF NOT EXISTS `tmodulo` (
-`codigo_modulo` int(11) NOT NULL,
+  `codigo_modulo` int(11) NOT NULL AUTO_INCREMENT,
   `descripcion` varchar(70) COLLATE utf8_spanish_ci NOT NULL,
   `icono` varchar(200) COLLATE utf8_spanish_ci NOT NULL DEFAULT 'icon-list-alt',
   `orden` int(11) NOT NULL DEFAULT '0',
-  `fecha_desactivacion` date DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+  `fecha_desactivacion` date DEFAULT NULL,
+  PRIMARY KEY (`codigo_modulo`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=9 ;
 
 --
 -- Volcado de datos para la tabla `tmodulo`
@@ -4262,11 +4311,13 @@ INSERT INTO `tmodulo` (`codigo_modulo`, `descripcion`, `icono`, `orden`, `fecha_
 
 DROP TABLE IF EXISTS `tmunicipio`;
 CREATE TABLE IF NOT EXISTS `tmunicipio` (
-`codigo_municipio` int(11) NOT NULL,
+  `codigo_municipio` int(11) NOT NULL AUTO_INCREMENT,
   `descripcion` varchar(50) COLLATE utf8_spanish_ci NOT NULL,
   `codigo_estado` int(11) NOT NULL,
-  `fecha_desactivacion` varchar(45) COLLATE utf8_spanish_ci DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=381 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+  `fecha_desactivacion` varchar(45) COLLATE utf8_spanish_ci DEFAULT NULL,
+  PRIMARY KEY (`codigo_municipio`),
+  KEY `fk_tmunicipio_testado` (`codigo_estado`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=381 ;
 
 --
 -- Volcado de datos para la tabla `tmunicipio`
@@ -4662,12 +4713,13 @@ INSERT INTO `tmunicipio` (`codigo_municipio`, `descripcion`, `codigo_estado`, `f
 
 DROP TABLE IF EXISTS `topcion`;
 CREATE TABLE IF NOT EXISTS `topcion` (
-`codigo_opcion` int(11) NOT NULL,
+  `codigo_opcion` int(11) NOT NULL AUTO_INCREMENT,
   `descripcion` varchar(45) COLLATE utf8_spanish_ci NOT NULL,
   `icono` varchar(200) COLLATE utf8_spanish_ci NOT NULL DEFAULT 'icon-pencil',
   `orden` int(11) NOT NULL,
-  `fecha_desactivacion` date DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+  `fecha_desactivacion` date DEFAULT NULL,
+  PRIMARY KEY (`codigo_opcion`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=8 ;
 
 --
 -- Volcado de datos para la tabla `topcion`
@@ -4690,10 +4742,11 @@ INSERT INTO `topcion` (`codigo_opcion`, `descripcion`, `icono`, `orden`, `fecha_
 
 DROP TABLE IF EXISTS `tpais`;
 CREATE TABLE IF NOT EXISTS `tpais` (
-`codigo_pais` int(11) NOT NULL,
+  `codigo_pais` int(11) NOT NULL AUTO_INCREMENT,
   `descripcion` varchar(35) COLLATE utf8_spanish_ci NOT NULL,
-  `fecha_desactivacion` varchar(45) COLLATE utf8_spanish_ci DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+  `fecha_desactivacion` varchar(45) COLLATE utf8_spanish_ci DEFAULT NULL,
+  PRIMARY KEY (`codigo_pais`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=33 ;
 
 --
 -- Volcado de datos para la tabla `tpais`
@@ -4741,10 +4794,11 @@ INSERT INTO `tpais` (`codigo_pais`, `descripcion`, `fecha_desactivacion`) VALUES
 
 DROP TABLE IF EXISTS `tparentesco`;
 CREATE TABLE IF NOT EXISTS `tparentesco` (
-`codigo_parentesco` int(11) NOT NULL,
+  `codigo_parentesco` int(11) NOT NULL AUTO_INCREMENT,
   `descripcion` varchar(35) COLLATE utf8_spanish_ci NOT NULL,
-  `fecha_desactivacion` varchar(45) COLLATE utf8_spanish_ci DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+  `fecha_desactivacion` varchar(45) COLLATE utf8_spanish_ci DEFAULT NULL,
+  PRIMARY KEY (`codigo_parentesco`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=6 ;
 
 --
 -- Volcado de datos para la tabla `tparentesco`
@@ -4765,11 +4819,13 @@ INSERT INTO `tparentesco` (`codigo_parentesco`, `descripcion`, `fecha_desactivac
 
 DROP TABLE IF EXISTS `tparroquia`;
 CREATE TABLE IF NOT EXISTS `tparroquia` (
-`codigo_parroquia` int(11) NOT NULL,
+  `codigo_parroquia` int(11) NOT NULL AUTO_INCREMENT,
   `descripcion` varchar(50) COLLATE utf8_spanish_ci NOT NULL,
   `fecha_desactivacion` varchar(45) COLLATE utf8_spanish_ci DEFAULT NULL,
-  `codigo_municipio` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=980 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+  `codigo_municipio` int(11) NOT NULL,
+  PRIMARY KEY (`codigo_parroquia`),
+  KEY `fk_tparroquia_tmunicipio` (`codigo_municipio`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=980 ;
 
 --
 -- Volcado de datos para la tabla `tparroquia`
@@ -5764,11 +5820,13 @@ INSERT INTO `tparroquia` (`codigo_parroquia`, `descripcion`, `fecha_desactivacio
 
 DROP TABLE IF EXISTS `tperfil`;
 CREATE TABLE IF NOT EXISTS `tperfil` (
-`codigo_perfil` int(11) NOT NULL,
+  `codigo_perfil` int(11) NOT NULL AUTO_INCREMENT,
   `descripcion` varchar(45) COLLATE utf8_spanish_ci NOT NULL,
   `codigo_configuracion` int(11) NOT NULL,
-  `fecha_desactivacion` date DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+  `fecha_desactivacion` date DEFAULT NULL,
+  PRIMARY KEY (`codigo_perfil`),
+  KEY `codigo_configuracion` (`codigo_configuracion`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=3 ;
 
 --
 -- Volcado de datos para la tabla `tperfil`
@@ -5807,7 +5865,11 @@ CREATE TABLE IF NOT EXISTS `tpersona` (
   `nivel_academico` varchar(30) COLLATE utf8_spanish_ci DEFAULT NULL,
   `carga_horaria` int(11) DEFAULT '0',
   `codigo_plantel` char(11) COLLATE utf8_spanish_ci DEFAULT NULL,
-  `fecha_desactivacion` date DEFAULT NULL
+  `fecha_desactivacion` date DEFAULT NULL,
+  PRIMARY KEY (`cedula`),
+  KEY `fk_tpersona_tparroquia` (`lugar_nacimiento`),
+  KEY `fk_tpersona_tcargo` (`codigo_cargo`),
+  KEY `fk_tpersona_tplantel` (`codigo_plantel`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
@@ -5854,7 +5916,9 @@ CREATE TABLE IF NOT EXISTS `tplantel` (
   `localidad` varchar(20) COLLATE utf8_spanish_ci DEFAULT NULL,
   `email` varchar(150) COLLATE utf8_spanish_ci DEFAULT NULL,
   `codigo_municipio` int(11) NOT NULL,
-  `fecha_desactivacion` varchar(45) COLLATE utf8_spanish_ci DEFAULT NULL
+  `fecha_desactivacion` varchar(45) COLLATE utf8_spanish_ci DEFAULT NULL,
+  PRIMARY KEY (`codigo_plantel`),
+  KEY `fk_tplantel_tmunicipio` (`codigo_municipio`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
@@ -5870,12 +5934,30 @@ INSERT INTO `tplantel` (`codigo_plantel`, `nombre`, `direccion`, `telefono_habit
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `tplan_evaluacion`
+--
+
+DROP TABLE IF EXISTS `tplan_evaluacion`;
+CREATE TABLE IF NOT EXISTS `tplan_evaluacion` (
+  `codigo_plan_evaluacion` int(11) NOT NULL AUTO_INCREMENT,
+  `codigo_msd` int(11) NOT NULL,
+  `codigo_lapso` int(11) NOT NULL,
+  `descripcion` varchar(60) COLLATE utf8_spanish_ci NOT NULL,
+  `porcentaje` float(11,2) NOT NULL DEFAULT '0.00',
+  PRIMARY KEY (`codigo_plan_evaluacion`),
+  KEY `fk_tplanevaluacion_msd` (`codigo_msd`),
+  KEY `fk_tplanevaluacion_lapso` (`codigo_lapso`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `tproceso_inscripcion`
 --
 
 DROP TABLE IF EXISTS `tproceso_inscripcion`;
 CREATE TABLE IF NOT EXISTS `tproceso_inscripcion` (
-`codigo_procesoinscripcion` int(11) NOT NULL,
+  `codigo_procesoinscripcion` int(11) NOT NULL AUTO_INCREMENT,
   `codigo_inscripcion` int(11) NOT NULL,
   `fecha_inscripcion` date NOT NULL,
   `codigo_ano_academico` int(11) NOT NULL,
@@ -5908,8 +5990,19 @@ CREATE TABLE IF NOT EXISTS `tproceso_inscripcion` (
   `seccion` char(5) COLLATE utf8_spanish_ci DEFAULT NULL,
   `grado_escolar` char(1) COLLATE utf8_spanish_ci NOT NULL DEFAULT '1',
   `proceso_completado` char(1) COLLATE utf8_spanish_ci NOT NULL DEFAULT 'N',
-  `estatus` char(1) COLLATE utf8_spanish_ci NOT NULL DEFAULT '1'
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+  `estatus` char(1) COLLATE utf8_spanish_ci NOT NULL DEFAULT '1',
+  PRIMARY KEY (`codigo_procesoinscripcion`),
+  KEY `fk_tpi_tinscrip` (`codigo_inscripcion`),
+  KEY `fk_tpi_taa` (`codigo_ano_academico`),
+  KEY `fk_tpi_tdocente` (`cedula_docente`),
+  KEY `fk_tpi_testudiante` (`cedula_estudiante`),
+  KEY `fk_tpi_tmadre` (`cedula_madre`),
+  KEY `fk_tpi_tpadre` (`cedula_padre`),
+  KEY `fk_tpi_trepresentante` (`cedula_representante`),
+  KEY `fk_tpi_tparentesco` (`codigo_parentesco`),
+  KEY `fk_tpi_tlugartrabajo` (`lugar_trabajo`),
+  KEY `fk_tpi_tseccion` (`seccion`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=9 ;
 
 --
 -- Volcado de datos para la tabla `tproceso_inscripcion`
@@ -5933,11 +6026,13 @@ INSERT INTO `tproceso_inscripcion` (`codigo_procesoinscripcion`, `codigo_inscrip
 
 DROP TABLE IF EXISTS `trespuesta_secreta`;
 CREATE TABLE IF NOT EXISTS `trespuesta_secreta` (
-`codigo_respuesta` int(11) NOT NULL,
+  `codigo_respuesta` int(11) NOT NULL AUTO_INCREMENT,
   `nombre_usuario` char(10) COLLATE utf8_spanish_ci NOT NULL,
   `pregunta` varchar(60) COLLATE utf8_spanish_ci NOT NULL,
-  `respuesta` varchar(60) COLLATE utf8_spanish_ci NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+  `respuesta` varchar(60) COLLATE utf8_spanish_ci NOT NULL,
+  PRIMARY KEY (`codigo_respuesta`),
+  KEY `nombre_usuario` (`nombre_usuario`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=9 ;
 
 --
 -- Volcado de datos para la tabla `trespuesta_secreta`
@@ -5966,7 +6061,8 @@ CREATE TABLE IF NOT EXISTS `tseccion` (
   `capacidad_min` int(11) NOT NULL DEFAULT '5',
   `capacidad_max` int(11) NOT NULL DEFAULT '40',
   `grado_escolar` char(1) COLLATE utf8_spanish_ci NOT NULL DEFAULT '1',
-  `fecha_desactivacion` date DEFAULT NULL
+  `fecha_desactivacion` date DEFAULT NULL,
+  PRIMARY KEY (`seccion`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
@@ -5991,62 +6087,65 @@ INSERT INTO `tseccion` (`seccion`, `descripcion`, `turno`, `capacidad_min`, `cap
 
 DROP TABLE IF EXISTS `tservicio`;
 CREATE TABLE IF NOT EXISTS `tservicio` (
-`codigo_servicio` int(11) NOT NULL,
+  `codigo_servicio` int(11) NOT NULL AUTO_INCREMENT,
   `descripcion` varchar(45) COLLATE utf8_spanish_ci NOT NULL,
   `url` varchar(200) COLLATE utf8_spanish_ci DEFAULT NULL,
   `orden` decimal(10,0) DEFAULT '0',
   `codigo_modulo` int(11) NOT NULL,
-  `fecha_desactivacion` date DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+  `fecha_desactivacion` date DEFAULT NULL,
+  PRIMARY KEY (`codigo_servicio`),
+  UNIQUE KEY `url` (`url`),
+  KEY `tservicios_ibfk_1` (`codigo_modulo`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=44 ;
 
 --
 -- Volcado de datos para la tabla `tservicio`
 --
 
 INSERT INTO `tservicio` (`codigo_servicio`, `descripcion`, `url`, `orden`, `codigo_modulo`, `fecha_desactivacion`) VALUES
-(1, 'PAÍS', 'PAIS', 1, 1, NULL),
-(2, 'ESTADO', 'ESTADO', 2, 1, NULL),
-(3, 'MUNICIPIO', 'MUNICIPIO', 3, 1, NULL),
-(4, 'PARROQUIA', 'PARROQUIA', 4, 1, NULL),
-(5, 'PLANTEL', 'PLANTEL', 1, 2, NULL),
-(6, 'CARGO', 'CARGO', 2, 2, NULL),
-(7, 'PERSONA', 'PERSONA', 3, 2, NULL),
-(8, 'PARENTESCO', 'PARENTESCO', 4, 2, NULL),
-(9, 'AÑO ACADÉMICO', 'ANO_ACADEMICO', 2, 3, NULL),
-(10, 'LAPSO', 'LAPSO', 3, 3, NULL),
-(11, 'MATERIA', 'MATERIA', 4, 3, NULL),
-(12, 'SECCIÓN', 'SECCION', 6, 3, NULL),
-(13, 'ESTUDIANTES', 'ESTUDIANTE', 7, 3, NULL),
-(14, 'CERRAR AÑO ACADÉMICO', 'CERRAR_ANOACADEMICO', 7, 3, NULL),
-(15, 'INSCRIPCIÓN', 'INSCRIPCION', 8, 3, NULL),
-(16, 'ASIGNACIÓN DE NOTAS', 'ASIGNAR_NOTAS', 1, 4, NULL),
-(17, 'PROCESO DE INSCRIPCIÓN', 'PROCESO_INSCRIPCION', 1, 7, NULL),
-(18, 'ASIGNACIÓN DE SECCIONES', 'ASIGNAR_SECCION', 10, 7, NULL),
-(19, 'FICHA DE INSCRIPCIÓN', 'REP_FICHAINSCRIPCION', 1, 5, NULL),
-(20, 'CONSTANCIA DE ESTUDIO', 'REP_CONSTANCIAESTUDIO', 2, 5, NULL),
-(21, 'HISTORIAL DEL PERSONAL ADMINISTRATIVO', 'REP_HISTORIALPERSONAL', 3, 5, NULL),
-(22, 'ESTUDIANTES POR GRADO ESCOLAR', 'REP_ESTUDIANTESPORGRADO', 4, 5, NULL),
-(23, 'ESTUDIANTES POR SECCIÓN', 'REP_ESTUDIANTESPORSECCION', 5, 5, NULL),
-(24, 'ESTUDIANTES NUEVO INGRESO', 'REP_ESTUDIANTESNUEVOINGRESO', 6, 5, NULL),
-(25, 'LISTADO DE DOCENTES', 'REP_DOCENTES', 7, 5, NULL),
-(26, 'LISTADO DE DOCENTES POR MATERIA', 'REP_DOCENTESPORMATERIA', 8, 5, NULL),
-(27, 'NOTAS CERTIFICADAS', 'REP_NOTASCERTIFICADAS', 9, 5, NULL),
-(28, 'MÓDULO', 'MODULO', 1, 6, NULL),
-(29, 'SERVICIOS', 'SERVICIO', 2, 6, NULL),
-(30, 'BOTONERA', 'BOTONES', 3, 6, NULL),
-(31, 'PERFIL', 'PERFILES', 5, 6, NULL),
-(32, 'NUEVO USUARIO', 'NUEVOUSUARIO', 6, 6, NULL),
-(33, 'MÍ PERFIL', 'PERFIL', 6, 6, NULL),
-(34, 'CAMBIAR CONTRASEÑA', 'CAMBIARCONTRASENA', 7, 6, NULL),
-(35, 'HISTÓRICO DE CAMBIOS', 'BITACORA', 11, 6, NULL),
-(36, 'BOLETIN', 'REP_BOLETIN', 10, 5, NULL),
-(37, 'CONFIGURACIÓN DEL PERFIL', 'CONFIGURACION', 4, 6, NULL),
-(38, 'CONFIGURACIÓN DEL NEGOCIO', 'CONFIGURACION_NEGOCIO', 0, 6, NULL),
-(39, 'AMBIENTE DE CLASES', 'AMBIENTE', 3, 3, NULL),
-(40, 'BLOQUE DE HORA', 'BLOQUE_HORA', 1, 8, NULL),
-(41, 'HORARIO', 'HORARIO', 2, 8, NULL),
-(42, 'DESBLOQUEAR USUARIO', 'DESBLOQUEARUSUARIO', 10, 6, NULL),
-(43, 'REPORTE DE HORARIO', 'REP_HORARIO', 11, 5, NULL);
+(1, 'PAÍS', 'PAIS', '1', 1, NULL),
+(2, 'ESTADO', 'ESTADO', '2', 1, NULL),
+(3, 'MUNICIPIO', 'MUNICIPIO', '3', 1, NULL),
+(4, 'PARROQUIA', 'PARROQUIA', '4', 1, NULL),
+(5, 'PLANTEL', 'PLANTEL', '1', 2, NULL),
+(6, 'CARGO', 'CARGO', '2', 2, NULL),
+(7, 'PERSONA', 'PERSONA', '3', 2, NULL),
+(8, 'PARENTESCO', 'PARENTESCO', '4', 2, NULL),
+(9, 'AÑO ACADÉMICO', 'ANO_ACADEMICO', '2', 3, NULL),
+(10, 'LAPSO', 'LAPSO', '3', 3, NULL),
+(11, 'MATERIA', 'MATERIA', '4', 3, NULL),
+(12, 'SECCIÓN', 'SECCION', '6', 3, NULL),
+(13, 'ESTUDIANTES', 'ESTUDIANTE', '7', 3, NULL),
+(14, 'CERRAR AÑO ACADÉMICO', 'CERRAR_ANOACADEMICO', '7', 3, NULL),
+(15, 'INSCRIPCIÓN', 'INSCRIPCION', '8', 3, NULL),
+(16, 'ASIGNACIÓN DE NOTAS', 'ASIGNAR_NOTAS', '1', 4, NULL),
+(17, 'PROCESO DE INSCRIPCIÓN', 'PROCESO_INSCRIPCION', '1', 7, NULL),
+(18, 'ASIGNACIÓN DE SECCIONES', 'ASIGNAR_SECCION', '10', 7, NULL),
+(19, 'FICHA DE INSCRIPCIÓN', 'REP_FICHAINSCRIPCION', '1', 5, NULL),
+(20, 'CONSTANCIA DE ESTUDIO', 'REP_CONSTANCIAESTUDIO', '2', 5, NULL),
+(21, 'HISTORIAL DEL PERSONAL ADMINISTRATIVO', 'REP_HISTORIALPERSONAL', '3', 5, NULL),
+(22, 'ESTUDIANTES POR GRADO ESCOLAR', 'REP_ESTUDIANTESPORGRADO', '4', 5, NULL),
+(23, 'ESTUDIANTES POR SECCIÓN', 'REP_ESTUDIANTESPORSECCION', '5', 5, NULL),
+(24, 'ESTUDIANTES NUEVO INGRESO', 'REP_ESTUDIANTESNUEVOINGRESO', '6', 5, NULL),
+(25, 'LISTADO DE DOCENTES', 'REP_DOCENTES', '7', 5, NULL),
+(26, 'LISTADO DE DOCENTES POR MATERIA', 'REP_DOCENTESPORMATERIA', '8', 5, NULL),
+(27, 'NOTAS CERTIFICADAS', 'REP_NOTASCERTIFICADAS', '9', 5, NULL),
+(28, 'MÓDULO', 'MODULO', '1', 6, NULL),
+(29, 'SERVICIOS', 'SERVICIO', '2', 6, NULL),
+(30, 'BOTONERA', 'BOTONES', '3', 6, NULL),
+(31, 'PERFIL', 'PERFILES', '5', 6, NULL),
+(32, 'NUEVO USUARIO', 'NUEVOUSUARIO', '6', 6, NULL),
+(33, 'MÍ PERFIL', 'PERFIL', '6', 6, NULL),
+(34, 'CAMBIAR CONTRASEÑA', 'CAMBIARCONTRASENA', '7', 6, NULL),
+(35, 'HISTÓRICO DE CAMBIOS', 'BITACORA', '11', 6, NULL),
+(36, 'BOLETIN', 'REP_BOLETIN', '10', 5, NULL),
+(37, 'CONFIGURACIÓN DEL PERFIL', 'CONFIGURACION', '4', 6, NULL),
+(38, 'CONFIGURACIÓN DEL NEGOCIO', 'CONFIGURACION_NEGOCIO', '0', 6, NULL),
+(39, 'AMBIENTE DE CLASES', 'AMBIENTE', '3', 3, NULL),
+(40, 'BLOQUE DE HORA', 'BLOQUE_HORA', '1', 8, NULL),
+(41, 'HORARIO', 'HORARIO', '2', 8, NULL),
+(42, 'DESBLOQUEAR USUARIO', 'DESBLOQUEARUSUARIO', '10', 6, NULL),
+(43, 'REPORTE DE HORARIO', 'REP_HORARIO', '11', 5, NULL);
 
 -- --------------------------------------------------------
 
@@ -6058,7 +6157,10 @@ DROP TABLE IF EXISTS `tservicio_usuario_opcion`;
 CREATE TABLE IF NOT EXISTS `tservicio_usuario_opcion` (
   `codigo_opcion` int(11) DEFAULT NULL,
   `codigo_servicio` int(11) NOT NULL,
-  `codigo_perfil` int(11) NOT NULL
+  `codigo_perfil` int(11) NOT NULL,
+  KEY `fk_tservicio_usuario_opcion_topcion` (`codigo_opcion`),
+  KEY `fk_tservicio_usuario_opcion_tservicio` (`codigo_servicio`),
+  KEY `fk_tservicio_usuario_opcion_tperfil` (`codigo_perfil`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
@@ -6452,7 +6554,10 @@ CREATE TABLE IF NOT EXISTS `tusuario` (
   `activar_caducidad` int(11) NOT NULL DEFAULT '1',
   `sesion_abierta` int(11) NOT NULL DEFAULT '0',
   `fecha_ultimasesion` date DEFAULT NULL,
-  `fecha_desactivacion` date DEFAULT NULL
+  `fecha_desactivacion` date DEFAULT NULL,
+  PRIMARY KEY (`nombre_usuario`),
+  KEY `tusuario_ibfk_1` (`cedula`),
+  KEY `tusuario_ibfk_2` (`codigo_perfil`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
@@ -6520,436 +6625,147 @@ DROP TABLE IF EXISTS `vmateria_seccion_horario`;
 CREATE ALGORITHM=UNDEFINED DEFINER=`admin`@`%` SQL SECURITY DEFINER VIEW `vmateria_seccion_horario` AS select `s`.`seccion` AS `seccion`,count(`h`.`codigo_materia`) AS `cantidad_materia_horario`,count(`msd`.`codigo_materia`) AS `cantidad_materia_seccion` from ((`tseccion` `s` left join `tmateria_seccion_docente` `msd` on((`s`.`seccion` = `msd`.`seccion`))) left join `thorario` `h` on((`h`.`seccion` = `s`.`seccion`))) group by `s`.`seccion`,`msd`.`codigo_materia`;
 
 --
--- Índices para tablas volcadas
---
-
---
--- Indices de la tabla `tambiente`
---
-ALTER TABLE `tambiente`
- ADD PRIMARY KEY (`codigo_ambiente`);
-
---
--- Indices de la tabla `tano_academico`
---
-ALTER TABLE `tano_academico`
- ADD PRIMARY KEY (`codigo_ano_academico`);
-
---
--- Indices de la tabla `tauditoria`
---
-ALTER TABLE `tauditoria`
- ADD PRIMARY KEY (`id`);
-
---
--- Indices de la tabla `tbloque_hora`
---
-ALTER TABLE `tbloque_hora`
- ADD PRIMARY KEY (`codigo_bloque_hora`);
-
---
--- Indices de la tabla `tcargo`
---
-ALTER TABLE `tcargo`
- ADD PRIMARY KEY (`codigo_cargo`);
-
---
--- Indices de la tabla `tconfiguracion`
---
-ALTER TABLE `tconfiguracion`
- ADD PRIMARY KEY (`codigo_configuracion`);
-
---
--- Indices de la tabla `tconfiguracion_negocio`
---
-ALTER TABLE `tconfiguracion_negocio`
- ADD PRIMARY KEY (`codigo_configuracion_negocio`);
-
---
--- Indices de la tabla `tcontrasena`
---
-ALTER TABLE `tcontrasena`
- ADD PRIMARY KEY (`nombre_usuario`,`contrasena`), ADD KEY `tcontrasena_ibfk_1` (`nombre_usuario`);
-
---
--- Indices de la tabla `tcontrol_notas`
---
-ALTER TABLE `tcontrol_notas`
- ADD PRIMARY KEY (`codigo_controlnotas`), ADD KEY `fk_tcontrolnotas_msd` (`codigo_msd`), ADD KEY `fk_tcontrolnotas_lapso` (`codigo_lapso`), ADD KEY `fk_tcontrolnotas_estudiante` (`cedula_estudiante`);
-
---
--- Indices de la tabla `testado`
---
-ALTER TABLE `testado`
- ADD PRIMARY KEY (`codigo_estado`), ADD KEY `fk_testado_tpais` (`codigo_pais`);
-
---
--- Indices de la tabla `thorario`
---
-ALTER TABLE `thorario`
- ADD PRIMARY KEY (`codigo_horario`), ADD KEY `fk_thorario_tbloque_hora` (`codigo_bloque_hora`), ADD KEY `fk_thorario_tambiente` (`codigo_ambiente`), ADD KEY `fk_thorario_tano_academico` (`codigo_ano_academico`), ADD KEY `fk_thorario_tmateria` (`codigo_materia`), ADD KEY `fk_thorario_tseccion` (`seccion`), ADD KEY `fk_thorario_tpersona` (`cedula_docente`);
-
---
--- Indices de la tabla `tinscripcion`
---
-ALTER TABLE `tinscripcion`
- ADD PRIMARY KEY (`codigo_inscripcion`);
-
---
--- Indices de la tabla `tlapso`
---
-ALTER TABLE `tlapso`
- ADD PRIMARY KEY (`codigo_lapso`), ADD KEY `fk_tlapso_tanoacademico` (`codigo_ano_academico`);
-
---
--- Indices de la tabla `tmateria`
---
-ALTER TABLE `tmateria`
- ADD PRIMARY KEY (`codigo_materia`), ADD KEY `codigo_materia_padre` (`codigo_materia_padre`);
-
---
--- Indices de la tabla `tmateria_seccion_docente`
---
-ALTER TABLE `tmateria_seccion_docente`
- ADD PRIMARY KEY (`codigo_msd`), ADD KEY `fk_tmateria_seccion_tmateria` (`codigo_materia`), ADD KEY `fk_tmateria_seccion_tseccion` (`seccion`), ADD KEY `fk_tmateria_seccion_tpersona` (`cedula_docente`);
-
---
--- Indices de la tabla `tmodulo`
---
-ALTER TABLE `tmodulo`
- ADD PRIMARY KEY (`codigo_modulo`);
-
---
--- Indices de la tabla `tmunicipio`
---
-ALTER TABLE `tmunicipio`
- ADD PRIMARY KEY (`codigo_municipio`), ADD KEY `fk_tmunicipio_testado` (`codigo_estado`);
-
---
--- Indices de la tabla `topcion`
---
-ALTER TABLE `topcion`
- ADD PRIMARY KEY (`codigo_opcion`);
-
---
--- Indices de la tabla `tpais`
---
-ALTER TABLE `tpais`
- ADD PRIMARY KEY (`codigo_pais`);
-
---
--- Indices de la tabla `tparentesco`
---
-ALTER TABLE `tparentesco`
- ADD PRIMARY KEY (`codigo_parentesco`);
-
---
--- Indices de la tabla `tparroquia`
---
-ALTER TABLE `tparroquia`
- ADD PRIMARY KEY (`codigo_parroquia`), ADD KEY `fk_tparroquia_tmunicipio` (`codigo_municipio`);
-
---
--- Indices de la tabla `tperfil`
---
-ALTER TABLE `tperfil`
- ADD PRIMARY KEY (`codigo_perfil`), ADD KEY `codigo_configuracion` (`codigo_configuracion`);
-
---
--- Indices de la tabla `tpersona`
---
-ALTER TABLE `tpersona`
- ADD PRIMARY KEY (`cedula`), ADD KEY `fk_tpersona_tparroquia` (`lugar_nacimiento`), ADD KEY `fk_tpersona_tcargo` (`codigo_cargo`), ADD KEY `fk_tpersona_tplantel` (`codigo_plantel`);
-
---
--- Indices de la tabla `tplantel`
---
-ALTER TABLE `tplantel`
- ADD PRIMARY KEY (`codigo_plantel`), ADD KEY `fk_tplantel_tmunicipio` (`codigo_municipio`);
-
---
--- Indices de la tabla `tproceso_inscripcion`
---
-ALTER TABLE `tproceso_inscripcion`
- ADD PRIMARY KEY (`codigo_procesoinscripcion`), ADD KEY `fk_tpi_tinscrip` (`codigo_inscripcion`), ADD KEY `fk_tpi_taa` (`codigo_ano_academico`), ADD KEY `fk_tpi_tdocente` (`cedula_docente`), ADD KEY `fk_tpi_testudiante` (`cedula_estudiante`), ADD KEY `fk_tpi_tmadre` (`cedula_madre`), ADD KEY `fk_tpi_tpadre` (`cedula_padre`), ADD KEY `fk_tpi_trepresentante` (`cedula_representante`), ADD KEY `fk_tpi_tparentesco` (`codigo_parentesco`), ADD KEY `fk_tpi_tlugartrabajo` (`lugar_trabajo`), ADD KEY `fk_tpi_tseccion` (`seccion`);
-
---
--- Indices de la tabla `trespuesta_secreta`
---
-ALTER TABLE `trespuesta_secreta`
- ADD PRIMARY KEY (`codigo_respuesta`), ADD KEY `nombre_usuario` (`nombre_usuario`);
-
---
--- Indices de la tabla `tseccion`
---
-ALTER TABLE `tseccion`
- ADD PRIMARY KEY (`seccion`);
-
---
--- Indices de la tabla `tservicio`
---
-ALTER TABLE `tservicio`
- ADD PRIMARY KEY (`codigo_servicio`), ADD UNIQUE KEY `url` (`url`), ADD KEY `tservicios_ibfk_1` (`codigo_modulo`);
-
---
--- Indices de la tabla `tservicio_usuario_opcion`
---
-ALTER TABLE `tservicio_usuario_opcion`
- ADD KEY `fk_tservicio_usuario_opcion_topcion` (`codigo_opcion`), ADD KEY `fk_tservicio_usuario_opcion_tservicio` (`codigo_servicio`), ADD KEY `fk_tservicio_usuario_opcion_tperfil` (`codigo_perfil`);
-
---
--- Indices de la tabla `tusuario`
---
-ALTER TABLE `tusuario`
- ADD PRIMARY KEY (`nombre_usuario`), ADD KEY `tusuario_ibfk_1` (`cedula`), ADD KEY `tusuario_ibfk_2` (`codigo_perfil`);
-
---
--- AUTO_INCREMENT de las tablas volcadas
---
-
---
--- AUTO_INCREMENT de la tabla `tambiente`
---
-ALTER TABLE `tambiente`
-MODIFY `codigo_ambiente` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
---
--- AUTO_INCREMENT de la tabla `tano_academico`
---
-ALTER TABLE `tano_academico`
-MODIFY `codigo_ano_academico` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
---
--- AUTO_INCREMENT de la tabla `tauditoria`
---
-ALTER TABLE `tauditoria`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3514;
---
--- AUTO_INCREMENT de la tabla `tbloque_hora`
---
-ALTER TABLE `tbloque_hora`
-MODIFY `codigo_bloque_hora` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=10;
---
--- AUTO_INCREMENT de la tabla `tcargo`
---
-ALTER TABLE `tcargo`
-MODIFY `codigo_cargo` int(15) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
---
--- AUTO_INCREMENT de la tabla `tconfiguracion`
---
-ALTER TABLE `tconfiguracion`
-MODIFY `codigo_configuracion` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
---
--- AUTO_INCREMENT de la tabla `tconfiguracion_negocio`
---
-ALTER TABLE `tconfiguracion_negocio`
-MODIFY `codigo_configuracion_negocio` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
---
--- AUTO_INCREMENT de la tabla `tcontrol_notas`
---
-ALTER TABLE `tcontrol_notas`
-MODIFY `codigo_controlnotas` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
---
--- AUTO_INCREMENT de la tabla `testado`
---
-ALTER TABLE `testado`
-MODIFY `codigo_estado` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=27;
---
--- AUTO_INCREMENT de la tabla `thorario`
---
-ALTER TABLE `thorario`
-MODIFY `codigo_horario` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=42;
---
--- AUTO_INCREMENT de la tabla `tinscripcion`
---
-ALTER TABLE `tinscripcion`
-MODIFY `codigo_inscripcion` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
---
--- AUTO_INCREMENT de la tabla `tlapso`
---
-ALTER TABLE `tlapso`
-MODIFY `codigo_lapso` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
---
--- AUTO_INCREMENT de la tabla `tmateria_seccion_docente`
---
-ALTER TABLE `tmateria_seccion_docente`
-MODIFY `codigo_msd` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=17;
---
--- AUTO_INCREMENT de la tabla `tmodulo`
---
-ALTER TABLE `tmodulo`
-MODIFY `codigo_modulo` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
---
--- AUTO_INCREMENT de la tabla `tmunicipio`
---
-ALTER TABLE `tmunicipio`
-MODIFY `codigo_municipio` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=381;
---
--- AUTO_INCREMENT de la tabla `topcion`
---
-ALTER TABLE `topcion`
-MODIFY `codigo_opcion` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
---
--- AUTO_INCREMENT de la tabla `tpais`
---
-ALTER TABLE `tpais`
-MODIFY `codigo_pais` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=33;
---
--- AUTO_INCREMENT de la tabla `tparentesco`
---
-ALTER TABLE `tparentesco`
-MODIFY `codigo_parentesco` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
---
--- AUTO_INCREMENT de la tabla `tparroquia`
---
-ALTER TABLE `tparroquia`
-MODIFY `codigo_parroquia` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=980;
---
--- AUTO_INCREMENT de la tabla `tperfil`
---
-ALTER TABLE `tperfil`
-MODIFY `codigo_perfil` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
---
--- AUTO_INCREMENT de la tabla `tproceso_inscripcion`
---
-ALTER TABLE `tproceso_inscripcion`
-MODIFY `codigo_procesoinscripcion` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
---
--- AUTO_INCREMENT de la tabla `trespuesta_secreta`
---
-ALTER TABLE `trespuesta_secreta`
-MODIFY `codigo_respuesta` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
---
--- AUTO_INCREMENT de la tabla `tservicio`
---
-ALTER TABLE `tservicio`
-MODIFY `codigo_servicio` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=44;
---
 -- Restricciones para tablas volcadas
 --
+
+--
+-- Filtros para la tabla `tasignacion_nota`
+--
+ALTER TABLE `tasignacion_nota`
+  ADD CONSTRAINT `fk_tasignacionnota_pe` FOREIGN KEY (`codigo_plan_evaluacion`) REFERENCES `tplan_evaluacion` (`codigo_plan_evaluacion`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_tasignacionnota_estudiante` FOREIGN KEY (`cedula_estudiante`) REFERENCES `tpersona` (`cedula`) ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `tcontrasena`
 --
 ALTER TABLE `tcontrasena`
-ADD CONSTRAINT `tcontrasena_ibfk_1` FOREIGN KEY (`nombre_usuario`) REFERENCES `tusuario` (`nombre_usuario`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `tcontrasena_ibfk_1` FOREIGN KEY (`nombre_usuario`) REFERENCES `tusuario` (`nombre_usuario`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `tcontrol_notas`
 --
 ALTER TABLE `tcontrol_notas`
-ADD CONSTRAINT `fk_tcontrolnotas_estudiante` FOREIGN KEY (`cedula_estudiante`) REFERENCES `tpersona` (`cedula`) ON UPDATE CASCADE,
-ADD CONSTRAINT `fk_tcontrolnotas_lapso` FOREIGN KEY (`codigo_lapso`) REFERENCES `tlapso` (`codigo_lapso`) ON UPDATE CASCADE,
-ADD CONSTRAINT `fk_tcontrolnotas_msd` FOREIGN KEY (`codigo_msd`) REFERENCES `tmateria_seccion_docente` (`codigo_msd`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `fk_tcontrolnotas_estudiante` FOREIGN KEY (`cedula_estudiante`) REFERENCES `tpersona` (`cedula`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_tcontrolnotas_lapso` FOREIGN KEY (`codigo_lapso`) REFERENCES `tlapso` (`codigo_lapso`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_tcontrolnotas_msd` FOREIGN KEY (`codigo_msd`) REFERENCES `tmateria_seccion_docente` (`codigo_msd`) ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `testado`
 --
 ALTER TABLE `testado`
-ADD CONSTRAINT `fk_testado_tpais` FOREIGN KEY (`codigo_pais`) REFERENCES `tpais` (`codigo_pais`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `fk_testado_tpais` FOREIGN KEY (`codigo_pais`) REFERENCES `tpais` (`codigo_pais`) ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `thorario`
 --
 ALTER TABLE `thorario`
-ADD CONSTRAINT `fk_thorario_tambiente` FOREIGN KEY (`codigo_ambiente`) REFERENCES `tambiente` (`codigo_ambiente`) ON UPDATE CASCADE,
-ADD CONSTRAINT `fk_thorario_tano_academico` FOREIGN KEY (`codigo_ano_academico`) REFERENCES `tano_academico` (`codigo_ano_academico`) ON UPDATE CASCADE,
-ADD CONSTRAINT `fk_thorario_tbloque_hora` FOREIGN KEY (`codigo_bloque_hora`) REFERENCES `tbloque_hora` (`codigo_bloque_hora`) ON UPDATE CASCADE,
-ADD CONSTRAINT `fk_thorario_tmateria` FOREIGN KEY (`codigo_materia`) REFERENCES `tmateria` (`codigo_materia`) ON UPDATE CASCADE,
-ADD CONSTRAINT `fk_thorario_tpersona` FOREIGN KEY (`cedula_docente`) REFERENCES `tpersona` (`cedula`) ON UPDATE CASCADE,
-ADD CONSTRAINT `fk_thorario_tseccion` FOREIGN KEY (`seccion`) REFERENCES `tseccion` (`seccion`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `fk_thorario_tambiente` FOREIGN KEY (`codigo_ambiente`) REFERENCES `tambiente` (`codigo_ambiente`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_thorario_tano_academico` FOREIGN KEY (`codigo_ano_academico`) REFERENCES `tano_academico` (`codigo_ano_academico`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_thorario_tbloque_hora` FOREIGN KEY (`codigo_bloque_hora`) REFERENCES `tbloque_hora` (`codigo_bloque_hora`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_thorario_tmateria` FOREIGN KEY (`codigo_materia`) REFERENCES `tmateria` (`codigo_materia`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_thorario_tpersona` FOREIGN KEY (`cedula_docente`) REFERENCES `tpersona` (`cedula`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_thorario_tseccion` FOREIGN KEY (`seccion`) REFERENCES `tseccion` (`seccion`) ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `tlapso`
 --
 ALTER TABLE `tlapso`
-ADD CONSTRAINT `fk_tlapso_tanoacademico` FOREIGN KEY (`codigo_ano_academico`) REFERENCES `tano_academico` (`codigo_ano_academico`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `fk_tlapso_tanoacademico` FOREIGN KEY (`codigo_ano_academico`) REFERENCES `tano_academico` (`codigo_ano_academico`) ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `tmateria`
 --
 ALTER TABLE `tmateria`
-ADD CONSTRAINT `fk_materia_padre` FOREIGN KEY (`codigo_materia_padre`) REFERENCES `tmateria` (`codigo_materia`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `fk_materia_padre` FOREIGN KEY (`codigo_materia_padre`) REFERENCES `tmateria` (`codigo_materia`) ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `tmateria_seccion_docente`
 --
 ALTER TABLE `tmateria_seccion_docente`
-ADD CONSTRAINT `fk_tmateria_seccion_tmateria` FOREIGN KEY (`codigo_materia`) REFERENCES `tmateria` (`codigo_materia`) ON UPDATE CASCADE,
-ADD CONSTRAINT `fk_tmateria_seccion_tpersona` FOREIGN KEY (`cedula_docente`) REFERENCES `tpersona` (`cedula`) ON UPDATE CASCADE,
-ADD CONSTRAINT `fk_tmateria_seccion_tseccion` FOREIGN KEY (`seccion`) REFERENCES `tseccion` (`seccion`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `fk_tmateria_seccion_tmateria` FOREIGN KEY (`codigo_materia`) REFERENCES `tmateria` (`codigo_materia`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_tmateria_seccion_tpersona` FOREIGN KEY (`cedula_docente`) REFERENCES `tpersona` (`cedula`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_tmateria_seccion_tseccion` FOREIGN KEY (`seccion`) REFERENCES `tseccion` (`seccion`) ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `tmunicipio`
 --
 ALTER TABLE `tmunicipio`
-ADD CONSTRAINT `fk_tmunicipio_testado` FOREIGN KEY (`codigo_estado`) REFERENCES `testado` (`codigo_estado`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `fk_tmunicipio_testado` FOREIGN KEY (`codigo_estado`) REFERENCES `testado` (`codigo_estado`) ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `tparroquia`
 --
 ALTER TABLE `tparroquia`
-ADD CONSTRAINT `fk_tparroquia_tmunicipio` FOREIGN KEY (`codigo_municipio`) REFERENCES `tmunicipio` (`codigo_municipio`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `fk_tparroquia_tmunicipio` FOREIGN KEY (`codigo_municipio`) REFERENCES `tmunicipio` (`codigo_municipio`) ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `tperfil`
 --
 ALTER TABLE `tperfil`
-ADD CONSTRAINT `tperfil_ibfk_1` FOREIGN KEY (`codigo_configuracion`) REFERENCES `tconfiguracion` (`codigo_configuracion`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `tperfil_ibfk_1` FOREIGN KEY (`codigo_configuracion`) REFERENCES `tconfiguracion` (`codigo_configuracion`) ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `tpersona`
 --
 ALTER TABLE `tpersona`
-ADD CONSTRAINT `fk_tpersona_tcargo` FOREIGN KEY (`codigo_cargo`) REFERENCES `tcargo` (`codigo_cargo`) ON UPDATE CASCADE,
-ADD CONSTRAINT `fk_tpersona_tparroquia` FOREIGN KEY (`lugar_nacimiento`) REFERENCES `tparroquia` (`codigo_parroquia`) ON UPDATE CASCADE,
-ADD CONSTRAINT `fk_tpersona_tplantel` FOREIGN KEY (`codigo_plantel`) REFERENCES `tplantel` (`codigo_plantel`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `fk_tpersona_tcargo` FOREIGN KEY (`codigo_cargo`) REFERENCES `tcargo` (`codigo_cargo`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_tpersona_tparroquia` FOREIGN KEY (`lugar_nacimiento`) REFERENCES `tparroquia` (`codigo_parroquia`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_tpersona_tplantel` FOREIGN KEY (`codigo_plantel`) REFERENCES `tplantel` (`codigo_plantel`) ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `tplantel`
 --
 ALTER TABLE `tplantel`
-ADD CONSTRAINT `fk_tplantel_tmunicipio` FOREIGN KEY (`codigo_municipio`) REFERENCES `tmunicipio` (`codigo_municipio`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `fk_tplantel_tmunicipio` FOREIGN KEY (`codigo_municipio`) REFERENCES `tmunicipio` (`codigo_municipio`) ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `tplan_evaluacion`
+--
+ALTER TABLE `tplan_evaluacion`
+  ADD CONSTRAINT `fk_tplanevaluacion_msd` FOREIGN KEY (`codigo_msd`) REFERENCES `tmateria_seccion_docente` (`codigo_msd`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_tplanevaluacion_lapso` FOREIGN KEY (`codigo_lapso`) REFERENCES `tlapso` (`codigo_lapso`) ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `tproceso_inscripcion`
 --
 ALTER TABLE `tproceso_inscripcion`
-ADD CONSTRAINT `fk_tpi_taa` FOREIGN KEY (`codigo_ano_academico`) REFERENCES `tano_academico` (`codigo_ano_academico`) ON UPDATE CASCADE,
-ADD CONSTRAINT `fk_tpi_tdocente` FOREIGN KEY (`cedula_docente`) REFERENCES `tpersona` (`cedula`) ON UPDATE CASCADE,
-ADD CONSTRAINT `fk_tpi_testudiante` FOREIGN KEY (`cedula_estudiante`) REFERENCES `tpersona` (`cedula`) ON UPDATE CASCADE,
-ADD CONSTRAINT `fk_tpi_tinscrip` FOREIGN KEY (`codigo_inscripcion`) REFERENCES `tinscripcion` (`codigo_inscripcion`) ON UPDATE CASCADE,
-ADD CONSTRAINT `fk_tpi_tlugartrabajo` FOREIGN KEY (`lugar_trabajo`) REFERENCES `tparroquia` (`codigo_parroquia`) ON UPDATE CASCADE,
-ADD CONSTRAINT `fk_tpi_tmadre` FOREIGN KEY (`cedula_madre`) REFERENCES `tpersona` (`cedula`) ON UPDATE CASCADE,
-ADD CONSTRAINT `fk_tpi_tpadre` FOREIGN KEY (`cedula_padre`) REFERENCES `tpersona` (`cedula`) ON UPDATE CASCADE,
-ADD CONSTRAINT `fk_tpi_tparentesco` FOREIGN KEY (`codigo_parentesco`) REFERENCES `tparentesco` (`codigo_parentesco`) ON UPDATE CASCADE,
-ADD CONSTRAINT `fk_tpi_trepresentante` FOREIGN KEY (`cedula_representante`) REFERENCES `tpersona` (`cedula`) ON UPDATE CASCADE,
-ADD CONSTRAINT `fk_tpi_tseccion` FOREIGN KEY (`seccion`) REFERENCES `tseccion` (`seccion`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `fk_tpi_taa` FOREIGN KEY (`codigo_ano_academico`) REFERENCES `tano_academico` (`codigo_ano_academico`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_tpi_tdocente` FOREIGN KEY (`cedula_docente`) REFERENCES `tpersona` (`cedula`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_tpi_testudiante` FOREIGN KEY (`cedula_estudiante`) REFERENCES `tpersona` (`cedula`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_tpi_tinscrip` FOREIGN KEY (`codigo_inscripcion`) REFERENCES `tinscripcion` (`codigo_inscripcion`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_tpi_tlugartrabajo` FOREIGN KEY (`lugar_trabajo`) REFERENCES `tparroquia` (`codigo_parroquia`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_tpi_tmadre` FOREIGN KEY (`cedula_madre`) REFERENCES `tpersona` (`cedula`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_tpi_tpadre` FOREIGN KEY (`cedula_padre`) REFERENCES `tpersona` (`cedula`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_tpi_tparentesco` FOREIGN KEY (`codigo_parentesco`) REFERENCES `tparentesco` (`codigo_parentesco`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_tpi_trepresentante` FOREIGN KEY (`cedula_representante`) REFERENCES `tpersona` (`cedula`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_tpi_tseccion` FOREIGN KEY (`seccion`) REFERENCES `tseccion` (`seccion`) ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `trespuesta_secreta`
 --
 ALTER TABLE `trespuesta_secreta`
-ADD CONSTRAINT `trespuesta_secreta_ibfk_1` FOREIGN KEY (`nombre_usuario`) REFERENCES `tusuario` (`nombre_usuario`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `trespuesta_secreta_ibfk_1` FOREIGN KEY (`nombre_usuario`) REFERENCES `tusuario` (`nombre_usuario`) ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `tservicio`
 --
 ALTER TABLE `tservicio`
-ADD CONSTRAINT `tservicios_ibfk_1` FOREIGN KEY (`codigo_modulo`) REFERENCES `tmodulo` (`codigo_modulo`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `tservicios_ibfk_1` FOREIGN KEY (`codigo_modulo`) REFERENCES `tmodulo` (`codigo_modulo`) ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `tservicio_usuario_opcion`
 --
 ALTER TABLE `tservicio_usuario_opcion`
-ADD CONSTRAINT `fk_tservicio_usuario_opcion_topcion` FOREIGN KEY (`codigo_opcion`) REFERENCES `topcion` (`codigo_opcion`) ON UPDATE CASCADE,
-ADD CONSTRAINT `fk_tservicio_usuario_opcion_tperfil` FOREIGN KEY (`codigo_perfil`) REFERENCES `tperfil` (`codigo_perfil`) ON UPDATE CASCADE,
-ADD CONSTRAINT `fk_tservicio_usuario_opcion_tservicio` FOREIGN KEY (`codigo_servicio`) REFERENCES `tservicio` (`codigo_servicio`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `fk_tservicio_usuario_opcion_topcion` FOREIGN KEY (`codigo_opcion`) REFERENCES `topcion` (`codigo_opcion`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_tservicio_usuario_opcion_tperfil` FOREIGN KEY (`codigo_perfil`) REFERENCES `tperfil` (`codigo_perfil`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_tservicio_usuario_opcion_tservicio` FOREIGN KEY (`codigo_servicio`) REFERENCES `tservicio` (`codigo_servicio`) ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `tusuario`
 --
 ALTER TABLE `tusuario`
-ADD CONSTRAINT `tusuario_ibfk_1` FOREIGN KEY (`cedula`) REFERENCES `tpersona` (`cedula`) ON UPDATE CASCADE,
-ADD CONSTRAINT `tusuario_ibfk_2` FOREIGN KEY (`codigo_perfil`) REFERENCES `tperfil` (`codigo_perfil`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `tusuario_ibfk_1` FOREIGN KEY (`cedula`) REFERENCES `tpersona` (`cedula`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `tusuario_ibfk_2` FOREIGN KEY (`codigo_perfil`) REFERENCES `tperfil` (`codigo_perfil`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

@@ -77,8 +77,7 @@ MAX(CASE WHEN h.dia = 5 THEN
 CONCAT('Prof: ',h.nombre,' ',h.apellido)
 ELSE '' END) AS bloque_viernes_docente
 FROM tbloque_hora bh
-LEFT JOIN vhorario h ON bh.codigo_bloque_hora = h.codigo_bloque_hora AND h.codigo_ano_academico = $P{codigo_ano_academico}
-WHERE (h.seccion = $P{seccion} OR $P{seccion} IS NULL) AND (h.profesor = $P{cedula_docente} OR $P{cedula_docente} IS NULL)
+LEFT JOIN vhorario h ON bh.codigo_bloque_hora = h.codigo_bloque_hora AND h.codigo_ano_academico = $P{codigo_ano_academico} AND (h.seccion = $P{seccion} OR $P{seccion} IS NULL) AND (h.profesor = $P{cedula_docente} OR $P{cedula_docente} IS NULL)
 GROUP BY bh.receso,bh.descripcion,bh.hora_inicio,bh.hora_fin
 ORDER BY bh.hora_inicio,bh.hora_fin ASC]]>
 	</queryString>

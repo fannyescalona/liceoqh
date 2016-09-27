@@ -749,6 +749,39 @@ CREATE TABLE IF NOT EXISTS trespuesta_secreta (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
+-- Table structure for table tplan_evaluacion
+--
+
+DROP TABLE IF EXISTS tplan_evaluacion;
+
+CREATE TABLE tplan_evaluacion (
+  codigo_plan_evaluacion int(11) NOT NULL AUTO_INCREMENT,
+  codigo_msd int(11) NOT NULL, 
+  codigo_lapso int(11) NOT NULL,
+  descripcion varchar(60) NOT NULL,
+  porcentaje float(11,2) NOT NULL DEFAULT 0.0,
+  PRIMARY KEY (codigo_plan_evaluacion),
+  CONSTRAINT fk_tplanevaluacion_msd FOREIGN KEY(codigo_msd) REFERENCES tmateria_seccion_docente (codigo_msd) ON UPDATE CASCADE,
+  CONSTRAINT fk_tplanevaluacion_lapso FOREIGN KEY(codigo_lapso) REFERENCES tlapso (codigo_lapso) ON UPDATE CASCADE 
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+--
+-- Table structure for table tasignacion_notas
+--
+
+DROP TABLE IF EXISTS tasignacion_nota;
+
+CREATE TABLE tasignacion_nota (
+  codigo_asignacionnotas int(11) NOT NULL AUTO_INCREMENT,
+  codigo_plan_evaluacion int(11) NOT NULL,
+  cedula_estudiante char(10) NOT NULL,
+  notaobtenida int(11) NOT NULL DEFAULT 0,
+  PRIMARY KEY(codigo_asignacionnotas),
+  CONSTRAINT fk_tasignacionnota_pe FOREIGN KEY(codigo_plan_evaluacion) REFERENCES tplan_evaluacion (codigo_plan_evaluacion) ON UPDATE CASCADE,
+  CONSTRAINT fk_tasignacionnota_estudiante FOREIGN KEY(cedula_estudiante) REFERENCES tpersona (cedula) ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+--
 -- Table structure for table tcontrol_notas
 --
 
