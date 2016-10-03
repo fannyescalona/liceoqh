@@ -154,6 +154,46 @@ function init(){
 	});
 }
 
+//  Función que permite generar un combo dependiente
+function comboDependiente(value,url,object,hide){
+    $.ajax({
+        url: url,
+        type: 'POST',
+        data: value,
+        dataType: 'JSON',
+        success: function(resp){
+            var options = '<option value=0>Seleccione</option>';
+            //  recorremos el arreglo para obtener el valor del campo oculto
+            for(var i = 0;i<hide.length;i++){
+                filtro = document.getElementById(hide[i]);
+                campooculto=filtro.value;
+            }
+            for (var i = 0; i < resp.length; i++) { 
+                if(resp[i].id == campooculto){
+                    if(resp[i].id == ""){
+                        options += '<option value="NULL" selected>' + resp[i].name + '</option>';
+                    }
+                    else{
+                        options += '<option value="' + resp[i].id + '" selected>' + resp[i].name + '</option>';
+                    }
+                }
+                else{
+                    if(resp[i].id == ""){
+                        options += '<option value="NULL">' + resp[i].name + '</option>';
+                    }
+                    else{
+                        options += '<option value="' + resp[i].id + '">' + resp[i].name + '</option>';
+                    }
+                }
+            }
+            object.html(options);
+        },
+        error: function(jqXHR, textStatus, errorThrown){
+            console.log(jqXHR);
+        }
+    });
+}
+
 //Función que recibe el id del objeto y  la url para ejecutar el llamado de autocompletado
 function ACDataGrid(obj,url){
     $('#'+obj).autocomplete({

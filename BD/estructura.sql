@@ -760,6 +760,7 @@ CREATE TABLE tplan_evaluacion (
   codigo_lapso int(11) NOT NULL,
   descripcion varchar(60) NOT NULL,
   porcentaje float(11,2) NOT NULL DEFAULT 0.0,
+  fecha_desactivacion date DEFAULT NULL,
   PRIMARY KEY (codigo_plan_evaluacion),
   CONSTRAINT fk_tplanevaluacion_msd FOREIGN KEY(codigo_msd) REFERENCES tmateria_seccion_docente (codigo_msd) ON UPDATE CASCADE,
   CONSTRAINT fk_tplanevaluacion_lapso FOREIGN KEY(codigo_lapso) REFERENCES tlapso (codigo_lapso) ON UPDATE CASCADE 
@@ -776,6 +777,7 @@ CREATE TABLE tasignacion_nota (
   codigo_plan_evaluacion int(11) NOT NULL,
   cedula_estudiante char(10) NOT NULL,
   notaobtenida int(11) NOT NULL DEFAULT 0,
+  fecha_modificacion date DEFAULT NULL,
   PRIMARY KEY(codigo_asignacionnotas),
   CONSTRAINT fk_tasignacionnota_pe FOREIGN KEY(codigo_plan_evaluacion) REFERENCES tplan_evaluacion (codigo_plan_evaluacion) ON UPDATE CASCADE,
   CONSTRAINT fk_tasignacionnota_estudiante FOREIGN KEY(cedula_estudiante) REFERENCES tpersona (cedula) ON UPDATE CASCADE
