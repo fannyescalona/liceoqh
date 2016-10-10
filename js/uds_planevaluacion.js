@@ -27,6 +27,7 @@ function validar_formulario(param){
 	valor=document.getElementById('seccion').value;
 	valor1=document.getElementById('codigo_materia').value;
 	valor2=document.getElementById('codigo_msd').value;
+	valor3=document.getElementById('codigo_lapso').value;
 	if(devuelve_boton(param)=="Registrar" || devuelve_boton(param)=="Modificar"){
 		if(valor.replace(/^\s+|\s+$/gi,"").length==0){ //para no permitir que se queda en blanco
 			alert('Seleccione una sección')
@@ -34,6 +35,10 @@ function validar_formulario(param){
 		}
 		else if(valor1.replace(/^\s+|\s+$/gi,"").length==0){
 			alert('Seleccione una materia')
+			permitido=false;
+		}
+		else if(valor3.replace(/^\s+|\s+$/gi,"").length==0){
+			alert('Seleccione un lapso')
 			permitido=false;
 		}
 	}

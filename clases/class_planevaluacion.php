@@ -2,22 +2,22 @@
  require_once("class_bd.php");
  class planevaluacion
  {
-     private $codigo_plan_evaluacion;
      private $codigo_msd;
      private $codigo_lapso;
-     private $descripcion;
-     private $porcentaje;
+     private $seccion;
+     private $codigo_materia;
+     private $materia;
      private $estatus_planevaluacion;
      private $fecha_desactivacion;
      private $error;
      private $mysql;
 	 
    public function __construct(){
-     $this->codigo_plan_evaluacion=null;
      $this->codigo_msd=null;
      $this->codigo_lapso=null;
-     $this->descripcion=null;
-     $this->porcentaje=null;
+     $this->seccion=null;
+     $this->codigo_materia=null;
+     $this->materia=null;
      $this->error=null;
 	 $this->mysql=new Conexion();
    }
@@ -57,31 +57,31 @@
 	 }
    }
 
-   public function estatus_planevaluacion(){
+   public function seccion(){
       $Num_Parametro=func_num_args();
-	 if($Num_Parametro==0) return $this->estatus_planevaluacion;
+   if($Num_Parametro==0) return $this->seccion;
      
-	 if($Num_Parametro>0){
-	   $this->estatus_planevaluacion=func_get_arg(0);
-	 }
+   if($Num_Parametro>0){
+     $this->seccion=func_get_arg(0);
    }
-   
-   public function descripcion(){
-   $Num_Parametro=func_num_args();
-	 if($Num_Parametro==0) return $this->descripcion;
-     
-	 if($Num_Parametro>0){
-	   $this->descripcion=func_get_arg(0);
-	 }
    }
-   
-   public function porcentaje(){
-   $Num_Parametro=func_num_args();
-	 if($Num_Parametro==0) return $this->porcentaje;
+
+   public function codigo_materia(){
+      $Num_Parametro=func_num_args();
+   if($Num_Parametro==0) return $this->codigo_materia;
      
-	 if($Num_Parametro>0){
-	   $this->porcentaje=func_get_arg(0);
-	 }
+   if($Num_Parametro>0){
+     $this->codigo_materia=func_get_arg(0);
+   }
+   }
+
+   public function materia(){
+      $Num_Parametro=func_num_args();
+   if($Num_Parametro==0) return $this->materia;
+     
+   if($Num_Parametro>0){
+     $this->materia=func_get_arg(0);
+   }
    }
 
    public function fecha_desactivacion(){
@@ -102,18 +102,23 @@
 	 }
    }      
 
-   public function Registrar(){
-    $sql="insert into tplanevaluacion (descripcion) values ('$this->descripcion');";
-    if($this->mysql->Ejecutar($sql)!=null)
-	return true;
-	else{
-		$this->error($this->mysql->Error());
-		return false;
-	}
-   }
+    public function Registrar($descripcion,$procentaje){
+      $sql="INSERT INTO tplan_evaluacion (codigo_msd,codigo_lapso,descripcion,procentaje) VALUES ";
+      for($i=0;$i<count($descripcion);$i++){
+        $sql.="('$this->codigo_msd','$this->codigo_lapso','".$descripcion[$i]."','".$porcentaje[$i]."'),";
+      }
+      $sql=substr($sql,0,-1);
+      $sql=$sql.";";
+      if($this->mysql->Ejecutar($sql)!=null)
+        return true;
+      else{
+        $this->error($this->mysql->Error());
+        return false;
+      } 
+    }
    
     public function Activar(){
-    $sql="update tplanevaluacion set fecha_desactivacion=NULL where (codigo_plan_evaluacion='$this->codigo_plan_evaluacion');";
+    $sql="update tplan_evaluacion set fecha_desactivacion=NULL where (codigo_msd='$this->codigo_msd' AND codigo_lapso = '$this->codigo_lapso');";
     if($this->mysql->Ejecutar($sql)!=null)
 	return true;
 	else{
@@ -122,7 +127,7 @@
 	}
    }
     public function Desactivar(){
-    $sql="update tplanevaluacion set fecha_desactivacion=CURDATE() where (codigo_plan_evaluacion='$this->codigo_plan_evaluacion');";
+    $sql="update tplan_evaluacion set fecha_desactivacion=CURDATE() where (codigo_msd='$this->codigo_msd' AND codigo_lapso = '$this->codigo_lapso');";
     if($this->mysql->Ejecutar($sql)!=null)
 	return true;
 	else{
@@ -131,48 +136,87 @@
 	}
    }
    
-    public function Actualizar(){
-    $sql="update tplanevaluacion set descripcion='$this->descripcion' where (codigo_plan_evaluacion='$this->codigo_plan_evaluacion');";
-    if($this->mysql->Ejecutar($sql)!=null)
-	return true;
-	else{
-		$this->error($this->mysql->Error());
-		return false;
-	}
-   }
+  public function Actualizar($cant_pe_old,$cant_pe_new,$codigo_plan_evaluacion,$descripcion,$porcentaje){
+    $con=0;
+    if($cant_pe_old == $cant_pe_new){
+      for($i=0;$i<$cant_pe_new;$i++){
+      $sql1="UPDATE tplan_evaluacion SET codigo_msd = '$this->codigo_msd',codigo_lapso='$this->codigo_lapso',descripcion = '".$descripcion[$i]."',procentaje= '".$procentaje[$i]."' 
+      WHERE codigo_plan_evaluacion='".$codigo_plan_evaluacion[$i]."'";
+      if($this->mysql->Ejecutar($sql1)!=null)
+        $con++;
+      else
+        $con--;
+      }
+    }
+    else if($cant_pe_old < $cant_pe_new){
+      $prest = $cant_pe_new-$cant_pe_old;
+      for($i=0;$i<$cant_pe_old;$i++){
+      $sql1="UPDATE trespuesta_secreta SET pregunta = '".$pnew[$i]."',respuesta =  '".$rnew[$i]."' 
+      WHERE nombre_usuario='$this->user_name' AND pregunta = '".$pold[$i]."'";
+      if($this->mysql->Ejecutar($sql1)!=null)
+        $con++;
+      else
+        $con--;
+      }
+      for ($j=$prest-1;$j < $cant_pe_new;$j++) { 
+        $sql2="INSERT INTO trespuesta_secreta (nombre_usuario,pregunta,respuesta) 
+        VALUES ('$this->user_name','".$pnew[$j]."','".$rnew[$j]."');";
+        if($this->mysql->Ejecutar($sql2))
+          $con++;
+        else
+          $con--;
+      }
+    }
+    else{
+      $prest = $cant_pe_old-$cant_pe_new;
+      for($i=0;$i<$cant_pe_new;$i++){
+      $sql1="UPDATE trespuesta_secreta SET pregunta = '".$pnew[$i]."',respuesta =  '".$rnew[$i]."' 
+      WHERE nombre_usuario='$this->user_name' AND pregunta = '".$pold[$i]."'";
+      if($this->mysql->Ejecutar($sql1)!=null)
+        $con++;
+      else
+        $con--;
+      }
+      for ($k=$prest-1;$k < $cant_pe_old;$k++) { 
+        $sql2="DELETE FROM trespuesta_secreta WHERE nombre_usuario='$this->user_name' AND pregunta='".$pold[$k]."';";
+        if($this->mysql->Ejecutar($sql2))
+          $con++;
+        else
+          $con--;
+      }
+    }
+    if($con==$cant_pe_new)
+      return true;
+    else
+      return false;
+  }
    
-   public function Consultar(){
-    $sql="select *,(CASE WHEN fecha_desactivacion IS NULL THEN  'Activo' ELSE 'Desactivado' END) AS estatus_planevaluacion from tplanevaluacion where descripcion='$this->descripcion'";
-	$query=$this->mysql->Ejecutar($sql);
+  public function Consultar(){
+    $sql="SELECT DISTINCT pe.codigo_msd,pe.codigo_lapso,s.seccion,m.descripcion AS materia,msd.codigo_materia,
+    (CASE WHEN pe.fecha_desactivacion IS NULL THEN  'Activo' ELSE 'Desactivado' END) AS estatus_planevaluacion,
+    pe.fecha_desactivacion 
+    FROM tplan_evaluacion pe 
+    INNER JOIN tmateria_seccion_docente msd ON pe.codigo_msd = msd.codigo_msd 
+    INNER JOIN tseccion s ON msd.seccion = s.seccion 
+    INNER JOIN tmateria m ON msd.codigo_materia = m.codigo_materia 
+    WHERE codigo_msd='$this->codigo_msd' AND codigo_lapso = '$this->codigo_lapso'";
+    $query=$this->mysql->Ejecutar($sql);
     if($this->mysql->Total_Filas($query)!=0){
-	$tplanevaluacion=$this->mysql->Respuesta($query);
-	$this->codigo_plan_evaluacion($tplanevaluacion['codigo_plan_evaluacion']);
-	$this->descripcion($tplanevaluacion['descripcion']);
-   	$this->estatus_planevaluacion($tplanevaluacion['estatus_planevaluacion']);
-	$this->fecha_desactivacion($tplanevaluacion['fecha_desactivacion']);
-	return true;
-	}
-	else{
-		$this->error($this->mysql->Error());
-		return false;
-	}
-   }
-   public function Comprobar(){
-    $sql="select * from tplanevaluacion where descripcion='$this->descripcion'";
-	$query=$this->mysql->Ejecutar($sql);
-    if($this->mysql->Total_Filas($query)!=0){
-	$tplanevaluacion=$this->mysql->Respuesta($query);
-	$this->codigo_plan_evaluacion($tplanevaluacion['codigo_plan_evaluacion']);
-	$this->descripcion($tplanevaluacion['descripcion']);
-	$this->fecha_desactivacion($tplanevaluacion['fecha_desactivacion']);
-    $this->error("El registro ya existe !");
-	return true;
-	}
-	else{
-		$this->error($this->mysql->Error());
-		return false;
-	}
-   }
+      $tplan_evaluacion=$this->mysql->Respuesta($query);
+      $this->codigo_msd($tplan_evaluacion['codigo_msd']);
+      $this->codigo_lapso($tplan_evaluacion['codigo_lapso']);
+      $this->codigo_materia($tplan_evaluacion['codigo_materia']);
+      $this->seccion($tplan_evaluacion['seccion']);
+      $this->materia($tplan_evaluacion['materia']);
+      $this->estatus_planevaluacion($tplan_evaluacion['estatus_planevaluacion']);
+      $this->fecha_desactivacion($tplan_evaluacion['fecha_desactivacion']);
+      return true;
+    }
+    else{
+      $this->error($this->mysql->Error());
+      return false;
+    }
+  }
 
    public function BuscarMSD($seccion,$cedula_docente){
     $sql="SELECT msd.codigo_msd,msd.codigo_materia,m.descripcion AS materia 

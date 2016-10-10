@@ -22,8 +22,8 @@
       @$seccion=null;
       @$materia=null;
       @$codigo_materia=null;
-      @$codigo_msd=null;
-      @$codigo_lapso=null;
+      @$codigo_msd=0;
+      @$codigo_lapso=0;
       @$estatus=null;
     }
   ?>
@@ -94,7 +94,7 @@
               FROM tplan_evaluacion pe 
               INNER JOIN tmateria_seccion_docente msd ON pe.codigo_msd = msd.codigo_msd 
               INNER JOIN tlapso l ON pe.codigo_lapso = l.codigo_lapso 
-              WHERE pe.codigo_msd = $codigo_msd 
+              WHERE pe.codigo_msd = $codigo_msd AND pe.codigo_lapso = $codigo_lapso 
               ORDER BY pe.codigo_plan_evaluacion ASC";
               $query = $mysql->Ejecutar($sql);
               $con=0;
@@ -106,6 +106,7 @@
                 echo "</tr>";
                 $con++;
               }
+              echo "<input type='hidden' name='oldcodigo_plan_evaluacion' value='$con' />";
             ?>
           </table>
           <strong class="obligatorio">Los campos resaltados en rojo son obligatorios</strong>
@@ -157,22 +158,32 @@
     <a href="<?php echo  '../pdf/?serv='.$servicio_solicitado;?>" target="_blank"><img src="../images/icon-pdf.png" alt="Exportar a PDF" style="width:40px;heigth:40px;float:right;margin:0.3em;margin-left:1em;"></a>
     <table class="table table-striped table-bordered table-condensed">
       <tr> 
-        <td>Código Sección</td>
+        <td>Código Plan Ev.</td>
+        <td>Docente</td>
         <td>Sección</td>
-        <td>Turno</td>
-        <td>Grado Escolar</td>
-        <td>Capacidad Mínima</td>
-        <td>Capacidad Máxima</td>
+        <td>Materia</td>
+        <td>Lapso</td>
+        <td>Descripción</td>
+        <td>% Nota</td>
       </tr>
       <?php
         //Conexión a la base de datos 
         require_once("../clases/class_bd.php");
         $mysql=new Conexion();
         //Sentencia sql (sin limit) 
-        $_pagi_sql = "SELECT seccion,descripcion,CASE turno WHEN 'M' THEN 'MAÑANA' ELSE 'TARDE' END AS turno, 
-        capacidad_max,capacidad_min,
-        CASE grado_escolar WHEN '1' THEN '1er Año' WHEN '2' THEN '2do Año' WHEN '3' THEN '3er Año' WHEN '4' THEN '4to Año' WHEN '5' THEN '5to Año' WHEN '6' THEN '6to Año' END AS grado_escolar
-        FROM tseccion where fecha_desactivacion is null order by seccion desc";  
+        $_pagi_sql = "SELECT pe.codigo_plan_evaluacion,
+        CONCAT(msd.cedula_docente,' ',p.nombres,' ',p.apellidos) AS docente,
+        s.descripcion AS seccion,CONCAT(m.codigo_materia,' ',m.descripcion) AS materia,
+        CONCAT(l.descripcion,' (',aa.descripcion,')') AS lapso, pe.descripcion,pe.porcentaje  
+        FROM tplan_evaluacion pe 
+        INNER JOIN tmateria_seccion_docente msd ON pe.codigo_msd = msd.codigo_msd 
+        INNER JOIN tpersona p ON msd.cedula_docente = p.cedula 
+        INNER JOIN tmateria m ON msd.codigo_materia = m.codigo_materia 
+        INNER JOIN tseccion s ON msd.seccion = s.seccion 
+        INNER JOIN tlapso l ON pe.codigo_lapso = l.codigo_lapso 
+        INNER JOIN tano_academico aa ON l.codigo_ano_academico = aa.codigo_ano_academico 
+        WHERE pe.fecha_desactivacion IS NULL 
+        ORDER BY pe.codigo_plan_evaluacion DESC";  
         //Booleano. Define si se utiliza pg_num_rows() (true) o COUNT(*) (false).
         $_pagi_conteo_alternativo = true;
         //cantidad de resultados por página (opcional, por defecto 20) 
@@ -185,13 +196,14 @@
         @include("../librerias/paginador/paginator.inc.php"); 
         //Leemos y escribimos los registros de la página actual 
         while($row = mysql_fetch_array($_pagi_result)){ 
-          echo "<tr style='cursor: pointer;' id='".$row['seccion']."' onclick='enviarForm(this.id)'>
-          <td style='width:20%;'>".$row['seccion']."</td>
+          echo "<tr style='cursor: pointer;' id='".$row['codigo_plan_evaluacion']."' onclick='enviarForm(this.id)'>
+          <td style='width:20%;'>".$row['codigo_plan_evaluacion']."</td>
+          <td align='left'>".$row['docente']."</td>
+          <td align='left'>".$row['seccion']."</td>
+          <td align='left'>".$row['materia']."</td>
+          <td align='left'>".$row['lapso']."</td>
           <td align='left'>".$row['descripcion']."</td>
-          <td align='left'>".$row['turno']."</td>
-          <td align='left'>".$row['grado_escolar']."</td>
-          <td align='left'>".$row['capacidad_min']."</td>
-          <td align='left'>".$row['capacidad_max']."</td></tr>"; 
+          <td align='left'>".$row['porcentaje']."</td></tr>"; 
         } 
         //Incluimos la barra de navegación 
       ?>

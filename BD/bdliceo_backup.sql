@@ -20,6 +20,10 @@ SET time_zone = "+00:00";
 -- Base de datos: `bdliceo`
 --
 
+DROP DATABASE IF EXISTS bdliceo;
+CREATE DATABASE bdliceo;
+USE bdliceo;
+
 DELIMITER $$
 --
 -- Funciones
