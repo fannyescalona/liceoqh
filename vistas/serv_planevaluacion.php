@@ -59,7 +59,7 @@
           <label>Materia</label>
           <label id="materia"><?php echo $materia; ?></label>
           <input type="hidden" id="codigo_materia" name="codigo_materia" value="<?= $codigo_materia?>"/>
-          <input type="hidden" name="codigo_msd" id="codigo_msd" value="<?= $codigo_msd;?>" />
+          <input type="hidden" name="codigo_msd" id="codigo_msd" value="<?=$codigo_msd;?>" />
           <label>Lapso Académico:</label>
           <select name="codigo_lapso" id="codigo_lapso" title="Seleccione un lapso académico" required="" class="campoTexto"/>
             <option value='0'>Seleccione un lapso</option>

@@ -102,8 +102,8 @@
 	 }
    }      
 
-    public function Registrar($descripcion,$procentaje){
-      $sql="INSERT INTO tplan_evaluacion (codigo_msd,codigo_lapso,descripcion,procentaje) VALUES ";
+    public function Registrar($descripcion,$porcentaje){
+      $sql="INSERT INTO tplan_evaluacion (codigo_msd,codigo_lapso,descripcion,porcentaje) VALUES ";
       for($i=0;$i<count($descripcion);$i++){
         $sql.="('$this->codigo_msd','$this->codigo_lapso','".$descripcion[$i]."','".$porcentaje[$i]."'),";
       }
