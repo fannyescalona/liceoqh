@@ -92,6 +92,15 @@
 	   $this->fecha_desactivacion=func_get_arg(0);
 	 }
    }
+
+   public function estatus_planevaluacion(){
+      $Num_Parametro=func_num_args();
+   if($Num_Parametro==0) return $this->estatus_planevaluacion;
+     
+   if($Num_Parametro>0){
+     $this->estatus_planevaluacion=func_get_arg(0);
+   }
+   }
    
    public function error(){
       $Num_Parametro=func_num_args();
@@ -193,13 +202,13 @@
    
   public function Consultar(){
     $sql="SELECT DISTINCT pe.codigo_msd,pe.codigo_lapso,s.seccion,m.descripcion AS materia,msd.codigo_materia,
-    (CASE WHEN pe.fecha_desactivacion IS NULL THEN  'Activo' ELSE 'Desactivado' END) AS estatus_planevaluacion,
+    (CASE WHEN pe.fecha_desactivacion IS NULL THEN 'Activo' ELSE 'Desactivado' END) AS estatus_planevaluacion,
     pe.fecha_desactivacion 
     FROM tplan_evaluacion pe 
     INNER JOIN tmateria_seccion_docente msd ON pe.codigo_msd = msd.codigo_msd 
     INNER JOIN tseccion s ON msd.seccion = s.seccion 
     INNER JOIN tmateria m ON msd.codigo_materia = m.codigo_materia 
-    WHERE codigo_msd='$this->codigo_msd' AND codigo_lapso = '$this->codigo_lapso'";
+    WHERE pe.codigo_msd='$this->codigo_msd' AND pe.codigo_lapso = '$this->codigo_lapso'";
     $query=$this->mysql->Ejecutar($sql);
     if($this->mysql->Total_Filas($query)!=0){
       $tplan_evaluacion=$this->mysql->Respuesta($query);

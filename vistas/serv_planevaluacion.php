@@ -171,7 +171,7 @@
         require_once("../clases/class_bd.php");
         $mysql=new Conexion();
         //Sentencia sql (sin limit) 
-        $_pagi_sql = "SELECT pe.codigo_plan_evaluacion,
+        $_pagi_sql = "SELECT pe.codigo_plan_evaluacion,pe.codigo_msd,pe.codigo_lapso,
         CONCAT(msd.cedula_docente,' ',p.nombres,' ',p.apellidos) AS docente,
         s.descripcion AS seccion,CONCAT(m.codigo_materia,' ',m.descripcion) AS materia,
         CONCAT(l.descripcion,' (',aa.descripcion,')') AS lapso, pe.descripcion,pe.porcentaje  
@@ -196,7 +196,7 @@
         @include("../librerias/paginador/paginator.inc.php"); 
         //Leemos y escribimos los registros de la página actual 
         while($row = mysql_fetch_array($_pagi_result)){ 
-          echo "<tr style='cursor: pointer;' id='".$row['codigo_plan_evaluacion']."' onclick='enviarForm(this.id)'>
+          echo "<tr style='cursor: pointer;' id='".$row['codigo_msd']."_".$row['codigo_lapso']."' onclick='enviarForm(this.id)'>
           <td style='width:20%;'>".$row['codigo_plan_evaluacion']."</td>
           <td align='left'>".$row['docente']."</td>
           <td align='left'>".$row['seccion']."</td>
@@ -210,12 +210,15 @@
     </table>
     <script type="text/javascript">
     function enviarForm(value){
-      document.getElementById('campo_oculto').value=value;
+      valor = value.split("_");
+      document.getElementById('campo_oculto1').value=valor[0];
+      document.getElementById('campo_oculto2').value=valor[1];
       document.getElementById('form1').submit();
     }
     </script>
     <form id="form1" method="POST" action="../controladores/cont_planevaluacion.php">
-      <input type="hidden" name="seccion" id="campo_oculto" value="" />
+      <input type="hidden" name="codigo_msd" id="campo_oculto1" value="" />
+      <input type="hidden" name="codigo_lapso" id="campo_oculto2" value="" />
       <input type="hidden" name="operacion" id="operacion" value="Consultar" />
     </form>
     <div class="pagination">

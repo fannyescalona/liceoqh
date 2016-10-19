@@ -217,13 +217,12 @@ function salir(){
     }).then(function(){
         swal({
             title: stringUnicode('¡Hasta luego!'),
-            text: stringUnicode('En 5 segundos se habrá cerrado la sesión'),
-            type: 'success',
-            timer: 5000
+            text: stringUnicode('En 3 segundos se habrá cerrado la sesión'),
+            type: 'success'
         }).then(function(){
             setTimeout(function(){
                 location.href="../controladores/cont_desconectar.php";
-            },5000);
+            },3000);
         });
     },function(){
         swal({
