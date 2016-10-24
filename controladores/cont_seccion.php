@@ -153,16 +153,29 @@ if($operacion=='Consultar'){
 }
 
 if($operacion=='Asignar_Notas'){
-  $con=0;
-  if(isset($_POST['msd']) && isset($_POST['estudiante']) && isset($_POST['lapso']) && isset($_POST['notas'])){
-    for($i=0;$i<count($_POST['msd']);$i++){
-      $seccion->Eliminar_Notas($_POST['msd'][$i],$_POST['estudiante'][$i],$_POST['lapso'][$i]);
-      if($seccion->Asignar_Notas($_POST['msd'][$i],$_POST['estudiante'][$i],$_POST['lapso'][$i],$_POST['notas'][$i]))
-        $con++;
-    }
-    $rest=count($_POST['msd'])-$con;
+  $seccion->Transaccion("iniciando");
+  if($seccion->Eliminar_Notas($_POST['codigo_msd'],$_POST['codigo_lapso']))
+    if($seccion->Asignar_Notas($_POST['estudiantes'],$_POST['codigos_plan_evaluaciones'],$_POST['notas']))
+      $confirmacion = 1;
+    else
+      $confirmacion = 0;
+  else
+    $confirmacion = 0;
+  if($confirmacion==1){
+    $seccion->Transaccion("finalizado");
+    $_SESSION['datos']['mensaje']="Las notas han sido asignadas con éxito";
+    header("Location: ../vistas/?asignar_notas");
   }
-  $_SESSION['datos']['mensaje']="Cantidad de Estudiantes Seleccionados: ".count($_POST['msd']).", Cantidad Calificados: ".$con.", Cantidad Restantes: ".$rest;
-  header("Location: ../vistas/?asignar_notas");
+  else{
+    $seccion->Transaccion("cancelado");
+    $_SESSION['datos']['mensaje']="Se presentó un error al asignar las notas.<br><b>Error: ".utf8_encode($seccion->error())."</b>";
+    header("Location: ../vistas/?asignar_notas");
+  }
 }
+
+if($operacion=="BuscarDatosNotas"){
+  echo $seccion->BuscarDatosNotas($_POST['codigo_msd'],$_POST['codigo_lapso']);
+  unset($seccion);
+} 
+
 ?>

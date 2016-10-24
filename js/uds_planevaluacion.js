@@ -27,6 +27,8 @@ function validar_formulario(param){
 	valor=document.getElementById('seccion').value;
 	valor2=document.getElementById('codigo_msd').value;
 	valor3=document.getElementById('codigo_lapso').value;
+	descripcion=document.getElementsByName('descripciones[]');
+	porcentaje=document.getElementsByName('porcentajes[]');
 	if(devuelve_boton(param)=="Registrar" || devuelve_boton(param)=="Modificar"){
 		if(valor.replace(/^\s+|\s+$/gi,"").length==0){ //para no permitir que se queda en blanco
 			alert('Seleccione una sección')
@@ -35,6 +37,22 @@ function validar_formulario(param){
 		else if(valor3.replace(/^\s+|\s+$/gi,"").length==0){
 			alert('Seleccione un lapso')
 			permitido=false;
+		}
+		else if(descripcion && porcentaje){
+			arregloD = new Array();
+			var ptotal = 0;
+			for(i=0;i<descripcion.length;i++){
+				arregloD.push($('#descripcion_'+i).val());
+				ptotal+=parseFloat($('#porcentaje_'+i).val());
+			}
+			if(ptotal > 100){
+				alert("Error","info","<font style='color:red;'>¡El porcentaje total debe ser menor a 100!<br>Total porcentaje enviado: "+ptotal+"</font>");
+				permitido = false;
+			}
+			if(contarRepetidos(arregloD)>0){
+				alert('¡La descripción no se puede repetir!');
+				permitido = false;
+			}
 		}
 	}
 		
@@ -50,5 +68,24 @@ function validar_formulario(param){
 
 	document.getElementById("operacion").value=devuelve_boton(param);
 	if(permitido==true)
-	document.getElementById("form").submit();
+		document.getElementById("form").submit();
+}
+
+function contarRepetidos(arreglo){
+    var arreglo2 = arreglo;
+    var con=0;
+    for (var m=0; m<arreglo2.length; m++)
+    {
+        for (var n=0; n<arreglo2.length; n++)
+        {
+            if(n!=m)
+            {
+                if(arreglo2[m]==arreglo2[n])
+                {
+                	con++;
+                }
+            }
+        }
+    }
+    return con;
 }

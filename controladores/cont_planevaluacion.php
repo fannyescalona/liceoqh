@@ -17,6 +17,7 @@ $planevaluacion=new planevaluacion();
 if($operacion=='Registrar'){
   $planevaluacion->codigo_msd($codigo_msd);
   $planevaluacion->codigo_lapso($codigo_lapso);
+  $planevaluacion->Transaccion("iniciando");
   if(isset($_POST['descripciones']) && isset($_POST['porcentajes'])){
     if($planevaluacion->Registrar($_POST['descripciones'],$_POST['porcentajes']))
       $confirmacion=1;
@@ -26,9 +27,11 @@ if($operacion=='Registrar'){
   else
     $confirmacion=1;
 if($confirmacion==1){
+  $planevaluacion->Transaccion("finalizado");
   $_SESSION['datos']['mensaje']="El plan de evaluación ha sido registrado con éxito !";
   header("Location: ../vistas/?planevaluacion");
  }else{
+  $planevaluacion->Transaccion("cancelado");
   $_SESSION['datos']['mensaje']="Se presentó un error al registrar el plan de evaluación.<br><b>Error: ".utf8_encode($planevaluacion->error())."</b>";
   header("Location: ../vistas/?planevaluacion");
 }
@@ -37,6 +40,7 @@ if($confirmacion==1){
 if($operacion=='Modificar'){
   $planevaluacion->codigo_msd($codigo_msd);
   $planevaluacion->codigo_lapso($codigo_lapso);
+  $planevaluacion->Transaccion("iniciando");
   if(isset($_POST['codigo_plan_evaluaciones']) && isset($_POST['descripciones']) && isset($_POST['porcentajes'])){
     if($planevaluacion->Actualizar($_POST['oldcodigo_plan_evaluacion'],count($_POST['codigo_plan_evaluaciones']),$_POST['codigo_plan_evaluaciones'],$_POST['descripciones'],$_POST['porcentajes']))
       $confirmacion=1;
@@ -46,10 +50,13 @@ if($operacion=='Modificar'){
   else
     $confirmacion=1;
   if($confirmacion==1){
+    $planevaluacion->Transaccion("finalizado");
     $_SESSION['datos']['mensaje']="El plan de evaluación ha sido modificado con éxito !";
     header("Location: ../vistas/?planevaluacion");
   }else{
+    $planevaluacion->Transaccion("cancelado");
     $_SESSION['datos']['mensaje']="Se presentó un error al modificar el plan de evaluación.<br><b>Error: ".utf8_encode($planevaluacion->error())."</b>";
+    die();
     header("Location: ../vistas/?planevaluacion");
   }
 }

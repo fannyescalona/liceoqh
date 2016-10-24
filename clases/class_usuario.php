@@ -74,6 +74,7 @@ class Usuario{
 
 	public function Actualizar($user,$pold,$pnew,$rnew){
     	$con=0;
+    	$cpnew = count($pnew);
     	if(count($pold) == count($pnew)){
 	    	for($i=0;$i<count($pnew);$i++){
 				$sql1="UPDATE trespuesta_secreta SET pregunta = '".$pnew[$i]."',respuesta =  '".$rnew[$i]."' 
@@ -85,7 +86,6 @@ class Usuario{
 	    	}
     	}
     	else if(count($pold) < count($pnew)){
-    		$prest = count($pnew)-count($pold);
     		for($i=0;$i<count($pold);$i++){
 				$sql1="UPDATE trespuesta_secreta SET pregunta = '".$pnew[$i]."',respuesta =  '".$rnew[$i]."' 
 				WHERE nombre_usuario='$this->user_name' AND pregunta = '".$pold[$i]."'";
@@ -94,7 +94,7 @@ class Usuario{
 				else
 					$con--;
 	    	}
-	    	for ($j=$prest-1;$j < count($pnew);$j++) { 
+	    	for ($j=$con;$j < count($pnew);$j++) { 
 	    		$sql2="INSERT INTO trespuesta_secreta (nombre_usuario,pregunta,respuesta) 
 	    		VALUES ('$this->user_name','".$pnew[$j]."','".$rnew[$j]."');";
 	    		if($this->mysql->Ejecutar($sql2))
@@ -104,7 +104,6 @@ class Usuario{
 	    	}
     	}
     	else{
-    		$prest = count($pold)-count($pnew);
     		for($i=0;$i<count($pnew);$i++){
 				$sql1="UPDATE trespuesta_secreta SET pregunta = '".$pnew[$i]."',respuesta =  '".$rnew[$i]."' 
 				WHERE nombre_usuario='$this->user_name' AND pregunta = '".$pold[$i]."'";
@@ -113,15 +112,16 @@ class Usuario{
 				else
 					$con--;
 	    	}
-	    	for ($k=$prest-1;$k < count($pold);$k++) { 
+	    	for ($k=$con;$k < count($pold);$k++) { 
 	    		$sql2="DELETE FROM trespuesta_secreta WHERE nombre_usuario='$this->user_name' AND pregunta='".$pold[$k]."';";
 	    		if($this->mysql->Ejecutar($sql2))
 	    			$con++;
 	    		else
 	    			$con--;
 	    	}
+	    	$cpnew = count($pold);
     	}
-    	if($con==count($pnew))
+    	if($con==$cpnew)
     		return true;
     	else
     		return false;

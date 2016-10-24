@@ -98,7 +98,9 @@
               ORDER BY pe.codigo_plan_evaluacion ASC";
               $query = $mysql->Ejecutar($sql);
               $con=0;
+              $id_plan = "";
               while ($row = $mysql->Respuesta($query)){
+                $id_plan .= $row['codigo_plan_evaluacion']."_";
                 echo "<tr id='$con'>";
                 echo "<td><input type='hidden' name='codigo_plan_evaluaciones[]' id='codigo_plan_evaluacion_".$con."' value='".$row['codigo_plan_evaluacion']."' /><input type='text' onKeyUp='this.value=this.value.toUpperCase()' name='descripciones[]' id='descripcion_".$con."' title='Ingrese una descripción' placeholder='Ingrese una descripción' class='campoTexto' value='".$row['descripcion']."'/></td>";
                 echo "<td><input type='text' onKeyPress='return isNumberKey(event)' name='porcentajes[]' id='porcentaje_".$con."' title='Ingrese el porcentaje de la unidad' placeholder='Ingrese el porcentaje de la unidad' class='campoTexto' value='".$row['porcentaje']."'/></td>";
@@ -106,7 +108,8 @@
                 echo "</tr>";
                 $con++;
               }
-              echo "<input type='hidden' name='oldcodigo_plan_evaluacion' value='$con' />";
+              $id_plan=substr($id_plan,0,-1);
+              echo "<input type='hidden' name='oldcodigo_plan_evaluacion' value='$id_plan' />";
             ?>
           </table>
           <strong class="obligatorio">Los campos resaltados en rojo son obligatorios</strong>

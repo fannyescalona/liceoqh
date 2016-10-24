@@ -145,31 +145,29 @@
 	}
    }
    
-  public function Actualizar($cant_pe_old,$cant_pe_new,$codigo_plan_evaluacion,$descripcion,$porcentaje){
+  public function Actualizar($pe_old,$cant_pe_new,$codigo_plan_evaluacion,$descripcion,$porcentaje){
     $con=0;
-    if($cant_pe_old == $cant_pe_new){
+    $pe_old = explode("_",$pe_old);
+    if(count($pe_old) == $cant_pe_new){
       for($i=0;$i<$cant_pe_new;$i++){
-      $sql1="UPDATE tplan_evaluacion SET codigo_msd = '$this->codigo_msd',codigo_lapso='$this->codigo_lapso',descripcion = '".$descripcion[$i]."',procentaje= '".$procentaje[$i]."' 
-      WHERE codigo_plan_evaluacion='".$codigo_plan_evaluacion[$i]."'";
+      $sql1="UPDATE tplan_evaluacion SET codigo_msd = '$this->codigo_msd',codigo_lapso='$this->codigo_lapso',descripcion = '".$descripcion[$i]."',porcentaje= '".$porcentaje[$i]."' WHERE codigo_plan_evaluacion='".$pe_old[$i]."'";
       if($this->mysql->Ejecutar($sql1)!=null)
         $con++;
       else
         $con--;
       }
     }
-    else if($cant_pe_old < $cant_pe_new){
-      $prest = $cant_pe_new-$cant_pe_old;
-      for($i=0;$i<$cant_pe_old;$i++){
-      $sql1="UPDATE trespuesta_secreta SET pregunta = '".$pnew[$i]."',respuesta =  '".$rnew[$i]."' 
-      WHERE nombre_usuario='$this->user_name' AND pregunta = '".$pold[$i]."'";
+    else if(count($pe_old) < $cant_pe_new){
+      for($i=0;$i<count($pe_old);$i++){
+      $sql1="UPDATE tplan_evaluacion SET codigo_msd = '$this->codigo_msd',codigo_lapso='$this->codigo_lapso',descripcion = '".$descripcion[$i]."',porcentaje= '".$porcentaje[$i]."' WHERE codigo_plan_evaluacion='".$pe_old[$i]."'";
       if($this->mysql->Ejecutar($sql1)!=null)
         $con++;
       else
         $con--;
       }
-      for ($j=$prest-1;$j < $cant_pe_new;$j++) { 
-        $sql2="INSERT INTO trespuesta_secreta (nombre_usuario,pregunta,respuesta) 
-        VALUES ('$this->user_name','".$pnew[$j]."','".$rnew[$j]."');";
+      for ($j=$con;$j < $cant_pe_new;$j++) { 
+        $sql2="INSERT INTO tplan_evaluacion (codigo_msd,codigo_lapso,descripcion,porcentaje) 
+        VALUES ('$this->codigo_msd','$this->codigo_lapso','".$descripcion[$j]."','".$porcentaje[$j]."');";
         if($this->mysql->Ejecutar($sql2))
           $con++;
         else
@@ -177,22 +175,22 @@
       }
     }
     else{
-      $prest = $cant_pe_old-$cant_pe_new;
+      $prest = count($pe_old)-$cant_pe_new;
       for($i=0;$i<$cant_pe_new;$i++){
-      $sql1="UPDATE trespuesta_secreta SET pregunta = '".$pnew[$i]."',respuesta =  '".$rnew[$i]."' 
-      WHERE nombre_usuario='$this->user_name' AND pregunta = '".$pold[$i]."'";
+      $sql1="UPDATE tplan_evaluacion SET codigo_msd = '$this->codigo_msd',codigo_lapso='$this->codigo_lapso',descripcion = '".$descripcion[$i]."',porcentaje= '".$porcentaje[$i]."' WHERE codigo_plan_evaluacion='".$pe_old[$i]."'";
       if($this->mysql->Ejecutar($sql1)!=null)
         $con++;
       else
         $con--;
       }
-      for ($k=$prest-1;$k < $cant_pe_old;$k++) { 
-        $sql2="DELETE FROM trespuesta_secreta WHERE nombre_usuario='$this->user_name' AND pregunta='".$pold[$k]."';";
+      for ($k=$con;$k < count($pe_old);$k++) { 
+        $sql2="DELETE FROM tplan_evaluacion WHERE codigo_plan_evaluacion='".$pe_old[$k]."';";
         if($this->mysql->Ejecutar($sql2))
           $con++;
         else
           $con--;
       }
+      $cant_pe_new = count($pe_old);
     }
     if($con==$cant_pe_new)
       return true;

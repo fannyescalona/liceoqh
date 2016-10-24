@@ -141,7 +141,7 @@
 	    else{
 	      $this->error($this->mysql->Error());
 	      return false;
-	    } 
+	    }
     }
 
    public function Registrar(){
@@ -227,8 +227,8 @@
     } 
    }
 
-  public function Eliminar_Notas($msd,$estudiante,$lapso){
-    $sql="DELETE FROM tcontrol_notas WHERE codigo_msd=$msd AND cedula_estudiante='$estudiante' AND codigo_lapso=$lapso;";
+  public function Eliminar_Notas($codigo_msd,$codigo_lapso){
+    $sql="DELETE FROM tasignacion_nota WHERE codigo_plan_evaluacion IN (SELECT codigo_plan_evaluacion FROM tplan_evaluacion WHERE codigo_msd = $codigo_msd AND codigo_lapso = $codigo_lapso)";
     if($this->mysql->Ejecutar($sql)!=null)
       return true;
     else{
@@ -237,14 +237,44 @@
     } 
   }
 
-  public function Asignar_Notas($msd,$estudiante,$lapso,$nota){
-    $sql="INSERT INTO tcontrol_notas (codigo_msd,cedula_estudiante,codigo_lapso,notafinal) VALUES ($msd,'$estudiante',$lapso,$nota);";
+  public function Asignar_Notas($estudiante,$plan_evaluacion,$nota){
+    $sql="INSERT INTO tasignacion_nota(codigo_plan_evaluacion,cedula_estudiante,notaobtenida) VALUES ";
+    for($i=0;$i<count($estudiante);$i++){
+      $sql.="($plan_evaluacion[$i],'$estudiante[$i]','$nota[$i]'),";
+    }
+    $sql=substr($sql,0,-1);
+    $sql=$sql.";";
     if($this->mysql->Ejecutar($sql)!=null)
       return true;
     else{
       $this->error($this->mysql->Error());
       return false;
-    } 
+    }
+  }
+
+  public function BuscarDatosNotas($codigo_msd,$codigo_lapso){
+    $sql="SELECT DISTINCT pe.codigo_plan_evaluacion,COALESCE(an.cedula_estudiante,pi.cedula_estudiante) AS cedula_estudiante, 
+    CONCAT(pi.cedula_estudiante,' ',p.nombres,' ',p.apellidos) AS estudiante,pe.descripcion AS unidad_evaluada,
+    COALESCE(an.notaobtenida,0) AS notaobtenida 
+    FROM tplan_evaluacion pe 
+    INNER JOIN tmateria_seccion_docente msd ON pe.codigo_msd = pe.codigo_msd 
+    INNER JOIN tproceso_inscripcion pi ON msd.seccion = pi.seccion 
+    INNER JOIN tpersona p ON pi.cedula_estudiante = p.cedula 
+    LEFT JOIN tasignacion_nota an ON pe.codigo_plan_evaluacion = an.codigo_plan_evaluacion AND pi.cedula_estudiante = an.cedula_estudiante
+    WHERE pe.codigo_msd = $codigo_msd AND pe.codigo_lapso = $codigo_lapso 
+    ORDER BY COALESCE(an.cedula_estudiante,pi.cedula_estudiante),pe.descripcion ASC";
+    $query = $this->mysql->Ejecutar($sql);
+    while($Obj=$this->mysql->Respuesta_assoc($query)){
+      $rows[]=array_map("html_entity_decode",$Obj);
+    }
+    if(!empty($rows)){
+      $json = json_encode($rows);
+    }
+    else{
+      $rows[] = array("msj" => "Error al Buscar Registros ");
+      $json = json_encode($rows);
+    }
+    return $json;
   }
 }
 ?>
