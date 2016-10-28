@@ -275,11 +275,9 @@ function Limpiar2(){
 	if(document.getElementsByTagName("select"))
           var e3=document.getElementsByTagName("select");
 
-     if(document.getElementsByTagName("select")){
-      for(z=0;z<e3.length;z++){
-        e3[z].options[0].selected=true;
-		 }
-		}
+    if(document.getElementsByTagName("select")){
+        $("select option[value=''],select option[value='null'],select option[value='0']").attr("selected",true);
+    }
     
      if(document.getElementsByTagName("textarea")){
       for(z=0;z<e1.length;z++){
@@ -308,7 +306,8 @@ function Limpiar2(){
 		   }
 		 }
 		 }
-    document.getElementById('estatus_registro').innerHTML='';
+    if(document.getElementById('estatus_registro'))
+        document.getElementById('estatus_registro').innerHTML='';
 }
 //Función para escribir solo números.
 function isNumberKey(evt)

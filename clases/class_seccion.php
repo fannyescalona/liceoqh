@@ -238,12 +238,38 @@
   }
 
   public function Asignar_Notas($estudiante,$plan_evaluacion,$nota){
+    $codigo_plan_evaluacion = null;
+    $notaobtenida = null;
     $sql="INSERT INTO tasignacion_nota(codigo_plan_evaluacion,cedula_estudiante,notaobtenida) VALUES ";
-    for($i=0;$i<count($estudiante);$i++){
-      $sql.="($plan_evaluacion[$i],'$estudiante[$i]','$nota[$i]'),";
+    foreach ($estudiante as $keyE => $valueE) {
+      for($i=0;$i<count($plan_evaluacion[$valueE]);$i++){
+        $codigo_plan_evaluacion = $plan_evaluacion[$valueE][$i];
+        $notaobtenida = $nota[$valueE][$i];
+        $sql.="($codigo_plan_evaluacion,'$valueE',$notaobtenida),";
+      }
     }
     $sql=substr($sql,0,-1);
     $sql=$sql.";";
+    if($this->mysql->Ejecutar($sql)!=null)
+      return true;
+    else{
+      $this->error($this->mysql->Error());
+      return false;
+    }
+  }
+
+  public function Eliminar_NotaFinal($msd,$estudiante,$lapso){
+    $sql="DELETE FROM tcontrol_notas WHERE codigo_msd=$msd AND cedula_estudiante='$estudiante' AND codigo_lapso=$lapso;";
+    if($this->mysql->Ejecutar($sql)!=null)
+      return true;
+    else{
+      $this->error($this->mysql->Error());
+      return false;
+    }
+  }
+
+  public function Aplicar_NotaFinal($msd,$estudiante,$lapso,$nota,$aprobado){
+    $sql="INSERT INTO tcontrol_notas (codigo_msd,cedula_estudiante,codigo_lapso,notafinal,aprobado) VALUES ($msd,'$estudiante',$lapso,$nota,'$aprobado');";
     if($this->mysql->Ejecutar($sql)!=null)
       return true;
     else{

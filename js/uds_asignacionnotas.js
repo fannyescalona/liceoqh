@@ -45,33 +45,40 @@ function init(){
 		        	$('#tablaAsignacionNotas').append("<tbody>");
 		        	var cedula_estudiante = "N/A";
 		        	var total = 0;
+		        	var contador = 0;
 		        	for(var j=0; j<resp.length;j++){
-		        		total += resp[j].notaobtenida;
 		        		//	Cuando es la misma fila simplemente escribo en las columnas correspondientes la nota
 		        		if(cedula_estudiante == resp[j].cedula_estudiante){
-		        			$('#tr_'+cedula_estudiante).append("<td><input type='hidden' name='codigos_plan_evaluaciones[]' value='"+resp[j].codigo_plan_evaluacion+"' /><input style='width: 80px;' type='number' name='notas[]' min='"+$('#nota_minima').val()+"' max='"+$('#nota_maxima').val()+"' value='"+resp[j].notaobtenida+"'/></td>");
+			        		contador++;
+			        		total += parseFloat(resp[j].notaobtenida); 
+		        			$('#tr_'+cedula_estudiante).append("<td><input type='hidden' name='codigos_plan_evaluaciones["+cedula_estudiante+"][]' value='"+resp[j].codigo_plan_evaluacion+"' /><input style='width: 80px;' type='number' name='notas["+cedula_estudiante+"][]' min='"+$('#nota_minima').val()+"' max='"+$('#nota_maxima').val()+"' value='"+resp[j].notaobtenida+"'/></td>");
 		        		}
-		        		//	Cuando cambia la fila cierro la anterior y abro una nueva
+		        		//	Cuando cambia la fila, cierro la anterior y abro una nueva
 		        		if(cedula_estudiante != 'N/A' && cedula_estudiante != resp[j].cedula_estudiante){
-		        			total = total / j;
+		        			total = total / contador;
 		        			$('#tr_'+cedula_estudiante).append("<td><label style='width: 100px;' align='right' class='control-label'>"+total+"</label></td>");
 		        			$('#tablaAsignacionNotas > tbody').append("</tr>");
 		        			total = 0;
+		        			contador = 0;
+			        		contador++;
+			        		total += parseFloat(resp[j].notaobtenida); 
 		        			cedula_estudiante = resp[j].cedula_estudiante;
 		        			$('#tablaAsignacionNotas > tbody').append("<tr id='tr_"+cedula_estudiante+"'>");
 		        			$('#tr_'+cedula_estudiante).append("<td><label style='width: 200px;' class='control-label'><input type='hidden' name='estudiantes[]' value='"+cedula_estudiante+"'>"+resp[j].estudiante+"</label></td>");
-		        			$('#tr_'+cedula_estudiante).append("<td><input type='hidden' name='codigos_plan_evaluaciones[]' value='"+resp[j].codigo_plan_evaluacion+"' /><input style='width: 80px;' type='number' name='notas[]' min='"+$('#nota_minima').val()+"' max='"+$('#nota_maxima').val()+"' value='"+resp[j].notaobtenida+"'/></td>");
+		        			$('#tr_'+cedula_estudiante).append("<td><input type='hidden' name='codigos_plan_evaluaciones["+cedula_estudiante+"][]' value='"+resp[j].codigo_plan_evaluacion+"' /><input style='width: 80px;' type='number' name='notas["+cedula_estudiante+"][]' min='"+$('#nota_minima').val()+"' max='"+$('#nota_maxima').val()+"' value='"+resp[j].notaobtenida+"'/></td>");
 		        		}
-		        		//	Cuando es la prima vez que entra en el ciclo, creo la fila y escribo los datos del estudiante.
+		        		//	Cuando es la primera vez que entra en el ciclo, creo la fila y escribo los datos del estudiante.
 		        		if(cedula_estudiante == 'N/A' && cedula_estudiante != resp[j].cedula_estudiante){
 		        			cedula_estudiante = resp[j].cedula_estudiante;
+			        		contador++;
+			        		total += parseFloat(resp[j].notaobtenida); 
 		        			$('#tablaAsignacionNotas > tbody').append("<tr id='tr_"+cedula_estudiante+"'>");
 		        			$('#tr_'+cedula_estudiante).append("<td><label style='width: 200px;' class='control-label'><input type='hidden' name='estudiantes[]' value='"+cedula_estudiante+"'>"+resp[j].estudiante+"</label></td>");
-		        			$('#tr_'+cedula_estudiante).append("<td><input type='hidden' name='codigos_plan_evaluaciones[]' value='"+resp[j].codigo_plan_evaluacion+"' /><input style='width: 80px;' type='number' name='notas[]' min='"+$('#nota_minima').val()+"' max='"+$('#nota_maxima').val()+"' value='"+resp[j].notaobtenida+"'/></td>");
+		        			$('#tr_'+cedula_estudiante).append("<td><input type='hidden' name='codigos_plan_evaluaciones["+cedula_estudiante+"][]' value='"+resp[j].codigo_plan_evaluacion+"' /><input style='width: 80px;' type='number' name='notas["+cedula_estudiante+"][]' min='"+$('#nota_minima').val()+"' max='"+$('#nota_maxima').val()+"' value='"+resp[j].notaobtenida+"'/></td>");
 		        		}
 		        	}
 		        	//	Cierro la ultima fila creada
-	    			total = total / j;
+	    			total = total / contador;
 	    			$('#tr_'+cedula_estudiante).append("<td><label style='width: 100px;' align='right' class='control-label'>"+total+"</label></td>");
 		        	$('#tablaAsignacionNotas > tbody').append("</tr>");
 		        	$('#tablaAsignacionNotas').append("</tbody>");

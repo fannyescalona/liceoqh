@@ -173,6 +173,20 @@ if($operacion=='Asignar_Notas'){
   }
 }
 
+if($operacion=='Aplicar_Notas'){
+  $con=0;
+  if(isset($_POST['msd']) && isset($_POST['estudiante']) && isset($_POST['lapso']) && isset($_POST['notas']) && isset($_POST['aprobados'])){
+    for($i=0;$i<count($_POST['msd']);$i++){
+      $seccion->Eliminar_NotaFinal($_POST['msd'][$i],$_POST['estudiante'][$i],$_POST['lapso'][$i]);
+      if($seccion->Aplicar_NotaFinal($_POST['msd'][$i],$_POST['estudiante'][$i],$_POST['lapso'][$i],$_POST['notas'][$i],$_POST['aprobados'][$i]))
+        $con++;
+    }
+  }
+  $rest=count($_POST['msd'])-$con;
+  $_SESSION['datos']['mensaje']="Cantidad de Estudiantes Seleccionados: ".count($_POST['msd']).", Cantidad Calificados: ".$con.", Cantidad Restantes: ".$rest;
+  header("Location: ../vistas/?aplicar_notas");
+}
+
 if($operacion=="BuscarDatosNotas"){
   echo $seccion->BuscarDatosNotas($_POST['codigo_msd'],$_POST['codigo_lapso']);
   unset($seccion);

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tiempo de generación: 03-10-2016 a las 03:20:52
+-- Tiempo de generación: 28-10-2016 a las 02:22:49
 -- Versión del servidor: 5.5.24-log
 -- Versión de PHP: 5.4.3
 
@@ -305,7 +305,67 @@ CREATE TABLE IF NOT EXISTS `tasignacion_nota` (
   PRIMARY KEY (`codigo_asignacionnotas`),
   KEY `fk_tasignacionnota_pe` (`codigo_plan_evaluacion`),
   KEY `fk_tasignacionnota_estudiante` (`cedula_estudiante`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=61 ;
+
+--
+-- Volcado de datos para la tabla `tasignacion_nota`
+--
+
+INSERT INTO `tasignacion_nota` (`codigo_asignacionnotas`, `codigo_plan_evaluacion`, `cedula_estudiante`, `notaobtenida`, `fecha_modificacion`) VALUES
+(7, 1, 'V12312312', 15, '2016-10-28 00:20:00'),
+(8, 2, 'V12312312', 12, '2016-10-28 00:20:00'),
+(9, 3, 'V12312312', 16, '2016-10-28 00:20:00'),
+(10, 26, 'V12312312', 14, '2016-10-28 00:20:00'),
+(11, 1, 'V24935226', 5, '2016-10-28 00:20:00'),
+(12, 2, 'V24935226', 15, '2016-10-28 00:20:00'),
+(13, 3, 'V24935226', 17, '2016-10-28 00:20:00'),
+(14, 26, 'V24935226', 12, '2016-10-28 00:20:00'),
+(15, 1, 'V252132343', 16, '2016-10-28 00:20:00'),
+(16, 2, 'V252132343', 11, '2016-10-28 00:20:00'),
+(17, 3, 'V252132343', 16, '2016-10-28 00:20:00'),
+(18, 26, 'V252132343', 19, '2016-10-28 00:20:00'),
+(19, 1, 'V25347013', 20, '2016-10-28 00:20:00'),
+(20, 2, 'V25347013', 20, '2016-10-28 00:20:00'),
+(21, 3, 'V25347013', 18, '2016-10-28 00:20:00'),
+(22, 26, 'V25347013', 14, '2016-10-28 00:20:00'),
+(23, 1, 'V30363014', 12, '2016-10-28 00:20:00'),
+(24, 2, 'V30363014', 9, '2016-10-28 00:20:00'),
+(25, 3, 'V30363014', 8, '2016-10-28 00:20:00'),
+(26, 26, 'V30363014', 20, '2016-10-28 00:20:00'),
+(27, 1, 'V30484143', 11, '2016-10-28 00:20:00'),
+(28, 2, 'V30484143', 11, '2016-10-28 00:20:00'),
+(29, 3, 'V30484143', 8, '2016-10-28 00:20:00'),
+(30, 26, 'V30484143', 18, '2016-10-28 00:20:00'),
+(31, 27, 'V12312312', 10, '2016-10-28 00:33:41'),
+(32, 28, 'V12312312', 14, '2016-10-28 00:33:41'),
+(33, 29, 'V12312312', 15, '2016-10-28 00:33:41'),
+(34, 30, 'V12312312', 11, '2016-10-28 00:33:41'),
+(35, 31, 'V12312312', 8, '2016-10-28 00:33:41'),
+(36, 27, 'V24935226', 12, '2016-10-28 00:33:41'),
+(37, 28, 'V24935226', 8, '2016-10-28 00:33:41'),
+(38, 29, 'V24935226', 14, '2016-10-28 00:33:41'),
+(39, 30, 'V24935226', 19, '2016-10-28 00:33:41'),
+(40, 31, 'V24935226', 17, '2016-10-28 00:33:41'),
+(41, 27, 'V252132343', 20, '2016-10-28 00:33:41'),
+(42, 28, 'V252132343', 14, '2016-10-28 00:33:41'),
+(43, 29, 'V252132343', 11, '2016-10-28 00:33:41'),
+(44, 30, 'V252132343', 8, '2016-10-28 00:33:41'),
+(45, 31, 'V252132343', 9, '2016-10-28 00:33:41'),
+(46, 27, 'V25347013', 18, '2016-10-28 00:33:41'),
+(47, 28, 'V25347013', 16, '2016-10-28 00:33:41'),
+(48, 29, 'V25347013', 14, '2016-10-28 00:33:41'),
+(49, 30, 'V25347013', 18, '2016-10-28 00:33:41'),
+(50, 31, 'V25347013', 14, '2016-10-28 00:33:41'),
+(51, 27, 'V30363014', 12, '2016-10-28 00:33:41'),
+(52, 28, 'V30363014', 11, '2016-10-28 00:33:41'),
+(53, 29, 'V30363014', 14, '2016-10-28 00:33:41'),
+(54, 30, 'V30363014', 15, '2016-10-28 00:33:41'),
+(55, 31, 'V30363014', 17, '2016-10-28 00:33:41'),
+(56, 27, 'V30484143', 13, '2016-10-28 00:33:41'),
+(57, 28, 'V30484143', 8, '2016-10-28 00:33:41'),
+(58, 29, 'V30484143', 14, '2016-10-28 00:33:41'),
+(59, 30, 'V30484143', 18, '2016-10-28 00:33:41'),
+(60, 31, 'V30484143', 13, '2016-10-28 00:33:41');
 
 -- --------------------------------------------------------
 
@@ -324,7 +384,7 @@ CREATE TABLE IF NOT EXISTS `tauditoria` (
   `query` text COLLATE utf8_spanish_ci NOT NULL,
   `fecha` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=3524 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=3732 ;
 
 --
 -- Volcado de datos para la tabla `tauditoria`
@@ -3852,7 +3912,168 @@ INSERT INTO `tauditoria` (`id`, `ip`, `so`, `navigador`, `usuario_base_de_datos`
 (3520, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'insert into tservicio (descripcion,url,orden,codigo_modulo) values (''PLAN DE EVALUACIÓN'',''PLANEVALUACION'',''0'',''4'');', '2016-10-02 19:03:22'),
 (3521, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'update tperfil set descripcion=''ADMINISTRADOR'',codigo_configuracion=1 where (codigo_perfil=''1'');', '2016-10-02 19:03:48'),
 (3522, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'DELETE FROM tservicio_usuario_opcion where (codigo_perfil=''1'');', '2016-10-02 19:03:48'),
-(3523, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',1,1),(''1'',1,2),(''1'',1,3),(''1'',1,4),(''1'',1,5),(''1'',1,6),(''1'',1,7),(''1'',2,1),(''1'',2,2),(''1'',2,3),(''1'',2,4),(''1'',2,5),(''1'',2,6),(''1'',2,7),(''1'',3,1),(''1'',3,2),(''1'',3,3),(''1'',3,4),(''1'',3,5),(''1'',3,6),(''1'',3,7),(''1'',4,1),(''1'',4,2),(''1'',4,3),(''1'',4,4),(''1'',4,5),(''1'',4,6),(''1'',4,7),(''1'',5,1),(''1'',5,2),(''1'',5,3),(''1'',5,4),(''1'',5,5),(''1'',5,6),(''1'',5,7),(''1'',6,1),(''1'',6,2),(''1'',6,3),(''1'',6,4),(''1'',6,5),(''1'',6,6),(''1'',6,7),(''1'',7,1),(''1'',7,2),(''1'',7,3),(''1'',7,4),(''1'',7,5),(''1'',7,6),(''1'',7,7),(''1'',8,1),(''1'',8,2),(''1'',8,3),(''1'',8,4),(''1'',8,5),(''1'',8,6),(''1'',8,7),(''1'',9,1),(''1'',9,2),(''1'',9,3),(''1'',9,4),(''1'',9,5),(''1'',9,6),(''1'',9,7),(''1'',10,1),(''1'',10,2),(''1'',10,3),(''1'',10,4),(''1'',10,5),(''1'',10,6),(''1'',10,7),(''1'',11,1),(''1'',11,2),(''1'',11,3),(''1'',11,4),(''1'',11,5),(''1'',11,6),(''1'',11,7),(''1'',12,1),(''1'',12,2),(''1'',12,3),(''1'',12,4),(''1'',12,5),(''1'',12,6),(''1'',12,7),(''1'',13,1),(''1'',13,2),(''1'',13,3),(''1'',13,4),(''1'',13,5),(''1'',13,6),(''1'',13,7),(''1'',14,1),(''1'',14,2),(''1'',14,3),(''1'',14,4),(''1'',14,5),(''1'',14,6),(''1'',14,7),(''1'',15,1),(''1'',15,2),(''1'',15,3),(''1'',15,4),(''1'',15,5),(''1'',15,6),(''1'',15,7),(''1'',39,1),(''1'',39,2),(''1'',39,3),(''1'',39,4),(''1'',39,5),(''1'',39,6),(''1'',39,7),(''1'',16,1),(''1'',16,2),(''1'',16,3),(''1'',16,4),(''1'',16,5),(''1'',16,6),(''1'',16,7),(''1'',44,1),(''1'',44,2),(''1'',44,3),(''1'',44,4),(''1'',44,5),(''1'',44,6),(''1'',44,7),(''1'',19,1),(''1'',19,2),(''1'',19,3),(''1'',19,4),(''1'',19,5),(''1'',19,6),(''1'',19,7),(''1'',20,1),(''1'',20,2),(''1'',20,3),(''1'',20,4),(''1'',20,5),(''1'',20,6),(''1'',20,7),(''1'',21,1),(''1'',21,2),(''1'',21,3),(''1'',21,4),(''1'',21,5),(''1'',21,6),(''1'',21,7),(''1'',22,1),(''1'',22,2),(''1'',22,3),(''1'',22,4),(''1'',22,5),(''1'',22,6),(''1'',22,7),(''1'',23,1),(''1'',23,2),(''1'',23,3),(''1'',23,4),(''1'',23,5),(''1'',23,6),(''1'',23,7),(''1'',24,1),(''1'',24,2),(''1'',24,3),(''1'',24,4),(''1'',24,5),(''1'',24,6),(''1'',24,7),(''1'',25,1),(''1'',25,2),(''1'',25,3),(''1'',25,4),(''1'',25,5),(''1'',25,6),(''1'',25,7),(''1'',26,1),(''1'',26,2),(''1'',26,3),(''1'',26,4),(''1'',26,5),(''1'',26,6),(''1'',26,7),(''1'',27,1),(''1'',27,2),(''1'',27,3),(''1'',27,4),(''1'',27,5),(''1'',27,6),(''1'',27,7),(''1'',36,1),(''1'',36,2),(''1'',36,3),(''1'',36,4),(''1'',36,5),(''1'',36,6),(''1'',36,7),(''1'',43,1),(''1'',43,2),(''1'',43,3),(''1'',43,4),(''1'',43,5),(''1'',43,6),(''1'',43,7),(''1'',28,1),(''1'',28,2),(''1'',28,3),(''1'',28,4),(''1'',28,5),(''1'',28,6),(''1'',28,7),(''1'',29,1),(''1'',29,2),(''1'',29,3),(''1'',29,4),(''1'',29,5),(''1'',29,6),(''1'',29,7),(''1'',30,1),(''1'',30,2),(''1'',30,3),(''1'',30,4),(''1'',30,5),(''1'',30,6),(''1'',30,7),(''1'',31,1),(''1'',31,2),(''1'',31,3),(''1'',31,4),(''1'',31,5),(''1'',31,6),(''1'',31,7),(''1'',32,1),(''1'',32,2),(''1'',32,3),(''1'',32,4),(''1'',32,5),(''1'',32,6),(''1'',32,7),(''1'',33,1),(''1'',33,2),(''1'',33,3),(''1'',33,4),(''1'',33,5),(''1'',33,6),(''1'',33,7),(''1'',34,1),(''1'',34,2),(''1'',34,3),(''1'',34,4),(''1'',34,5),(''1'',34,6),(''1'',34,7),(''1'',35,1),(''1'',35,2),(''1'',35,3),(''1'',35,4),(''1'',35,5),(''1'',35,6),(''1'',35,7),(''1'',37,1),(''1'',37,2),(''1'',37,3),(''1'',37,4),(''1'',37,5),(''1'',37,6),(''1'',37,7),(''1'',38,1),(''1'',38,2),(''1'',38,3),(''1'',38,4),(''1'',38,5),(''1'',38,6),(''1'',38,7),(''1'',42,1),(''1'',42,2),(''1'',42,3),(''1'',42,4),(''1'',42,5),(''1'',42,6),(''1'',42,7),(''1'',17,1),(''1'',17,2),(''1'',17,3),(''1'',17,4),(''1'',17,5),(''1'',17,6),(''1'',17,7),(''1'',18,1),(''1'',18,2),(''1'',18,3),(''1'',18,4),(''1'',18,5),(''1'',18,6),(''1'',18,7),(''1'',40,1),(''1'',40,2),(''1'',40,3),(''1'',40,4),(''1'',40,5),(''1'',40,6),(''1'',40,7),(''1'',41,1),(''1'',41,2),(''1'',41,3),(''1'',41,4),(''1'',41,5),(''1'',41,6),(''1'',41,7);', '2016-10-02 19:03:48');
+(3523, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',1,1),(''1'',1,2),(''1'',1,3),(''1'',1,4),(''1'',1,5),(''1'',1,6),(''1'',1,7),(''1'',2,1),(''1'',2,2),(''1'',2,3),(''1'',2,4),(''1'',2,5),(''1'',2,6),(''1'',2,7),(''1'',3,1),(''1'',3,2),(''1'',3,3),(''1'',3,4),(''1'',3,5),(''1'',3,6),(''1'',3,7),(''1'',4,1),(''1'',4,2),(''1'',4,3),(''1'',4,4),(''1'',4,5),(''1'',4,6),(''1'',4,7),(''1'',5,1),(''1'',5,2),(''1'',5,3),(''1'',5,4),(''1'',5,5),(''1'',5,6),(''1'',5,7),(''1'',6,1),(''1'',6,2),(''1'',6,3),(''1'',6,4),(''1'',6,5),(''1'',6,6),(''1'',6,7),(''1'',7,1),(''1'',7,2),(''1'',7,3),(''1'',7,4),(''1'',7,5),(''1'',7,6),(''1'',7,7),(''1'',8,1),(''1'',8,2),(''1'',8,3),(''1'',8,4),(''1'',8,5),(''1'',8,6),(''1'',8,7),(''1'',9,1),(''1'',9,2),(''1'',9,3),(''1'',9,4),(''1'',9,5),(''1'',9,6),(''1'',9,7),(''1'',10,1),(''1'',10,2),(''1'',10,3),(''1'',10,4),(''1'',10,5),(''1'',10,6),(''1'',10,7),(''1'',11,1),(''1'',11,2),(''1'',11,3),(''1'',11,4),(''1'',11,5),(''1'',11,6),(''1'',11,7),(''1'',12,1),(''1'',12,2),(''1'',12,3),(''1'',12,4),(''1'',12,5),(''1'',12,6),(''1'',12,7),(''1'',13,1),(''1'',13,2),(''1'',13,3),(''1'',13,4),(''1'',13,5),(''1'',13,6),(''1'',13,7),(''1'',14,1),(''1'',14,2),(''1'',14,3),(''1'',14,4),(''1'',14,5),(''1'',14,6),(''1'',14,7),(''1'',15,1),(''1'',15,2),(''1'',15,3),(''1'',15,4),(''1'',15,5),(''1'',15,6),(''1'',15,7),(''1'',39,1),(''1'',39,2),(''1'',39,3),(''1'',39,4),(''1'',39,5),(''1'',39,6),(''1'',39,7),(''1'',16,1),(''1'',16,2),(''1'',16,3),(''1'',16,4),(''1'',16,5),(''1'',16,6),(''1'',16,7),(''1'',44,1),(''1'',44,2),(''1'',44,3),(''1'',44,4),(''1'',44,5),(''1'',44,6),(''1'',44,7),(''1'',19,1),(''1'',19,2),(''1'',19,3),(''1'',19,4),(''1'',19,5),(''1'',19,6),(''1'',19,7),(''1'',20,1),(''1'',20,2),(''1'',20,3),(''1'',20,4),(''1'',20,5),(''1'',20,6),(''1'',20,7),(''1'',21,1),(''1'',21,2),(''1'',21,3),(''1'',21,4),(''1'',21,5),(''1'',21,6),(''1'',21,7),(''1'',22,1),(''1'',22,2),(''1'',22,3),(''1'',22,4),(''1'',22,5),(''1'',22,6),(''1'',22,7),(''1'',23,1),(''1'',23,2),(''1'',23,3),(''1'',23,4),(''1'',23,5),(''1'',23,6),(''1'',23,7),(''1'',24,1),(''1'',24,2),(''1'',24,3),(''1'',24,4),(''1'',24,5),(''1'',24,6),(''1'',24,7),(''1'',25,1),(''1'',25,2),(''1'',25,3),(''1'',25,4),(''1'',25,5),(''1'',25,6),(''1'',25,7),(''1'',26,1),(''1'',26,2),(''1'',26,3),(''1'',26,4),(''1'',26,5),(''1'',26,6),(''1'',26,7),(''1'',27,1),(''1'',27,2),(''1'',27,3),(''1'',27,4),(''1'',27,5),(''1'',27,6),(''1'',27,7),(''1'',36,1),(''1'',36,2),(''1'',36,3),(''1'',36,4),(''1'',36,5),(''1'',36,6),(''1'',36,7),(''1'',43,1),(''1'',43,2),(''1'',43,3),(''1'',43,4),(''1'',43,5),(''1'',43,6),(''1'',43,7),(''1'',28,1),(''1'',28,2),(''1'',28,3),(''1'',28,4),(''1'',28,5),(''1'',28,6),(''1'',28,7),(''1'',29,1),(''1'',29,2),(''1'',29,3),(''1'',29,4),(''1'',29,5),(''1'',29,6),(''1'',29,7),(''1'',30,1),(''1'',30,2),(''1'',30,3),(''1'',30,4),(''1'',30,5),(''1'',30,6),(''1'',30,7),(''1'',31,1),(''1'',31,2),(''1'',31,3),(''1'',31,4),(''1'',31,5),(''1'',31,6),(''1'',31,7),(''1'',32,1),(''1'',32,2),(''1'',32,3),(''1'',32,4),(''1'',32,5),(''1'',32,6),(''1'',32,7),(''1'',33,1),(''1'',33,2),(''1'',33,3),(''1'',33,4),(''1'',33,5),(''1'',33,6),(''1'',33,7),(''1'',34,1),(''1'',34,2),(''1'',34,3),(''1'',34,4),(''1'',34,5),(''1'',34,6),(''1'',34,7),(''1'',35,1),(''1'',35,2),(''1'',35,3),(''1'',35,4),(''1'',35,5),(''1'',35,6),(''1'',35,7),(''1'',37,1),(''1'',37,2),(''1'',37,3),(''1'',37,4),(''1'',37,5),(''1'',37,6),(''1'',37,7),(''1'',38,1),(''1'',38,2),(''1'',38,3),(''1'',38,4),(''1'',38,5),(''1'',38,6),(''1'',38,7),(''1'',42,1),(''1'',42,2),(''1'',42,3),(''1'',42,4),(''1'',42,5),(''1'',42,6),(''1'',42,7),(''1'',17,1),(''1'',17,2),(''1'',17,3),(''1'',17,4),(''1'',17,5),(''1'',17,6),(''1'',17,7),(''1'',18,1),(''1'',18,2),(''1'',18,3),(''1'',18,4),(''1'',18,5),(''1'',18,6),(''1'',18,7),(''1'',40,1),(''1'',40,2),(''1'',40,3),(''1'',40,4),(''1'',40,5),(''1'',40,6),(''1'',40,7),(''1'',41,1),(''1'',41,2),(''1'',41,3),(''1'',41,4),(''1'',41,5),(''1'',41,6),(''1'',41,7);', '2016-10-02 19:03:48'),
+(3524, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'update tusuario set intento_fallido=0 where (nombre_usuario=''V123456789'')', '2016-10-18 12:40:44'),
+(3525, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'update tusuario set sesion_abierta=(sesion_abierta+1),fecha_ultimasesion = CURDATE() where (nombre_usuario=''V123456789'')', '2016-10-18 12:40:44'),
+(3526, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'update tusuario set sesion_abierta=(CASE WHEN sesion_abierta = 0 THEN 0 ELSE sesion_abierta-1 END) where (nombre_usuario=''V123456789'')', '2016-10-18 12:41:23'),
+(3527, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'update tcontrasena set estado=0 where (nombre_usuario=''V121212121'')', '2016-10-18 12:44:14'),
+(3528, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'insert into tcontrasena (contrasena,nombre_usuario,estado) values (''2e5f402b1f0117f9f7217a3e8cbff136b1e304ad'',''V121212121'',1)', '2016-10-18 12:44:14'),
+(3529, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'update tusuario set intento_fallido=0 where (nombre_usuario=''V121212121'')', '2016-10-18 12:44:27'),
+(3530, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'update tusuario set sesion_abierta=(sesion_abierta+1),fecha_ultimasesion = CURDATE() where (nombre_usuario=''V121212121'')', '2016-10-18 12:44:27'),
+(3531, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'update tusuario set sesion_abierta=(CASE WHEN sesion_abierta = 0 THEN 0 ELSE sesion_abierta-1 END) where (nombre_usuario=''V121212121'')', '2016-10-18 12:45:01'),
+(3532, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'update tusuario set intento_fallido=0 where (nombre_usuario=''V123456789'')', '2016-10-18 12:45:53'),
+(3533, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'update tusuario set sesion_abierta=(sesion_abierta+1),fecha_ultimasesion = CURDATE() where (nombre_usuario=''V123456789'')', '2016-10-18 12:45:53'),
+(3534, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'update tperfil set descripcion=''DOCENTE'',codigo_configuracion=1 where (codigo_perfil=''2'');', '2016-10-18 12:46:23'),
+(3535, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'DELETE FROM tservicio_usuario_opcion where (codigo_perfil=''2'');', '2016-10-18 12:46:23'),
+(3536, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''2'',7,2),(''2'',7,5),(''2'',7,7),(''2'',16,NULL),(''2'',44,1),(''2'',44,2),(''2'',44,3),(''2'',44,4),(''2'',44,5),(''2'',44,6),(''2'',44,7),(''2'',21,NULL),(''2'',22,NULL),(''2'',23,NULL),(''2'',24,NULL),(''2'',36,5),(''2'',33,2),(''2'',34,2);', '2016-10-18 12:46:23'),
+(3537, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'update tusuario set sesion_abierta=(CASE WHEN sesion_abierta = 0 THEN 0 ELSE sesion_abierta-1 END) where (nombre_usuario=''V123456789'')', '2016-10-18 12:46:53'),
+(3538, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'update tusuario set intento_fallido=0 where (nombre_usuario=''V121212121'')', '2016-10-18 12:47:13'),
+(3539, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'update tusuario set sesion_abierta=(sesion_abierta+1),fecha_ultimasesion = CURDATE() where (nombre_usuario=''V121212121'')', '2016-10-18 12:47:14'),
+(3540, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'INSERT INTO tplan_evaluacion (codigo_msd,codigo_lapso,descripcion,porcentaje) VALUES (''14'',''1'',''UNIDAD I'',''25''),(''14'',''1'',''UNIDAD II'',''25''),(''14'',''1'',''UNIDAD III'',''25''),(''14'',''1'',''UNIDAD IV'',''25'');', '2016-10-18 12:48:23'),
+(3541, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'update tusuario set sesion_abierta=(CASE WHEN sesion_abierta = 0 THEN 0 ELSE sesion_abierta-1 END) where (nombre_usuario=''V121212121'')', '2016-10-18 13:21:04'),
+(3542, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'update tusuario set intento_fallido=0 where (nombre_usuario=''V123456789'')', '2016-10-23 20:22:09'),
+(3543, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'update tusuario set sesion_abierta=(sesion_abierta+1),fecha_ultimasesion = CURDATE() where (nombre_usuario=''V123456789'')', '2016-10-23 20:22:09'),
+(3544, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'update tusuario set sesion_abierta=(CASE WHEN sesion_abierta = 0 THEN 0 ELSE sesion_abierta-1 END) where (nombre_usuario=''V123456789'')', '2016-10-23 20:24:03'),
+(3545, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'update tusuario set intento_fallido=0 where (nombre_usuario=''V121212121'')', '2016-10-23 20:24:19'),
+(3546, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'update tusuario set sesion_abierta=(sesion_abierta+1),fecha_ultimasesion = CURDATE() where (nombre_usuario=''V121212121'')', '2016-10-23 20:24:19'),
+(3547, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'UPDATE tplan_evaluacion SET codigo_msd = ''14'',codigo_lapso=''1'',descripcion = ''UNIDAD I'',porcentaje= ''25.00'' WHERE codigo_plan_evaluacion=''1''', '2016-10-23 20:45:35'),
+(3548, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'UPDATE tplan_evaluacion SET codigo_msd = ''14'',codigo_lapso=''1'',descripcion = ''UNIDAD II'',porcentaje= ''25.00'' WHERE codigo_plan_evaluacion=''2''', '2016-10-23 20:45:35'),
+(3549, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'UPDATE tplan_evaluacion SET codigo_msd = ''14'',codigo_lapso=''1'',descripcion = ''UNIDAD III'',porcentaje= ''30'' WHERE codigo_plan_evaluacion=''3''', '2016-10-23 20:45:35'),
+(3550, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'UPDATE tplan_evaluacion SET codigo_msd = ''14'',codigo_lapso=''1'',descripcion = ''UNIDAD IV'',porcentaje= ''20'' WHERE codigo_plan_evaluacion=''4''', '2016-10-23 20:45:35'),
+(3551, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'update tusuario set intento_fallido=0 where (nombre_usuario=''V121212121'')', '2016-10-23 20:46:24'),
+(3552, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'update tusuario set sesion_abierta=(sesion_abierta+1),fecha_ultimasesion = CURDATE() where (nombre_usuario=''V121212121'')', '2016-10-23 20:46:24'),
+(3589, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'UPDATE tplan_evaluacion SET codigo_msd = ''14'',codigo_lapso=''1'',descripcion = ''UNIDAD I'',porcentaje= ''20'' WHERE codigo_plan_evaluacion=''1''', '2016-10-23 20:54:42'),
+(3590, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'UPDATE tplan_evaluacion SET codigo_msd = ''14'',codigo_lapso=''1'',descripcion = ''UNIDAD II'',porcentaje= ''20'' WHERE codigo_plan_evaluacion=''2''', '2016-10-23 20:54:42'),
+(3591, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'UPDATE tplan_evaluacion SET codigo_msd = ''14'',codigo_lapso=''1'',descripcion = ''UNIDAD III'',porcentaje= ''20'' WHERE codigo_plan_evaluacion=''3''', '2016-10-23 20:54:42'),
+(3592, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'UPDATE tplan_evaluacion SET codigo_msd = ''14'',codigo_lapso=''1'',descripcion = ''UNIDAD IV'',porcentaje= ''20.00'' WHERE codigo_plan_evaluacion=''4''', '2016-10-23 20:54:42'),
+(3593, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'INSERT INTO tplan_evaluacion (codigo_msd,codigo_lapso,descripcion,porcentaje) \r\n        VALUES (''14'',''1'',''UNIDAD V'',''20'');', '2016-10-23 20:54:42'),
+(3599, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'UPDATE tplan_evaluacion SET codigo_msd = ''14'',codigo_lapso=''1'',descripcion = ''UNIDAD I'',porcentaje= ''30'' WHERE codigo_plan_evaluacion=''1''', '2016-10-23 21:27:32'),
+(3600, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'UPDATE tplan_evaluacion SET codigo_msd = ''14'',codigo_lapso=''1'',descripcion = ''UNIDAD II'',porcentaje= ''30'' WHERE codigo_plan_evaluacion=''2''', '2016-10-23 21:27:32'),
+(3601, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'UPDATE tplan_evaluacion SET codigo_msd = ''14'',codigo_lapso=''1'',descripcion = ''UNIDAD III'',porcentaje= ''40'' WHERE codigo_plan_evaluacion=''3''', '2016-10-23 21:27:32'),
+(3602, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'DELETE FROM tplan_evaluacion WHERE codigo_plan_evaluacion=''4'';', '2016-10-23 21:27:32'),
+(3603, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'DELETE FROM tplan_evaluacion WHERE codigo_plan_evaluacion=''25'';', '2016-10-23 21:27:32'),
+(3604, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'UPDATE tplan_evaluacion SET codigo_msd = ''14'',codigo_lapso=''1'',descripcion = ''UNIDAD I'',porcentaje= ''25'' WHERE codigo_plan_evaluacion=''1''', '2016-10-23 21:30:13'),
+(3605, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'UPDATE tplan_evaluacion SET codigo_msd = ''14'',codigo_lapso=''1'',descripcion = ''UNIDAD II'',porcentaje= ''25'' WHERE codigo_plan_evaluacion=''2''', '2016-10-23 21:30:13'),
+(3606, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'UPDATE tplan_evaluacion SET codigo_msd = ''14'',codigo_lapso=''1'',descripcion = ''UNIDAD III'',porcentaje= ''25'' WHERE codigo_plan_evaluacion=''3''', '2016-10-23 21:30:13'),
+(3607, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'INSERT INTO tplan_evaluacion (codigo_msd,codigo_lapso,descripcion,porcentaje) \r\n        VALUES (''14'',''1'',''UNIDAD IV'',''25'');', '2016-10-23 21:30:13'),
+(3608, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'UPDATE tplan_evaluacion SET codigo_msd = ''14'',codigo_lapso=''1'',descripcion = ''UNIDAD I'',porcentaje= ''25.00'' WHERE codigo_plan_evaluacion=''1''', '2016-10-23 21:45:19'),
+(3609, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'UPDATE tplan_evaluacion SET codigo_msd = ''14'',codigo_lapso=''1'',descripcion = ''UNIDAD II'',porcentaje= ''25.00'' WHERE codigo_plan_evaluacion=''2''', '2016-10-23 21:45:19'),
+(3610, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'UPDATE tplan_evaluacion SET codigo_msd = ''14'',codigo_lapso=''1'',descripcion = ''UNIDAD III'',porcentaje= ''25.00'' WHERE codigo_plan_evaluacion=''3''', '2016-10-23 21:45:19'),
+(3611, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'UPDATE tplan_evaluacion SET codigo_msd = ''14'',codigo_lapso=''1'',descripcion = ''UNIDAD IV'',porcentaje= ''500'' WHERE codigo_plan_evaluacion=''26''', '2016-10-23 21:45:19'),
+(3612, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'UPDATE tplan_evaluacion SET codigo_msd = ''14'',codigo_lapso=''1'',descripcion = ''UNIDAD I'',porcentaje= ''25.00'' WHERE codigo_plan_evaluacion=''1''', '2016-10-23 21:46:41'),
+(3613, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'UPDATE tplan_evaluacion SET codigo_msd = ''14'',codigo_lapso=''1'',descripcion = ''UNIDAD II'',porcentaje= ''25.00'' WHERE codigo_plan_evaluacion=''2''', '2016-10-23 21:46:41'),
+(3614, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'UPDATE tplan_evaluacion SET codigo_msd = ''14'',codigo_lapso=''1'',descripcion = ''UNIDAD III'',porcentaje= ''25.00'' WHERE codigo_plan_evaluacion=''3''', '2016-10-23 21:46:41'),
+(3615, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'UPDATE tplan_evaluacion SET codigo_msd = ''14'',codigo_lapso=''1'',descripcion = ''UNIDAD IV'',porcentaje= ''500.00'' WHERE codigo_plan_evaluacion=''26''', '2016-10-23 21:46:41'),
+(3616, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'UPDATE tplan_evaluacion SET codigo_msd = ''14'',codigo_lapso=''1'',descripcion = ''UNIDAD I'',porcentaje= ''25.00'' WHERE codigo_plan_evaluacion=''1''', '2016-10-23 22:17:44'),
+(3617, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'UPDATE tplan_evaluacion SET codigo_msd = ''14'',codigo_lapso=''1'',descripcion = ''UNIDAD II'',porcentaje= ''25.00'' WHERE codigo_plan_evaluacion=''2''', '2016-10-23 22:17:44'),
+(3618, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'UPDATE tplan_evaluacion SET codigo_msd = ''14'',codigo_lapso=''1'',descripcion = ''UNIDAD III'',porcentaje= ''25.00'' WHERE codigo_plan_evaluacion=''3''', '2016-10-23 22:17:44'),
+(3619, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'UPDATE tplan_evaluacion SET codigo_msd = ''14'',codigo_lapso=''1'',descripcion = ''UNIDAD IV'',porcentaje= ''25'' WHERE codigo_plan_evaluacion=''26''', '2016-10-23 22:17:44'),
+(3620, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'INSERT INTO tplan_evaluacion (codigo_msd,codigo_lapso,descripcion,porcentaje) VALUES (''14'',''2'',''UNIDAD I'',''20''),(''14'',''2'',''UNIDAD II'',''20''),(''14'',''2'',''UNIDAD III'',''20''),(''14'',''2'',''UNIDAD IV'',''20''),(''14'',''2'',''UNIDAD V'',''20'');', '2016-10-24 01:26:38'),
+(3621, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'DELETE FROM tasignacion_nota WHERE codigo_plan_evaluacion IN (SELECT codigo_plan_evaluacion FROM tplan_evaluacion WHERE codigo_msd = 14 AND codigo_lapso = 1)', '2016-10-24 02:02:38');
+INSERT INTO `tauditoria` (`id`, `ip`, `so`, `navigador`, `usuario_base_de_datos`, `usuario_aplicacion`, `query`, `fecha`) VALUES
+(3622, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'INSERT INTO tasignacion_nota(codigo_plan_evaluacion,cedula_estudiante,notaobtenida) VALUES (1,''V12312312'',''15''),(2,''V24935226'',''15''),(3,''V252132343'',''16''),(26,''V25347013'',''14''),(1,''V30363014'',''12''),(2,''V30484143'',''08'');', '2016-10-24 02:02:38'),
+(3623, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'update tusuario set sesion_abierta=(CASE WHEN sesion_abierta = 0 THEN 0 ELSE sesion_abierta-1 END) where (nombre_usuario=''V121212121'')', '2016-10-24 02:19:33'),
+(3624, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'update tusuario set intento_fallido=0 where (nombre_usuario=''V121212121'')', '2016-10-28 00:03:13'),
+(3625, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'update tusuario set sesion_abierta=(sesion_abierta+1),fecha_ultimasesion = CURDATE() where (nombre_usuario=''V121212121'')', '2016-10-28 00:03:13'),
+(3633, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'DELETE FROM tasignacion_nota WHERE codigo_plan_evaluacion IN (SELECT codigo_plan_evaluacion FROM tplan_evaluacion WHERE codigo_msd = 14 AND codigo_lapso = 1)', '2016-10-28 00:20:00'),
+(3634, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'INSERT INTO tasignacion_nota(codigo_plan_evaluacion,cedula_estudiante,notaobtenida) VALUES (1,''V12312312'',15),(2,''V12312312'',12),(3,''V12312312'',16),(26,''V12312312'',14),(1,''V24935226'',05),(2,''V24935226'',15),(3,''V24935226'',17),(26,''V24935226'',12),(1,''V252132343'',16),(2,''V252132343'',11),(3,''V252132343'',16),(26,''V252132343'',19),(1,''V25347013'',20),(2,''V25347013'',20),(3,''V25347013'',18),(26,''V25347013'',14),(1,''V30363014'',12),(2,''V30363014'',09),(3,''V30363014'',08),(26,''V30363014'',20),(1,''V30484143'',11),(2,''V30484143'',11),(3,''V30484143'',08),(26,''V30484143'',18);', '2016-10-28 00:20:00'),
+(3635, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'DELETE FROM tasignacion_nota WHERE codigo_plan_evaluacion IN (SELECT codigo_plan_evaluacion FROM tplan_evaluacion WHERE codigo_msd = 14 AND codigo_lapso = 2)', '2016-10-28 00:33:41'),
+(3636, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'INSERT INTO tasignacion_nota(codigo_plan_evaluacion,cedula_estudiante,notaobtenida) VALUES (27,''V12312312'',10),(28,''V12312312'',14),(29,''V12312312'',15),(30,''V12312312'',11),(31,''V12312312'',08),(27,''V24935226'',12),(28,''V24935226'',08),(29,''V24935226'',14),(30,''V24935226'',19),(31,''V24935226'',17),(27,''V252132343'',20),(28,''V252132343'',14),(29,''V252132343'',11),(30,''V252132343'',08),(31,''V252132343'',09),(27,''V25347013'',18),(28,''V25347013'',16),(29,''V25347013'',14),(30,''V25347013'',18),(31,''V25347013'',14),(27,''V30363014'',12),(28,''V30363014'',11),(29,''V30363014'',14),(30,''V30363014'',15),(31,''V30363014'',17),(27,''V30484143'',13),(28,''V30484143'',08),(29,''V30484143'',14),(30,''V30484143'',18),(31,''V30484143'',13);', '2016-10-28 00:33:41'),
+(3637, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'update tusuario set sesion_abierta=(CASE WHEN sesion_abierta = 0 THEN 0 ELSE sesion_abierta-1 END) where (nombre_usuario=''V121212121'')', '2016-10-28 01:22:39'),
+(3638, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', '', 'update tusuario set intento_fallido=(intento_fallido+1) where (nombre_usuario=''V123456789'')', '2016-10-28 01:22:53'),
+(3639, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'update tusuario set intento_fallido=0 where (nombre_usuario=''V123456789'')', '2016-10-28 01:23:22'),
+(3640, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'update tusuario set sesion_abierta=(sesion_abierta+1),fecha_ultimasesion = CURDATE() where (nombre_usuario=''V123456789'')', '2016-10-28 01:23:22'),
+(3641, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'insert into tservicio (descripcion,url,orden,codigo_modulo) values (''APLICAR NOTA FINAL'',''APLICAR_NOTAS'',''3'',''4'');', '2016-10-28 01:23:59'),
+(3642, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'update tperfil set descripcion=''ADMINISTRADOR'',codigo_configuracion=1 where (codigo_perfil=''1'');', '2016-10-28 01:24:16'),
+(3643, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'DELETE FROM tservicio_usuario_opcion where (codigo_perfil=''1'');', '2016-10-28 01:24:16'),
+(3644, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',1,1),(''1'',1,2),(''1'',1,3),(''1'',1,4),(''1'',1,5),(''1'',1,6),(''1'',1,7),(''1'',2,1),(''1'',2,2),(''1'',2,3),(''1'',2,4),(''1'',2,5),(''1'',2,6),(''1'',2,7),(''1'',3,1),(''1'',3,2),(''1'',3,3),(''1'',3,4),(''1'',3,5),(''1'',3,6),(''1'',3,7),(''1'',4,1),(''1'',4,2),(''1'',4,3),(''1'',4,4),(''1'',4,5),(''1'',4,6),(''1'',4,7),(''1'',5,1),(''1'',5,2),(''1'',5,3),(''1'',5,4),(''1'',5,5),(''1'',5,6),(''1'',5,7),(''1'',6,1),(''1'',6,2),(''1'',6,3),(''1'',6,4),(''1'',6,5),(''1'',6,6),(''1'',6,7),(''1'',7,1),(''1'',7,2),(''1'',7,3),(''1'',7,4),(''1'',7,5),(''1'',7,6),(''1'',7,7),(''1'',8,1),(''1'',8,2),(''1'',8,3),(''1'',8,4),(''1'',8,5),(''1'',8,6),(''1'',8,7),(''1'',9,1),(''1'',9,2),(''1'',9,3),(''1'',9,4),(''1'',9,5),(''1'',9,6),(''1'',9,7),(''1'',10,1),(''1'',10,2),(''1'',10,3),(''1'',10,4),(''1'',10,5),(''1'',10,6),(''1'',10,7),(''1'',11,1),(''1'',11,2),(''1'',11,3),(''1'',11,4),(''1'',11,5),(''1'',11,6),(''1'',11,7),(''1'',12,1),(''1'',12,2),(''1'',12,3),(''1'',12,4),(''1'',12,5),(''1'',12,6),(''1'',12,7),(''1'',13,1),(''1'',13,2),(''1'',13,3),(''1'',13,4),(''1'',13,5),(''1'',13,6),(''1'',13,7),(''1'',14,1),(''1'',14,2),(''1'',14,3),(''1'',14,4),(''1'',14,5),(''1'',14,6),(''1'',14,7),(''1'',15,1),(''1'',15,2),(''1'',15,3),(''1'',15,4),(''1'',15,5),(''1'',15,6),(''1'',15,7),(''1'',39,1),(''1'',39,2),(''1'',39,3),(''1'',39,4),(''1'',39,5),(''1'',39,6),(''1'',39,7),(''1'',16,1),(''1'',16,2),(''1'',16,3),(''1'',16,4),(''1'',16,5),(''1'',16,6),(''1'',16,7),(''1'',44,1),(''1'',44,2),(''1'',44,3),(''1'',44,4),(''1'',44,5),(''1'',44,6),(''1'',44,7),(''1'',45,1),(''1'',45,2),(''1'',45,3),(''1'',45,4),(''1'',45,5),(''1'',45,6),(''1'',45,7),(''1'',19,1),(''1'',19,2),(''1'',19,3),(''1'',19,4),(''1'',19,5),(''1'',19,6),(''1'',19,7),(''1'',20,1),(''1'',20,2),(''1'',20,3),(''1'',20,4),(''1'',20,5),(''1'',20,6),(''1'',20,7),(''1'',21,1),(''1'',21,2),(''1'',21,3),(''1'',21,4),(''1'',21,5),(''1'',21,6),(''1'',21,7),(''1'',22,1),(''1'',22,2),(''1'',22,3),(''1'',22,4),(''1'',22,5),(''1'',22,6),(''1'',22,7),(''1'',23,1),(''1'',23,2),(''1'',23,3),(''1'',23,4),(''1'',23,5),(''1'',23,6),(''1'',23,7),(''1'',24,1),(''1'',24,2),(''1'',24,3),(''1'',24,4),(''1'',24,5),(''1'',24,6),(''1'',24,7),(''1'',25,1),(''1'',25,2),(''1'',25,3),(''1'',25,4),(''1'',25,5),(''1'',25,6),(''1'',25,7),(''1'',26,1),(''1'',26,2),(''1'',26,3),(''1'',26,4),(''1'',26,5),(''1'',26,6),(''1'',26,7),(''1'',27,1),(''1'',27,2),(''1'',27,3),(''1'',27,4),(''1'',27,5),(''1'',27,6),(''1'',27,7),(''1'',36,1),(''1'',36,2),(''1'',36,3),(''1'',36,4),(''1'',36,5),(''1'',36,6),(''1'',36,7),(''1'',43,1),(''1'',43,2),(''1'',43,3),(''1'',43,4),(''1'',43,5),(''1'',43,6),(''1'',43,7),(''1'',28,1),(''1'',28,2),(''1'',28,3),(''1'',28,4),(''1'',28,5),(''1'',28,6),(''1'',28,7),(''1'',29,1),(''1'',29,2),(''1'',29,3),(''1'',29,4),(''1'',29,5),(''1'',29,6),(''1'',29,7),(''1'',30,1),(''1'',30,2),(''1'',30,3),(''1'',30,4),(''1'',30,5),(''1'',30,6),(''1'',30,7),(''1'',31,1),(''1'',31,2),(''1'',31,3),(''1'',31,4),(''1'',31,5),(''1'',31,6),(''1'',31,7),(''1'',32,1),(''1'',32,2),(''1'',32,3),(''1'',32,4),(''1'',32,5),(''1'',32,6),(''1'',32,7),(''1'',33,1),(''1'',33,2),(''1'',33,3),(''1'',33,4),(''1'',33,5),(''1'',33,6),(''1'',33,7),(''1'',34,1),(''1'',34,2),(''1'',34,3),(''1'',34,4),(''1'',34,5),(''1'',34,6),(''1'',34,7),(''1'',35,1),(''1'',35,2),(''1'',35,3),(''1'',35,4),(''1'',35,5),(''1'',35,6),(''1'',35,7),(''1'',37,1),(''1'',37,2),(''1'',37,3),(''1'',37,4),(''1'',37,5),(''1'',37,6),(''1'',37,7),(''1'',38,1),(''1'',38,2),(''1'',38,3),(''1'',38,4),(''1'',38,5),(''1'',38,6),(''1'',38,7),(''1'',42,1),(''1'',42,2),(''1'',42,3),(''1'',42,4),(''1'',42,5),(''1'',42,6),(''1'',42,7),(''1'',17,1),(''1'',17,2),(''1'',17,3),(''1'',17,4),(''1'',17,5),(''1'',17,6),(''1'',17,7),(''1'',18,1),(''1'',18,2),(''1'',18,3),(''1'',18,4),(''1'',18,5),(''1'',18,6),(''1'',18,7),(''1'',40,1),(''1'',40,2),(''1'',40,3),(''1'',40,4),(''1'',40,5),(''1'',40,6),(''1'',40,7),(''1'',41,1),(''1'',41,2),(''1'',41,3),(''1'',41,4),(''1'',41,5),(''1'',41,6),(''1'',41,7);', '2016-10-28 01:24:16'),
+(3645, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'update tperfil set descripcion=''DOCENTE'',codigo_configuracion=1 where (codigo_perfil=''2'');', '2016-10-28 01:24:43'),
+(3646, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'DELETE FROM tservicio_usuario_opcion where (codigo_perfil=''2'');', '2016-10-28 01:24:43'),
+(3647, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''2'',7,2),(''2'',7,5),(''2'',7,7),(''2'',16,NULL),(''2'',44,1),(''2'',44,2),(''2'',44,3),(''2'',44,4),(''2'',44,5),(''2'',44,6),(''2'',44,7),(''2'',45,1),(''2'',45,2),(''2'',45,3),(''2'',45,4),(''2'',45,5),(''2'',45,6),(''2'',45,7),(''2'',21,NULL),(''2'',22,NULL),(''2'',23,NULL),(''2'',24,NULL),(''2'',36,5),(''2'',33,2),(''2'',34,2);', '2016-10-28 01:24:43'),
+(3648, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V123456789', 'update tusuario set sesion_abierta=(CASE WHEN sesion_abierta = 0 THEN 0 ELSE sesion_abierta-1 END) where (nombre_usuario=''V123456789'')', '2016-10-28 01:24:56'),
+(3649, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'update tusuario set intento_fallido=0 where (nombre_usuario=''V121212121'')', '2016-10-28 01:25:10'),
+(3650, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'update tusuario set sesion_abierta=(sesion_abierta+1),fecha_ultimasesion = CURDATE() where (nombre_usuario=''V121212121'')', '2016-10-28 01:25:10'),
+(3651, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'DELETE FROM tcontrol_notas WHERE codigo_msd=14 AND cedula_estudiante=''V12312312'' AND codigo_lapso=1;', '2016-10-28 02:16:01'),
+(3652, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'DELETE FROM tcontrol_notas WHERE codigo_msd=14 AND cedula_estudiante=''V24935226'' AND codigo_lapso=1;', '2016-10-28 02:16:01'),
+(3653, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'DELETE FROM tcontrol_notas WHERE codigo_msd=14 AND cedula_estudiante=''V252132343'' AND codigo_lapso=1;', '2016-10-28 02:16:01'),
+(3654, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'DELETE FROM tcontrol_notas WHERE codigo_msd=14 AND cedula_estudiante=''V25347013'' AND codigo_lapso=1;', '2016-10-28 02:16:01'),
+(3655, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'DELETE FROM tcontrol_notas WHERE codigo_msd=14 AND cedula_estudiante=''V30363014'' AND codigo_lapso=1;', '2016-10-28 02:16:01'),
+(3656, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'DELETE FROM tcontrol_notas WHERE codigo_msd=14 AND cedula_estudiante=''V30484143'' AND codigo_lapso=1;', '2016-10-28 02:16:01'),
+(3657, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'DELETE FROM tcontrol_notas WHERE codigo_msd=14 AND cedula_estudiante=''V12312312'' AND codigo_lapso=2;', '2016-10-28 02:16:01'),
+(3658, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'DELETE FROM tcontrol_notas WHERE codigo_msd=14 AND cedula_estudiante=''V24935226'' AND codigo_lapso=2;', '2016-10-28 02:16:01'),
+(3659, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'DELETE FROM tcontrol_notas WHERE codigo_msd=14 AND cedula_estudiante=''V252132343'' AND codigo_lapso=2;', '2016-10-28 02:16:01'),
+(3660, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'DELETE FROM tcontrol_notas WHERE codigo_msd=14 AND cedula_estudiante=''V25347013'' AND codigo_lapso=2;', '2016-10-28 02:16:01'),
+(3661, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'DELETE FROM tcontrol_notas WHERE codigo_msd=14 AND cedula_estudiante=''V12312312'' AND codigo_lapso=1;', '2016-10-28 02:17:29'),
+(3662, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'DELETE FROM tcontrol_notas WHERE codigo_msd=14 AND cedula_estudiante=''V24935226'' AND codigo_lapso=1;', '2016-10-28 02:17:29'),
+(3663, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'DELETE FROM tcontrol_notas WHERE codigo_msd=14 AND cedula_estudiante=''V252132343'' AND codigo_lapso=1;', '2016-10-28 02:17:29'),
+(3664, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'DELETE FROM tcontrol_notas WHERE codigo_msd=14 AND cedula_estudiante=''V25347013'' AND codigo_lapso=1;', '2016-10-28 02:17:29'),
+(3665, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'DELETE FROM tcontrol_notas WHERE codigo_msd=14 AND cedula_estudiante=''V30363014'' AND codigo_lapso=1;', '2016-10-28 02:17:29'),
+(3666, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'DELETE FROM tcontrol_notas WHERE codigo_msd=14 AND cedula_estudiante=''V30484143'' AND codigo_lapso=1;', '2016-10-28 02:17:29'),
+(3667, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'DELETE FROM tcontrol_notas WHERE codigo_msd=14 AND cedula_estudiante=''V12312312'' AND codigo_lapso=2;', '2016-10-28 02:17:29'),
+(3668, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'DELETE FROM tcontrol_notas WHERE codigo_msd=14 AND cedula_estudiante=''V24935226'' AND codigo_lapso=2;', '2016-10-28 02:17:29'),
+(3669, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'DELETE FROM tcontrol_notas WHERE codigo_msd=14 AND cedula_estudiante=''V252132343'' AND codigo_lapso=2;', '2016-10-28 02:17:29'),
+(3670, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'DELETE FROM tcontrol_notas WHERE codigo_msd=14 AND cedula_estudiante=''V25347013'' AND codigo_lapso=2;', '2016-10-28 02:17:29'),
+(3671, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'DELETE FROM tcontrol_notas WHERE codigo_msd=14 AND cedula_estudiante=''V12312312'' AND codigo_lapso=1;', '2016-10-28 02:19:58'),
+(3672, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'DELETE FROM tcontrol_notas WHERE codigo_msd=14 AND cedula_estudiante=''V24935226'' AND codigo_lapso=1;', '2016-10-28 02:19:58'),
+(3673, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'DELETE FROM tcontrol_notas WHERE codigo_msd=14 AND cedula_estudiante=''V252132343'' AND codigo_lapso=1;', '2016-10-28 02:19:58'),
+(3674, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'DELETE FROM tcontrol_notas WHERE codigo_msd=14 AND cedula_estudiante=''V25347013'' AND codigo_lapso=1;', '2016-10-28 02:19:58'),
+(3675, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'DELETE FROM tcontrol_notas WHERE codigo_msd=14 AND cedula_estudiante=''V30363014'' AND codigo_lapso=1;', '2016-10-28 02:19:58'),
+(3676, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'DELETE FROM tcontrol_notas WHERE codigo_msd=14 AND cedula_estudiante=''V30484143'' AND codigo_lapso=1;', '2016-10-28 02:19:58'),
+(3677, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'DELETE FROM tcontrol_notas WHERE codigo_msd=14 AND cedula_estudiante=''V12312312'' AND codigo_lapso=2;', '2016-10-28 02:19:58'),
+(3678, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'DELETE FROM tcontrol_notas WHERE codigo_msd=14 AND cedula_estudiante=''V24935226'' AND codigo_lapso=2;', '2016-10-28 02:19:58'),
+(3679, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'DELETE FROM tcontrol_notas WHERE codigo_msd=14 AND cedula_estudiante=''V252132343'' AND codigo_lapso=2;', '2016-10-28 02:19:58'),
+(3680, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'DELETE FROM tcontrol_notas WHERE codigo_msd=14 AND cedula_estudiante=''V25347013'' AND codigo_lapso=2;', '2016-10-28 02:19:59'),
+(3681, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'DELETE FROM tcontrol_notas WHERE codigo_msd=14 AND cedula_estudiante=''V12312312'' AND codigo_lapso=1;', '2016-10-28 02:20:23'),
+(3682, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'DELETE FROM tcontrol_notas WHERE codigo_msd=14 AND cedula_estudiante=''V24935226'' AND codigo_lapso=1;', '2016-10-28 02:20:23'),
+(3683, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'DELETE FROM tcontrol_notas WHERE codigo_msd=14 AND cedula_estudiante=''V252132343'' AND codigo_lapso=1;', '2016-10-28 02:20:23'),
+(3684, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'DELETE FROM tcontrol_notas WHERE codigo_msd=14 AND cedula_estudiante=''V25347013'' AND codigo_lapso=1;', '2016-10-28 02:20:23'),
+(3685, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'DELETE FROM tcontrol_notas WHERE codigo_msd=14 AND cedula_estudiante=''V30363014'' AND codigo_lapso=1;', '2016-10-28 02:20:23'),
+(3686, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'DELETE FROM tcontrol_notas WHERE codigo_msd=14 AND cedula_estudiante=''V30484143'' AND codigo_lapso=1;', '2016-10-28 02:20:23'),
+(3687, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'DELETE FROM tcontrol_notas WHERE codigo_msd=14 AND cedula_estudiante=''V12312312'' AND codigo_lapso=2;', '2016-10-28 02:20:23'),
+(3688, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'DELETE FROM tcontrol_notas WHERE codigo_msd=14 AND cedula_estudiante=''V24935226'' AND codigo_lapso=2;', '2016-10-28 02:20:23'),
+(3689, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'DELETE FROM tcontrol_notas WHERE codigo_msd=14 AND cedula_estudiante=''V252132343'' AND codigo_lapso=2;', '2016-10-28 02:20:23'),
+(3690, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'DELETE FROM tcontrol_notas WHERE codigo_msd=14 AND cedula_estudiante=''V25347013'' AND codigo_lapso=2;', '2016-10-28 02:20:23'),
+(3691, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'DELETE FROM tcontrol_notas WHERE codigo_msd=14 AND cedula_estudiante=''V12312312'' AND codigo_lapso=1;', '2016-10-28 02:20:55'),
+(3692, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'DELETE FROM tcontrol_notas WHERE codigo_msd=14 AND cedula_estudiante=''V24935226'' AND codigo_lapso=1;', '2016-10-28 02:20:55'),
+(3693, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'DELETE FROM tcontrol_notas WHERE codigo_msd=14 AND cedula_estudiante=''V252132343'' AND codigo_lapso=1;', '2016-10-28 02:20:55'),
+(3694, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'DELETE FROM tcontrol_notas WHERE codigo_msd=14 AND cedula_estudiante=''V25347013'' AND codigo_lapso=1;', '2016-10-28 02:20:55'),
+(3695, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'DELETE FROM tcontrol_notas WHERE codigo_msd=14 AND cedula_estudiante=''V30363014'' AND codigo_lapso=1;', '2016-10-28 02:20:55'),
+(3696, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'DELETE FROM tcontrol_notas WHERE codigo_msd=14 AND cedula_estudiante=''V30484143'' AND codigo_lapso=1;', '2016-10-28 02:20:55'),
+(3697, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'DELETE FROM tcontrol_notas WHERE codigo_msd=14 AND cedula_estudiante=''V12312312'' AND codigo_lapso=2;', '2016-10-28 02:20:55'),
+(3698, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'DELETE FROM tcontrol_notas WHERE codigo_msd=14 AND cedula_estudiante=''V24935226'' AND codigo_lapso=2;', '2016-10-28 02:20:55'),
+(3699, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'DELETE FROM tcontrol_notas WHERE codigo_msd=14 AND cedula_estudiante=''V252132343'' AND codigo_lapso=2;', '2016-10-28 02:20:55'),
+(3700, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'DELETE FROM tcontrol_notas WHERE codigo_msd=14 AND cedula_estudiante=''V25347013'' AND codigo_lapso=2;', '2016-10-28 02:20:55'),
+(3701, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'DELETE FROM tcontrol_notas WHERE codigo_msd=14 AND cedula_estudiante=''V12312312'' AND codigo_lapso=1;', '2016-10-28 02:21:11'),
+(3702, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'DELETE FROM tcontrol_notas WHERE codigo_msd=14 AND cedula_estudiante=''V24935226'' AND codigo_lapso=1;', '2016-10-28 02:21:11'),
+(3703, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'DELETE FROM tcontrol_notas WHERE codigo_msd=14 AND cedula_estudiante=''V252132343'' AND codigo_lapso=1;', '2016-10-28 02:21:12'),
+(3704, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'DELETE FROM tcontrol_notas WHERE codigo_msd=14 AND cedula_estudiante=''V25347013'' AND codigo_lapso=1;', '2016-10-28 02:21:12'),
+(3705, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'DELETE FROM tcontrol_notas WHERE codigo_msd=14 AND cedula_estudiante=''V30363014'' AND codigo_lapso=1;', '2016-10-28 02:21:12'),
+(3706, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'DELETE FROM tcontrol_notas WHERE codigo_msd=14 AND cedula_estudiante=''V30484143'' AND codigo_lapso=1;', '2016-10-28 02:21:12'),
+(3707, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'DELETE FROM tcontrol_notas WHERE codigo_msd=14 AND cedula_estudiante=''V12312312'' AND codigo_lapso=2;', '2016-10-28 02:21:12'),
+(3708, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'DELETE FROM tcontrol_notas WHERE codigo_msd=14 AND cedula_estudiante=''V24935226'' AND codigo_lapso=2;', '2016-10-28 02:21:12'),
+(3709, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'DELETE FROM tcontrol_notas WHERE codigo_msd=14 AND cedula_estudiante=''V252132343'' AND codigo_lapso=2;', '2016-10-28 02:21:12'),
+(3710, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'DELETE FROM tcontrol_notas WHERE codigo_msd=14 AND cedula_estudiante=''V25347013'' AND codigo_lapso=2;', '2016-10-28 02:21:12'),
+(3711, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'DELETE FROM tcontrol_notas WHERE codigo_msd=14 AND cedula_estudiante=''V12312312'' AND codigo_lapso=1;', '2016-10-28 02:21:58'),
+(3712, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'INSERT INTO tcontrol_notas (codigo_msd,cedula_estudiante,codigo_lapso,notafinal,aprobado) VALUES (14,''V12312312'',1,14.25,''Y'');', '2016-10-28 02:21:58'),
+(3713, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'DELETE FROM tcontrol_notas WHERE codigo_msd=14 AND cedula_estudiante=''V24935226'' AND codigo_lapso=1;', '2016-10-28 02:21:58'),
+(3714, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'INSERT INTO tcontrol_notas (codigo_msd,cedula_estudiante,codigo_lapso,notafinal,aprobado) VALUES (14,''V24935226'',1,12.25,''Y'');', '2016-10-28 02:21:59'),
+(3715, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'DELETE FROM tcontrol_notas WHERE codigo_msd=14 AND cedula_estudiante=''V252132343'' AND codigo_lapso=1;', '2016-10-28 02:21:59'),
+(3716, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'INSERT INTO tcontrol_notas (codigo_msd,cedula_estudiante,codigo_lapso,notafinal,aprobado) VALUES (14,''V252132343'',1,15.50,''Y'');', '2016-10-28 02:21:59'),
+(3717, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'DELETE FROM tcontrol_notas WHERE codigo_msd=14 AND cedula_estudiante=''V25347013'' AND codigo_lapso=1;', '2016-10-28 02:21:59'),
+(3718, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'INSERT INTO tcontrol_notas (codigo_msd,cedula_estudiante,codigo_lapso,notafinal,aprobado) VALUES (14,''V25347013'',1,18.00,''Y'');', '2016-10-28 02:21:59'),
+(3719, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'DELETE FROM tcontrol_notas WHERE codigo_msd=14 AND cedula_estudiante=''V30363014'' AND codigo_lapso=1;', '2016-10-28 02:21:59'),
+(3720, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'INSERT INTO tcontrol_notas (codigo_msd,cedula_estudiante,codigo_lapso,notafinal,aprobado) VALUES (14,''V30363014'',1,12.25,''Y'');', '2016-10-28 02:21:59'),
+(3721, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'DELETE FROM tcontrol_notas WHERE codigo_msd=14 AND cedula_estudiante=''V30484143'' AND codigo_lapso=1;', '2016-10-28 02:21:59'),
+(3722, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'INSERT INTO tcontrol_notas (codigo_msd,cedula_estudiante,codigo_lapso,notafinal,aprobado) VALUES (14,''V30484143'',1,12.00,''Y'');', '2016-10-28 02:21:59'),
+(3723, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'DELETE FROM tcontrol_notas WHERE codigo_msd=14 AND cedula_estudiante=''V12312312'' AND codigo_lapso=2;', '2016-10-28 02:21:59'),
+(3724, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'INSERT INTO tcontrol_notas (codigo_msd,cedula_estudiante,codigo_lapso,notafinal,aprobado) VALUES (14,''V12312312'',2,11.60,''Y'');', '2016-10-28 02:21:59'),
+(3725, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'DELETE FROM tcontrol_notas WHERE codigo_msd=14 AND cedula_estudiante=''V24935226'' AND codigo_lapso=2;', '2016-10-28 02:21:59'),
+(3726, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'INSERT INTO tcontrol_notas (codigo_msd,cedula_estudiante,codigo_lapso,notafinal,aprobado) VALUES (14,''V24935226'',2,14.00,''Y'');', '2016-10-28 02:21:59'),
+(3727, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'DELETE FROM tcontrol_notas WHERE codigo_msd=14 AND cedula_estudiante=''V252132343'' AND codigo_lapso=2;', '2016-10-28 02:21:59'),
+(3728, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'INSERT INTO tcontrol_notas (codigo_msd,cedula_estudiante,codigo_lapso,notafinal,aprobado) VALUES (14,''V252132343'',2,12.40,''Y'');', '2016-10-28 02:22:00'),
+(3729, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'DELETE FROM tcontrol_notas WHERE codigo_msd=14 AND cedula_estudiante=''V25347013'' AND codigo_lapso=2;', '2016-10-28 02:22:00'),
+(3730, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'INSERT INTO tcontrol_notas (codigo_msd,cedula_estudiante,codigo_lapso,notafinal,aprobado) VALUES (14,''V25347013'',2,16.00,''Y'');', '2016-10-28 02:22:00'),
+(3731, '::1', 'Windows 8/NT', 'Google Chrome', 'admin@localhost', 'V121212121', 'update tusuario set sesion_abierta=(CASE WHEN sesion_abierta = 0 THEN 0 ELSE sesion_abierta-1 END) where (nombre_usuario=''V121212121'')', '2016-10-28 02:22:27');
 
 -- --------------------------------------------------------
 
@@ -3973,7 +4194,7 @@ CREATE TABLE IF NOT EXISTS `tconfiguracion_negocio` (
 --
 
 INSERT INTO `tconfiguracion_negocio` (`codigo_configuracion_negocio`, `inscripcion_abierta`, `carga_nota_abierta`, `edad_maxima_primer_anio`, `nota_minima`, `nota_maxima`, `nota_aprobacion`, `fecha_desactivacion`) VALUES
-(2, 'Y', 'Y', 15, 1.00, 20.00, 10.00, NULL);
+(2, 'Y', 'Y', 15, 0.00, 20.00, 10.00, NULL);
 
 -- --------------------------------------------------------
 
@@ -3997,7 +4218,8 @@ CREATE TABLE IF NOT EXISTS `tcontrasena` (
 
 INSERT INTO `tcontrasena` (`nombre_usuario`, `contrasena`, `estado`, `fecha_modificacion`) VALUES
 ('V121212121', '1f82ea75c5cc526729e2d581aeb3aeccfef4407e', 0, '2016-01-15 01:41:06'),
-('V121212121', '791acae9d7efbefc2b489747af71cc2f6870554d', 1, '2016-01-15 01:41:06'),
+('V121212121', '2e5f402b1f0117f9f7217a3e8cbff136b1e304ad', 1, '2016-10-18 12:44:14'),
+('V121212121', '791acae9d7efbefc2b489747af71cc2f6870554d', 0, '2016-10-18 12:44:14'),
 ('V123456789', '1f82ea75c5cc526729e2d581aeb3aeccfef4407e', 0, '2016-01-09 20:19:04'),
 ('V123456789', '2e5f402b1f0117f9f7217a3e8cbff136b1e304ad', 1, '2016-08-16 01:37:05'),
 ('V123456789', '47923b00e914a6343c38d79f78b45959fc4049e9', 0, '2016-01-17 17:49:42'),
@@ -4020,19 +4242,30 @@ CREATE TABLE IF NOT EXISTS `tcontrol_notas` (
   `cedula_estudiante` char(10) COLLATE utf8_spanish_ci NOT NULL,
   `codigo_lapso` int(11) NOT NULL,
   `notafinal` int(11) NOT NULL DEFAULT '0',
+  `aprobado` char(1) COLLATE utf8_spanish_ci NOT NULL DEFAULT 'N',
   PRIMARY KEY (`codigo_controlnotas`),
   KEY `fk_tcontrolnotas_msd` (`codigo_msd`),
   KEY `fk_tcontrolnotas_lapso` (`codigo_lapso`),
   KEY `fk_tcontrolnotas_estudiante` (`cedula_estudiante`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=15 ;
 
 --
 -- Volcado de datos para la tabla `tcontrol_notas`
 --
 
-INSERT INTO `tcontrol_notas` (`codigo_controlnotas`, `codigo_msd`, `cedula_estudiante`, `codigo_lapso`, `notafinal`) VALUES
-(1, 2, 'V252132343', 2, 12),
-(4, 1, 'V252132343', 2, 12);
+INSERT INTO `tcontrol_notas` (`codigo_controlnotas`, `codigo_msd`, `cedula_estudiante`, `codigo_lapso`, `notafinal`, `aprobado`) VALUES
+(1, 2, 'V252132343', 2, 12, 'Y'),
+(4, 1, 'V252132343', 2, 12, 'Y'),
+(5, 14, 'V12312312', 1, 14, 'Y'),
+(6, 14, 'V24935226', 1, 12, 'Y'),
+(7, 14, 'V252132343', 1, 16, 'Y'),
+(8, 14, 'V25347013', 1, 18, 'Y'),
+(9, 14, 'V30363014', 1, 12, 'Y'),
+(10, 14, 'V30484143', 1, 12, 'Y'),
+(11, 14, 'V12312312', 2, 12, 'Y'),
+(12, 14, 'V24935226', 2, 14, 'Y'),
+(13, 14, 'V252132343', 2, 12, 'Y'),
+(14, 14, 'V25347013', 2, 16, 'Y');
 
 -- --------------------------------------------------------
 
@@ -5957,11 +6190,26 @@ CREATE TABLE IF NOT EXISTS `tplan_evaluacion` (
   `codigo_lapso` int(11) NOT NULL,
   `descripcion` varchar(60) COLLATE utf8_spanish_ci NOT NULL,
   `porcentaje` float(11,2) NOT NULL DEFAULT '0.00',
-  `fecha_desactivacion` date NOT NULL,
+  `fecha_desactivacion` date DEFAULT NULL,
   PRIMARY KEY (`codigo_plan_evaluacion`),
   KEY `fk_tplanevaluacion_msd` (`codigo_msd`),
   KEY `fk_tplanevaluacion_lapso` (`codigo_lapso`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=32 ;
+
+--
+-- Volcado de datos para la tabla `tplan_evaluacion`
+--
+
+INSERT INTO `tplan_evaluacion` (`codigo_plan_evaluacion`, `codigo_msd`, `codigo_lapso`, `descripcion`, `porcentaje`, `fecha_desactivacion`) VALUES
+(1, 14, 1, 'UNIDAD I', 25.00, NULL),
+(2, 14, 1, 'UNIDAD II', 25.00, NULL),
+(3, 14, 1, 'UNIDAD III', 25.00, NULL),
+(26, 14, 1, 'UNIDAD IV', 25.00, NULL),
+(27, 14, 2, 'UNIDAD I', 20.00, NULL),
+(28, 14, 2, 'UNIDAD II', 20.00, NULL),
+(29, 14, 2, 'UNIDAD III', 20.00, NULL),
+(30, 14, 2, 'UNIDAD IV', 20.00, NULL),
+(31, 14, 2, 'UNIDAD V', 20.00, NULL);
 
 -- --------------------------------------------------------
 
@@ -6110,7 +6358,7 @@ CREATE TABLE IF NOT EXISTS `tservicio` (
   PRIMARY KEY (`codigo_servicio`),
   UNIQUE KEY `url` (`url`),
   KEY `tservicios_ibfk_1` (`codigo_modulo`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=45 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=46 ;
 
 --
 -- Volcado de datos para la tabla `tservicio`
@@ -6160,7 +6408,8 @@ INSERT INTO `tservicio` (`codigo_servicio`, `descripcion`, `url`, `orden`, `codi
 (41, 'HORARIO', 'HORARIO', '2', 8, NULL),
 (42, 'DESBLOQUEAR USUARIO', 'DESBLOQUEARUSUARIO', '10', 6, NULL),
 (43, 'REPORTE DE HORARIO', 'REP_HORARIO', '11', 5, NULL),
-(44, 'PLAN DE EVALUACIÓN', 'PLANEVALUACION', '0', 4, NULL);
+(44, 'PLAN DE EVALUACIÓN', 'PLANEVALUACION', '0', 4, NULL),
+(45, 'APLICAR NOTA FINAL', 'APLICAR_NOTAS', '3', 4, NULL);
 
 -- --------------------------------------------------------
 
@@ -6183,75 +6432,6 @@ CREATE TABLE IF NOT EXISTS `tservicio_usuario_opcion` (
 --
 
 INSERT INTO `tservicio_usuario_opcion` (`codigo_opcion`, `codigo_servicio`, `codigo_perfil`) VALUES
-(NULL, 7, 2),
-(2, 7, 2),
-(5, 7, 2),
-(7, 7, 2),
-(NULL, 16, 2),
-(NULL, 21, 2),
-(NULL, 22, 2),
-(NULL, 23, 2),
-(NULL, 24, 2),
-(NULL, 36, 2),
-(5, 36, 2),
-(NULL, 33, 2),
-(2, 33, 2),
-(NULL, 34, 2),
-(2, 34, 2),
-(NULL, 7, 2),
-(NULL, 16, 2),
-(NULL, 21, 2),
-(NULL, 22, 2),
-(NULL, 23, 2),
-(NULL, 24, 2),
-(NULL, 36, 2),
-(NULL, 33, 2),
-(NULL, 34, 2),
-(NULL, 7, 2),
-(NULL, 16, 2),
-(NULL, 21, 2),
-(NULL, 22, 2),
-(NULL, 23, 2),
-(NULL, 24, 2),
-(NULL, 36, 2),
-(NULL, 33, 2),
-(NULL, 34, 2),
-(NULL, 7, 2),
-(NULL, 16, 2),
-(NULL, 21, 2),
-(NULL, 22, 2),
-(NULL, 23, 2),
-(NULL, 24, 2),
-(NULL, 36, 2),
-(NULL, 33, 2),
-(NULL, 34, 2),
-(NULL, 7, 2),
-(NULL, 16, 2),
-(NULL, 21, 2),
-(NULL, 22, 2),
-(NULL, 23, 2),
-(NULL, 24, 2),
-(NULL, 36, 2),
-(NULL, 33, 2),
-(NULL, 34, 2),
-(NULL, 7, 2),
-(NULL, 16, 2),
-(NULL, 21, 2),
-(NULL, 22, 2),
-(NULL, 23, 2),
-(NULL, 24, 2),
-(NULL, 36, 2),
-(NULL, 33, 2),
-(NULL, 34, 2),
-(NULL, 7, 2),
-(NULL, 16, 2),
-(NULL, 21, 2),
-(NULL, 22, 2),
-(NULL, 23, 2),
-(NULL, 24, 2),
-(NULL, 36, 2),
-(NULL, 33, 2),
-(NULL, 34, 2),
 (1, 1, 1),
 (2, 1, 1),
 (3, 1, 1),
@@ -6378,6 +6558,13 @@ INSERT INTO `tservicio_usuario_opcion` (`codigo_opcion`, `codigo_servicio`, `cod
 (5, 44, 1),
 (6, 44, 1),
 (7, 44, 1),
+(1, 45, 1),
+(2, 45, 1),
+(3, 45, 1),
+(4, 45, 1),
+(5, 45, 1),
+(6, 45, 1),
+(7, 45, 1),
 (1, 19, 1),
 (2, 19, 1),
 (3, 19, 1),
@@ -6559,7 +6746,32 @@ INSERT INTO `tservicio_usuario_opcion` (`codigo_opcion`, `codigo_servicio`, `cod
 (4, 41, 1),
 (5, 41, 1),
 (6, 41, 1),
-(7, 41, 1);
+(7, 41, 1),
+(2, 7, 2),
+(5, 7, 2),
+(7, 7, 2),
+(NULL, 16, 2),
+(1, 44, 2),
+(2, 44, 2),
+(3, 44, 2),
+(4, 44, 2),
+(5, 44, 2),
+(6, 44, 2),
+(7, 44, 2),
+(1, 45, 2),
+(2, 45, 2),
+(3, 45, 2),
+(4, 45, 2),
+(5, 45, 2),
+(6, 45, 2),
+(7, 45, 2),
+(NULL, 21, 2),
+(NULL, 22, 2),
+(NULL, 23, 2),
+(NULL, 24, 2),
+(5, 36, 2),
+(2, 33, 2),
+(2, 34, 2);
 
 -- --------------------------------------------------------
 
@@ -6587,8 +6799,8 @@ CREATE TABLE IF NOT EXISTS `tusuario` (
 --
 
 INSERT INTO `tusuario` (`nombre_usuario`, `cedula`, `codigo_perfil`, `intento_fallido`, `activar_caducidad`, `sesion_abierta`, `fecha_ultimasesion`, `fecha_desactivacion`) VALUES
-('V121212121', 'V121212121', 2, 2, 1, 0, NULL, NULL),
-('V123456789', 'V123456789', 1, 0, 1, 1, '2016-10-02', NULL),
+('V121212121', 'V121212121', 2, 0, 1, 0, '2016-10-27', NULL),
+('V123456789', 'V123456789', 1, 0, 1, 0, '2016-10-27', NULL),
 ('V13131313', 'V13131313', 1, 3, 1, 0, NULL, NULL);
 
 -- --------------------------------------------------------
