@@ -164,7 +164,7 @@
    }
    
    public function Consultar(){
-    $sql="select *,(CASE WHEN fecha_desactivacion IS NULL THEN  'Activo' ELSE 'Desactivado' END) AS estatus_bloque_hora from tbloque_hora where descripcion='$this->descripcion'";
+    $sql="select *,(CASE WHEN fecha_desactivacion IS NULL THEN  'Activo' ELSE 'Desactivado' END) AS estatus_bloque_hora from tbloque_hora where descripcion='$this->descripcion' and hora_inicio='$this->hora_inicio' and hora_fin='$this->hora_fin'";
 	$query=$this->mysql->Ejecutar($sql);
     if($this->mysql->Total_Filas($query)!=0){
 	$tbloque_hora=$this->mysql->Respuesta($query);

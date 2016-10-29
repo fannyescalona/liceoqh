@@ -202,6 +202,60 @@ function ACDataGrid(obj,url){
     });
 }
 
+//Función que recibe el id del objeto,la url y la posición del arreglo para obtener los parametros adicionales para ejecutar el llamado de autocompletado
+function ACDataGridDependiente(obj,url,pos){
+    var td = obj.parentNode;
+    var tr = td.parentNode;
+    $('#'+obj.id).autocomplete({
+        source: function(request, response) {
+            var Data = {items:[{term : request.term}]};
+            //  recorremos el arreglo para obtener los parametros de filtro
+            for(var i = 0;i<pos.length;i++){
+                param=tr.children[pos[i]].children[1].value.split('_');
+                Data.items.push({term:param[0]});
+            }
+            $.ajax({
+                url: "../autocomplete/"+url,
+                dataType: "json",
+                data: Data,
+                success: function(data) {
+                    response(data);
+                }
+            });
+        },
+        minLength: 1
+    });
+}
+
+//Función que recibe el id del objeto,la url y los campos de filtro para ejecutar el llamado de autocompletado
+function ACDataGridPorFiltro(obj,url,filtros){
+    $('#'+obj).autocomplete({
+        source: function(request, response) {
+            var Data = {items:[{term : request.term}]};
+            //  recorremos el arreglo para obtener los parametros de filtro
+            for(var i = 0;i<filtros.length;i++){
+                filtro = document.getElementById('\''+filtros[i]+'\'');
+                param=filtro.value.split('_');
+                Data.items.push({term:param[0]});
+            }
+            $.ajax({
+                url: "../autocomplete/"+url,
+                dataType: "json",
+                data: Data,
+                success: function(data) {
+                    console.log(data);
+                    response(data);
+                },
+                error: function(jqXHR, textStatus, errorThrown){
+                    alert('¡Error al procesar la petición! '+textStatus+" "+errorThrown+" "+jqXHR);
+                    console.log(jqXHR);
+                }
+            });
+        },
+        minLength: 1
+    });
+}
+
 function salir(){
     swal({
         title: stringUnicode("¿Está seguro que quiere salir?"),

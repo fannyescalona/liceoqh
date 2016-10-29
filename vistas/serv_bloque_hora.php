@@ -140,7 +140,7 @@ function enviarForm(value){
 <form id="form1" method="POST" action="../controladores/cont_bloque_hora.php">
   <input type="hidden" name="descripcion" id="campo_oculto1" value="" />
   <input type="hidden" name="hora_inicio" id="campo_oculto2" value="" />
-  <input type="hidden" name="hora_inicio" id="campo_oculto3" value="" />
+  <input type="hidden" name="hora_fin" id="campo_oculto3" value="" />
   <input type="hidden" name="operacion" id="operacion" value="Consultar" />
 </form>
 <div class="pagination">
