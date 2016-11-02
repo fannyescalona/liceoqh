@@ -234,8 +234,12 @@ function ACDataGridPorFiltro(obj,url,filtros){
             var Data = {items:[{term : request.term}]};
             //  recorremos el arreglo para obtener los parametros de filtro
             for(var i = 0;i<filtros.length;i++){
-                filtro = document.getElementById('\''+filtros[i]+'\'');
-                param=filtro.value.split('_');
+                filtro = $('#'+filtros[i]);
+                tag = $('#'+filtros[i]).prop("tagName");
+                if(tag == "SELECT" || tag == "select")
+                    param=filtro.val();
+                else
+                    param=filtro.value.split('_');
                 Data.items.push({term:param[0]});
             }
             $.ajax({
@@ -243,7 +247,6 @@ function ACDataGridPorFiltro(obj,url,filtros){
                 dataType: "json",
                 data: Data,
                 success: function(data) {
-                    console.log(data);
                     response(data);
                 },
                 error: function(jqXHR, textStatus, errorThrown){

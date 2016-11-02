@@ -42,7 +42,7 @@ function validar_formulario(param){
 			}
 			if(contarRepetidos(arregloM)>0){
 				alert('¡La Materia no se puede repetir!')
-				permitido = false
+				permitido = false;
 			}
 		}
 	}

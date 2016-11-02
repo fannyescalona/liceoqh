@@ -80,7 +80,7 @@
               $con=0;
               while ($row = $mysql->Respuesta($query)){
                 echo "<tr id='$con'>";
-                echo "<td><input type='text' name='materias[]' id='materia_".$con."' onKeyPress='return ACDataGridPorFiltro(this.id,\"materiaporfiltro.php\",[grado_escolar])' onKeyUp='this.value=this.value.toUpperCase()' title='Seleccione una materia' placeholder='Seleccione una materia' class='campoTexto' value='".$row['materia']."'/></td>";
+                echo "<td><input type='text' name='materias[]' id='materia_".$con."' onKeyPress='return ACDataGridPorFiltro(this.id,\"materiaporfiltro.php\",[&#39;grado_escolar&#39;])' onKeyUp='this.value=this.value.toUpperCase()' title='Seleccione una materia' placeholder='Seleccione una materia' class='campoTexto' value='".$row['materia']."'/></td>";
                 echo "<td><input type='text' name='docentes[]' id='docente_".$con."' onKeyPress='return ACDataGrid(this.id,\"docente.php\")' onKeyUp='this.value=this.value.toUpperCase()' title='Seleccione un docente' placeholder='Seleccione un docente' class='campoTexto' value='".$row['docente']."'/></td>";
                 echo "<td><button type='button' class='boton' onclick='elimina_me(".$con.")'><i class='icon-minus'></i></button></td>";
                 echo "</tr>";
@@ -102,7 +102,7 @@
       var contador=materias.length;
         function agrega_campos(){
             $("#tablaMaterias").append("<tr id='"+contador+"' >"+
-            "<td><input type='text' name='materias[]' id='materia_"+contador+"' onKeyPress='return ACDataGridPorFiltro(this.id,\"materiaporfiltro.php\",[grado_escolar])' onKeyUp='this.value=this.value.toUpperCase()' title='Seleccione una materia' placeholder='Seleccione una materia' class='campoTexto'/></td>"+
+            "<td><input type='text' name='materias[]' id='materia_"+contador+"' onKeyPress='return ACDataGridPorFiltro(this.id,\"materiaporfiltro.php\",[&#39;grado_escolar&#39;])' onKeyUp='this.value=this.value.toUpperCase()' title='Seleccione una materia' placeholder='Seleccione una materia' class='campoTexto'/></td>"+
             "<td><input type='text' name='docentes[]' id='docente_"+contador+"' onKeyPress='return ACDataGrid(this.id,\"docente.php\")' onKeyUp='this.value=this.value.toUpperCase()' title='Seleccione un docente' placeholder='Seleccione un docente' class='campoTexto'/></td>"+
             "<td><button type='button' class='boton' onclick='elimina_me("+contador+")'><i class='icon-minus'></button></td>"+
             "</tr>");
