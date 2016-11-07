@@ -633,6 +633,7 @@ CREATE TABLE tmateria_seccion_docente (
   seccion char(5) COLLATE utf8_spanish_ci NOT NULL,
   cedula_docente char(10) COLLATE utf8_spanish_ci NOT NULL,
   PRIMARY KEY(codigo_msd),
+  CONSTRAINT uk_msd UNIQUE(codigo_materia,seccion,cedula_docente),
   CONSTRAINT fk_tmateria_seccion_tmateria FOREIGN KEY (codigo_materia) REFERENCES tmateria (codigo_materia) ON UPDATE CASCADE,
   CONSTRAINT fk_tmateria_seccion_tseccion FOREIGN KEY (seccion) REFERENCES tseccion (seccion) ON UPDATE CASCADE,
   CONSTRAINT fk_tmateria_seccion_tpersona FOREIGN KEY (cedula_docente) REFERENCES tpersona (cedula) ON UPDATE CASCADE 
@@ -727,6 +728,7 @@ CREATE TABLE tusuario (
   codigo_perfil int(11) NOT NULL,
   intento_fallido int(11) NOT NULL DEFAULT '0',
   activar_caducidad int(11) NOT NULL DEFAULT '1',
+  sesion varchar(255) DEFAULT NULL,
   sesion_abierta int(11) NOT NULL DEFAULT '0',
   fecha_ultimasesion date DEFAULT NULL,
   fecha_desactivacion date DEFAULT NULL,

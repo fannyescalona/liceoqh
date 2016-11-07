@@ -155,6 +155,7 @@ if(isset($_SESSION['user_estado'])){
                   else if(isset($_GET['rep_notascertificadas'])) include("rep_notascertificadas.php"); //listo
                   else if(isset($_GET['rep_boletin'])) include("rep_boletin.php"); //listo
                   else if(isset($_GET['rep_horario'])) include("rep_horario.php"); //listo
+                  else if(isset($_GET['rep_planificacionnotas'])) include("rep_planificacionnotas.php"); //listo
                   else include("serv_inicio.php"); //listo                               	                                          	                                        	                                          	                                         	                                          	                                        	                                          	
                 }else {
                   echo "<script>location.href='403.php'</script>";

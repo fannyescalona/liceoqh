@@ -186,12 +186,20 @@ class Usuario{
 			return false;
 	}
    
-	public function Administrar_Sesion($bool){
+	public function Administrar_Sesion($bool,$sesion){
 		if($bool==true){
-			$sql="update tusuario set sesion_abierta=(sesion_abierta+1),fecha_ultimasesion = CURDATE() where (nombre_usuario='$this->user_name')";
+			$sql="update tusuario set sesion='$sesion',sesion_abierta=(sesion_abierta+1),fecha_ultimasesion = CURDATE() where (nombre_usuario='$this->user_name')";
 		}else{
 			$sql="update tusuario set sesion_abierta=(CASE WHEN sesion_abierta = 0 THEN 0 ELSE sesion_abierta-1 END) where (nombre_usuario='$this->user_name')";
 		}
+		if($this->mysql->Ejecutar($sql)!=null)
+			return true;
+		else
+			return false;
+	}
+   
+	public function Reset_Sesion(){
+		$sql="update tusuario set sesion_abierta=0 where (nombre_usuario='$this->user_name')";
 		if($this->mysql->Ejecutar($sql)!=null)
 			return true;
 		else
@@ -235,6 +243,7 @@ class Usuario{
 	    conf.numero_preguntas,
 	    conf.numero_preguntasaresponder,
 	    conf.dias_vigenciaclave,
+	    u.sesion,
 	    u.sesion_abierta, 
 	    conf.maxsesion,
 	    DATEDIFF(NOW(),COALESCE(u.fecha_ultimasesion,NOW())) AS dias_ultimasesion,

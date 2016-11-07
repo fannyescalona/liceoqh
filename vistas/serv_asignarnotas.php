@@ -49,9 +49,11 @@
                   }
                 }
               ?>
+            </select> 
+            <label>Materia:</label>
+            <input type="hidden" id="materia" name="materia" value=""/>
+            <select required class="campoTexto" name='codigo_materia' id='codigo_materia' title="Seleccione una materia">
             </select>
-            <label id="materia"></label>
-            <input type="hidden" id="codigo_materia" name="codigo_materia" value=""/>
             <input type="hidden" name="codigo_msd" id="codigo_msd" value="" />
           </div>
           <div class="span6">

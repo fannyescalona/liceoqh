@@ -1,3 +1,20 @@
+<script type="text/javascript">
+  $(document).ready(function(){
+    if($("#becadoN").attr('checked'))
+      $("#tipobeca_oculto").hide();
+    if($("#becadoY").attr('checked'))
+      $("#tipobeca_oculto").show();
+
+    $("input[name=becado]").click(function(){
+      if($('input:radio[name=becado]:checked').val()=="N"){
+        $("#tipobeca_oculto").hide();
+      }
+      else{
+        $("#tipobeca_oculto").show();
+      }
+    });
+  });
+</script>
 <div class="form_externo" >
   <form id="form3" name="form" method="POST" action="../controladores/cont_procesoinscripcion.php">
     <fieldset>
@@ -33,7 +50,7 @@
           <div class="row">
             <div class="span6">
               <label>Tiene Beca:</label>
-              <input tabindex=1 type="radio" name="becado" id="becado" value="Y" <?php if($row['becado']=="Y"){echo "checked"; }?>> SÍ <input type="radio" name="becado" id="becado" value="N" <?php if($row['becado']=="N"){echo "checked"; }?>> NO
+              <input tabindex=1 type="radio" name="becado" id="becadoY" value="Y" <?php if($row['becado']=="Y"){echo "checked"; }?>> SÍ <input type="radio" name="becado" id="becadoN" value="N" <?php if($row['becado']=="N"){echo "checked"; }?>> NO
               <label>Certificado de 6to Grado:</label>
               <input tabindex=3 type="radio" name="certificado_sextogrado" id="certificado_sextogrado" value="Y" <?php if($row['certificado_sextogrado']=="Y"){echo "checked"; }?>> SÍ <input type="radio" name="certificado_sextogrado" id="certificado_sextogrado" value="N" <?php if($row['certificado_sextogrado']=="N"){echo "checked"; }?>> NO
               <label>Notas Certificadas:</label>
@@ -46,14 +63,16 @@
               <input tabindex=11 type="radio" name="kitscomedor" id="kitscomedor" value="Y" <?php if($row['kitscomedor']=="Y"){echo "checked"; }?>> SÍ <input type="radio" name="kitscomedor" id="kitscomedor" value="N" <?php if($row['kitscomedor']=="N"){echo "checked"; }?>> NO
             </div>
             <div class="span6">
-              <label>Tipo de Beca:</label>
-              <select tabindex=2 name="tipobeca" id="tipobeca" title="Seleccione el Tipo de Beca" class='lista' >
-                <option value="0">Selecione el Tipo de Beca</option>
-                <option value="N" <?php if($row['tipobeca']=="N"){ echo "selected";}?>>Nacional</option>
-                <option value="E" <?php if($row['tipobeca']=="E"){ echo "selected";}?>>Estadal</option>
-                <option value="M" <?php if($row['tipobeca']=="M"){ echo "selected";}?>>Madres del Barrio</option>
-                <option value="H" <?php if($row['tipobeca']=="H"){ echo "selected";}?>>Hijos de Venezuela</option>
-              </select>
+              <div id="tipobeca_oculto">
+                <label>Tipo de Beca:</label>
+                <select tabindex=2 name="tipobeca" id="tipobeca" title="Seleccione el Tipo de Beca" class='lista' >
+                  <option value="0">Selecione el Tipo de Beca</option>
+                  <option value="N" <?php if($row['tipobeca']=="N"){ echo "selected";}?>>Nacional</option>
+                  <option value="E" <?php if($row['tipobeca']=="E"){ echo "selected";}?>>Estadal</option>
+                  <option value="M" <?php if($row['tipobeca']=="M"){ echo "selected";}?>>Madres del Barrio</option>
+                  <option value="H" <?php if($row['tipobeca']=="H"){ echo "selected";}?>>Hijos de Venezuela</option>
+                </select>
+              </div>
               <label>Fotocopia de C.I. del Estudiante:</label>
               <input tabindex=4 type="radio" name="fotocopia_ciestudiante" id="fotocopia_ciestudiante" value="Y" <?php if($row['fotocopia_ciestudiante']=="Y"){echo "checked"; }?>> SÍ <input type="radio" name="fotocopia_ciestudiante" id="fotocopia_ciestudiante" value="N" <?php if($row['fotocopia_ciestudiante']=="N"){echo "checked"; }?>> NO
               <label>Fotocopia de Partida de Nacimiento del Estudiante:</label>

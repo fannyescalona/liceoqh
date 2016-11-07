@@ -1,7 +1,18 @@
 $(document).ready(init);
 function init(){
+
+	if($("materia").val()!=""){
+		var Combo = {"operacion":"ComboMateria","seccion":$("#seccion").val(),"cedula_docente":$("#cedula_docente").val()};
+		comboDependiente(Combo,"../controladores/cont_materia.php",$("#codigo_materia"),['materia']);
+	}
+
 	$("#seccion").on("change",function(){
-		var Data = {"operacion":"BuscarMSD","seccion":$(this).val(),"cedula_docente":$("#cedula_docente").val()};
+		var Combo = {"operacion":"ComboMateria","seccion":$(this).val(),"cedula_docente":$("#cedula_docente").val()};
+		comboDependiente(Combo,"../controladores/cont_materia.php",$("#codigo_materia"),['materia']);
+	});
+
+	$("#codigo_materia").on("change",function(){
+		var Data = {"operacion":"BuscarMSD","seccion":$("#seccion").val(),"cedula_docente":$("#cedula_docente").val(),"codigo_materia":$(this).val()};
 		$.ajax({
 	        url: '../controladores/cont_planevaluacion.php',
 	        type: 'POST',
@@ -9,8 +20,6 @@ function init(){
 	        data: Data,
 	        dataType: "json",
 	        success: function(resp){
-	        	$("#materia").text(resp[0].materia);
-	        	$("#codigo_materia").val(resp[0].codigo_materia);
 	        	$("#codigo_msd").val(resp[0].codigo_msd);
 	        },
 	        error: function(jqXHR, textStatus, errorThrown){

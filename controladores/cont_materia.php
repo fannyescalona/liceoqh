@@ -139,5 +139,10 @@ if($operacion=='Consultar'){
     $_SESSION['datos']['mensaje']=$error;
     header("Location: ../vistas/?materia");
   }
-}		  
+}
+
+if($operacion=="ComboMateria"){
+  echo $materia->ComboMateria($_POST['seccion'],$_POST['cedula_docente']);
+  unset($materia);
+} 
 ?>

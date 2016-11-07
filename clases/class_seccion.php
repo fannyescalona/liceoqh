@@ -114,17 +114,18 @@
 	 }
    }
 
-	public function EliminarMateriasDocentes(){
-		$sql="DELETE FROM tmateria_seccion_docente WHERE (seccion='$this->seccion');";
-		if($this->mysql->Ejecutar($sql)!=null)
-			return true;
-		else{
-	      $this->error($this->mysql->Error());
-	      return false;
-	    } 
-	} 
+  public function EliminarMateriasDocentes(){
+    $sql="DELETE FROM tmateria_seccion_docente WHERE (seccion='$this->seccion');";
+    if($this->mysql->Ejecutar($sql)!=null)
+      return true;
+    else{
+      $this->error($this->mysql->Error());
+      return false;
+    }
+  } 
 
 	public function InsertarMateriasDocentes($materias,$docentes){
+      print_r($materias);
 	    $sql="INSERT INTO tmateria_seccion_docente(seccion,codigo_materia,cedula_docente) VALUES ";
 	    for($i=0;$i<count($materias);$i++){
 	    	//	Obtenemos el codigo de la materia y el docente
@@ -136,6 +137,7 @@
 	    }
 	    $sql=substr($sql,0,-1);
 	    $sql=$sql.";";
+      echo $sql;
 	    if($this->mysql->Ejecutar($sql)!=null)
 	      return true;
 	    else{
@@ -143,6 +145,149 @@
 	      return false;
 	    }
     }
+
+  public function ActualizarMSD($msd_old,$cant_msd_new,$codigo_msd,$materias,$docentes,$oldmateria,$olddocente){
+    $con=0;
+    $msd_old = explode("_",$msd_old);
+    $msg = "";
+    $error = "";
+    if(count($msd_old) == $cant_msd_new){
+      for($i=0;$i<$cant_msd_new;$i++){
+        //  Obtenemos el codigo de la materia y el docente
+        $materia=explode('_',$materias[$i]);
+        $docente=explode('_',$docentes[$i]);
+        //  Comprobamos dependencias
+        $sqlx="SELECT * FROM tmateria_seccion_docente msd WHERE codigo_msd = ".$msd_old[$i]." 
+        AND (EXISTS (SELECT 1 FROM tplan_evaluacion pe WHERE msd.codigo_msd = pe.codigo_msd)
+        OR EXISTS (SELECT 1 FROM tcontrol_notas cn WHERE msd.codigo_msd = cn.codigo_msd))";
+        $query=$this->mysql->Ejecutar($sqlx);
+        if($this->mysql->Total_Filas($query)==0){
+          //  Actualizamos registros
+          $sql1="UPDATE tmateria_seccion_docente SET codigo_materia='".$materia[0]."',cedula_docente = '".$docente[0]."' WHERE codigo_msd='".$msd_old[$i]."'";
+          if($this->mysql->Ejecutar($sql1)!=null)
+            $con++;
+          else{
+            $error.=$this->mysql->Error()."<br>";
+            $con--; 
+          }
+        }
+        else{
+          $oldmateria=explode("_",$oldmateria[$i]);
+          $olddocente=explode("_",$olddocente[$i]);
+          //  Error en caso que exista dependencia con el registro
+          $msg.="Codigo: ".$msd_old[$i]." - Materia: ".$oldmateria[1]." - Docente: ".$olddocente[1];
+          $con++;
+        }
+      }
+    }
+    else if(count($msd_old) < $cant_msd_new){
+      for($i=0;$i<count($msd_old);$i++){
+        //  Obtenemos el codigo de la materia y el docente
+        $materia=explode('_',$materias[$i]);
+        $docente=explode('_',$docentes[$i]);
+        //  Comprobamos dependencias
+        $sqlx="SELECT * FROM tmateria_seccion_docente msd WHERE codigo_msd = ".$msd_old[$i]." 
+        AND (EXISTS (SELECT 1 FROM tplan_evaluacion pe WHERE msd.codigo_msd = pe.codigo_msd)
+        OR EXISTS (SELECT 1 FROM tcontrol_notas cn WHERE msd.codigo_msd = cn.codigo_msd))";
+        $query=$this->mysql->Ejecutar($sqlx);
+        if($this->mysql->Total_Filas($query)==0){
+          //  Actualizamos registros
+          $sql1="UPDATE tmateria_seccion_docente SET codigo_materia='".$materia[0]."',cedula_docente = '".$docente[0]."' WHERE codigo_msd='".$msd_old[$i]."'";
+          if($this->mysql->Ejecutar($sql1)!=null)
+            $con++;
+          else{
+            $error.=$this->mysql->Error()."<br>";
+            $con--; 
+          }
+        }
+        else{
+          $oldmateria=explode("_",$oldmateria[$i]);
+          $olddocente=explode("_",$olddocente[$i]);
+          //  Error en caso que exista dependencia con el registro
+          $msg.="Codigo: ".$msd_old[$i]." - Materia: ".$oldmateria[1]." - Docente: ".$olddocente[1];
+          $con++;
+        }
+      }
+      for ($j=$con;$j < $cant_msd_new;$j++) { 
+        //  Obtenemos el codigo de la materia y el docente
+        $materia=explode('_',$materias[$j]);
+        $docente=explode('_',$docentes[$j]);
+        $sql2="INSERT INTO tmateria_seccion_docente (seccion,codigo_materia,cedula_docente) 
+        VALUES ('$this->seccion','".$materia[0]."','".$docente[0]."');";
+        if($this->mysql->Ejecutar($sql2))
+          $con++;
+        else{
+          $error.=$this->mysql->Error()."<br>";
+          $con--; 
+        }
+      }
+    }
+    else{
+      for($i=0;$i<$cant_msd_new;$i++){
+        //  Obtenemos el codigo de la materia y el docente
+        $materia=explode('_',$materias[$i]);
+        $docente=explode('_',$docentes[$i]);
+        //  Comprobamos dependencias
+        $sqlx="SELECT * FROM tmateria_seccion_docente msd WHERE codigo_msd = ".$msd_old[$i]." 
+        AND (EXISTS (SELECT 1 FROM tplan_evaluacion pe WHERE msd.codigo_msd = pe.codigo_msd)
+        OR EXISTS (SELECT 1 FROM tcontrol_notas cn WHERE msd.codigo_msd = cn.codigo_msd))";
+        $query=$this->mysql->Ejecutar($sqlx);
+        if($this->mysql->Total_Filas($query)==0){
+          //  Actualizamos registros
+          $sql1="UPDATE tmateria_seccion_docente SET codigo_materia='".$materia[0]."',cedula_docente = '".$docente[0]."' WHERE codigo_msd='".$msd_old[$i]."'";
+          if($this->mysql->Ejecutar($sql1)!=null){
+            $con++;
+          }else{
+            $error.=$this->mysql->Error()."<br>";
+            $con--; 
+          }
+        }
+        else{
+          $oldmateria=explode("_",$oldmateria[$i]);
+          $olddocente=explode("_",$olddocente[$i]);
+          //  Error en caso que exista dependencia con el registro
+          $msg.="Codigo: ".$msd_old[$i]." - Materia: ".$oldmateria[1]." - Docente: ".$olddocente[1];
+          $con++;
+        }
+      }
+      for ($k=$con;$k < count($msd_old);$k++) {
+        //  Obtenemos el codigo de la materia y el docente
+        $materia=explode('_',$materias[$k]);
+        $docente=explode('_',$docentes[$k]);
+        //  Comprobamos dependencias
+        $sqlx="SELECT * FROM tmateria_seccion_docente msd WHERE codigo_msd = ".$msd_old[$k]." 
+        AND (EXISTS (SELECT 1 FROM tplan_evaluacion pe WHERE msd.codigo_msd = pe.codigo_msd)
+        OR EXISTS (SELECT 1 FROM tcontrol_notas cn WHERE msd.codigo_msd = cn.codigo_msd))";
+        $query=$this->mysql->Ejecutar($sqlx);
+        if($this->mysql->Total_Filas($query)==0){
+          //  Actualizamos registros
+          $sql2="DELETE FROM tmateria_seccion_docente WHERE codigo_msd='".$msd_old[$k]."';";
+          if($this->mysql->Ejecutar($sql2)){
+            $con++;
+          }else{
+            $error.=$this->mysql->Error()."<br>";
+            $con--; 
+          }
+        }
+        else{
+          $oldmateria=explode("_",$oldmateria[$i]);
+          $olddocente=explode("_",$olddocente[$i]);
+          //  Error en caso que exista dependencia con el registro
+          $msg.="Codigo: ".$msd_old[$i]." - Materia: ".$oldmateria[1]." - Docente: ".$olddocente[1];
+          $con++;
+        }
+      }
+      $cant_msd_new = count($msd_old);
+    }
+    if($con==$cant_msd_new){
+      $this->error($msg);
+      return true;
+    }
+    else{
+      $this->error($error);
+      return false;
+    }
+  }
 
    public function Registrar(){
     $sql="insert into tseccion (seccion,descripcion,turno,grado_escolar,capacidad_min,capacidad_max) values ";
@@ -281,7 +426,7 @@
   public function BuscarDatosNotas($codigo_msd,$codigo_lapso){
     $sql="SELECT DISTINCT pe.codigo_plan_evaluacion,COALESCE(an.cedula_estudiante,pi.cedula_estudiante) AS cedula_estudiante, 
     CONCAT(pi.cedula_estudiante,' ',p.nombres,' ',p.apellidos) AS estudiante,pe.descripcion AS unidad_evaluada,
-    COALESCE(an.notaobtenida,0) AS notaobtenida 
+    ROUND(COALESCE(an.notaobtenida,0),0) AS notaobtenida 
     FROM tplan_evaluacion pe 
     INNER JOIN tmateria_seccion_docente msd ON pe.codigo_msd = pe.codigo_msd 
     INNER JOIN tproceso_inscripcion pi ON msd.seccion = pi.seccion 

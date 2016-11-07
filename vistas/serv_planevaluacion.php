@@ -12,7 +12,6 @@
     $servicios='planevaluacion';
     if(isset($_SESSION['datos'])){
       @$seccion=$_SESSION['datos']['seccion'];
-      @$materia=$_SESSION['datos']['materia'];
       @$codigo_materia=$_SESSION['datos']['codigo_materia'];
       @$codigo_msd=$_SESSION['datos']['codigo_msd'];
       @$codigo_lapso=$_SESSION['datos']['codigo_lapso'];
@@ -57,8 +56,9 @@
             ?>
           </select> 
           <label>Materia</label>
-          <label id="materia"><?php echo $materia; ?></label>
-          <input type="hidden" id="codigo_materia" name="codigo_materia" value="<?= $codigo_materia?>"/>
+          <input type="hidden" id="materia" name="materia" value="<?php echo $codigo_materia ?>"/>
+          <select required class="campoTexto" name='codigo_materia' id='codigo_materia' title="Seleccione una materia">
+          </select>
           <input type="hidden" name="codigo_msd" id="codigo_msd" value="<?=$codigo_msd;?>" />
           <label>Lapso Académico:</label>
           <select name="codigo_lapso" id="codigo_lapso" title="Seleccione un lapso académico" required="" class="campoTexto"/>
@@ -156,8 +156,8 @@
     $servicios_permitidos=$perfil->IMPRIMIR_SERVICIOS_USUARIO();
     $servicio_solicitado=strtolower(preg_replace('/(serv_)|(\.php)/','',basename(__FILE__))); 
   ?>
-    <a href="?seccion" ><img src="../images/cerrar.png" alt="Cerrar" style="width:40px;heigth:40px;float:right;"></a>
-    <a href="../excel/excel_seccion.php" ><img src="../images/icon-excel.png" alt="Exportar a Excel" style="width:40px;heigth:40px;float:right;"></a>
+    <a href="?planevaluacion" ><img src="../images/cerrar.png" alt="Cerrar" style="width:40px;heigth:40px;float:right;"></a>
+    <a href="../excel/excel_planevaluacion.php" ><img src="../images/icon-excel.png" alt="Exportar a Excel" style="width:40px;heigth:40px;float:right;"></a>
     <a href="<?php echo  '../pdf/?serv='.$servicio_solicitado;?>" target="_blank"><img src="../images/icon-pdf.png" alt="Exportar a PDF" style="width:40px;heigth:40px;float:right;margin:0.3em;margin-left:1em;"></a>
     <table class="table table-striped table-bordered table-condensed">
       <tr> 

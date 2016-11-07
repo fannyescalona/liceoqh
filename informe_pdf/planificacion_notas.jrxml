@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="planificacion_notas" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="a05e5def-a233-4ff6-b90f-65d910e7f5e8">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="cedula_docente" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="codigo_ano_academico" class="java.math.BigDecimal">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+    CONCAT(msd.cedula_docente,' ',p.nombres,' ',p.apellidos) AS docente,
+    aa.descripcion AS anio_academico,
+    l.descripcion AS lapso,
+    s.descripcion AS seccion,
+    m.descripcion AS materia,
+    pe.descripcion AS unidad_evaluativa,
+    pe.porcentaje,
+    DATE_FORMAT(CURDATE(),'%d/%m/%Y') AS fecha_actual,
+    DATE_FORMAT(NOW(),'%h:%i:%s %p') AS hora_actual
+FROM tplan_evaluacion pe
+INNER JOIN tmateria_seccion_docente msd ON pe.codigo_msd = msd.codigo_msd
+INNER JOIN tlapso l ON pe.codigo_lapso = l.codigo_lapso
+INNER JOIN tano_academico aa ON l.codigo_ano_academico = aa.codigo_ano_academico
+INNER JOIN tmateria m ON msd.codigo_materia = m.codigo_materia
+INNER JOIN tseccion s ON msd.seccion = s.seccion
+INNER JOIN tpersona p ON msd.cedula_docente = p.cedula
+WHERE msd.cedula_docente = $P{cedula_docente} AND aa.codigo_ano_academico = $P{codigo_ano_academico}
+ORDER BY aa.descripcion,l.descripcion,s.descripcion,m.descripcion,pe.descripcion ASC]]>
+	</queryString>
+	<field name="docente" class="java.lang.String"/>
+	<field name="anio_academico" class="java.lang.String"/>
+	<field name="lapso" class="java.lang.String"/>
+	<field name="seccion" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="materia" class="java.lang.String"/>
+	<field name="unidad_evaluativa" class="java.lang.String"/>
+	<field name="porcentaje" class="java.lang.Float">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="fecha_actual" class="java.lang.String"/>
+	<field name="hora_actual" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="201" splitType="Stretch">
+			<image>
+				<reportElement x="35" y="0" width="467" height="70" uuid="abfa4d4c-5bc5-4f06-9c6d-db51a33c928e"/>
+				<imageExpression><![CDATA["/var/www/html/liceoqh/images/cintillo_reportes.jpg"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="144" y="82" width="271" height="26" uuid="c067c05c-350c-41e4-897d-419c83cffee8"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[U.E.N. QUEBRADA HONDA
+PLANIFICACIÓN DE NOTAS]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="0" y="181" width="80" height="20" uuid="b6f9a8bf-dbb8-40de-8ab4-b3a31104d3cc"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Lapso"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="80" y="181" width="100" height="20" uuid="5f02cda9-fc26-4f5d-a530-50e86d891457"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Sección"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="180" y="181" width="150" height="20" uuid="2a027c59-d631-4f44-ab6a-3319dcdab9d0"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Materia"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="330" y="181" width="150" height="20" uuid="333ead5c-3344-440c-81a7-8ef85b882cd0"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Tema"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="480" y="181" width="75" height="20" uuid="76759f43-7db4-4f75-b996-7198a9629d56"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Porcentaje"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="118" width="80" height="20" uuid="470cc130-4ea2-4802-b812-0d03aa6b1040"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Año Académico:"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="80" y="118" width="200" height="20" uuid="b4e47872-47ba-49e8-98b4-891766a5e2d5"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{anio_academico}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="80" y="138" width="200" height="20" uuid="9270afcd-cbc7-4ee1-b564-c96b5e79be3a"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{docente}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="138" width="80" height="20" uuid="10bdd555-02c0-45d8-9f63-aef9c7e4a3e5"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Docente:"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="380" y="118" width="100" height="20" uuid="ab91c852-649b-4ea5-8d0f-e9dbe63d5f08"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Fecha Emisión:"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="380" y="138" width="100" height="20" uuid="34a4a029-8404-4c9e-bc81-f0ed59b75fc1"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Hora Emisión:"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="480" y="118" width="75" height="20" uuid="192695a0-e89f-40ef-ab6b-038f0bf022e9"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{fecha_actual}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="480" y="138" width="75" height="20" uuid="0da45e7a-558f-4f13-bc74-7c294a6ef33b"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{hora_actual}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="80" height="20" uuid="4298d94f-1fe3-4e85-bf0e-ed73612fdf20"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{lapso}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="80" y="0" width="100" height="20" uuid="6e02c544-a0d0-4f4e-a1ba-21e251f9db42"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{seccion}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="180" y="0" width="150" height="20" uuid="d85bc925-839d-4144-83c1-b94870cced39"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{materia}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="330" y="0" width="150" height="20" uuid="99516d1b-c978-4f63-b63a-bff7821a01e9"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{unidad_evaluativa}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.00;-###0.00">
+				<reportElement x="480" y="0" width="75" height="20" uuid="cc0ae8fb-1768-4bef-b738-5604ee794e29"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{porcentaje}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

@@ -210,5 +210,24 @@
 		return false;
 	}
    }
+
+   public function ComboMateria($seccion,$cedula_docente){
+    $sql="SELECT msd.codigo_materia AS id,m.descripcion AS name 
+    FROM tmateria_seccion_docente msd 
+    INNER JOIN tmateria m ON msd.codigo_materia = m.codigo_materia 
+    WHERE msd.seccion = '$seccion' AND msd.cedula_docente = '$cedula_docente'";
+    $query = $this->mysql->Ejecutar($sql);
+    while($Obj=$this->mysql->Respuesta_assoc($query)){
+      $rows[]=array_map("html_entity_decode",$Obj);
+    }
+    if(!empty($rows)){
+      $json = json_encode($rows);
+    }
+    else{
+      $rows[] = array("msj" => "Error al Buscar Registros ");
+      $json = json_encode($rows);
+    }
+    return $json;
+  }
 }
 ?>

@@ -9,6 +9,8 @@
         $disabledRC=null;
         $disabledMD=null;
         $estatus=null;
+        $longitud_minclave=0;
+        $longitud_maxclave=999;
         require_once('../clases/class_bd.php'); 
         $conexion = new Conexion();
         $sql = "SELECT c.* FROM tconfiguracion c 
@@ -16,6 +18,8 @@
         WHERE p.codigo_perfil = '".$_SESSION['user_codigo_perfil']."'";
         $query=$conexion->Ejecutar($sql);
         if($Obj=$conexion->Respuesta($query)){
+          $longitud_minclave = $Obj['longitud_minclave'];
+          $longitud_maxclave = $Obj['longitud_maxclave'];
           echo "<input type='hidden' id='longitud_minclave' value='".$Obj['longitud_minclave']."' />";
           echo "<input type='hidden' id='longitud_maxclave' value='".$Obj['longitud_maxclave']."' />";
           echo "<input type='hidden' id='cantidad_letrasmayusculas' value='".$Obj['cantidad_letrasmayusculas']."' />";
@@ -63,13 +67,13 @@
             <div class="input-prepend">
               <label>Nueva Contrase&ntilde;a</label>
               <span class="add-on"><i class="icon-lock"></i></span>         
-              <input name="nueva_contrasena" type="password" id="nueva_contrasena"  placeholder="Nueva contrase&ntilde;a"  title="Nueva Contrase&ntilde;a"/>
+              <input name="nueva_contrasena" type="password" id="nueva_contrasena" minlength="<?php echo $longitud_minclave; ?>" maxlength="<?php echo $longitud_maxclave; ?>" placeholder="Nueva contrase&ntilde;a"  title="Nueva Contrase&ntilde;a"/>
               <input value="12345678" type="hidden" name="contrasena"/>                           
             </div>
             <div class="input-prepend">
               <label>Repetir Contrase&ntilde;a</label>
               <span class="add-on"><i class="icon-lock"></i></span>
-              <input name="confirmar_contrasena" type="password" id="confirmar_contrasena" placeholder="Repita la Contrase&ntilde;a" title="Repita la Contrase&ntilde;a"/>
+              <input name="confirmar_contrasena" type="password" id="confirmar_contrasena" minlength="<?php echo $longitud_minclave; ?>" maxlength="<?php echo $longitud_maxclave; ?>" placeholder="Repita la Contrase&ntilde;a" title="Repita la Contrase&ntilde;a"/>
             </div>
             <input type="hidden" name="cambiar_clave_con_logeo" placeholder="Cambiar Clave" value="1" class="campoTexto"/>
           </div>

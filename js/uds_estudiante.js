@@ -1,5 +1,15 @@
 $(document).ready(init);
 function init(){
+	var edad = '-'+$('#edad_maxima_primer_anio').val()+'y';
+    //Agregar Objeto Calendario al input fecha_nacimiento.
+    $('#fecha_nacimiento_estudiante').datepicker({
+        minDate: edad,
+        maxDate: '-10y',
+        showOn: 'both',
+        numberOfMonths: 1,
+        buttonImage: '../images/calendario.png',
+        buttonImageOnly: true
+    });
 	//Búsquedas de las parroquias por autocompletar.
 	$('#lugar_nacimiento').autocomplete({
 		source:'../autocomplete/parroquia.php', 
@@ -35,7 +45,7 @@ function validar_formulario(param){
 	valor2=document.getElementById('nombres').value;
 	valor3=document.getElementById('apellidos').value;
 	valor4=document.getElementById('genero').value;
-	valor5=document.getElementById('fecha_nacimiento').value;
+	valor5=document.getElementById('fecha_nacimiento_estudiante').value;
 	valor6=document.getElementById('lugar_nacimiento').value;
 	valor7=document.getElementById('direccion').value;
 	valor8=document.getElementById('telefono_habitacion').value;

@@ -27,6 +27,7 @@ $capacidad_max=ucfirst(trim($_POST['capacidad_max']));
 include_once("../clases/class_seccion.php");
 $seccion=new Seccion();
 if($operacion=='Registrar'){
+  $seccion->Transaccion("iniciando");
   $seccion->seccion($id);
   $seccion->descripcion($descripcion);
   $seccion->turno($turno);
@@ -36,7 +37,6 @@ if($operacion=='Registrar'){
   if(!$seccion->Comprobar()){
     if($seccion->Registrar()){
       if(isset($_POST['materias']) && isset($_POST['docentes'])){
-        $seccion->EliminarMateriasDocentes();
         $seccion->InsertarMateriasDocentes($_POST['materias'],$_POST['docentes']);
         $confirmacion=1;
       }
@@ -54,15 +54,18 @@ if($operacion=='Registrar'){
     }
   }
   if($confirmacion==1){
+    $seccion->Transaccion("finalizado");
     $_SESSION['datos']['mensaje']="La sección ha sido registrado con éxito !";
     header("Location: ../vistas/?seccion");
    }else{
+    $seccion->Transaccion("cancelado");
     $_SESSION['datos']['mensaje']="Se presentó un error al registrar la sección.<br><b>Error: ".utf8_encode($seccion->error())."</b>";
     header("Location: ../vistas/?seccion");
   }
 }
 
 if($operacion=='Modificar'){
+  $seccion->Transaccion("iniciando");
   $seccion->seccion($id);
   $seccion->descripcion($descripcion);
   $seccion->turno($turno);
@@ -70,10 +73,11 @@ if($operacion=='Modificar'){
   $seccion->capacidad_min($capacidad_min);
   $seccion->capacidad_max($capacidad_max);
   if($seccion->Actualizar()){
-    if(isset($_POST['materias']) && isset($_POST['docentes'])){
-      $seccion->EliminarMateriasDocentes();
-      $seccion->InsertarMateriasDocentes($_POST['materias'],$_POST['docentes']);
-      $confirmacion=1;
+    if(isset($_POST['codigo_msds']) && isset($_POST['materias']) && isset($_POST['docentes'])){
+      if($seccion->ActualizarMSD($_POST['oldcodigo_msd'],count($_POST['codigo_msds']),$_POST['codigo_msds'],$_POST['materias'],$_POST['docentes'],$_POST['oldmateria'],$_POST['olddocente']))
+        $confirmacion=1;
+      else
+        $confirmacion=0;
     }
     else
       $confirmacion=1;
@@ -81,9 +85,14 @@ if($operacion=='Modificar'){
   else
    $confirmacion=-1;
   if($confirmacion==1){
-    $_SESSION['datos']['mensaje']="La sección ha sido modificado con éxito !";
+    $seccion->Transaccion("finalizado");
+    if(!empty($seccion->error()))
+      $_SESSION['datos']['mensaje']="La sección ha sido modificado con éxito! <br> Los siguientes registros no se pueden modificar/eliminar porque tienen transacciones asociadas: <br><b>Error: ".utf8_encode($seccion->error())."</b>";
+    else
+      $_SESSION['datos']['mensaje']="La sección ha sido modificado con éxito!";
     header("Location: ../vistas/?seccion");
   }else{
+    $seccion->Transaccion("cancelado");
     $_SESSION['datos']['mensaje']="Se presentó un error al modificar la sección.<br><b>Error: ".utf8_encode($seccion->error())."</b>";
     header("Location: ../vistas/?seccion");
   }

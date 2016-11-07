@@ -56,7 +56,6 @@ if($operacion=='Modificar'){
   }else{
     $planevaluacion->Transaccion("cancelado");
     $_SESSION['datos']['mensaje']="Se presentó un error al modificar el plan de evaluación.<br><b>Error: ".utf8_encode($planevaluacion->error())."</b>";
-    die();
     header("Location: ../vistas/?planevaluacion");
   }
 }
@@ -126,7 +125,7 @@ if($operacion=='Consultar'){
 } 
 
 if($operacion=="BuscarMSD"){
-  echo $planevaluacion->BuscarMSD($_POST['seccion'],$_POST['cedula_docente']);
+  echo $planevaluacion->BuscarMSD($_POST['seccion'],$_POST['cedula_docente'],$_POST['codigo_materia']);
   unset($planevaluacion);
 } 
 ?>

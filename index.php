@@ -100,6 +100,8 @@
             <?php if(!empty($_GET['p']) and $_GET['p']=='cambiar-contrasena' and isset($_SESSION['pregunta_respuesta']) and $_SESSION['pregunta_respuesta']==4){
               if(isset($_SESSION['captcha_udesur']))
                 unset($_SESSION['captcha_udesur']); 
+              $longitud_minclave=0;
+              $longitud_maxclave=999;
               require_once('clases/class_bd.php');
               $conexion = new Conexion();
               $sql = "SELECT p.codigo_perfil,p.descripcion AS nombre_perfil,c.descripcion AS configuracion, 
@@ -111,6 +113,8 @@
               WHERE u.nombre_usuario = '".$_SESSION['user_name']."'";
               $query=$conexion->Ejecutar($sql);
               if($Obj=$conexion->Respuesta($query)){
+                $longitud_minclave = $Obj['longitud_minclave'];
+                $longitud_maxclave = $Obj['longitud_maxclave'];
                 echo "<input type='hidden' id='longitud_minclave' value='".$Obj['longitud_minclave']."' />";
                 echo "<input type='hidden' id='longitud_maxclave' value='".$Obj['longitud_maxclave']."' />";
                 echo "<input type='hidden' id='cantidad_letrasmayusculas' value='".$Obj['cantidad_letrasmayusculas']."' />";
@@ -124,12 +128,12 @@
               <label>Clave Actual</label>
             </div>
             <div class="group">
-              <input required type="password" name="nueva_contrasena" id="nueva_contrasena" ><span class="highlight"></span><span class="bar"></span>
+              <input required type="password" minlength="<?php echo $longitud_minclave; ?>" maxlength="<?php echo $longitud_maxclave; ?>" name="nueva_contrasena" id="nueva_contrasena" ><span class="highlight"></span><span class="bar"></span>
               <label>Clave Nueva</label>
             </div>
             <div class="group">
               <input type="hidden" name="cambiar_clave_sin_logeo"/>
-              <input required type="password" name="confirmar_contrasena" id="confirmar_contrasena" ><span class="highlight"></span><span class="bar"></span>
+              <input required type="password" minlength="<?php echo $longitud_minclave; ?>" maxlength="<?php echo $longitud_maxclave; ?>" name="confirmar_contrasena" id="confirmar_contrasena" ><span class="highlight"></span><span class="bar"></span>
               <label>Confirmar Clave</label>
             </div>
             <?php } ?>

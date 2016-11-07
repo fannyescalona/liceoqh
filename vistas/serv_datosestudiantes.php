@@ -1,7 +1,6 @@
 <script type="text/javascript">
   $(document).ready(function(){
     var edad = '-'+$('#edad_maxima_primer_anio').val()+'y';
-    console.log(edad);
     //Agregar Objeto Calendario al input fecha_nacimiento.
     $('#fecha_nacimiento_estudiante').datepicker({
         minDate: edad,

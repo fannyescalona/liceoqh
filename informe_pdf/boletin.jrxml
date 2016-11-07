@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="boletin" language="groovy" pageWidth="595" pageHeight="842" columnWidth="475" leftMargin="60" rightMargin="60" topMargin="20" bottomMargin="60" uuid="30e9340e-27d5-490c-9f63-cb8889c1ad47">
 	<property name="ireport.zoom" value="2.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="373"/>
+	<property name="ireport.y" value="0"/>
 	<parameter name="cedula_estudiante" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
@@ -280,7 +280,7 @@ ORDER BY l.descripcion,m.descripcion]]>
 				<textElement textAlignment="Center">
 					<font isBold="true"/>
 				</textElement>
-				<text><![CDATA[U.E.N. QUEBRADA HONDA 
+				<text><![CDATA[U.E.N. QUEBRADA HONDA
 BOLENTIN DE CALIFICACIONES]]></text>
 			</staticText>
 		</band>

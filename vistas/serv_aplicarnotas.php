@@ -33,10 +33,6 @@
   ?>
   <script type="text/javascript">
     $(document).ready(function(){
-      $('#seccion').autocomplete({
-        source:'../autocomplete/seccion.php', 
-        minLength:1
-      });
       $('#cedula_estudiante').autocomplete({
         source:'../autocomplete/estudianteevaluado.php?cedula_docente='+$('#cedula_docente').val()+'&seccion='+$('#seccion').val(), 
         minLength:1
@@ -113,7 +109,7 @@
           //Sentencia sql (sin limit) 
           $_pagi_sql = "SELECT msd.codigo_msd,an.cedula_estudiante,
           CONCAT(an.cedula_estudiante,' ',p.nombres,' ',p.apellidos) AS estudiante,
-          s.descripcion AS seccion, CONCAT(msd.codigo_materia,' ',m.descripcion) AS materia,pe.codigo_lapso,CONCAT(l.descripcion,' (',aa.descripcion,')') AS lapso,ROUND(AVG(notaobtenida),2) AS notafinal 
+          s.descripcion AS seccion, CONCAT(msd.codigo_materia,' ',m.descripcion) AS materia,pe.codigo_lapso,CONCAT(l.descripcion,' (',aa.descripcion,')') AS lapso,ROUND(AVG(notaobtenida),0) AS notafinal 
           FROM tmateria_seccion_docente msd 
           INNER JOIN tseccion s ON msd.seccion = s.seccion 
           INNER JOIN tmateria m ON msd.codigo_materia = m.codigo_materia 
@@ -131,6 +127,8 @@
           $_pagi_separador = " ";
           //Cantidad de enlaces a los números de página que se mostrarán como máximo en la barra de navegación.
           $_pagi_nav_num_enlaces=5;
+          //  Booleano. Define si se utiliza mysql_num_rows() (true) o COUNT(*) (false). Por defecto está en false.
+          $_pagi_conteo_alternativo= TRUE;
           //Incluimos el script de paginación. Éste ya ejecuta la consulta automáticamente 
           @include("../librerias/paginador/paginator.inc.php"); 
           //Leemos y escribimos los registros de la página actual 
@@ -138,26 +136,26 @@
           while($row = mysql_fetch_array($_pagi_result)){ 
             $aprobado = $row['notafinal']>=$nota_aprobacion ? 'Y' : 'N';
             $texto_aprobado = $row['notafinal']>=$nota_aprobacion ? 'Sí' : 'No';
-          echo "<tr>
-          <td style='width: 5%; text-align:center;'><input id='msd_".$con."' type='checkbox' name='msd[]' value='".$row['codigo_msd']."'></td>
-          <td style='width: 15%'><input name='estudiante[]' id='estudiante_".$con."' type='hidden' value='".$row['cedula_estudiante']."'/>".$row['estudiante']."</td>
-          <td>".$row['seccion']."</td>
-          <td>".$row['materia']."</td>
-          <td><input name='lapso[]' id='lapso_".$con."' type='hidden' value='".$row['codigo_lapso']."'/>".$row['lapso']."</td>
-          <td><input name='notas[]' id='nota_".$con."' type='hidden' value='".$row['notafinal']."' /><span align='right'>".$row['notafinal']."</span></td>
-          <td><input name='aprobados[]' id='aprobado_".$con."' type='hidden' value='".$aprobado."' /><span align='center'>".$texto_aprobado."</span></td>
-          </tr>"; 
-          $con++;
+            echo "<tr>
+            <td style='width: 5%; text-align:center;'><input id='msd_".$con."' type='checkbox' name='msd[]' value='".$row['codigo_msd']."'></td>
+            <td style='width: 15%'><input name='estudiante[]' id='estudiante_".$con."' type='hidden' value='".$row['cedula_estudiante']."'/>".$row['estudiante']."</td>
+            <td>".$row['seccion']."</td>
+            <td>".$row['materia']."</td>
+            <td><input name='lapso[]' id='lapso_".$con."' type='hidden' value='".$row['codigo_lapso']."'/>".$row['lapso']."</td>
+            <td><input name='notas[]' id='nota_".$con."' type='hidden' value='".$row['notafinal']."' /><span align='right'>".$row['notafinal']."</span></td>
+            <td><input name='aprobados[]' id='aprobado_".$con."' type='hidden' value='".$aprobado."' /><span align='center'>".$texto_aprobado."</span></td>
+            </tr>"; 
+            $con++;
           } 
           //Incluimos la barra de navegación 
         ?>
       </table>
-      <button type="submit" id="btnGuardar" class="btn btn-large btn-primary"><i class="icon-hdd"></i>&nbsp;Procesar</button>
       <div class="pagination">
         <ul>
           <?php echo"<li>".$_pagi_navegacion."</li>";?>
         </ul>
       </div>
+      <button type="submit" id="btnGuardar" class="btn btn-large btn-primary"><i class="icon-hdd"></i>&nbsp;Procesar</button>
     </fieldset>
   </form>
   <script type="text/javascript">

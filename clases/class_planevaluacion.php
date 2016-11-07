@@ -225,11 +225,11 @@
     }
   }
 
-   public function BuscarMSD($seccion,$cedula_docente){
+   public function BuscarMSD($seccion,$cedula_docente,$codigo_materia){
     $sql="SELECT msd.codigo_msd,msd.codigo_materia,m.descripcion AS materia 
     FROM tmateria_seccion_docente msd 
     INNER JOIN tmateria m ON msd.codigo_materia = m.codigo_materia 
-    WHERE msd.seccion = '$seccion' AND msd.cedula_docente = '$cedula_docente'";
+    WHERE msd.seccion = '$seccion' AND msd.cedula_docente = '$cedula_docente' AND msd.codigo_materia='$codigo_materia'";
     $query = $this->mysql->Ejecutar($sql);
     while($Obj=$this->mysql->Respuesta_assoc($query)){
       $rows[]=array_map("html_entity_decode",$Obj);
