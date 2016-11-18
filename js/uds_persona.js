@@ -1,6 +1,19 @@
 $(document).ready(init);
 
 function init(){
+	//	Limitamos la fecha de ingreso
+	$('#fecha_nacimiento').change(function(){
+        var day1 = $(this).datepicker('getDate').getDate();
+        var month1 = $(this).datepicker('getDate').getMonth() + 1;
+        var year1 = $(this).datepicker('getDate').getFullYear();
+        var fechaactual = new Date();
+        year1 = year1+18;
+        if(year1 < fechaactual.getFullYear())
+			var fullDate = day1 + "/" + month1 + "/" + year1;
+		else
+			var fullDate = day1 + "/" + month1 + "/" + fechaactual.getFullYear();
+		$("#fecha_ingreso").datepicker("option", "minDate", fullDate);
+	});
 	//Búsquedas de las parroquias por autocompletar.
 	$('#lugar_nacimiento').autocomplete({
 		source:'../autocomplete/parroquia.php', 

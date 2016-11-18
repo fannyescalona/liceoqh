@@ -230,7 +230,7 @@ class Usuario{
 	}
 
 	public function Buscar(){
-	    $sql="SELECT estado AS estado,
+	    $sql="SELECT pas.estado AS estado,
 	    CONCAT(p.nombres,' ',p.apellidos) as fullname_user, 
 	    (CASE WHEN (NOW() - INTERVAL conf.dias_vigenciaclave DAY) < pas.fecha_modificacion THEN '0' ELSE '1' END) AS caducidad,
 	    pf.descripcion AS perfil,pf.codigo_perfil, 

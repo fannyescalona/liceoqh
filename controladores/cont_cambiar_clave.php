@@ -1,6 +1,6 @@
 <?php
 session_start(); 
-if(isset($_POST['cambiar_clave_con_logeo'])){
+if(isset($_POST['cambiar_clave_con_logeo']) && $_POST['cambiar_clave_con_logeo']!="1"){
   if($_POST['nueva_contrasena']!=$_POST['confirmar_contrasena']){
     $_SESSION['datos']['mensaje']=utf8_encode("las contraseñas no coeciden!");
     header("Location: ../vistas/?cambiarcontrasena");
