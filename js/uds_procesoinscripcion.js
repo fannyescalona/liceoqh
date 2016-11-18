@@ -333,13 +333,13 @@ function validar_formulario1(){
 	}
 	
 	if(valor0.replace(/^\s+|\s+$/gi,"").length!=0){
-		if(valor0.replace(/^\s+|\s+$/gi,"").length<=6){
-			alert('La cédula de la madre ingresada de ser mayor a 5 dígitos');
-			permitido = false;
-		}
-		else if(!cedula_rif.test(valor0.trim())){
+		if(!cedula_rif.test(valor0.trim())){
 			alert('Error en la cédula ingresada ('+valor0+'), formato permitido de una cédula/rif: V210569852 -> la letra puede ser V, G, J, E y minimo 8 maximo 9 digitos');
 			permitido=false;
+		}
+		else if(valor0.replace(/^\s+|\s+$/gi,"").length<=6){
+			alert('La cédula de la madre ingresada de ser mayor a 5 dígitos');
+			permitido = false;
 		}
 		else if(valor1.replace(/^\s+|\s+$/gi,"").length!=0 && !regex.test(valor1.trim())){
 			alert('La direccion de correo electrónico no es válida, la forma correcta sería por ejemplo pedroperez@gmail.com');
@@ -372,14 +372,13 @@ function validar_formulario1(){
 	}
 	
 	if(valor8.replace(/^\s+|\s+$/gi,"").length!=0){
-		console.log("entre");
-		if(valor8.replace(/^\s+|\s+$/gi,"").length<=6){
-			alert('La cédula del padre ingresada de ser mayor a 5 dígitos');
-			permitido = false;
-		}
-		else if(!cedula_rif.test(valor8.trim())){
+		if(!cedula_rif.test(valor8.trim())){
 			alert('Error en la cédula ingresada ('+valor8+'), formato permitido de una cédula/rif: V210569852 -> la letra puede ser V, G, J, E y minimo 8 maximo 9 digitos');
 			permitido=false;
+		}
+		else if(valor8.replace(/^\s+|\s+$/gi,"").length<=6){
+			alert('La cédula del padre ingresada de ser mayor a 5 dígitos');
+			permitido = false;
 		}
 		else if(valor9.replace(/^\s+|\s+$/gi,"").length!=0 && !regex.test(valor9.trim())){
 			alert('La direccion de correo electrónico no es válida, la forma correcta sería por ejemplo pedroperez@gmail.com');
@@ -454,12 +453,12 @@ function validar_formulario3(){
 		alert('Ingrese un representante')
 		permitido=false;
 	}
-	else if(valor1.replace(/^\s+|\s+$/gi,"").length<=6){
-		alert('La cédula del representante ingresada de ser mayor a 5 dígitos')
-		permitido=false;
-	}
 	else if(!cedula_rif.test(valor1.trim())){
 		alert('Error en la cédula ingresada ('+valor1+'), formato permitido de una cédula/rif: V210569852 -> la letra puede ser V, G, J, E y minimo 8 maximo 9 digitos');
+		permitido=false;
+	}
+	else if(valor1.replace(/^\s+|\s+$/gi,"").length<=6){
+		alert('La cédula del representante ingresada de ser mayor a 5 dígitos')
 		permitido=false;
 	}
 	/*else if(valor2.replace(/^\s+|\s+$/gi,"").length==0){ //para no permitir que se quede en blanco

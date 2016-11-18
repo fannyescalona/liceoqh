@@ -77,7 +77,7 @@
               <label>Teléfono Celular:</label>
               <input tabindex=9 maxlength=11 title="Ingrese el número de celular del representante" onKeyPress="return isNumberKey(event)" name="telefono_movil_representante" id="telefono_movil_representante" type="text" size="50" value="<?=$row['tm_representante'];?>" placeholder="Ingrese el Número Celular del representante" class="campoTexto" />
               <label>Correo Electrónico:</label>
-              <input tabindex=11 title="Ingrese el correo electrónico del representante" onKeyPress="return isEmail(event,this.value)" onKeyUp="this.value=this.value.toLowerCase()" name="email_representante" id="email_representante" type="text" size="50" value="<?=$row['email_representante'];?>" placeholder="Ingrese el Correo Electrónico del representante" class="campoTexto" />
+              <input tabindex=11 title="Ingrese el correo electrónico del representante ejemplo: usuario@dominio.com" onKeyPress="return isEmail(event,this.value)" onKeyUp="this.value=this.value.toLowerCase()" name="email_representante" id="email_representante" type="text" size="50" value="<?=$row['email_representante'];?>" placeholder="Ingrese el Correo Electrónico del representante ejemplo: usuario@dominio.com" class="campoTexto" />
             </div> 
           </div>    
           <strong class="obligatorio">Los campos resaltados en rojo son obligatorios</strong>

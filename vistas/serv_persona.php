@@ -77,7 +77,7 @@ else{
             <label>Dirección:</label>
             <textarea tabindex=7 onKeyUp="this.value=this.value.toUpperCase()" title="Ingrese la dirección del persona" name="direccion" id="direccion" rows=5 placeholder="Ingrese la Dirección" required /><?php echo $direccion;?></textarea>
             <label>Correo Electrónico:</label>
-            <input tabindex=10 title="Ingrese el correo electrónico del persona" onKeyPress="return isEmail(event,this.value)" onKeyUp="this.value=this.value.toLowerCase()" name="email" id="email" type="text" size="50" value="<?= $email;?>" placeholder="Ingrese el Correo Electrónico" class="campoTexto" />
+            <input tabindex=10 title="Ingrese el correo electrónico del persona ejemplo: usuario@dominio.com" onKeyPress="return isEmail(event,this.value)" onKeyUp="this.value=this.value.toLowerCase()" name="email" id="email" type="text" size="50" value="<?= $email;?>" placeholder="Ingrese el Correo Electrónico ejemplo: usuario@dominio.com" class="campoTexto" />
             <label>Personal del Plantel:</label>
             <input tabindex=12 type="radio" name="espersonalinstitucion" id="epiSI" value="Y" <?php if($espersonalinstitucion=="Y"){echo "checked"; }?>> SÍ <input type="radio" name="espersonalinstitucion" id="epiNO" value="N" <?php if($espersonalinstitucion=="N" || $espersonalinstitucion==NULL){echo "checked"; }?>> NO
             <div id="personal1">

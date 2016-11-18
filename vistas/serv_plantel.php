@@ -50,7 +50,7 @@ else{
       <label>Municipio:</label>
       <input title="Seleccione un Municipio" onKeyUp="this.value=this.value.toUpperCase()" name="codigo_municipio" id="codigo_municipio" type="text" size="50" value="<?= $codigo_municipio;?>" placeholder="Seleccione un municipio" class="campoTexto" required />
       <label>Correo Electrónico:</label>
-      <input title="Ingrese el correo electrónico del plantel" onKeyPress="return isEmail(event,this.value)" onKeyUp="this.value=this.value.toLowerCase()" name="email" id="email" type="text" size="50" value="<?= $email;?>" placeholder="Ingrese el Correo Electrónico" class="campoTexto" />
+      <input title="Ingrese el correo electrónico del plantel ejemplo: usuario@dominio.com" onKeyPress="return isEmail(event,this.value)" onKeyUp="this.value=this.value.toLowerCase()" name="email" id="email" type="text" size="50" value="<?= $email;?>" placeholder="Ingrese el Correo Electrónico ejemplo: usuario@dominio.com" class="campoTexto" />
       <strong class="obligatorio">Los campos resaltados en rojo son obligatorios</strong>
     </div>    
     <br>

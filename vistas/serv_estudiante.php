@@ -85,7 +85,7 @@ require_once("../clases/class_bd.php");
                 <label>Dirección:</label>
                 <textarea tabindex=9 onKeyUp="this.value=this.value.toUpperCase()" title="Ingrese la dirección del estudiante" name="direccion" id="direccion" rows=5 placeholder="Ingrese la Dirección" required /><?php echo $direccion;?></textarea>
                 <label>Correo Electrónico:</label>
-                <input tabindex=12 title="Ingrese el correo electrónico del estudiante" onKeyPress="return isEmail(event,this.value)" onKeyUp="this.value=this.value.toLowerCase()" name="email" id="email" type="text" size="50" value="<?= $email;?>" placeholder="Ingrese el Correo Electrónico" class="campoTexto" />
+                <input tabindex=12 title="Ingrese el correo electrónico del estudiante ejemplo: usuario@dominio.com" onKeyPress="return isEmail(event,this.value)" onKeyUp="this.value=this.value.toLowerCase()" name="email" id="email" type="text" size="50" value="<?= $email;?>" placeholder="Ingrese el Correo Electrónico ejemplo: usuario@dominio.com" class="campoTexto" />
                 <label>Cédula Representante:</label>
                 <input tabindex=14 onKeyUp="this.value=this.value.toUpperCase()" title="Ingrese el número de cédula del representante" name="cedula_representante" id="cedula_representante" type="text" size="10" value="<?= $cedula_representante;?>" placeholder="Ingrese el número de Cédula del Representante" class="campoTexto" required />
               </div>

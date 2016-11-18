@@ -386,14 +386,14 @@ function isCharKey(evt)
 //Función para escribir solo Rif o Cédulas.
 function isRif(evt,object)
   {
-    var charCode = (evt.which) ? evt.which : event.keyCode
+    var charCode = (evt.which) ? evt.which : event.keyCode 
     if(object.length<1){
         if (charCode != 101 && charCode != 103 && charCode != 106 && charCode != 118)
             return false;
         return true;
 
     }else{
-        if (charCode > 31 && (charCode < 48 || charCode > 57) && charCode != 46)
+        if (charCode > 31 && (charCode < 48 || charCode > 57))
             return false;
         return true;
     }

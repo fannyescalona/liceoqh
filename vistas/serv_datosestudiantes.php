@@ -144,7 +144,7 @@
               <label>Teléfono de Habitación:</label>
               <input tabindex=14 maxlength=11 title="Ingrese el número de habitación" onKeyPress="return isNumberKey(event)" name="telefono_habitacion" id="telefono_habitacion" type="text" size="50" value="<?= $telefono_habitacion;?>" placeholder="Ingreso el Número de Habitación" class="campoTexto" required />
               <label>Correo Electrónico:</label>
-              <input tabindex=15 title="Ingrese el correo electrónico del persona" onKeyPress="return isEmail(event,this.value)" onKeyUp="this.value=this.value.toLowerCase()" name="email" id="email" type="text" size="50" value="<?= $email;?>" placeholder="Ingrese el Correo Electrónico" class="campoTexto" />
+              <input tabindex=15 title="Ingrese el correo electrónico del persona ejemplo: usuario@dominio.com" onKeyPress="return isEmail(event,this.value)" onKeyUp="this.value=this.value.toLowerCase()" name="email" id="email" type="text" size="50" value="<?= $email;?>" placeholder="Ingrese el Correo Electrónico ejemplo: usuario@dominio.com" class="campoTexto" />
               <label>Sección:</label>
               <input tabindex=17 title="Seleccione una sección" onKeyUp="this.value=this.value.toUpperCase()" name="seccion" id="seccion" type="text" size="50" value="<?= $seccion;?>" placeholder="Seleccione una sección" class="campoTexto" />
             </div> 

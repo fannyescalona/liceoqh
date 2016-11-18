@@ -52,7 +52,7 @@
             </div>
             <div class="span6">
               <label>Correo Electrónico:</label>
-              <input tabindex=2 title="Ingrese el correo electrónico de la madre" onKeyPress="return isEmail(event,this.value)" onKeyUp="this.value=this.value.toLowerCase()" name="email_madre" id="email_madre" type="text" size="50" value="<?=$row['email_madre'];?>" placeholder="Ingrese el Correo Electrónico de la Madre" class="campoTexto" />
+              <input tabindex=2 title="Ingrese el correo electrónico de la madre ejemplo: usuario@dominio.com" onKeyPress="return isEmail(event,this.value)" onKeyUp="this.value=this.value.toLowerCase()" name="email_madre" id="email_madre" type="text" size="50" value="<?=$row['email_madre'];?>" placeholder="Ingrese el Correo Electrónico de la Madre ejemplo: usuario@dominio.com" class="campoTexto" />
               <label>Apellido(s):</label>
               <input tabindex=4 title="Ingrese el(los) apellido(s) de la Madre" onKeyPress="return isCharKey(event)" onKeyUp="this.value=this.value.toUpperCase()" name="apellido_madre" id="apellido_madre" type="text" size="50" value="<?=$row['apellido_madre'];?>" placeholder="Ingrese el(los) Apellido(s) de la Madre" class="campoTexto" />
               <label>Lugar de Nacimiento:</label>
@@ -77,7 +77,7 @@
             </div>
             <div class="span6">
               <label>Correo Electrónico:</label>
-              <input tabindex=11 title="Ingrese el correo electrónico del padre" onKeyPress="return isEmail(event,this.value)" onKeyUp="this.value=this.value.toLowerCase()" name="email_padre" id="email_padre" type="text" size="50" value="<?=$row['email_padre'];?>" placeholder="Ingrese el Correo Electrónico del Padre" class="campoTexto" />
+              <input tabindex=11 title="Ingrese el correo electrónico del padre ejemplo: usuario@dominio.com" onKeyPress="return isEmail(event,this.value)" onKeyUp="this.value=this.value.toLowerCase()" name="email_padre" id="email_padre" type="text" size="50" value="<?=$row['email_padre'];?>" placeholder="Ingrese el Correo Electrónico del Padre ejemplo: usuario@dominio.com" class="campoTexto" />
               <label>Apellido(s):</label>
               <input tabindex=13 title="Ingrese el(los) apellido(s) del Padre" onKeyPress="return isCharKey(event)" onKeyUp="this.value=this.value.toUpperCase()" name="apellido_padre" id="apellido_padre" type="text" size="50" value="<?=$row['apellido_padre'];?>" placeholder="Ingrese el(los) Apellido(s) del Padre" class="campoTexto" />
               <label>Lugar de Nacimiento:</label>
