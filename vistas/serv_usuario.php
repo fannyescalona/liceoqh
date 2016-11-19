@@ -64,6 +64,8 @@
           <br><br>
           <?php if($_SESSION['user_estado']==3){?>
           <div class="controls">
+            <div id="show_passwd_info">
+            </div>
             <div class="input-prepend">
               <label>Nueva Contrase&ntilde;a</label>
               <span class="add-on"><i class="icon-lock"></i></span>         

@@ -7,7 +7,7 @@ function init(){
         var month1 = $(this).datepicker('getDate').getMonth() + 1;
         var year1 = $(this).datepicker('getDate').getFullYear();
         var fechaactual = new Date();
-        year1 = year1-18;
+        year1 = year1+18;
         if(year1 < fechaactual.getFullYear())
 			var fullDate = day1 + "/" + month1 + "/" + year1;
 		else
