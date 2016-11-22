@@ -20,6 +20,7 @@ function validar_formulario(param){
 	valor7=document.getElementById('email').value;
 	//Utilizamos una expresion regular para validar email
 	var regex = /[\w-\.]{2,}@([\w-]{2,}\.)*([\w-]{2,}\.)[\w-]{2,4}/;
+	var autocompletado = /\d{1,}[_]{1}[\w-]/;
 	if(devuelve_boton(param)=="Registrar" || devuelve_boton(param)=="Modificar"){
 		if(valor.replace(/^\s+|\s+$/gi,"").length==0){ //para no permitir que se quede en blanco
 		alert('Ingrese el nombre del plantel educativo')
@@ -41,6 +42,10 @@ function validar_formulario(param){
 		alert('Seleccione el municipio donde pertenece el plantel educativo')
 		permitido=false;
 		}
+		else if(!autocompletado.test(valor6.trim())){
+			alert('Error en campo de autocompletado','warning','<font style=\'color:black\'><p>Valor de Formato no válido. </br> El formato permitido es digito segido de underscore ( _ ) segido de texto. </br> Ejemplo: 0_Algun Texto</p></font>');
+			permitido=false;	
+		}
 		else if(valor7.replace(/^\s+|\s+$/gi,"").length!=0 && !regex.test(valor7.trim())){
 			alert('La direccion de correo electrónico no es válida, la forma correcta sería por ejemplo pedroperez@gmail.com');
 			permitido = false;
@@ -48,12 +53,11 @@ function validar_formulario(param){
 	}
 
 	if(devuelve_boton(param)=="Desactivar"){
-		
-	      if(valor2.replace(/^\s+|\s+$/gi,"").length==0){ //para no permitir que se quede en blanco
-	alert('consultar antes desactivar')
-	permitido=false;
-	return false;
-	}	
+		if(valor2.replace(/^\s+|\s+$/gi,"").length==0){ //para no permitir que se quede en blanco
+			alert('consultar antes desactivar')
+			permitido=false;
+			return false;
+		}
 		
 	    if(!confirm("Esta seguro que desea desactivar este registro"))
 	     return false
@@ -61,5 +65,5 @@ function validar_formulario(param){
 
 	document.getElementById("operacion").value=devuelve_boton(param);
 	if(permitido==true)
-	document.getElementById("form").submit();
+		document.getElementById("form").submit();
 	}
