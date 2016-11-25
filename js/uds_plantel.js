@@ -43,7 +43,7 @@ function validar_formulario(param){
 		permitido=false;
 		}
 		else if(!autocompletado.test(valor6.trim())){
-			alert('Error en campo de autocompletado','warning','<font style=\'color:black\'><p>Valor de Formato no válido. </br> El formato permitido es digito segido de underscore ( _ ) segido de texto. </br> Ejemplo: 0_Algun Texto</p></font>');
+			alert('Error en campo municipio','warning','<font style=\'color:red\'><p>Valor no válido. </br> El valor permitido es: </br> digito segido de underscore ( _ ) segido de texto. </br> Ejemplo: 0_Algun Texto</p></font>');
 			permitido=false;	
 		}
 		else if(valor7.replace(/^\s+|\s+$/gi,"").length!=0 && !regex.test(valor7.trim())){

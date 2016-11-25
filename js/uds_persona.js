@@ -57,6 +57,7 @@ function validar_formulario(param){
 	valor10=document.getElementById('email').value;
 	//Utilizamos una expresion regular para validar email
 	var regex = /[\w-\.]{2,}@([\w-]{2,}\.)*([\w-]{2,}\.)[\w-]{2,4}/;
+	var autocompletado = /\d{1,}[_]{1}[\w-]/;
 	if(devuelve_boton(param)=="Registrar" || devuelve_boton(param)=="Modificar"){
 		if(valor1.replace(/^\s+|\s+$/gi,"").length==0){ //para no permitir que se quede en blanco
 			alert('Ingrese la cédula')
@@ -80,6 +81,10 @@ function validar_formulario(param){
 		}
 		else if(valor6==0){
 			alert('Seleccione un lugar de nacimiento')
+			permitido=false;
+		}
+		else if(!autocompletado.test(valor6.trim())){
+			alert('Error en campo lugar de nacimiento','warning','<font style=\'color:red\'><p>Valor no válido. </br> El valor permitido es: </br> digito segido de underscore ( _ ) segido de texto. </br> Ejemplo: 0_Algun Texto</p></font>');
 			permitido=false;
 		}
 		else if(valor7.replace(/^\s+|\s+$/gi,"").length==0){ //para no permitir que se quede en blanco

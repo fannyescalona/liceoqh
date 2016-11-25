@@ -61,7 +61,6 @@ function validar_formulario(param){
 	if(permitido==true)
 	document.getElementById("form").submit();
 
-
 	function contarRepetidos(arreglo){
 	    var arreglo2 = arreglo;
 	    var con=0;
