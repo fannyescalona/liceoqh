@@ -228,8 +228,11 @@ function validar_formulario(param){
 	valor11=document.getElementById('telefono_habitacion').value;
 	valor12=document.getElementById('email').value;
 	valor13=document.getElementById('codigo_plantel').value;
+	valor14=document.getElementById('seccion').value;
 	//Utilizamos una expresion regular para validar email
 	var regex = /[\w-\.]{2,}@([\w-]{2,}\.)*([\w-]{2,}\.)[\w-]{2,4}/;
+	var autocompletado = /\d{1,}[_]{1}[\w-]/;
+	var ac_seccion = /[\w-]{1,5}[_]{1}[\w-]/;
 	//Validamos los campos obligatorios
 	if(devuelve_boton(param)=="Registrar" || devuelve_boton(param)=="Modificar"){
 		if(valor1.replace(/^\s+|\s+$/gi,"").length==0 && valor2.replace(/^\s+|\s+$/gi,"").length==0){ //para no permitir que se quede en blanco
@@ -272,6 +275,10 @@ function validar_formulario(param){
 			alert('Seleccione un lugar de nacimiento del estudiante')
 			permitido=false;
 		}
+		else if(!autocompletado.test(valor9.trim())){
+			alert('Error en campo lugar de nacimiento','warning','<font style=\'color:red\'><p>Valor no válido. </br> El valor permitido es: </br> digito segido de underscore ( _ ) segido de texto. </br> Ejemplo: 0_Algun Texto</p></font>');
+			permitido=false;
+		}
 		else if(valor10.replace(/^\s+|\s+$/gi,"").length==0){ //para no permitir que se quede en blanco
 			alert('Ingrese la dirección del estudiante')
 			permitido=false;
@@ -286,6 +293,10 @@ function validar_formulario(param){
 		}
 		else if(valor13.replace(/^\s+|\s+$/gi,"").length==0){ //para no permitir que se quede en blanco
 			alert('Seleccione el plantel de procedencia')
+			permitido=false;
+		}
+		else if(valor14.replace(/^\s+|\s+$/gi,"").length!=0 && !ac_seccion.test(valor14.trim())){
+			alert('Error en campo sección','warning','<font style=\'color:red\'><p>Valor no válido. </br> El valor permitido es: </br> codigo sección segido de underscore ( _ ) segido de texto. </br> Ejemplo: SEC01_Seccion 01</p></font>');
 			permitido=false;
 		}
 	}
@@ -326,6 +337,7 @@ function validar_formulario1(){
 	//Utilizamos una expresion regular para validar email
 	var regex = /[\w-\.]{2,}@([\w-]{2,}\.)*([\w-]{2,}\.)[\w-]{2,4}/;
 	var cedula_rif = /^[VGJE-vgje]\d{7,9}$/;
+	var autocompletado = /\d{1,}[_]{1}[\w-]/;
 	//Validamos los campos obligatorios
 	if((valor0.replace(/^\s+|\s+$/gi,"").length!=0 && valor8.replace(/^\s+|\s+$/gi,"").length!=0) && (valor0==valor8)){
 		alert(valor0+' '+valor8+' La cédula de la madre no puede ser igual que la cédula del padre');
@@ -334,7 +346,7 @@ function validar_formulario1(){
 	
 	if(valor0.replace(/^\s+|\s+$/gi,"").length!=0){
 		if(!cedula_rif.test(valor0.trim())){
-			alert('Error en la cédula ingresada ('+valor0+'), formato permitido de una cédula/rif: V210569852 -> la letra puede ser V, G, J, E y minimo 8 maximo 9 digitos');
+			alert('Error en la cédula ingresada ('+valor0+'), formato permitido de una cédula/rif: V210569852 -> la letra puede ser V, G, J, E y minimo 7 maximo 9 digitos');
 			permitido=false;
 		}
 		else if(valor0.replace(/^\s+|\s+$/gi,"").length<=6){
@@ -360,6 +372,10 @@ function validar_formulario1(){
 		else if(valor5.replace(/^\s+|\s+$/gi,"").length==0){
 			alert('Ingrese el lugar de nacimiento de la madre');
 			permitido = false;
+		}
+		else if(!autocompletado.test(valor5.trim())){
+			alert('Error en campo lugar de nacimiento de la madre','warning','<font style=\'color:red\'><p>Valor no válido. </br> El valor permitido es: </br> digito segido de underscore ( _ ) segido de texto. </br> Ejemplo: 0_Algun Texto</p></font>');
+			permitido=false;
 		}
 		else if(valor6.replace(/^\s+|\s+$/gi,"").length==0){
 			alert('Ingrese la direccion de la madre');
@@ -399,6 +415,10 @@ function validar_formulario1(){
 		else if(valor13.replace(/^\s+|\s+$/gi,"").length==0){
 			alert('Ingrese el lugar de nacimiento de la padre');
 			permitido = false;
+		}
+		else if(!autocompletado.test(valor13.trim())){
+			alert('Error en campo lugar de nacimiento del padre','warning','<font style=\'color:red\'><p>Valor no válido. </br> El valor permitido es: </br> digito segido de underscore ( _ ) segido de texto. </br> Ejemplo: 0_Algun Texto</p></font>');
+			permitido=false;
 		}
 		else if(valor14.replace(/^\s+|\s+$/gi,"").length==0){
 			alert('Ingrese la direccion de la padre');
@@ -442,11 +462,18 @@ function validar_formulario3(){
 	valor7=document.getElementById('direccion_representante').value;
 	valor8=document.getElementById('telefono_habitacion_representante').value;
 	valor9=document.getElementById('lugar_trabajo').value;
+	valor10=document.getElementById('parentesco').value;
 	//Utilizamos una expresion regular para validar email
 	var regex = /[\w-\.]{2,}@([\w-]{2,}\.)*([\w-]{2,}\.)[\w-]{2,4}/;
 	var cedula_rif = /^[VGJE-vgje]\d{7,9}$/;
+	var autocompletado = /\d{1,}[_]{1}[\w-]/;
+	var ac_cedula_rif = /^[VGJE-vgje]\d{7,9}[_]{1}[\w-]/;
 	if(valor0.replace(/^\s+|\s+$/gi,"").length==0){ //para no permitir que se quede en blanco
 		alert('Seleccione a un docente')
+		permitido=false;
+	}
+	else if(!ac_cedula_rif.test(valor0.trim())){
+		alert('Error en campo cédula del docente','warning','<font style=\'color:red\'><p>Valor no válido. </br> El valor permitido es: </br> Cédula / RIF segido de underscore ( _ ) segido del Nombre / Razón Social. </br> Ejemplo: V000000000_NOMBRE DE PERSONA</p></font>');
 		permitido=false;
 	}
 	else if(valor1.replace(/^\s+|\s+$/gi,"").length==0){
@@ -485,6 +512,10 @@ function validar_formulario3(){
 		alert('Ingrese el lugar de nacimiento del representante')
 		permitido=false;
 	}
+	else if(!autocompletado.test(valor6.trim())){
+		alert('Error en campo lugar de nacimiento del representante','warning','<font style=\'color:red\'><p>Valor no válido. </br> El valor permitido es: </br> digito segido de underscore ( _ ) segido de texto. </br> Ejemplo: 0_Algun Texto</p></font>');
+		permitido=false;
+	}
 	else if(valor7.replace(/^\s+|\s+$/gi,"").length==0){ //para no permitir que se quede en blanco
 		alert('Ingrese la dirección del representante')
 		permitido=false;
@@ -495,6 +526,18 @@ function validar_formulario3(){
 	}*/
 	else if(valor9.replace(/^\s+|\s+$/gi,"").length==0){ //para no permitir que se quede en blanco
 		alert('Ingrese el lugar de trabajo del representante')
+		permitido=false;
+	}
+	else if(!autocompletado.test(valor9.trim())){
+		alert('Error en campo lugar de trabajo del representante','warning','<font style=\'color:red\'><p>Valor no válido. </br> El valor permitido es: </br> digito segido de underscore ( _ ) segido de texto. </br> Ejemplo: 0_Algun Texto</p></font>');
+		permitido=false;
+	}
+	else if(valor10.replace(/^\s+|\s+$/gi,"").length==0){ //para no permitir que se quede en blanco
+		alert('Seleccione el parentesco del representante con el estudiante')
+		permitido=false;
+	}
+	else if(!autocompletado.test(valor10.trim())){
+		alert('Error en campo parentesco','warning','<font style=\'color:red\'><p>Valor no válido. </br> El valor permitido es: </br> digito segido de underscore ( _ ) segido de texto. </br> Ejemplo: 0_Algun Texto</p></font>');
 		permitido=false;
 	}
 
