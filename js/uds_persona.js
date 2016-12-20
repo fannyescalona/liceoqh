@@ -57,14 +57,19 @@ function validar_formulario(param){
 	valor10=document.getElementById('email').value;
 	//Utilizamos una expresion regular para validar email
 	var regex = /[\w-\.]{2,}@([\w-]{2,}\.)*([\w-]{2,}\.)[\w-]{2,4}/;
+	var cedula_rif = /^[VGJE-vgje]\d{7,9}$/;
 	var autocompletado = /\d{1,}[_]{1}[\w-]/;
 	if(devuelve_boton(param)=="Registrar" || devuelve_boton(param)=="Modificar"){
 		if(valor1.replace(/^\s+|\s+$/gi,"").length==0){ //para no permitir que se quede en blanco
 			alert('Ingrese la cédula')
 			permitido=false;
 		}
-		else if(valor1.replace(/^\s+|\s+$/gi,"").length<=6){ //para no permitir que se quede en blanco
-			alert('La cédula ingresada debe ser mayor a 5 dígitos')
+		/*else if(valor1.replace(/^\s+|\s+$/gi,"").length<=7){ //para no permitir que se quede en blanco
+			alert('La cédula ingresada debe ser mayor a 6 dígitos')
+			permitido=false;
+		}*/
+		else if(!cedula_rif.test(valor1.trim())){
+			alert('Error en la cédula ingresada ('+valor1+'), formato permitido de una cédula/rif: V210569852 -> la letra puede ser V, G, J, E y minimo 7 maximo 9 digitos');
 			permitido=false;
 		}
 		else if(valor2.replace(/^\s+|\s+$/gi,"").length==0){ //para no permitir que se quede en blanco

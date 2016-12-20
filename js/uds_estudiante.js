@@ -57,6 +57,7 @@ function validar_formulario(param){
 	valor14=document.getElementById('codigo_plantel').value;
 	//Utilizamos una expresion regular para validar email
 	var regex = /[\w-\.]{2,}@([\w-]{2,}\.)*([\w-]{2,}\.)[\w-]{2,4}/;
+	var cedula_rif = /^[VGJE-vgje]\d{7,9}$/;
 	var autocompletado = /\d{1,}[_]{1}[\w-]/;
 	var ac_seccion = /[\w-]{1,5}[_]{1}[\w-]/;
 	var ac_cedula_rif = /^[VGJE-vgje]\d{7,9}[_]{1}[\w-]/;
@@ -81,8 +82,8 @@ function validar_formulario(param){
 			alert('Ingrese la cédula del estudiante')
 			permitido=false;
 		}
-		else if(valor1.replace(/^\s+|\s+$/gi,"").length<=6){ //para no permitir que se quede en blanco
-			alert('La cédula ingresada debe ser mayor a 5 digitos')
+		else if(!cedula_rif.test(valor1.trim())){
+			alert('Error en la cédula ingresada ('+valor1+'), formato permitido de una cédula/rif: V210569852 -> la letra puede ser V, G, J, E y minimo 8 maximo 9 digitos');
 			permitido=false;
 		}
 		else if(valor2.replace(/^\s+|\s+$/gi,"").length==0){ //para no permitir que se quede en blanco

@@ -3,6 +3,7 @@
  class Configuracion_Negocio
  {
 	private $codigo_configuracion_negocio; 
+	private $codigo_plantel; 
 	private $inscripcion_abierta;
 	private $carga_nota_abierta;
 	private $nota_minima;
@@ -16,6 +17,7 @@
 	 
    public function __construct(){
      $this->codigo_configuracion_negocio=null;
+     $this->codigo_plantel=null;
      $this->inscripcion_abierta=null;
      $this->carga_nota_abierta=null;
      $this->nota_minima=null;
@@ -40,6 +42,15 @@
      
 	 if($Num_Parametro>0){
 	   $this->codigo_configuracion_negocio=func_get_arg(0);
+	 }
+   }
+
+   public function codigo_plantel(){
+      $Num_Parametro=func_num_args();
+	 if($Num_Parametro==0) return $this->codigo_plantel;
+     
+	 if($Num_Parametro>0){
+	   $this->codigo_plantel=func_get_arg(0);
 	 }
    }
 
@@ -125,10 +136,10 @@
    }      
 
    public function Registrar(){
-    $sql="insert into tconfiguracion_negocio (inscripcion_abierta,carga_nota_abierta,nota_minima,nota_maxima,edad_maxima_primer_anio,nota_aprobacion) 
-    values ('$this->inscripcion_abierta','$this->carga_nota_abierta',$this->nota_minima,$this->nota_maxima,$this->edad_maxima_primer_anio,$this->nota_aprobacion);";
+    $sql="insert into tconfiguracion_negocio (codigo_plantel,inscripcion_abierta,carga_nota_abierta,nota_minima,nota_maxima,edad_maxima_primer_anio,nota_aprobacion) 
+    values ('$this->codigo_plantel','$this->inscripcion_abierta','$this->carga_nota_abierta',$this->nota_minima,$this->nota_maxima,$this->edad_maxima_primer_anio,$this->nota_aprobacion);";
     if($this->mysql->Ejecutar($sql)!=null)
-	return true;
+		return true;
 	else{
 		$this->error($this->mysql->Error());
 		return false;
@@ -155,11 +166,11 @@
    }
    
     public function Actualizar(){
-    $sql="update tconfiguracion_negocio set inscripcion_abierta='$this->inscripcion_abierta',carga_nota_abierta='$this->carga_nota_abierta',
+    $sql="update tconfiguracion_negocio set codigo_plantel='$this->codigo_plantel',inscripcion_abierta='$this->inscripcion_abierta',carga_nota_abierta='$this->carga_nota_abierta',
     nota_minima=$this->nota_minima,nota_maxima=$this->nota_maxima,edad_maxima_primer_anio=$this->edad_maxima_primer_anio,nota_aprobacion=$this->nota_aprobacion 
     where (codigo_configuracion_negocio='$this->codigo_configuracion_negocio');";
     if($this->mysql->Ejecutar($sql)!=null)
-	return true;
+		return true;
 	else{
 		$this->error($this->mysql->Error());
 		return false;

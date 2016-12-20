@@ -10,6 +10,22 @@
         buttonImage: '../images/calendario.png',
         buttonImageOnly: true
     });
+    //  Mostrar/Ocultar codigo canaima
+    if($('#canaima_operativa').val()=="Y")
+      $('#codigo_canaima_oculto').show();
+    else{
+      $('#codigo_canaima_oculto').hide();
+      $('#codigo_canaima').val("");
+    }
+
+    $('#canaima_operativa').on("change",function(){
+      if($(this).val()=="Y")
+        $('#codigo_canaima_oculto').show();
+      else{
+        $('#codigo_canaima_oculto').hide();
+        $('#codigo_canaima').val("");
+      }  
+    });
   });
 </script>
 <div class="form_externo" >
@@ -78,9 +94,12 @@
               <input tabindex=1 maxlength="9" onKeyPress="return isRif(event,this.value)" onKeyUp="this.value=this.value.toUpperCase()" title="Ingrese el número de cédula" maxlength=10 name="cedula_estudiante" id="cedula_estudiante" type="text" size="10" value="<?= $cedula;?>" placeholder="Ingrese el número de Cédula" class="campoTexto" />
               <label>Cédula Escolar:</label>
               <input tabindex=3 maxlength="11" onKeyPress="return isNumberKey(event)" onKeyUp="this.value=this.value.toUpperCase()" title="Ingrese el número de cédula escolar" maxlength=10 name="cedula_escolar" id="cedula_escolar" type="text" size="10" value="<?= $cedula_escolar;?>" placeholder="Ingrese el número de Cédula Escolar" class="campoTexto" />
-              <label>Código de la Canaima:</label>
-              <input tabindex=5 onKeyUp="this.value=this.value.toUpperCase()" title="Ingrese el código de la canaima asignada" maxlength=20 name="codigo_canaima" id="codigo_canaima" type="text" size="10" value="<?= $codigo_canaima;?>" placeholder="Ingrese el código de la canaima" class="campoTexto" />
-              <label>Nombre(s):</label>
+              <label>Canaima Operativa:</label>
+              <select tabindex=5 name="canaima_operativa" id="canaima_operativa" title="Indique si la canaima esta operativa o no" class='lista' required >
+                <option value="">Selecione una opción</option>
+                <option value="Y" <?php if($canaima_operativa=="Y"){ echo "selected";}?>>Sí</option>
+                <option value="N" <?php if($canaima_operativa=="N"){ echo "selected";}?>>No</option>
+              </select><label>Nombre(s):</label>
               <input tabindex=7 title="Ingrese el(los) nombre(s) del Estudiante" onKeyPress="return isCharKey(event)" onKeyUp="this.value=this.value.toUpperCase()" name="nombres" id="nombres" type="text" size="50" value="<?= $nombres;?>" placeholder="Ingrese el Nombre" class="campoTexto" required />
               <label>Peso (Kg):</label>
               <input tabindex=9 maxlength=5 title="Ingrese el peso del estudiante expresado en kg" onKeyPress="return isNumberKey(event)" name="peso" id="peso" type="text" size="50" value="<?= $peso;?>" placeholder="Ingreso el Peso del Estudiante expresado en Kg" class="campoTexto" required />
@@ -129,12 +148,10 @@
                 <option value="D" <?php if($lateralidad=="D"){ echo "selected";}?>>Derecho</option>
                 <option value="I" <?php if($lateralidad=="I"){ echo "selected";}?>>Izquierdo</option>
               </select>
-              <label>Canaima Operativa:</label>
-              <select tabindex=6 name="canaima_operativa" id="canaima_operativa" title="Indique si la canaima esta operativa o no" class='lista' required >
-                <option value="">Selecione una opción</option>
-                <option value="Y" <?php if($canaima_operativa=="Y"){ echo "selected";}?>>Sí</option>
-                <option value="N" <?php if($canaima_operativa=="N"){ echo "selected";}?>>No</option>
-              </select>
+              <div id="codigo_canaima_oculto">
+                <label>Código de la Canaima:</label>
+                <input tabindex=6 onKeyUp="this.value=this.value.toUpperCase()" title="Ingrese el código de la canaima asignada" maxlength=20 name="codigo_canaima" id="codigo_canaima" type="text" size="10" value="<?= $codigo_canaima;?>" placeholder="Ingrese el código de la canaima" class="campoTexto" />
+              </div>
               <label>Apellido(s):</label>
               <input tabindex=8 title="Ingrese el(los) apellido(s) del Estudiante" onKeyPress="return isCharKey(event)" onKeyUp="this.value=this.value.toUpperCase()" name="apellidos" id="apellidos" type="text" size="50" value="<?= $apellidos;?>" placeholder="Ingrese el Apellido" class="campoTexto" required />
               <label>Estatura (Cm):</label>

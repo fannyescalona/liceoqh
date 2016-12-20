@@ -10,6 +10,23 @@
     <fieldset>
       <legend>Configuración del Negocio</legend>
       <div id="contenedorFormulario">
+        <label>Plantel:</label>
+        <select tabindex=0 id="codigo_plantel" name="codigo_plantel" title="Seleccione un Plantel" class="lista">
+        <option value=NULL selected>Seleccione un Plantel</option>
+        <?php
+          require_once("../clases/class_bd.php");
+          $mysql=new Conexion();
+          $sql = "SELECT codigo_plantel,nombre FROM tplantel WHERE fecha_desactivacion IS NULL ORDER BY codigo_plantel ASC";
+          $query = $mysql->Ejecutar($sql);
+          while ($row = $mysql->Respuesta($query)){
+            if($row['codigo_plantel']==$filas['codigo_plantel']){
+              echo "<option value='".$row['codigo_plantel']."' selected>".$row['nombre']."</option>";
+            }else{
+              echo "<option value='".$row['codigo_plantel']."'>".$row['nombre']."</option>";
+            }
+          }
+        ?>
+        </select>
         <div class="row">
           <div class="span6">
             <input type="hidden" name="codigo_configuracion_negocio" id="codigo_configuracion_negocio" value="<?php echo !empty($filas['codigo_configuracion_negocio']) ? $filas['codigo_configuracion_negocio'] : null; ?>"/>
@@ -20,7 +37,7 @@
             <span>NO</span>
             <label>Nota Mínima:</label>
             <input tabindex=5 type="text" id="nota_minima" name="nota_minima" size="25" title="Ingrese la Nota Mínima" placeholder="Ingrese la Nota Mínima" class="campoTexto" onKeyPress="return isNumberKey(event)" required value="<?php echo !empty($filas['nota_minima']) ? $filas['nota_minima'] : 0; ?>"/>
-            <label>Edad Máxima para cursar 1er Año:</label>
+            <label>Edad Máxima para nuevo ingreso a la Institución:</label>
             <input tabindex=7 type="text" id="edad_maxima_primer_anio" name="edad_maxima_primer_anio" size="25" title="Ingrese la Edad máxima para cursar el 1er año" placeholder="Ingrese la Edad máxima para cursar el 1er año" class="campoTexto" onKeyPress="return isNumberKey(event)" required value="<?php echo !empty($filas['edad_maxima_primer_anio']) ? $filas['edad_maxima_primer_anio'] : 0; ?>"/>
           </div>
           <div class="span6">
@@ -44,7 +61,11 @@
 <script type="text/javascript">
   function validar(){
     var validado = false;
-    if($('#nota_minima').val()==""){
+    if($('#codigo_plantel').val()=="NULL"){
+      alert("Debe seleccionar el plantel!");
+      validado=false;
+    }
+    else if($('#nota_minima').val()==""){
       alert("Debe ingresar la nota mínima!");
       validado=false;
     }

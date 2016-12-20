@@ -236,6 +236,7 @@ DROP TABLE IF EXISTS tconfiguracion_negocio;
 
 CREATE TABLE tconfiguracion_negocio (
   codigo_configuracion_negocio int(11) NOT NULL AUTO_INCREMENT,
+  codigo_plantel char(11) NULL,
   inscripcion_abierta char(1) NOT NULL DEFAULT 'Y',
   carga_nota_abierta char(1) NOT NULL DEFAULT 'Y',
   edad_maxima_primer_anio int(11) DEFAULT 0,
@@ -243,7 +244,8 @@ CREATE TABLE tconfiguracion_negocio (
   nota_maxima float(10,2) NOT NULL DEFAULT 20,
   nota_aprobacion float(10,2) NOT NULL DEFAULT 10,
   fecha_desactivacion date DEFAULT NULL,
-  PRIMARY KEY (codigo_configuracion_negocio)
+  PRIMARY KEY (codigo_configuracion_negocio),
+  CONSTRAINT fk_config_negocio_plantel FOREIGN KEY (codigo_plantel) REFERENCES tplantel (codigo_plantel) ON UPDATE CASCADE ON DELETE SET NULL 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
@@ -764,6 +766,7 @@ CREATE TABLE tplan_evaluacion (
   porcentaje float(11,2) NOT NULL DEFAULT 0.0,
   fecha_desactivacion date DEFAULT NULL,
   PRIMARY KEY (codigo_plan_evaluacion),
+  CONSTRAINT uk_pe_msd_lapso UNIQUE (codigo_msd,codigo_lapso),
   CONSTRAINT fk_tplanevaluacion_msd FOREIGN KEY(codigo_msd) REFERENCES tmateria_seccion_docente (codigo_msd) ON UPDATE CASCADE,
   CONSTRAINT fk_tplanevaluacion_lapso FOREIGN KEY(codigo_lapso) REFERENCES tlapso (codigo_lapso) ON UPDATE CASCADE 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;

@@ -81,10 +81,8 @@ else{
             <label>Personal del Plantel:</label>
             <input tabindex=12 type="radio" name="espersonalinstitucion" id="epiSI" value="Y" <?php if($espersonalinstitucion=="Y"){echo "checked"; }?>> SÍ <input type="radio" name="espersonalinstitucion" id="epiNO" value="N" <?php if($espersonalinstitucion=="N" || $espersonalinstitucion==NULL){echo "checked"; }?>> NO
             <div id="personal1">
-              <label>Código de Dependencia Anterior:</label>
-              <input tabindex=14 maxlength=10 title="Ingrese el Código de Dependencia Anterior" onKeyUp="this.value=this.value.toUpperCase()" name="codigo_dependencia_anterior" id="codigo_dependencia_anterior" type="text" size="50" value="<?= $codigo_dependencia_anterior;?>" placeholder="Ingrese el Código de Dependencia Anterior" class="campoTexto" />
               <label>Cargo:</label>
-              <select tabindex=16 id="codigo_cargo" name="codigo_cargo" title="Seleccione un Cargo" placeholder="Seleccione un Cargo" class="lista">
+              <select tabindex=14 id="codigo_cargo" name="codigo_cargo" title="Seleccione un Cargo" placeholder="Seleccione un Cargo" class="lista">
               <option value=NULL selected>Seleccione un Cargo</option>
               <?php
                 require_once("../clases/class_bd.php");
@@ -101,7 +99,7 @@ else{
               ?>
               </select>
               <label>Nivel Acádemico:</label>
-              <select tabindex=18 name="nivel_academico" id="nivel_academico" title="Seleccione el Nivel Acádemico" class='lista' >
+              <select tabindex=16 name="nivel_academico" id="nivel_academico" title="Seleccione el Nivel Acádemico" class='lista' >
                 <option value="">Selecione el Nivel Acádemico</option>
                 <option value="Bachiller" <?php if($nivel_academico=="Bachiller"){ echo "selected";}?>>Bachiller</option>
                 <option value="T.S.U." <?php if($nivel_academico=="T.S.U."){ echo "selected";}?>>T.S.U.</option>
@@ -110,7 +108,7 @@ else{
                 <option value="DR(A)." <?php if($nivel_academico=="DR(A)."){ echo "selected";}?>>DR(A).</option>
               </select>
               <label>Fecha de Ingreso:</label>
-              <input tabindex=20 title="Seleccione el fecha de Ingreso" name="fecha_ingreso" id="fecha_ingreso" type="text" size="50" value="<?= $fecha_ingreso;?>" placeholder="Ingrese la Fecha de Ingreso" class="campoTexto" readonly required />
+              <input tabindex=18 title="Seleccione el fecha de Ingreso" name="fecha_ingreso" id="fecha_ingreso" type="text" size="50" value="<?= $fecha_ingreso;?>" placeholder="Ingrese la Fecha de Ingreso" class="campoTexto" readonly required />
             </div>
           </div>
           <div class="span6">
@@ -131,33 +129,41 @@ else{
             <label>Representante:</label>
             <input tabindex=11 type="radio" name="esrepresentante" id="esrepresentante" value="Y" <?php if($esrepresentante=="Y"){echo "checked"; }?>> SÍ <input type="radio" name="esrepresentante" id="esrepresentante" value="N" <?php if($esrepresentante=="N" || $esrepresentante==NULL){echo "checked"; }?>> NO
             <div id="personal2">
-              <label>Plantel:</label>
-              <select tabindex=13 id="codigo_plantel" name="codigo_plantel" title="Seleccione un Plantel" class="lista">
-              <option value=NULL selected>Seleccione un Plantel</option>
-              <?php
-                require_once("../clases/class_bd.php");
-                $mysql=new Conexion();
-                $sql = "SELECT codigo_plantel,nombre FROM tplantel WHERE fecha_desactivacion IS NULL ORDER BY codigo_plantel ASC";
-                $query = $mysql->Ejecutar($sql);
-                while ($row = $mysql->Respuesta($query)){
-                  if($row['codigo_plantel']==$codigo_plantel){
-                    echo "<option value='".$row['codigo_plantel']."' selected>".$row['nombre']."</option>";
-                  }else{
-                    echo "<option value='".$row['codigo_plantel']."'>".$row['nombre']."</option>";
+              <label>Código de Dependencia Anterior:</label>
+              <input tabindex=13 maxlength=10 title="Ingrese el Código de Dependencia Anterior" onKeyUp="this.value=this.value.toUpperCase()" name="codigo_dependencia_anterior" id="codigo_dependencia_anterior" type="text" size="50" value="<?= $codigo_dependencia_anterior;?>" placeholder="Ingrese el Código de Dependencia Anterior" class="campoTexto" />
+              <div style="display: none;">
+                <label>Plantel:</label>
+                <select id="codigo_plantel" name="codigo_plantel" title="Seleccione un Plantel" class="lista">
+                <option value=NULL selected>Seleccione un Plantel</option>
+                <?php
+                  require_once("../clases/class_bd.php");
+                  $mysql=new Conexion();
+                  $sql = "SELECT p.codigo_plantel,p.nombre FROM tplantel p 
+                  INNER JOIN tconfiguracion_negocio cn ON p.codigo_plantel = cn.codigo_plantel 
+                  WHERE p.fecha_desactivacion IS NULL ORDER BY codigo_plantel ASC";
+                  $query = $mysql->Ejecutar($sql);
+                  while ($row = $mysql->Respuesta($query)){
+                    $codigo_dependencia = $row['codigo_plantel'];
+                    $codigo_plantel = $row['codigo_plantel'];
+                    if($row['codigo_plantel']==$codigo_plantel){
+                      echo "<option value='".$row['codigo_plantel']."' selected>".$row['nombre']."</option>";
+                    }else{
+                      echo "<option value='".$row['codigo_plantel']."'>".$row['nombre']."</option>";
+                    }
                   }
-                }
-              ?>
-              </select>
-              <label>Código de Dependencia:</label>
-              <input tabindex=15 maxlength=10 title="Ingrese el Código de Dependencia" onKeyUp="this.value=this.value.toUpperCase()" name="codigo_dependencia" id="codigo_dependencia" type="text" size="50" value="<?= $codigo_dependencia;?>" placeholder="Ingrese el Código de Dependencia" class="campoTexto" required />
+                ?>
+                </select>
+                <label>Código de Dependencia:</label>
+                <input maxlength=10 title="Ingrese el Código de Dependencia" onKeyUp="this.value=this.value.toUpperCase()" name="codigo_dependencia" id="codigo_dependencia" type="text" size="50" value="<?= $codigo_dependencia;?>" placeholder="Ingrese el Código de Dependencia" class="campoTexto" required />
+              </div>
               <label>Condición del Cargo:</label>
-              <select tabindex=17 name="condicion_cargo" id="condicion_cargo" title="Seleccione la Condición del Cargo" class='lista' >
+              <select tabindex=15 name="condicion_cargo" id="condicion_cargo" title="Seleccione la Condición del Cargo" class='lista' >
                 <option value="">Selecione una opción</option>
                 <option value="C" <?php if($genero=="C"){ echo "selected";}?>>Contratado</option>
                 <option value="F" <?php if($genero=="F"){ echo "selected";}?>>Fijo</option>
               </select>
               <label>Carga Horaria:</label>
-              <input tabindex=19 maxlength=2 title="Ingrese la carga horaria" onKeyPress="return isNumberKey(event)" name="carga_horaria" id="carga_horaria" type="text" size="50" value="<?= $carga_horaria;?>" placeholder="Ingrese la carga horaria" class="campoTexto" required />
+              <input tabindex=17 maxlength=2 title="Ingrese la carga horaria" name="carga_horaria" id="carga_horaria" type="number" min=0 max=36 size="50" value="<?= $carga_horaria;?>" placeholder="Ingrese la carga horaria" class="campoTexto" required />
             </div>
           </div> 
         </div>    

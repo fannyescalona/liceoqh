@@ -9,6 +9,9 @@ $operacion=ucfirst(trim($_POST['operacion']));
 if(isset($_POST['codigo_configuracion_negocio']))
 $id=ucfirst(trim($_POST['codigo_configuracion_negocio']));
 
+if(isset($_POST['codigo_plantel']))
+$codigo_plantel=ucfirst(trim($_POST['codigo_plantel']));
+
 if(isset($_POST['inscripcion_abierta']))
 $inscripcion_abierta=ucfirst(trim($_POST['inscripcion_abierta']));
 
@@ -31,6 +34,7 @@ include_once("../clases/class_configuracion_negocio.php");
 $configuracion_negocio=new Configuracion_Negocio();
 if($operacion=='Registrar'){
   $configuracion_negocio->codigo_configuracion_negocio($id);
+  $configuracion_negocio->codigo_plantel($codigo_plantel);
   $configuracion_negocio->inscripcion_abierta($inscripcion_abierta);
   $configuracion_negocio->carga_nota_abierta($carga_nota_abierta);
   $configuracion_negocio->nota_minima($nota_minima);
@@ -52,6 +56,7 @@ if($operacion=='Registrar'){
 
 if($operacion=='Modificar'){
   $configuracion_negocio->codigo_configuracion_negocio($id);
+  $configuracion_negocio->codigo_plantel($codigo_plantel);
   $configuracion_negocio->inscripcion_abierta($inscripcion_abierta);
   $configuracion_negocio->carga_nota_abierta($carga_nota_abierta);
   $configuracion_negocio->nota_minima($nota_minima);
