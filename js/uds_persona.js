@@ -55,6 +55,8 @@ function validar_formulario(param){
 	valor8=document.getElementById('telefono_habitacion').value;
 	valor9=document.getElementById('telefono_movil').value;
 	valor10=document.getElementById('email').value;
+	valor11=document.getElementById('epiSI').checked;
+	valor12=document.getElementById('carga_horaria').value;
 	//Utilizamos una expresion regular para validar email
 	var regex = /[\w-\.]{2,}@([\w-]{2,}\.)*([\w-]{2,}\.)[\w-]{2,4}/;
 	var cedula_rif = /^[VGJE-vgje]\d{7,9}$/;
@@ -112,6 +114,10 @@ function validar_formulario(param){
 			alert('La direccion de correo electrónico no es válida, la forma correcta sería por ejemplo pedroperez@gmail.com');
 			permitido = false;
 		}
+		else if(valor11 && valor12 > 36){
+			alert('La carga horaria no debe ser mayor a 36');
+			permitido = false;
+		}
 	}
 		
 	if(devuelve_boton(param)=="Desactivar"){
@@ -125,6 +131,7 @@ function validar_formulario(param){
 	}
 
 	document.getElementById("operacion").value=devuelve_boton(param);
+	
 	if(permitido==true)
 		document.getElementById("form").submit();
 }

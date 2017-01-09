@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="boletin" language="groovy" pageWidth="595" pageHeight="842" columnWidth="475" leftMargin="60" rightMargin="60" topMargin="20" bottomMargin="60" uuid="30e9340e-27d5-490c-9f63-cb8889c1ad47">
 	<property name="ireport.zoom" value="2.0"/>
-	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.x" value="196"/>
+	<property name="ireport.y" value="259"/>
 	<parameter name="cedula_estudiante" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
@@ -18,7 +18,17 @@ SUM(CASE WHEN l.descripcion LIKE '%2do%' THEN COALESCE(cn.notafinal,0) ELSE 0 EN
 SUM(CASE WHEN l.descripcion LIKE '%3er%' THEN COALESCE(cn.notafinal,0) ELSE 0 END) AS 3erLapso,
 ROUND(AVG((CASE WHEN l.descripcion LIKE '%1er%' THEN COALESCE(cn.notafinal,0) ELSE 0 END)+
 (CASE WHEN l.descripcion LIKE '%2do%' THEN COALESCE(cn.notafinal,0) ELSE 0 END)+
-(CASE WHEN l.descripcion LIKE '%3er%' THEN COALESCE(cn.notafinal,0) ELSE 0 END))) AS notafinal
+(CASE WHEN l.descripcion LIKE '%3er%' THEN COALESCE(cn.notafinal,0) ELSE 0 END))) AS notafinal,
+(SELECT ROUND(AVG((CASE WHEN l.descripcion LIKE '%1er%' THEN COALESCE(cn.notafinal,0) ELSE 0 END)+
+(CASE WHEN l.descripcion LIKE '%2do%' THEN COALESCE(cn.notafinal,0) ELSE 0 END)+
+(CASE WHEN l.descripcion LIKE '%3er%' THEN COALESCE(cn.notafinal,0) ELSE 0 END))) AS promedio
+FROM tseccion s
+INNER JOIN tmateria_seccion_docente msd ON s.seccion = msd.seccion
+INNER JOIN tmateria m ON msd.codigo_materia = m.codigo_materia
+LEFT JOIN tcontrol_notas cn ON msd.codigo_msd = cn.codigo_msd
+LEFT JOIN tlapso l ON cn.codigo_lapso = l.codigo_lapso
+LEFT JOIN tpersona e ON cn.cedula_estudiante = e.cedula
+WHERE l.codigo_ano_academico = $P{codigo_ano_academico} AND cn.cedula_estudiante = $P{cedula_estudiante}) AS promedio
 FROM tseccion s
 INNER JOIN tmateria_seccion_docente msd ON s.seccion = msd.seccion
 INNER JOIN tmateria m ON msd.codigo_materia = m.codigo_materia
@@ -54,6 +64,7 @@ ORDER BY l.descripcion,m.descripcion]]>
 	<field name="notafinal" class="java.math.BigDecimal">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
+	<field name="promedio" class="java.math.BigDecimal"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -286,7 +297,7 @@ BOLENTIN DE CALIFICACIONES]]></text>
 		</band>
 	</title>
 	<detail>
-		<band height="16" splitType="Stretch">
+		<band height="16">
 			<textField>
 				<reportElement x="0" y="0" width="200" height="15" uuid="57ea3f51-dded-4952-b1c8-24aae3f5eeb6"/>
 				<box>
@@ -355,7 +366,7 @@ BOLENTIN DE CALIFICACIONES]]></text>
 		</band>
 	</detail>
 	<pageFooter>
-		<band height="31">
+		<band height="30">
 			<textField>
 				<reportElement x="131" y="0" width="129" height="15" uuid="c95031bf-0cb7-4168-b2a1-7b75315e362c"/>
 				<box>
@@ -384,4 +395,34 @@ BOLENTIN DE CALIFICACIONES]]></text>
 			</textField>
 		</band>
 	</pageFooter>
+	<summary>
+		<band height="15">
+			<textField>
+				<reportElement x="380" y="-16" width="95" height="15" uuid="1af134d1-bebe-4c94-a1b9-f87151c3c28c"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{promedio}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="200" y="-16" width="180" height="15" uuid="74e4221b-1cfc-445e-8422-3bc69a031a3a"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Bottom">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Promedio de notas:"]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
 </jasperReport>

@@ -1,5 +1,19 @@
 $(document).ready(init);
 function init(){
+	//Validamos que solo se ingrese una cedula o cedula escolar
+	$('#cedula_estudiante').on('change',function(){
+		if($(this).val()!="")
+			$('#cedula_escolar').attr("readonly",true);
+		else
+			$('#cedula_escolar').attr("readonly",false);
+	});
+	$('#cedula_escolar').on('change',function(){
+		if($(this).val()!="")
+			$('#cedula_estudiante').attr("readonly",true);
+		else
+			$('#cedula_estudiante').attr("readonly",false);
+	});
+
 	//Búsquedas de las parroquias por autocompletar.
 	$('#lugar_nacimiento').autocomplete({
 		source:'../autocomplete/parroquia.php', 

@@ -19,7 +19,7 @@
         <label>Sección:</label>
         <input title="Seleccione una sección" onKeyUp="this.value=this.value.toUpperCase()" name="seccion" id="seccion" type="text" size="50" placeholder="Seleccione una sección" class="campoTexto" />
         <label>Cédula Docente:</label>
-        <input title="Seleccione la cédula del estudiante" onKeyUp="this.value=this.value.toUpperCase()" name="cedula_docente" id="cedula_docente" type="text" size="10" placeholder="Seleccione la cédula del docente" class="campoTexto"/>
+        <input title="Seleccione la cédula del docente" onKeyUp="this.value=this.value.toUpperCase()" name="cedula_docente" id="cedula_docente" type="text" size="10" placeholder="Seleccione la cédula del docente" class="campoTexto"/>
         <br>
         <input name='cmdImprimir' type='button' id='cmdImprimir' class='btn btn-large' value='Enviar' />
       </div>
@@ -27,7 +27,7 @@
   </form>
   <script type="text/javascript">
     //  Buscar Docentes
-    $('#cedula').autocomplete({
+    $('#cedula_docente').autocomplete({
       source:'../autocomplete/docente.php', 
       minLength:1
     });

@@ -163,7 +163,7 @@ else{
                 <option value="F" <?php if($genero=="F"){ echo "selected";}?>>Fijo</option>
               </select>
               <label>Carga Horaria:</label>
-              <input tabindex=17 maxlength=2 title="Ingrese la carga horaria" name="carga_horaria" id="carga_horaria" type="number" min=0 max=36 size="50" value="<?= $carga_horaria;?>" placeholder="Ingrese la carga horaria" class="campoTexto" required />
+              <input tabindex=17 maxlength=2 title="Ingrese la carga horaria" name="carga_horaria" id="carga_horaria" type="number" min=0 max=36 size="50" value="<?= $carga_horaria;?>" placeholder="Ingrese la carga horaria" class="campoTexto" value=0 required />
             </div>
           </div> 
         </div>    
