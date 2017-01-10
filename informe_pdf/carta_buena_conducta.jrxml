@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="constancia_de_estudio" language="groovy" pageWidth="595" pageHeight="842" columnWidth="435" leftMargin="80" rightMargin="80" topMargin="20" bottomMargin="20" uuid="211796ca-725e-418a-8268-50515e670850">
+	<property name="ireport.zoom" value="2.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="598"/>
+	<style name="Title" forecolor="#FFFFFF" fontName="Times New Roman" fontSize="50" isBold="false" pdfFontName="Times-Bold"/>
+	<style name="SubTitle" forecolor="#CCCCCC" fontName="Times New Roman" fontSize="18" isBold="false" pdfFontName="Times-Roman"/>
+	<style name="Column header" forecolor="#666666" fontName="Times New Roman" fontSize="14" isBold="true" pdfFontName="Times-Roman"/>
+	<style name="Detail" mode="Transparent" fontName="Times New Roman" pdfFontName="Times-Roman"/>
+	<style name="Row" mode="Transparent" fontName="Times New Roman" pdfFontName="Times-Roman">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style mode="Opaque" backcolor="#F0EFEF"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="cedula_estudiante" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT MAX(CONCAT(COALESCE(d.nivel_academico,''),' ',d.nombres,' ',d.apellidos)) as director,MAX(SUBSTRING(d.cedula,2,12)) AS cedula_director,
+MAX(c.descripcion) AS cargo,INITCAP(MAX(p.nombre)) AS plantel,MAX(m.descripcion) AS municipio,MAX(e.descripcion) AS estado,
+est.*,f_fecha_spanish(NOW(),3) AS fecha
+FROM tpersona d
+INNER JOIN tcargo c ON d.codigo_cargo = c.codigo_cargo
+INNER JOIN tplantel p ON d.codigo_plantel = p.codigo_plantel
+INNER JOIN tmunicipio m ON p.codigo_municipio = m.codigo_municipio
+INNER JOIN testado e ON m.codigo_estado = e.codigo_estado,
+(SELECT CONCAT(p.nombres,' ',p.apellidos) AS estudiante,p.cedula AS cedula_estudiante,
+CASE s.grado_escolar WHEN '1' THEN '1er Año' WHEN '2' THEN '2do Año' WHEN '3' THEN '3er Año' WHEN '4' THEN '4to Año' ELSE '5to Año' END AS grado_escolar,
+a.descripcion AS anio_escolar
+FROM tpersona p
+INNER JOIN tproceso_inscripcion pi ON p.cedula = pi.cedula_estudiante
+INNER JOIN tseccion s ON pi.seccion = s.seccion
+INNER JOIN tano_academico a ON pi.codigo_ano_academico = a.codigo_ano_academico
+WHERE p.esestudiante = 'Y' AND p.cedula = $P{cedula_estudiante}) est
+WHERE c.descripcion LIKE '%DIRECTOR%']]>
+	</queryString>
+	<field name="director" class="java.lang.String"/>
+	<field name="cedula_director" class="java.lang.String"/>
+	<field name="cargo" class="java.lang.String"/>
+	<field name="plantel" class="java.lang.String"/>
+	<field name="municipio" class="java.lang.String"/>
+	<field name="estado" class="java.lang.String">
+		<fieldDescription><![CDATA[0 clave usado 1 usuario activo 2 caducidad de clave 3 usuario nuevo 4 usuario bloqueado]]></fieldDescription>
+	</field>
+	<field name="estudiante" class="java.lang.String"/>
+	<field name="cedula_estudiante" class="java.lang.String"/>
+	<field name="grado_escolar" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="anio_escolar" class="java.lang.String"/>
+	<field name="fecha" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<group name="Group1">
+		<groupExpression><![CDATA[(int)($V{REPORT_COUNT}/15)]]></groupExpression>
+	</group>
+	<group name="Group2">
+		<groupExpression><![CDATA[(int)($V{REPORT_COUNT}/5)]]></groupExpression>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="175" splitType="Stretch">
+			<staticText>
+				<reportElement x="144" y="94" width="190" height="20" uuid="8c59f97c-cf51-408d-9f31-54fad7a7a2f2"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[CARTA DE BUENA CONDUCTA]]></text>
+			</staticText>
+			<image>
+				<reportElement x="0" y="0" width="435" height="70" uuid="8ed1bb3a-659c-4f1f-83c3-f43e2cb258b6"/>
+				<imageExpression><![CDATA["../images/cintillo_reportes.jpg"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="0" y="134" width="190" height="20" uuid="9e068dad-a50d-4afa-9f93-df165be0e71c"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[A QUIEN PUEDA INTERESAR:]]></text>
+			</staticText>
+		</band>
+	</title>
+	<detail>
+		<band height="327" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="80" height="20" uuid="5bf02141-bab4-48d3-ae3d-96e25d97302d"/>
+				<textElement textAlignment="Left" verticalAlignment="Bottom"/>
+				<text><![CDATA[Quien suscribe, ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="68" y="0" width="201" height="20" uuid="d056c3fd-08f4-4a51-99dc-bae5d1beaaa5"/>
+				<box>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Bottom">
+					<font isBold="true" isUnderline="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{director}]]></textFieldExpression>
+			</textField>
+			<textField pattern="">
+				<reportElement x="304" y="0" width="64" height="20" uuid="9d112ca9-2755-4579-aea2-95daee03b23a"/>
+				<box>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Bottom">
+					<font isBold="true" isUnderline="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cedula_director}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="367" y="0" width="68" height="20" uuid="ca193e03-8fa3-4e6f-8a75-6354db2d82cc"/>
+				<textElement textAlignment="Left" verticalAlignment="Bottom"/>
+				<textFieldExpression><![CDATA[$F{cargo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="31" y="19" width="217" height="20" uuid="cd8a748a-87ef-4457-b333-46d55ba820da"/>
+				<textElement verticalAlignment="Bottom">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{plantel}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="41" y="38" width="75" height="20" uuid="742cffeb-1baf-481f-acdd-c36c04cd380d"/>
+				<textElement verticalAlignment="Bottom"/>
+				<textFieldExpression><![CDATA[$F{municipio}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="175" y="38" width="73" height="20" uuid="ef0b179d-7d3e-4fa9-9b3a-fe3caa84580a"/>
+				<textElement verticalAlignment="Bottom"/>
+				<textFieldExpression><![CDATA[$F{estado}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="57" width="92" height="20" uuid="4f0c9140-08f2-45c2-a533-0a8175047999"/>
+				<textElement textAlignment="Left" verticalAlignment="Bottom"/>
+				<text><![CDATA[el (la) Estudiante: ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="80" y="57" width="254" height="20" uuid="89739783-8d78-40fc-86d7-93fa3b329b1c"/>
+				<box>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Bottom">
+					<font isBold="true" isUnderline="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{estudiante}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="333" y="57" width="130" height="20" uuid="fc19a2bc-b555-4aa2-abe3-853c26c8b25b"/>
+				<textElement textAlignment="Left" verticalAlignment="Bottom"/>
+				<text><![CDATA[, titular de la Cédula de]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="54" y="76" width="68" height="20" uuid="d741d36d-e59e-4c19-a03e-224a6009bcf6"/>
+				<box>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Bottom">
+					<font isBold="true" isUnderline="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cedula_estudiante}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="201" y="156" width="188" height="20" uuid="d2ec8229-56ce-476c-b79c-a5c4a39dad6e"/>
+				<textElement verticalAlignment="Bottom"/>
+				<textFieldExpression><![CDATA[$F{fecha}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="130" y="288" width="201" height="20" uuid="a3bd0bbb-7ddb-4b80-8044-3c3209b7a03b"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font isBold="true" isUnderline="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{director}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="130" y="307" width="201" height="20" uuid="4e8f3fb3-575d-4e35-84c9-9d4d23d06ca0"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cargo}]]></textFieldExpression>
+			</textField>
+			<textField pattern="">
+				<reportElement x="268" y="0" width="37" height="20" uuid="93e494b0-31ad-4d28-abfe-350636416d8f"/>
+				<box>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Bottom">
+					<font isBold="true" isUnderline="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" C.I. N° "]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="19" width="31" height="20" uuid="38a6ed3e-0caa-4b83-bfa4-cf38291034f4"/>
+				<textElement verticalAlignment="Bottom"/>
+				<textFieldExpression><![CDATA["de la "]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="224" y="19" width="211" height="20" uuid="afb17daa-f225-4b67-8d80-f1b6bf73a52c"/>
+				<textElement verticalAlignment="Bottom"/>
+				<textFieldExpression><![CDATA[" Las Majaguas que funciona en el Municipio"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="38" width="42" height="20" uuid="460ce44a-7429-41c5-9da0-a49bde978221"/>
+				<textElement verticalAlignment="Bottom"/>
+				<textFieldExpression><![CDATA["Escolar "]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="115" y="38" width="61" height="20" uuid="a435d932-7e11-4fb9-a3fe-4f32de9935f1"/>
+				<textElement verticalAlignment="Bottom"/>
+				<textFieldExpression><![CDATA[" del Estado "]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="247" y="38" width="211" height="20" uuid="239d5e7d-0517-49f7-9559-2c6b8fa51abc"/>
+				<textElement verticalAlignment="Bottom"/>
+				<textFieldExpression><![CDATA[" , hace constar por medio de la presente que  "]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="76" width="69" height="20" uuid="cd14f923-fccd-4d43-b525-ed279f6af2c3"/>
+				<textElement verticalAlignment="Bottom"/>
+				<textFieldExpression><![CDATA["Identidad N° "]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="122" y="76" width="341" height="20" uuid="6b5b68be-8ed8-43b7-88e3-0bbbe69f84b6"/>
+				<textElement verticalAlignment="Bottom"/>
+				<textFieldExpression><![CDATA[" es(fue) estudiante de esta Escuela y durante su permanencia "]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="96" width="122" height="20" uuid="dc3ea7c3-c216-47ef-8bf3-8a15143c6467"/>
+				<textElement verticalAlignment="Bottom"/>
+				<textFieldExpression><![CDATA["en la misma observó  "]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="156" width="248" height="20" uuid="828f3ba3-d5e7-4ab0-a0fb-a6ff467c6de4"/>
+				<textElement verticalAlignment="Bottom"/>
+				<textFieldExpression><![CDATA[" Constancia que se expide en Quebrada Honda el  "]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="90" y="96" width="122" height="20" uuid="e870f44d-645f-4709-b50d-7b83dfc6402b"/>
+				<textElement verticalAlignment="Bottom">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["BUENA CONDUCTA  "]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="39" splitType="Stretch"/>
+	</summary>
+</jasperReport>

@@ -151,6 +151,7 @@ function init(){
         	$('#telefono_habitacion_representante').val(resp[0].telefono_habitacion);
         	$('#telefono_movil_representante').val(resp[0].telefono_movil);
         	$('#email_representante').val(resp[0].email);
+        	$('#parentesco').val(resp[0].parentesco);
         },
         error: function(jqXHR, textStatus, errorThrown){
         	alert('¡Error al procesar la petición! '+textStatus+" "+errorThrown)
@@ -518,7 +519,7 @@ function validar_formulario3(){
 		permitido=false;
 	}
 	else if(ci_estudiante==valor1){
-		alert('La cédula del estudiante: '+ci_estudiante+' no puede ser igual a la cédula de la madre: '+valor1);
+		alert('La cédula del estudiante: '+ci_estudiante+' no puede ser igual a la cédula del representante: '+valor1);
 		permitido = false;
 	}
 	/*else if(valor2.replace(/^\s+|\s+$/gi,"").length==0){ //para no permitir que se quede en blanco

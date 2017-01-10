@@ -488,9 +488,14 @@ class Persona {
   public function BuscarDatosRepresentante($representante){
     $sql="SELECT p.cedula,p.nombres,p.apellidos,p.genero,date_format(p.fecha_nacimiento,'%d/%m/%Y') AS fecha_nacimiento, 
     CONCAT(p.lugar_nacimiento,'_',par.descripcion) AS lugar_nacimiento,p.direccion,p.telefono_habitacion,p.telefono_movil,
-    p.email 
+    p.email,
+    CASE WHEN EXISTS (SELECT 1 FROM tproceso_inscripcion WHERE cedula_madre = p.cedula OR cedula_padre = p.cedula) 
+        THEN (CASE WHEN p.genero = 'M' THEN (SELECT CONCAT(codigo_parentesco,'_',descripcion) FROM tparentesco WHERE descripcion LIKE '%PADRE%')
+            WHEN p.genero = 'F' THEN (SELECT CONCAT(codigo_parentesco,'_',descripcion) FROM tparentesco WHERE descripcion LIKE '%MADRE%') END)
+            ELSE NULL 
+    END AS parentesco 
     FROM tpersona p 
-    INNER JOIN tparroquia par ON p.lugar_nacimiento = par.codigo_parroquia 
+    INNER JOIN tparroquia par ON p.lugar_nacimiento = par.codigo_parroquia  
     WHERE p.cedula = '$representante'";
     $query = $this->mysql->Ejecutar($sql);
     while($Obj=$this->mysql->Respuesta_assoc($query)){

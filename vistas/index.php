@@ -146,6 +146,7 @@ if(isset($_SESSION['user_estado'])){
                   //  Reportes
                   else if(isset($_GET['rep_fichainscripcion'])) include("rep_fichainscripcion.php"); //listo
                   else if(isset($_GET['rep_constanciaestudio'])) include("rep_constanciaestudio.php"); //listo
+                  else if(isset($_GET['rep_cartabuenaconducta'])) include("rep_cartabuenaconducta.php"); //listo
                   else if(isset($_GET['rep_historialpersonal'])) include("rep_historialpersonal.php"); //listo
                   else if(isset($_GET['rep_estudiantesporgrado'])) include("rep_estudiantesporgrado.php"); //listo
                   else if(isset($_GET['rep_estudiantesporseccion'])) include("rep_estudiantesporseccion.php"); //listo
