@@ -207,10 +207,10 @@ class Usuario{
 	}
 
 	public function Bloquear_Usuario(){
-		$sql="SELECT u.intentos_fallidos FROM tusuario u 
+		$sql="SELECT u.intento_fallido FROM tusuario u 
 		INNER JOIN tperfil p ON u.codigo_perfil = p.codigo_perfil 
 		INNER JOIN tconfiguracion c ON p.codigo_configuracion = c.codigo_configuracion 
-		WHERE u.nombre_usuario='$this->user_name' AND u.intentos_fallidos >= c.intentos_fallidos";
+		WHERE u.nombre_usuario='$this->user_name' AND u.intento_fallido >= c.intentos_fallidos";
 		$sql_action="UPDATE tcontrasena set estado=4 where nombre_usuario='$this->user_name' and estado=1";
 		$query=$this->mysql->Ejecutar($sql);
 		if($this->mysql->Total_Filas($query)>0){

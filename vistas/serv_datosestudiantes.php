@@ -12,18 +12,18 @@
     });
     //  Mostrar/Ocultar codigo canaima
     if($('#canaima_operativa').val()=="Y")
-      $('#codigo_canaima_oculto').show();
+      $('#codigo_canaima').attr("readonly",false);
     else{
-      $('#codigo_canaima_oculto').hide();
       $('#codigo_canaima').val("");
+      $('#codigo_canaima').attr("readonly",true);
     }
 
     $('#canaima_operativa').on("change",function(){
       if($(this).val()=="Y")
-        $('#codigo_canaima_oculto').show();
+        $('#codigo_canaima').attr("readonly",false);
       else{
-        $('#codigo_canaima_oculto').hide();
         $('#codigo_canaima').val("");
+        $('#codigo_canaima').attr("readonly",true);
       }  
     });
   });
@@ -123,7 +123,11 @@
               <?php
                 require_once("../clases/class_bd.php");
                 $mysql=new Conexion();
-                $sql = "SELECT codigo_plantel,nombre FROM tplantel WHERE fecha_desactivacion IS NULL ORDER BY codigo_plantel ASC";
+                $sql = "SELECT codigo_plantel,nombre 
+                FROM tplantel 
+                WHERE fecha_desactivacion IS NULL 
+                AND NOT EXISTS (SELECT 1 FROM tconfiguracion_negocio WHERE tconfiguracion_negocio.codigo_plantel = tplantel.codigo_plantel)
+                ORDER BY codigo_plantel ASC";
                 $query = $mysql->Ejecutar($sql);
                 while ($row = $mysql->Respuesta($query)){
                   if($row['codigo_plantel']==$codigo_plantel){

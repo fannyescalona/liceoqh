@@ -201,4 +201,9 @@ if($operacion=="BuscarDatosNotas"){
   unset($seccion);
 } 
 
+if($operacion=="ComboSeccion"){
+  echo $seccion->ComboSeccion($_POST['cedula_docente']);
+  unset($seccion);
+} 
+
 ?>

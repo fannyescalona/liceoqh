@@ -133,5 +133,10 @@ if($operacion=='Consultar'){
     $_SESSION['datos']['mensaje']=$error;
     header("Location: ../vistas/?lapso");
   }
-}    
+}
+
+if($operacion=="ComboLapso"){
+  echo $lapsos->ComboLapso($_POST['codigo_ano_academico']);
+  unset($lapsos);
+} 
 ?>

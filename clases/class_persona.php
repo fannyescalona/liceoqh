@@ -598,5 +598,27 @@ class Persona {
       return false;
     } 
   }
+
+   public function ComboEstudiante($seccion,$cedula_docente){
+    $sql="SELECT DISTINCT pi.cedula_estudiante AS id,CONCAT(pi.cedula_estudiante,' - ',p.nombres,' ',p.apellidos) AS name 
+    FROM tproceso_inscripcion pi 
+    INNER JOIN tmateria_seccion_docente msd ON pi.seccion = msd.seccion 
+    INNER JOIN tano_academico aa ON pi.codigo_ano_academico = aa.codigo_ano_academico 
+    INNER JOIN tpersona p ON pi.cedula_estudiante = p.cedula 
+    WHERE aa.cerrado = 'N' AND msd.seccion = '$seccion' AND msd.cedula_docente = '$cedula_docente' 
+    ORDER BY pi.cedula_estudiante ASC ";
+    $query = $this->mysql->Ejecutar($sql);
+    while($Obj=$this->mysql->Respuesta_assoc($query)){
+      $rows[]=array_map("html_entity_decode",$Obj);
+    }
+    if(!empty($rows)){
+      $json = json_encode($rows);
+    }
+    else{
+      $rows[] = array("msj" => "Error al Buscar Registros ");
+      $json = json_encode($rows);
+    }
+    return $json;
+  }
 }
 ?>

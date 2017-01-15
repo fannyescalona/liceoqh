@@ -244,4 +244,9 @@ if($operacion=='Consultar'){
     header("Location: ../vistas/?estudiante");
   }
 }
+
+if($operacion=="ComboEstudiante"){
+  echo $persona->ComboEstudiante($_POST['seccion'],$_POST['cedula_docente']);
+  unset($persona);
+} 
 ?>

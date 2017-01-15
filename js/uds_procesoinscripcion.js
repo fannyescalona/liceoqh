@@ -1,10 +1,65 @@
 $(document).ready(init);
+
+function valida_rif_estudiante(palabra){
+	//formato permitido de una cédula/rif: V210569852 -> la letra puede ser V, G, J, E y minimo 8 maximo 9 digitos
+	var patron = /^[VGJE-vgje]\d{8,9}$/;
+	return patron.test(palabra);
+}
+
+function valida_rif(palabra){
+	//formato permitido de una cédula/rif: V210569852 -> la letra puede ser V, G, J, E y minimo 8 maximo 9 digitos
+	var patron = /^[VGJE-vgje]\d{8,9}$/;
+	return patron.test(palabra);
+}
+
 function init(){
+	//	Validaciones en tiempo real de algunos campos claves
+	$('#cedula_estudiante').on('keyup',function(){
+		if(!valida_rif_estudiante($(this).val())){
+			$(this).css({"border":"2px solid #B21D11"});
+			$(this).focus();
+		}
+		else
+			$(this).css({"border":"1px solid #CCC"});
+	});
+
+	$('#cedula_madre').on('keyup',function(){
+		if(!valida_rif($(this).val())){
+			$(this).css({"border":"2px solid #B21D11"});
+			$(this).focus();
+		}
+		else
+			$(this).css({"border":"1px solid #CCC"});
+	});
+
+	$('#cedula_padre').on('keyup',function(){
+		if(!valida_rif($(this).val())){
+			$(this).css({"border":"2px solid #B21D11"});
+			$(this).focus();
+		}
+		else
+			$(this).css({"border":"1px solid #CCC"});
+	});
+
+	$('#cedula_representante').on('keyup',function(){
+		if(!valida_rif($(this).val())){
+			$(this).css({"border":"2px solid #B21D11"});
+			$(this).focus();
+		}
+		else
+			$(this).css({"border":"1px solid #CCC"});
+	});
+
 	//Validamos que solo se ingrese una cedula o cedula escolar
 	$('#cedula_estudiante').on('change',function(){
-		if($(this).val()!="")
+		if($(this).val()!=""){
 			$('#cedula_escolar').attr("readonly",true);
-		else
+			if(!valida_rif_estudiante($(this).val())){
+				alert('Error en la cédula ingresada ('+$(this).val()+'), formato permitido de una cédula/rif: V210569852 -> la letra puede ser V, G, J, E y minimo 8 maximo 9 digitos');
+				$(this).css({"border":"2px solid #B21D11"});
+				$(this).focus();
+			}
+		}else
 			$('#cedula_escolar').attr("readonly",false);
 	});
 	$('#cedula_escolar').on('change',function(){
@@ -12,6 +67,30 @@ function init(){
 			$('#cedula_estudiante').attr("readonly",true);
 		else
 			$('#cedula_estudiante').attr("readonly",false);
+	});
+
+	$('#cedula_madre').on('change',function(){
+		if(!valida_rif($(this).val())){
+			alert('Error en la cédula ingresada ('+$(this).val()+'), formato permitido de una cédula/rif: V210569852 -> la letra puede ser V, G, J, E y minimo 7 maximo 9 digitos');
+			$(this).css({"border":"2px solid #B21D11"});
+			$(this).focus();
+		}
+	});
+
+	$('#cedula_padre').on('change',function(){
+		if(!valida_rif($(this).val())){
+			alert('Error en la cédula ingresada ('+$(this).val()+'), formato permitido de una cédula/rif: V210569852 -> la letra puede ser V, G, J, E y minimo 7 maximo 9 digitos');
+			$(this).css({"border":"2px solid #B21D11"});
+			$(this).focus();
+		}
+	});
+
+	$('#cedula_representante').on('change',function(){
+		if(!valida_rif($(this).val())){
+			alert('Error en la cédula ingresada ('+$(this).val()+'), formato permitido de una cédula/rif: V210569852 -> la letra puede ser V, G, J, E y minimo 7 maximo 9 digitos');
+			$(this).css({"border":"2px solid #B21D11"});
+			$(this).focus();
+		}
 	});
 
 	//Búsquedas de las parroquias por autocompletar.

@@ -179,5 +179,24 @@
       return false;
     } 
    }
+
+   public function ComboLapso($codigo_ano_academico){
+    $sql="SELECT l.codigo_lapso AS id, l.descripcion AS name 
+    FROM tlapso l 
+    WHERE l.fecha_desactivacion IS NULL AND l.codigo_ano_academico = '$codigo_ano_academico' 
+    ORDER BY l.fecha_inicio,l.fecha_fin ASC";
+    $query = $this->mysql->Ejecutar($sql);
+    while($Obj=$this->mysql->Respuesta_assoc($query)){
+      $rows[]=array_map("html_entity_decode",$Obj);
+    }
+    if(!empty($rows)){
+      $json = json_encode($rows);
+    }
+    else{
+      $rows[] = array("msj" => "Error al Buscar Registros ");
+      $json = json_encode($rows);
+    }
+    return $json;
+  }
 }
 ?>

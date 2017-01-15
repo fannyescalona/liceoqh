@@ -447,5 +447,25 @@
     }
     return $json;
   }
+
+  public function ComboSeccion($cedula_docente){
+    $sql="SELECT DISTINCT s.seccion AS id,upper(s.descripcion) AS name 
+    FROM tseccion s 
+    INNER JOIN tmateria_seccion_docente msd ON s.seccion = msd.seccion 
+    WHERE s.fecha_desactivacion IS NULL AND msd.cedula_docente = '$cedula_docente' 
+    ORDER BY s.seccion";
+    $query = $this->mysql->Ejecutar($sql);
+    while($Obj=$this->mysql->Respuesta_assoc($query)){
+      $rows[]=array_map("html_entity_decode",$Obj);
+    }
+    if(!empty($rows)){
+      $json = json_encode($rows);
+    }
+    else{
+      $rows[] = array("msj" => "Error al Buscar Registros ");
+      $json = json_encode($rows);
+    }
+    return $json;
+  }
 }
 ?>

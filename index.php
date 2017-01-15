@@ -1,4 +1,29 @@
-<?php session_start();?>
+<?php session_start();
+$longitud_minclave=0;
+$longitud_maxclave=999;
+$cantidad_letrasmayusculas=0;
+$cantidad_letrasminusculas=0;
+$cantidad_caracteresespeciales=0;
+$cantidad_numeros=0;
+require_once('clases/class_bd.php');
+$conexion = new Conexion();
+$sql = "SELECT p.codigo_perfil,p.descripcion AS nombre_perfil,c.descripcion AS configuracion, 
+c.longitud_minclave,c.longitud_maxclave,c.cantidad_letrasmayusculas,c.cantidad_letrasminusculas,
+c.cantidad_caracteresespeciales,c.cantidad_numeros 
+FROM tusuario u 
+INNER JOIN tperfil p ON p.codigo_perfil = u.codigo_perfil 
+INNER JOIN tconfiguracion c ON p.codigo_configuracion = c.codigo_configuracion 
+WHERE u.nombre_usuario = '".$_SESSION['user_name']."'";
+$query=$conexion->Ejecutar($sql);
+if($Obj=$conexion->Respuesta($query)){
+  $longitud_minclave = $Obj['longitud_minclave'];
+  $longitud_maxclave = $Obj['longitud_maxclave'];
+  $cantidad_letrasmayusculas = $Obj['cantidad_letrasmayusculas'];
+  $cantidad_letrasminusculas = $Obj['cantidad_letrasminusculas'];
+  $cantidad_caracteresespeciales = $Obj['cantidad_caracteresespeciales'];
+  $cantidad_numeros = $Obj['cantidad_numeros'];
+}
+?>
 <!DOCTYPE html>
 <html>
   <head>
@@ -36,12 +61,12 @@
     <header>
       <form id="form1" name="form1" method="POST" action="<?=$url;?>" <?php if(isset($_GET['p']) and $_GET['p']=='cambiar-contrasena') echo "onsubmit='return validar_contrasena()'"; ?> >
         <div class="control-group"> 
-          <input type='hidden' id='longitud_minclave' />
-          <input type='hidden' id='longitud_maxclave' />
-          <input type='hidden' id='cantidad_letrasmayusculas' />
-          <input type='hidden' id='cantidad_letrasminusculas' />
-          <input type='hidden' id='cantidad_caracteresespeciales' />
-          <input type='hidden' id='cantidad_numeros' />
+          <input type='hidden' id='longitud_minclave' value='<?=$longitud_minclave?>' />
+          <input type='hidden' id='longitud_maxclave' value='<?=$longitud_maxclave?>' />
+          <input type='hidden' id='cantidad_letrasmayusculas' value='<?=$cantidad_letrasmayusculas?>' />
+          <input type='hidden' id='cantidad_letrasminusculas' value='<?=$cantidad_letrasminusculas?>' />
+          <input type='hidden' id='cantidad_caracteresespeciales' value='<?=$cantidad_caracteresespeciales?>' />
+          <input type='hidden' id='cantidad_numeros' value='<?=$cantidad_numeros?>' />
           <center><img src="images/logo2.png"></center>                
           <!-- LOGEAR!-->
             <?php if(empty($_GET['p'])){?>
@@ -106,28 +131,6 @@
             <?php if(!empty($_GET['p']) and $_GET['p']=='cambiar-contrasena' and isset($_SESSION['pregunta_respuesta']) and $_SESSION['pregunta_respuesta']==4){
               if(isset($_SESSION['captcha_udesur']))
                 unset($_SESSION['captcha_udesur']); 
-                $longitud_minclave=0;
-                $longitud_maxclave=999;
-                require_once('clases/class_bd.php');
-                $conexion = new Conexion();
-                $sql = "SELECT p.codigo_perfil,p.descripcion AS nombre_perfil,c.descripcion AS configuracion, 
-                c.longitud_minclave,c.longitud_maxclave,c.cantidad_letrasmayusculas,c.cantidad_letrasminusculas,
-                c.cantidad_caracteresespeciales,c.cantidad_numeros 
-                FROM tusuario u 
-                INNER JOIN tperfil p ON p.codigo_perfil = u.codigo_perfil 
-                INNER JOIN tconfiguracion c ON p.codigo_configuracion = c.codigo_configuracion 
-                WHERE u.nombre_usuario = '".$_SESSION['user_name']."'";
-                $query=$conexion->Ejecutar($sql);
-                if($Obj=$conexion->Respuesta($query)){
-                  $longitud_minclave = $Obj['longitud_minclave'];
-                  $longitud_maxclave = $Obj['longitud_maxclave'];
-                  echo "<script language='text/javascript'>$('#longitud_minclave').val('".$Obj['longitud_minclave']."'); </script>";
-                  echo "<script language='text/javascript'>$('#longitud_maxclave').val('".$Obj['longitud_maxclave']."'); </script>";
-                  echo "<script language='text/javascript'>$('#cantidad_letrasmayusculas').val('".$Obj['cantidad_letrasmayusculas']."'); </script>";
-                  echo "<script language='text/javascript'>$('#cantidad_letrasminusculas').val('".$Obj['cantidad_letrasminusculas']."'); </script>";
-                  echo "<script language='text/javascript'>$('#cantidad_caracteresespeciales').val('".$Obj['cantidad_caracteresespeciales']."'); </script>";
-                  echo "<script language='text/javascript'>$('#cantidad_numeros').val('".$Obj['cantidad_numeros']."'); </script>";
-                }
             ?> 
             <div class="group">
               <input required class="used" type="password" name="contrasena_actual" id="contrasena_actual" value="<?php echo $_SESSION['user_passwd'];?>" readonly><span class="highlight"></span><span class="bar"></span>
