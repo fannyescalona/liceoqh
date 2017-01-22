@@ -1,5 +1,28 @@
 $(document).ready(init);
+
+function valida_rif(palabra){
+	//formato permitido de una cédula/rif: V210569852 -> la letra puede ser V, G, J, E y minimo 7 maximo 9 digitos
+	var patron = /^[VGJE-vgje]\d{8,9}$/;
+	return patron.test(palabra);
+}
+
 function init(){
+	//	Validaciones en tiempo real de algunos campos claves
+	$('#cedula').on('keyup',function(){
+		if(!valida_rif($(this).val())){
+			$(this).css({"border":"2px solid #B21D11"});
+			$(this).focus();
+		}
+		else
+			$(this).css({"border":"1px solid #CCC"});
+	});
+	$('#cedula').on('change',function(){
+		if(!valida_rif($(this).val())){
+			alert('Error en la cédula ingresada ('+$(this).val()+'), formato permitido de una cédula/rif: V210569852 -> la letra puede ser V, G, J, E y minimo 8 maximo 9 digitos');
+			$(this).css({"border":"2px solid #B21D11"});
+			$(this).focus();
+		}
+	});
 	var edad = '-'+$('#edad_maxima_primer_anio').val()+'y';
     //Agregar Objeto Calendario al input fecha_nacimiento.
     $('#fecha_nacimiento_estudiante').datepicker({

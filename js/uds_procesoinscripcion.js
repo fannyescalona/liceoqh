@@ -7,8 +7,8 @@ function valida_rif_estudiante(palabra){
 }
 
 function valida_rif(palabra){
-	//formato permitido de una cédula/rif: V210569852 -> la letra puede ser V, G, J, E y minimo 8 maximo 9 digitos
-	var patron = /^[VGJE-vgje]\d{8,9}$/;
+	//formato permitido de una cédula/rif: V210569852 -> la letra puede ser V, G, J, E y minimo 7 maximo 9 digitos
+	var patron = /^[VGJE-vgje]\d{7,9}$/;
 	return patron.test(palabra);
 }
 
