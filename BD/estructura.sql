@@ -104,13 +104,32 @@ END //
 
 --
 --
+-- create function initcap
+--
+
+DROP FUNCTION IF EXISTS initcap;
+CREATE FUNCTION initcap (x VARCHAR(120) CHARSET utf8) RETURNS VARCHAR(120) CHARSET utf8
+NOT DETERMINISTIC
+NO SQL
+BEGIN
+SET @str='';
+SET @l_str='';
+WHILE x REGEXP ' ' DO
+SELECT SUBSTRING_INDEX(x, ' ', 1) INTO @l_str;
+SELECT SUBSTRING(x, LOCATE(' ', x)+1) INTO x;
+SELECT CONCAT(@str, ' ', CONCAT(UPPER(SUBSTRING(@l_str,1,1)),LOWER(SUBSTRING(@l_str,2)))) INTO @str;
+END WHILE;
+RETURN LTRIM(CONCAT(@str, ' ', CONCAT(UPPER(SUBSTRING(x,1,1)),LOWER(SUBSTRING(x,2)))));
+END //
+
+--
+--
 -- create function letras;
 --
 
 DROP FUNCTION IF EXISTS letras;
 CREATE FUNCTION letras(XNumero NUMERIC(20,2),  XMoneda VARCHAR(100)) RETURNS VARCHAR(512) 
 DETERMINISTIC 
-
 BEGIN 
 DECLARE XlnEntero INT; 
 DECLARE XlcRetorno VARCHAR(512); 
@@ -227,26 +246,7 @@ RETURN Xresultado;
 END
 //
 
---
---
--- Table structure for table tconfiguracion_negocio
---
-
-DROP TABLE IF EXISTS tconfiguracion_negocio;
-
-CREATE TABLE tconfiguracion_negocio (
-  codigo_configuracion_negocio int(11) NOT NULL AUTO_INCREMENT,
-  codigo_plantel char(11) NULL,
-  inscripcion_abierta char(1) NOT NULL DEFAULT 'Y',
-  carga_nota_abierta char(1) NOT NULL DEFAULT 'Y',
-  edad_maxima_primer_anio int(11) DEFAULT 0,
-  nota_minima float(10,2) NOT NULL DEFAULT 1,
-  nota_maxima float(10,2) NOT NULL DEFAULT 20,
-  nota_aprobacion float(10,2) NOT NULL DEFAULT 10,
-  fecha_desactivacion date DEFAULT NULL,
-  PRIMARY KEY (codigo_configuracion_negocio),
-  CONSTRAINT fk_config_negocio_plantel FOREIGN KEY (codigo_plantel) REFERENCES tplantel (codigo_plantel) ON UPDATE CASCADE ON DELETE SET NULL 
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+DELIMITER ;
 
 --
 --
@@ -290,6 +290,7 @@ CREATE TABLE tbloque_hora (
   descripcion varchar(60) COLLATE utf8_spanish_ci,
   hora_inicio time NOT NULL,
   hora_fin time NOT NULL,
+  hora_academica int(11) NOT NULL DEFAULT 0,
   receso char(1) NOT NULL DEFAULT 'N',
   turno char(1) NOT NULL DEFAULT 'M',
   fecha_desactivacion date DEFAULT NULL,
@@ -589,6 +590,27 @@ CREATE TABLE tplantel (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
+--
+-- Table structure for table tconfiguracion_negocio
+--
+
+DROP TABLE IF EXISTS tconfiguracion_negocio;
+
+CREATE TABLE tconfiguracion_negocio (
+  codigo_configuracion_negocio int(11) NOT NULL AUTO_INCREMENT,
+  codigo_plantel char(11) NULL,
+  inscripcion_abierta char(1) NOT NULL DEFAULT 'Y',
+  carga_nota_abierta char(1) NOT NULL DEFAULT 'Y',
+  edad_maxima_primer_anio int(11) DEFAULT 0,
+  nota_minima float(10,2) NOT NULL DEFAULT 1,
+  nota_maxima float(10,2) NOT NULL DEFAULT 20,
+  nota_aprobacion float(10,2) NOT NULL DEFAULT 10,
+  fecha_desactivacion date DEFAULT NULL,
+  PRIMARY KEY (codigo_configuracion_negocio),
+  CONSTRAINT fk_config_negocio_plantel FOREIGN KEY (codigo_plantel) REFERENCES tplantel (codigo_plantel) ON UPDATE CASCADE ON DELETE SET NULL 
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+--
 -- Table structure for table tpersona
 --
 
@@ -683,7 +705,7 @@ CREATE TABLE tproceso_inscripcion (
   codigo_canaima varchar(20) NULL,
   peso float NOT NULL DEFAULT 0,
   estatura float NOT NULL DEFAULT 0,
-  codigo_plantel int(11),
+  codigo_plantel char(11),
   certificado_sextogrado char(1) NOT NULL DEFAULT 'N',
   notascertificadas char(1) NOT NULL DEFAULT 'N',
   cartabuenaconducta char(1) NOT NULL DEFAULT 'N',
