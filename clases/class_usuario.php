@@ -9,6 +9,14 @@ class Usuario{
  	function __construct(){
  		$this->mysql=new Conexion();
 	}
+
+ 	public function __destruct(){}
+
+ 	public function Transaccion($value){
+		if($value=='iniciando') return $this->mysql->Incializar_Transaccion();
+		if($value=='cancelado') return $this->mysql->Cancelar_Transaccion();
+		if($value=='finalizado') return $this->mysql->Finalizar_Transaccion();
+	}
 	
 	public function user_name(){
 		$Num_Parametro=func_num_args();
@@ -45,6 +53,15 @@ class Usuario{
 			$this->rol=func_get_arg(0);
 		}
 	}
+
+   public function error(){
+      $Num_Parametro=func_num_args();
+	 if($Num_Parametro==0) return $this->error;
+     
+	 if($Num_Parametro>0){
+	   $this->error=func_get_arg(0);
+	 }
+   }
    
     public function Activar(){
 		$sql="update tusuario set fecha_desactivacion=NULL where (nombre_usuario='$this->user_name');";
@@ -64,12 +81,19 @@ class Usuario{
 
 	public function Cambiar_password(){
 		$sqlx="update tcontrasena set estado=0 where (nombre_usuario='$this->user_name')";
-		$this->mysql->Ejecutar($sqlx);
-		$sql="insert into tcontrasena (contrasena,nombre_usuario,estado) values ('$this->password','$this->user_name',1)";
-		if($this->mysql->Ejecutar($sql)!=null)
-			return true;
-		else
-			return false;
+		if($this->mysql->Ejecutar($sqlx)!=null){
+			$sql="insert into tcontrasena (contrasena,nombre_usuario,estado) values ('$this->password','$this->user_name',1)";
+			if($this->mysql->Ejecutar($sql)!=null)
+				return true;
+		    else{
+		      	$this->error($this->mysql->Error());
+		      	return false;
+		    }
+		}
+		else{
+	      	$this->error($this->mysql->Error());
+	      	return false;
+	    }
 	}
 
 	public function Actualizar($user,$pold,$pnew,$rnew){
@@ -229,7 +253,10 @@ class Usuario{
 			return false;
 	}
 
-	public function Buscar(){
+	public function Buscar($pw){
+		$clauseWHERE = "WHERE u.nombre_usuario='$this->user_name' AND pas.estado<>0 AND u.fecha_desactivacion IS NULL ";
+		if($pw)
+			$clauseWHERE .= " AND pas.contrasena='$this->password'";
 	    $sql="SELECT pas.estado AS estado,
 	    CONCAT(p.nombres,' ',p.apellidos) as fullname_user, 
 	    (CASE WHEN (NOW() - INTERVAL conf.dias_vigenciaclave DAY) < pas.fecha_modificacion THEN '0' ELSE '1' END) AS caducidad,
@@ -254,8 +281,7 @@ class Usuario{
 		INNER JOIN tconfiguracion AS conf ON pf.codigo_configuracion = conf.codigo_configuracion 
 		INNER JOIN tcontrasena AS pas ON pas.nombre_usuario=u.nombre_usuario
 		LEFT JOIN trespuesta_secreta AS rs ON u.nombre_usuario = rs.nombre_usuario 
-		WHERE u.nombre_usuario='$this->user_name' AND pas.contrasena='$this->password' 
-		AND pas.estado<>0 AND u.fecha_desactivacion IS NULL 
+		$clauseWHERE 
 		ORDER BY pas.fecha_modificacion DESC";
 		$query=$this->mysql->Ejecutar($sql);
 		while($Obj[]=$this->mysql->Respuesta_assoc($query))
@@ -326,14 +352,19 @@ class Usuario{
 
 	public function CompletarDatos($user,$pnew,$rnew){
     	$con=0;
+    	$error="";
     	for($i=0;$i<count($pnew);$i++){
 			$sql1="INSERT INTO trespuesta_secreta (nombre_usuario,pregunta,respuesta)
-			VALUES ('$this->user_name','".$pnew[$i]."','".$rnew[$i]."','$user',NOW())";
+			VALUES ('$this->user_name','".$pnew[$i]."','".$rnew[$i]."')";
 			if($this->mysql->Ejecutar($sql1)!=null)
 				$con++;
-			else
+			else{
+				$error.=$this->mysql->Error().";<br>";
 				$con--;
+		    }
     	}
+    	if(!empty($error))
+			$this->error($error);
     	if($con==count($pnew))
     		return true;
     	else

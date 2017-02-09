@@ -42,7 +42,7 @@ if(isset($_POST['operacion']) and $_POST['operacion']=='Registrar'){
       $_SESSION['datos']['mensaje']=utf8_encode("Lo sentimos, el usuario no se ha podido registrar. Intenta más tarde");
       header("Location: ../vistas/");
     }else{
-      $_SESSION['datos']['mensaje']="El usuario se ha creado éxitosamente!";
+      $_SESSION['datos']['mensaje']=utf8_encode("El usuario se ha creado éxitosamente!");
       header("Location: ../vistas/");
     }
   }else{
@@ -54,26 +54,66 @@ if(isset($_POST['operacion']) and $_POST['operacion']=='Registrar'){
 if(isset($_POST['operacion']) and $_POST['operacion']=='Modificar' and !isset($_POST['rol'])){
   include("../clases/class_usuario.php");
   $Usuario=new Usuario();
-  $Usuario->user_name($_POST['nombre_usuario']);
-  if($Usuario->Actualizar($_SESSION['user_name'],$_SESSION['user_pregunta'],$_POST['pregunta'],$_POST['respuesta'])){
+  if($_SESSION['user_estado']<>3){
     $Usuario->user_name($_POST['nombre_usuario']);
-    $res=$Usuario->Buscar();
-    if($res!=null){
-      for($i=0;$i<$res[0]['numero_preguntas'];$i++){
-         $preguntas[]=$res[$i]['preguntas'];
-         $respuestas[]=$res[$i]['respuestas'];
+    if($Usuario->Actualizar($_SESSION['user_name'],$_SESSION['user_pregunta'],$_POST['pregunta'],$_POST['respuesta'])){
+      //$Usuario->user_name($_POST['nombre_usuario']);
+      $res=$Usuario->Buscar();
+      if($res!=null){
+        for($i=0;$i<$res[0]['numero_preguntas'];$i++){
+           $preguntas[]=$res[$i]['preguntas'];
+           $respuestas[]=$res[$i]['respuestas'];
+        }
+        unset($_SESSION['user_pregunta']);
+        unset($_SESSION['user_respuesta']);
+        $_SESSION['user_pregunta']=$preguntas;
+        $_SESSION['user_respuesta']=$respuestas;
       }
-      unset($_SESSION['user_pregunta']);
-      unset($_SESSION['user_respuesta']);
+      $_SESSION['datos']['mensaje']=utf8_encode("Los cambios han sido guardados éxitosamente!");
+      $_SESSION['user_estado']=1;
+      header("Location: ../vistas/");
+    }else{
+      $_SESSION['datos']['mensaje']=utf8_encode("Lo sentimos, los datos no se han podido actualizar. Intenta más tarde");
+      header("Location: ../vistas/");
+    }
+  }
+  else{
+    $Usuario->Transaccion("iniciando");
+    $Usuario->user_name($_POST['nombre_usuario']);
+    $Usuario->password($_POST['nueva_contrasena']);
+    $confirmacion = 0;
+    if($Usuario->Cambiar_password()){
+      if($Usuario->CompletarDatos($_SESSION['user_name'],$_POST['pregunta'],$_POST['respuesta'])){
+        $Usuario->user_name($_POST['nombre_usuario']);
+        $res=$Usuario->Buscar();
+        if($res!=null){
+          for($i=0;$i<$res[0]['numero_preguntas'];$i++){
+             $preguntas[]=$res[$i]['preguntas'];
+             $respuestas[]=$res[$i]['respuestas'];
+          }
+          unset($_SESSION['user_pregunta']);
+          unset($_SESSION['user_respuesta']);
+          $confirmacion=1;
+        }
+        else
+          $confirmacion=-1;
+      }else
+        $confirmacion=-1;
+    }else
+      $confirmacion=-1;
+    if($confirmacion==1){
+      $Usuario->Transaccion("finalizado");
+      $_SESSION['datos']['mensaje']=utf8_encode("¡Se han realizado los cambios éxitosamente!");
+      $_SESSION['user_estado']=1;
       $_SESSION['user_pregunta']=$preguntas;
       $_SESSION['user_respuesta']=$respuestas;
+      header("Location: ../vistas/");
     }
-    $_SESSION['datos']['mensaje']="Los cambios han sido guardados éxitosamente!";
-    $_SESSION['user_estado']=1;
-    header("Location: ../vistas/");
-  }else{
-    $_SESSION['datos']['mensaje']="Lo sentimos, los datos no se han podido actualizar. Intenta más tarde";
-    header("Location: ../vistas/");
+    else{
+      $Usuario->Transaccion("cancelado");
+      $_SESSION['datos']['mensaje']=utf8_encode("¡Ocurrió un error al actualizar los datos, intenta más tarde!");
+      header("Location: ../vistas/");
+    }
   }
 }
 
@@ -82,16 +122,15 @@ if(isset($_POST['operacion']) and $_POST['operacion']=='Modificar' and isset($_P
   $Usuario=new Usuario();
   $Usuario->rol($_POST['rol']);
   if($Usuario->Actualizar2($_POST['cedula'])){ 	
-    $_SESSION['datos']['mensaje']="los cambio han sido guardado éxitosamente!";
+    $_SESSION['datos']['mensaje']=utf8_encode("Los cambio han sido guardado éxitosamente!");
     header("Location: ../vistas/");
   }else{
-    $_SESSION['datos']['mensaje']="Lo sentimos, los datos no se han podido actualizar. Intenta más tarde";
+    $_SESSION['datos']['mensaje']=utf8_encode("Lo sentimos, los datos no se han podido actualizar. Intenta más tarde");
     header("Location: ../vistas/");
   }
 }
-
 /*
-if(isset($_POST['operacion']) and $_POST['operacion']=='Modificar'){
+if(isset($_POST['operacion']) and $_POST['operacion']=='Modificar' and isset($_POST['cambiar_clave_con_logeo']) && $_POST['cambiar_clave_con_logeo']!="1"){
   include("../clases/class_usuario.php");
   $Usuario=new Usuario();
   if($_SESSION['user_estado']<>3){
@@ -136,19 +175,18 @@ if(isset($_POST['operacion']) and $_POST['operacion']=='Modificar'){
         }
         $_SESSION['datos']['mensaje']="¡Se han realizado los cambios exitosamente!";
         $_SESSION['user_estado']=1;
-        header("Location: ../view/menu_principal.php");
+        header("Location: ../vistas/menu_principal.php");
       }else{
         $_SESSION['datos']['mensaje']="¡Ocurrió un error al actualizar los datos, intenta más tarde!";
-        header("Location: ../view/menu_principal.php");
+        header("Location: ../vistas/menu_principal.php");
       }
     }else{
       $_SESSION['datos']['mensaje']="¡Ocurrió un error al actualizar los datos, intenta más tarde!";
-      header("Location: ../view/menu_principal.php");
+      header("Location: ../vistas/menu_principal.php");
     }
   }
 }
 */
-
 if(isset($_POST['operacion']) and $_POST['operacion']=='Consultar'){
   include("../clases/class_usuario.php");
   $Usuario=new Usuario();
@@ -158,7 +196,7 @@ if(isset($_POST['operacion']) and $_POST['operacion']=='Consultar'){
     $_SESSION['datos']=$data;
     header("Location: ../vistas/?nuevo_usuario");
   }else{
-    $_SESSION['datos']['mensaje']="Lo sentimos,no encontramos resultado con (".$_POST['nombre_usuario'].")";
+    $_SESSION['datos']['mensaje']=utf8_encode("Lo sentimos,no encontramos resultado con (".$_POST['nombre_usuario'].")");
     header("Location: ../vistas/?nuevo_usuario");
   }
 }
@@ -200,10 +238,10 @@ if(isset($_POST['operacion']) and $_POST['operacion']=='Desactivar'){
     $confirmacion=0;
   }
   if($confirmacion==1){
-    $_SESSION['datos']['mensaje']="El usuario ha sido Desactivado con éxito";
+    $_SESSION['datos']['mensaje']=utf8_encode("El usuario ha sido Desactivado con éxito");
     header("Location: ../vistas/?nuevo_usuario");
   }else{
-    $_SESSION['datos']['mensaje']="Problema al Desactivar el usuario.";
+    $_SESSION['datos']['mensaje']=utf8_encode("Problema al Desactivar el usuario.");
     header("Location: ../vistas/?nuevo_usuario");
   }
 }
@@ -221,10 +259,10 @@ if(isset($_POST['operacion']) and $_POST['operacion']=='Activar'){
     $confirmacion=0;
   }
   if($confirmacion==1){
-    $_SESSION['datos']['mensaje']="El usuario ha sido Activado con éxito";
+    $_SESSION['datos']['mensaje']=utf8_encode("El usuario ha sido Activado con éxito");
     header("Location: ../vistas/?nuevo_usuario");
   }else{
-    $_SESSION['datos']['mensaje']="Problema al Activar el usuario.";
+    $_SESSION['datos']['mensaje']=utf8_encode("Problema al Activar el usuario.");
     header("Location: ../vistas/?nuevo_usuario");
   }
 }	

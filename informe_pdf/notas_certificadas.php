@@ -12,7 +12,7 @@ $xml =  simplexml_load_file("notas_certificadas.jrxml");
 $cedula_estudiante = $_GET['cedula_estudiante'];
 
 $PHPJasperXML = new PHPJasperXML();
-$PHPJasperXML->debugsql=true;
+//$PHPJasperXML->debugsql=true;
 $PHPJasperXML->arrayParameter=array("cedula_estudiante"=>"'$cedula_estudiante'");
 $PHPJasperXML->xml_dismantle($xml);
 

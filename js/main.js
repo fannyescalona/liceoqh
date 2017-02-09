@@ -107,7 +107,7 @@ function init(){
     //Agregar Objeto Calendario al input fecha_nacimiento.
     $('#fecha_nacimiento').datepicker({
         minDate: '-82y',
-        maxDate: '-15y',
+        maxDate: '-18y', // Cambiar el numero para determinar la fecha maxima del campo, por ejemplo mayor de edad colocar 18
         showOn: 'both',
         numberOfMonths: 1,
         buttonImage: '../images/calendario.png',
