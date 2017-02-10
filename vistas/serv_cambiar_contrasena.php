@@ -11,6 +11,10 @@
 	if($Obj=$conexion->Respuesta($query)){
         $longitud_minclave = $Obj['longitud_minclave'];
         $longitud_maxclave = $Obj['longitud_maxclave'];
+		$cantidad_letrasmayusculas = $Obj['cantidad_letrasmayusculas'];
+		$cantidad_letrasminusculas = $Obj['cantidad_letrasminusculas'];
+		$cantidad_caracteresespeciales = $Obj['cantidad_caracteresespeciales'];
+		$cantidad_numeros = $Obj['cantidad_numeros'];
 		echo "<input type='hidden' id='longitud_minclave' value='".$Obj['longitud_minclave']."' />";
 		echo "<input type='hidden' id='longitud_maxclave' value='".$Obj['longitud_maxclave']."' />";
 		echo "<input type='hidden' id='cantidad_letrasmayusculas' value='".$Obj['cantidad_letrasmayusculas']."' />";
@@ -24,6 +28,16 @@
 		<fieldset>
 			<legend>Cambiar Contrase&ntilde;a</legend>
 			<div id="contenedorFormulario">
+	            <div class="tooltip_pw"> <img src="../images/password_safe.png" width="50" height="50">&nbsp;Ayuda para contrase&ntilde;a segura 
+	              <span class='tooltiptext'>La contrase&ntilde;a debe contener:</br>
+	                * Al menos <?=$cantidad_letrasmayusculas?> letra(s) mayúscula(s).</br> 
+	                * Al menos <?=$cantidad_letrasminusculas?> letra(s) minúscula(s).</br> 
+	                * Al menos <?=$cantidad_numeros?> número(s).</br> 
+	                * Al menos <?=$cantidad_caracteresespeciales?> carácter(es) especial(es). pj: ` ~ ! @ # $ \% \^ & \* ( ) _ \| : ; \" \' < > , \. \? / </br> 
+	                * Una longitud que sea como mínimo <?=$longitud_minclave?> carácteres. </br> 
+	                * Una longitud que sea como máximo <?=$longitud_maxclave?> carácteres.
+	              </span>
+	            </div>
 				<label>Contrase&ntilde;a Actual:</label>
 				<input type="hidden" name="cambiar_clave_con_logeo"/>
 				<input title="Clave actual" type="password" id="contrasena" name="contrasena" size="25" value="<?php echo $_SESSION['user_password'];?>" class="campoTexto" readonly required/>

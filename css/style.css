@@ -914,4 +914,35 @@ footer p {
     color: white;
 }
 
+footer a {
+    color: white;
+}
+
+.tooltip_pw {
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px dotted black;
+    margin-bottom: 25px;
+}
+
+.tooltip_pw .tooltiptext {
+    visibility: hidden;
+    width: 350px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    
+    /* Position the tooltip */
+    position: absolute;
+    z-index: 1;
+    top: -5px;
+    right: 105%;
+}
+
+.tooltip_pw:hover .tooltiptext {
+    visibility: visible;
+}
+
 /* End Form Login */

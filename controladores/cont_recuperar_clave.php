@@ -92,7 +92,7 @@ if(isset($_POST['user_name']) || isset($_POST['respuesta'])){
          header("Location: ../?p=olvidar-clave");
       }
    }else{
-      if(trim(md5($_POST["captcha"])) == trim($_SESSION["captcha"])){
+      if(trim(md5(strtolower($_POST["captcha"]))) == trim($_SESSION["captcha"])){
          $res=$Usuario->Buscar_1();
          $_SESSION['pregunta_respuesta']=0;
          if($res!=null){

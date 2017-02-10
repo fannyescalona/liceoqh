@@ -132,18 +132,28 @@ if($Obj=$conexion->Respuesta($query)){
               if(isset($_SESSION['captcha_udesur']))
                 unset($_SESSION['captcha_udesur']); 
             ?> 
+            <div class="tooltip_pw"> <img src="images/password_safe.png" width="50" height="50">&nbsp;Ayuda para contrase&ntilde;a segura 
+              <span class='tooltiptext'>La contrase&ntilde;a debe contener:</br>
+                * Al menos <?=$cantidad_letrasmayusculas?> letra(s) mayúscula(s).</br> 
+                * Al menos <?=$cantidad_letrasminusculas?> letra(s) minúscula(s).</br> 
+                * Al menos <?=$cantidad_numeros?> número(s).</br> 
+                * Al menos <?=$cantidad_caracteresespeciales?> carácter(es) especial(es). pj: ` ~ ! @ # $ \% \^ & \* ( ) _ \| : ; \" \' < > , \. \? / </br> 
+                * Una longitud que sea como mínimo <?=$longitud_minclave?> carácteres. </br> 
+                * Una longitud que sea como máximo <?=$longitud_maxclave?> carácteres.
+              </span>
+            </div>
             <div class="group">
               <input required class="used" type="password" name="contrasena_actual" id="contrasena_actual" value="<?php echo $_SESSION['user_passwd'];?>" readonly><span class="highlight"></span><span class="bar"></span>
-              <label>Clave Actual</label>
+              <label>Contrase&ntilde;a Actual</label>
             </div>
             <div class="group">
               <input required type="password" minlength="<?php echo $longitud_minclave; ?>" maxlength="<?php echo $longitud_maxclave; ?>" name="nueva_contrasena" id="nueva_contrasena" ><span class="highlight"></span><span class="bar"></span>
-              <label>Clave Nueva</label>
+              <label>Contrase&ntilde;a Nueva</label>
             </div>
             <div class="group">
               <input type="hidden" name="cambiar_clave_sin_logeo"/>
               <input required type="password" minlength="<?php echo $longitud_minclave; ?>" maxlength="<?php echo $longitud_maxclave; ?>" name="confirmar_contrasena" id="confirmar_contrasena" ><span class="highlight"></span><span class="bar"></span>
-              <label>Confirmar Clave</label>
+              <label>Confirmar Contrase&ntilde;a</label>
             </div>
             <?php } ?>
         </div>
@@ -161,6 +171,9 @@ if($Obj=$conexion->Respuesta($query)){
     <center>
       <footer>
         <p>&copy Unidad Educativa Nacional "Quebrada Honda", 2015</p>
+        <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="Licencia Creative Commons" style="border-width:0" src="images/creative_commons.png" /></a>
+        <br/>
+        <p>Esta obra está bajo una </p> <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/">Licencia Creative Commons Atribución-NoComercial-SinDerivar 4.0 Internacional</a>
       </footer>
     </center>
     <?php

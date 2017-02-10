@@ -1,12 +1,3 @@
-$(document).ready(function(){
-	$('#show_passwd_info').append("La contrase\u00f1a debe tener:</br> "+
-		"* Al menos "+document.getElementById('cantidad_letrasmayusculas').value+" letra(s) may\u00fascula(s).</br> "+
-		"* Al menos "+document.getElementById('cantidad_letrasminusculas').value+" letra(s) min\u00fascula(s).</br> "+
-		"* Al menos "+document.getElementById('cantidad_numeros').value+" n\u00famero(s).</br> "+
-		"* Al menos "+document.getElementById('cantidad_caracteresespeciales').value+" car\u00e1cter(es) especial(es). pj: ` ~ ! @ # $ \% \^ & \* ( ) _ \| : ; \" \' < > , \. \? / </br> "+
-		"* Una longitud que sea como m\u00ednimo "+document.getElementById('longitud_minclave').value+" car\u00e1cteres. </br> "+
-		"* Una longitud que sea como m\u00e1ximo "+document.getElementById('longitud_maxclave').value+" car\u00e1cteres.")
-});
 function validar_formulario(param){
 	document.getElementById('operacion').value=devuelve_boton(param);
 

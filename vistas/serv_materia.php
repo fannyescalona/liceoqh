@@ -54,7 +54,6 @@ else{
         <option value="3" <?php if($grado_escolar=="3"){ echo "selected";}?>>3er Año</option>
         <option value="4" <?php if($grado_escolar=="4"){ echo "selected";}?>>4to Año</option>
         <option value="5" <?php if($grado_escolar=="5"){ echo "selected";}?>>5to Año</option>
-        <option value="6" <?php if($grado_escolar=="6"){ echo "selected";}?>>6to Año</option>
       </select>
      <label>Depende de otra Materia:</label>
       <input type="hidden" name="materia_compuesta_oculta" id="materia_compuesta_oculta" >
