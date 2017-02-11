@@ -254,7 +254,7 @@ class Usuario{
 	}
 
 	public function Buscar($pw){
-		$clauseWHERE = "WHERE u.nombre_usuario='$this->user_name' AND pas.estado<>0 AND u.fecha_desactivacion IS NULL ";
+		$clauseWHERE = "WHERE TRIM(u.nombre_usuario)=TRIM('$this->user_name') AND pas.estado<>0 AND u.fecha_desactivacion IS NULL ";
 		if($pw)
 			$clauseWHERE .= " AND pas.contrasena='$this->password'";
 	    $sql="SELECT pas.estado AS estado,

@@ -15,6 +15,11 @@
     @$cedula_estudiante=null;
     @$estudiante_mostrar=null;
   }
+  if(isset($_GET['codigo_lapso']) && $_GET['codigo_lapso']!="0"){
+    $codigo_lapso=$_GET['codigo_lapso'];
+  }else{
+    @$codigo_lapso=null;
+  }
   $mysql=new Conexion();
   $sql = "SELECT carga_nota_abierta,nota_aprobacion
   FROM tconfiguracion_negocio WHERE fecha_desactivacion IS NULL";
@@ -41,7 +46,8 @@
     function reload_page(){
       seccion = document.getElementById('seccion').value;
       cedula_estudiante = document.getElementById('cedula_estudiante').value;
-      location.href="index.php?aplicar_notas&codigo_seccion="+seccion+"&cedula_estudiante="+cedula_estudiante;
+      codigo_lapso = document.getElementById('codigo_lapso').value;
+      location.href="index.php?aplicar_notas&codigo_seccion="+seccion+"&cedula_estudiante="+cedula_estudiante+"&codigo_lapso="+codigo_lapso;
     }
   </script>
 <div class="form_externo">
@@ -78,6 +84,31 @@
             <input tabindex=2 title="Seleccione un estudiante" onKeyUp="this.value=this.value.toUpperCase()" name="cedula_estudiante" id="cedula_estudiante" type="text" size="50" value="<?= $estudiante_mostrar;?>" placeholder="Seleccione un estudiante" class="campoTexto" />
           </div>
         </div>
+        <div class="row">
+          <div class="span-6">
+            <label>Lapso Académico:</label>
+            <select name="codigo_lapso" id="codigo_lapso" title="Seleccione un lapso académico" required="" class="campoTexto"/>
+              <option value='0'>Seleccione un lapso</option>
+              <?php
+                require_once("../clases/class_bd.php");
+                $mysql=new Conexion();
+                $sql = "SELECT l.codigo_lapso, CONCAT(l.descripcion,' (',aa.descripcion,')') AS descripcion 
+                FROM tlapso l 
+                INNER JOIN tano_academico aa ON l.codigo_ano_academico = aa.codigo_ano_academico  
+                WHERE l.fecha_desactivacion IS NULL AND aa.cerrado = 'N' 
+                ORDER BY l.fecha_inicio,l.fecha_fin ASC";
+                $query = $mysql->Ejecutar($sql);
+                while ($row = $mysql->Respuesta($query)){
+                  if($row['codigo_lapso']==$codigo_lapso){
+                    echo "<option value='".$row['codigo_lapso']."' selected>".$row['descripcion']."</option>";
+                  }else{
+                    echo "<option value='".$row['codigo_lapso']."'>".$row['descripcion']."</option>";
+                  }
+                }
+              ?>
+            </select>
+          </div>
+        </div>
       </center>
       <input type="button" class="btn btn-primary" value="Buscar" onclick="reload_page()">
       <input type="button" class="btn btn-primary" value="Limpiar" onclick="limpiar()">
@@ -94,22 +125,32 @@
           <td>Lapso</td>
           <td>Nota</td>
           <td>Aprobado</td>
+          <td>Evaluado</td>
         </tr>
         <?php
           //Conexión a la base de datos 
           require_once("../clases/class_bd.php");
           $mysql=new Conexion();
           $stringClause="WHERE msd.cedula_docente = '".$_SESSION['user_cedula']."' ";
-          if($seccion!="" && $cedula_estudiante!="")
+          if($seccion!="" && $cedula_estudiante!="" && $codigo_lapso!="")
+            $stringClause.="AND msd.seccion = '$seccion' AND an.cedula_estudiante = '$cedula_estudiante' AND pe.codigo_lapso = $codigo_lapso";
+          if($seccion!="" && $cedula_estudiante!="" && $codigo_lapso=="")
             $stringClause.="AND msd.seccion = '$seccion' AND an.cedula_estudiante = '$cedula_estudiante'";
-          if($seccion!="" && $cedula_estudiante=="")
+          if($seccion!="" && $cedula_estudiante=="" && $codigo_lapso!="")
+            $stringClause.="AND msd.seccion = '$seccion' AND pe.codigo_lapso = $codigo_lapso";
+          if($seccion=="" && $cedula_estudiante!="" && $codigo_lapso!="")
+            $stringClause.="AND an.cedula_estudiante = '$cedula_estudiante' AND pe.codigo_lapso = $codigo_lapso";
+          if($seccion!="" && $cedula_estudiante=="" && $codigo_lapso=="")
             $stringClause.="AND msd.seccion = '$seccion'";
-          if($seccion=="" && $cedula_estudiante!="")
+          if($seccion=="" && $cedula_estudiante!="" && $codigo_lapso=="")
             $stringClause.="AND an.cedula_estudiante = '$cedula_estudiante'";
+          if($seccion=="" && $cedula_estudiante=="" && $codigo_lapso!="")
+            $stringClause.="AND pe.codigo_lapso = '$codigo_lapso'";
           //Sentencia sql (sin limit) 
           $_pagi_sql = "SELECT msd.codigo_msd,an.cedula_estudiante,
           CONCAT(an.cedula_estudiante,' ',p.nombres,' ',p.apellidos) AS estudiante,
-          s.descripcion AS seccion, CONCAT(msd.codigo_materia,' ',m.descripcion) AS materia,pe.codigo_lapso,CONCAT(l.descripcion,' (',aa.descripcion,')') AS lapso,ROUND(AVG(notaobtenida),0) AS notafinal 
+          s.descripcion AS seccion, CONCAT(msd.codigo_materia,' ',m.descripcion) AS materia,pe.codigo_lapso,CONCAT(l.descripcion,' (',aa.descripcion,')') AS lapso,ROUND(AVG(notaobtenida),0) AS notafinal,
+          CASE WHEN EXISTS (SELECT 1 FROM tcontrol_notas cn WHERE msd.codigo_msd = cn.codigo_msd AND an.cedula_estudiante = cn.cedula_estudiante AND pe.codigo_lapso = cn.codigo_lapso) THEN 'Sí' ELSE 'No' END AS evaluado 
           FROM tmateria_seccion_docente msd 
           INNER JOIN tseccion s ON msd.seccion = s.seccion 
           INNER JOIN tmateria m ON msd.codigo_materia = m.codigo_materia 
@@ -144,6 +185,7 @@
             <td><input name='lapso[]' id='lapso_".$con."' type='hidden' value='".$row['codigo_lapso']."'/>".$row['lapso']."</td>
             <td><input name='notas[]' id='nota_".$con."' type='hidden' value='".$row['notafinal']."' /><span align='right'>".$row['notafinal']."</span></td>
             <td><input name='aprobados[]' id='aprobado_".$con."' type='hidden' value='".$aprobado."' /><span align='center'>".$texto_aprobado."</span></td>
+            <td><span align='center'>".$row['evaluado']."</span></td>
             </tr>"; 
             $con++;
           } 
