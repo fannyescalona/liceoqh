@@ -22,8 +22,8 @@ $PHPJasperXML->arrayParameter=array("codigo_ano_academico"=>"'$codigo_ano_academ
 	,"codigo_lapso"=>"'$codigo_lapso'"
 	,"cedula_docente"=>"'$cedula_docente'"
 	,"seccion"=>"'$seccion'"
-	,"cedula_estudiante"=> $cedula_estudiante != 0 ? "'$cedula_estudiante'" : "null"
-	,"codigo_materia"=> $codigo_materia != 0 ? "'$codigo_materia'" : "null");
+	,"cedula_estudiante"=> $cedula_estudiante != '0' ? "'$cedula_estudiante'" : "null"
+	,"codigo_materia"=> $codigo_materia != '0' ? "'$codigo_materia'" : "null");
 $PHPJasperXML->xml_dismantle($xml);
 
 $PHPJasperXML->transferDBtoArray($server,$user,$pass,$db);

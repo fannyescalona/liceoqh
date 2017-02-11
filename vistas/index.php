@@ -169,7 +169,7 @@ if(isset($_SESSION['user_estado'])){
         <div id="breadcrumb">
           <center>
             <p>&copy Unidad Educativa Nacional "Quebrada Honda", 2015</p>
-            <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="Licencia Creative Commons" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/88x31.png" /></a>
+            <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="Licencia Creative Commons" style="border-width:0" src="../images/creative_commons.png" /></a>
             <br/>
             <p>Esta obra está bajo una</p>&nbsp;<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/">Licencia Creative Commons Atribución-NoComercial-SinDerivar 4.0 Internacional</a>
           </center>

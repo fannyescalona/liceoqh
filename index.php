@@ -70,6 +70,13 @@ if($Obj=$conexion->Respuesta($query)){
           <center><img src="images/logo2.png"></center>                
           <!-- LOGEAR!-->
             <?php if(empty($_GET['p'])){?>
+            <div class="tooltip_pw"> <img src="images/password_safe.png" width="50" height="50">&nbsp;Ayuda para inicio de sesión 
+              <span class='tooltiptext'>Pasos para iniciar la sesión:</br>
+                * Ingresa tu cédula de identidad.</br> 
+                * Coloca tu clave (Si eres nuevo usuario la clave es 12345678).</br> 
+                * Resuelve el captcha.
+              </span>
+            </div>
             <div class="group">
                 <input required type="text" name="usuario" autocomplete="off" onKeyUp="this.value=this.value.toUpperCase()"><span class="highlight"></span><span class="bar"></span>
                 <label>Usuario</label>
