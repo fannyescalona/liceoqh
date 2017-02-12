@@ -70,7 +70,7 @@ if($Obj=$conexion->Respuesta($query)){
           <center><img src="images/logo2.png"></center>                
           <!-- LOGEAR!-->
             <?php if(empty($_GET['p'])){?>
-            <div class="tooltip_pw"> <img src="images/password_safe.png" width="50" height="50">&nbsp;Ayuda para inicio de sesión 
+            <div class="tooltip_pw"> <img src="images/sign_in_help.png" width="50" height="50">&nbsp;Ayuda para inicio de sesión 
               <span class='tooltiptext'>Pasos para iniciar la sesión:</br>
                 * Ingresa tu cédula de identidad.</br> 
                 * Coloca tu clave (Si eres nuevo usuario la clave es 12345678).</br> 

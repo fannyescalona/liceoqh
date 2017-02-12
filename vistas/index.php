@@ -135,6 +135,7 @@ if(isset($_SESSION['user_estado'])){
                   else if(isset($_GET['ano_academico'])) include("serv_ano_academico.php"); //listo
                   else if(isset($_GET['lapso'])) include("serv_lapso.php"); //listo  
                   else if(isset($_GET['bitacora'])) include("serv_auditoria.php"); //listo
+                  else if(isset($_GET['auditoria_reporte'])) include("serv_auditoria_reporte.php"); //listo
                   else if(isset($_GET['horario'])) include("serv_horario.php"); //listo
                   else if(isset($_GET['inscripcion'])) include("serv_inscripcion.php"); //listo
                   else if(isset($_GET['asignar_seccion'])) include("serv_asignarseccion.php"); //listo

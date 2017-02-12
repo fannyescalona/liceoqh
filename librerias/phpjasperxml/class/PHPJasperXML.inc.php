@@ -30,6 +30,7 @@ class PHPJasperXML
     private $report_count = 0; //### New declaration (variable exists in original too)
     private $group_count = array(); //### New declaration
     public $generatestatus = false;
+    public $query_status = 0;
     public function PHPJasperXML($lang = "en", $pdflib = "TCPDF")
     {
         $this->lang = $lang;
@@ -1854,7 +1855,7 @@ class PHPJasperXML
         );
     }
     
-    public function transferDBtoArray($host, $user, $password, $db_or_dsn_name, $cndriver = "mysql")
+    public function transferDBtoArray($host, $user, $password, $db_or_dsn_name, $cndriver = "mysql", $checkquery = false)
     {
         $this->m = 0;
         
@@ -1864,11 +1865,10 @@ class PHPJasperXML
             exit(0);
         }
         if ($this->debugsql == true) {
-            
             echo "<textarea cols='100' rows='40'>$this->sql</textarea>";
             die;
         }
-        
+
         if ($cndriver == "odbc") {
             
             $result = odbc_exec($this->myconn, $this->sql);
@@ -1894,6 +1894,13 @@ class PHPJasperXML
             $result = @mysql_query($this->sql); //query from db 
             if (!$result) {
                 die('Consulta no válida: ' . mysql_error());
+            }
+
+            if($result && $this->generatestatus == true){
+                $this->query_status = 1;
+                if($checkquery){
+                	return true;
+                }
             }
             while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
                 foreach ($this->arrayfield as $out) {

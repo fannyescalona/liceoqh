@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="boletin" language="groovy" pageWidth="595" pageHeight="842" columnWidth="475" leftMargin="60" rightMargin="60" topMargin="20" bottomMargin="60" uuid="30e9340e-27d5-490c-9f63-cb8889c1ad47">
-	<property name="ireport.zoom" value="2.0"/>
-	<property name="ireport.x" value="206"/>
-	<property name="ireport.y" value="246"/>
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="57"/>
 	<parameter name="cedula_estudiante" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<parameter name="codigo_ano_academico" class="java.math.BigDecimal">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="nro_registro" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<queryString>
@@ -286,14 +289,27 @@ ORDER BY l.descripcion,m.descripcion]]>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{estudiante}]]></textFieldExpression>
 			</textField>
-			<staticText>
-				<reportElement x="107" y="84" width="251" height="26" uuid="0547fd30-9f59-4ecc-8dec-ee6c58870c52"/>
-				<textElement textAlignment="Center">
+			<textField isStretchWithOverflow="true">
+				<reportElement x="0" y="110" width="207" height="10" uuid="65b19923-e48c-481b-89b8-653a47a77bbc"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Reporte generado bajo el nro de confirmación: "]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="145" y="81" width="180" height="15" uuid="03fc1641-9ec2-488d-8e96-e69ca40dba10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
-				<text><![CDATA[U.E.N. QUEBRADA HONDA
-BOLENTIN DE CALIFICACIONES]]></text>
-			</staticText>
+				<textFieldExpression><![CDATA["U.E.N. QUEBRADA HONDA BOLENTIN DE CALIFICACIONES"]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="150" y="110" width="118" height="10" uuid="f8612194-5b21-47cd-b44d-7cb2c50a8e58"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{nro_registro}]]></textFieldExpression>
+			</textField>
 		</band>
 	</title>
 	<detail>
