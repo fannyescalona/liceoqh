@@ -1,4 +1,5 @@
 <?php
+session_start();
 /* 
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
@@ -13,10 +14,30 @@ $cedula_estudiante = $_GET['cedula_estudiante'];
 
 $PHPJasperXML = new PHPJasperXML();
 //$PHPJasperXML->debugsql=true;
-$PHPJasperXML->arrayParameter=array("cedula_estudiante"=>"'$cedula_estudiante'");
+$PHPJasperXML->generatestatus=true;
+$PHPJasperXML->arrayParameter=array("cedula_estudiante"=>"'$cedula_estudiante'","nro_registro"=>"null");
 $PHPJasperXML->xml_dismantle($xml);
 
-$PHPJasperXML->transferDBtoArray($server,$user,$pass,$db);
+$PHPJasperXML->transferDBtoArray($server,$user,$pass,$db,'mysql',true);
+
+if($PHPJasperXML->query_status==1){
+	require_once('../clases/class_auditoria_proceso.php');
+	$Auditoria_Proceso = new Auditoria_Proceso();
+	$Auditoria_Proceso->nombre_usuario($_SESSION['user_name']);
+	$Auditoria_Proceso->proceso($_SESSION['uri_service']);
+	$Auditoria_Proceso->parametro_valor("{cedula_estudiante: \'".$cedula_estudiante."\'}");
+	if(!$Auditoria_Proceso->Registrar())
+		die('Error: '.$Auditoria_Proceso->error());
+
+	if($Auditoria_Proceso->Obtener_Nro_Registro()){
+		$nro_registro = $Auditoria_Proceso->nro_registro();
+		$PHPJasperXML->arrayParameter=array("cedula_estudiante"=>"'$cedula_estudiante'","nro_registro"=>"'$nro_registro");
+	}
+	else
+		die('Error: '.$Auditoria_Proceso->error());
+}
+$PHPJasperXML->transferDBtoArray($server,$user,$pass,$db,'mysql',false);
+
 $PHPJasperXML->outpage("I");    //page output method I:standard output  D:Download file
 
 

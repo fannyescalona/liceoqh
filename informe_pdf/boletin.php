@@ -26,14 +26,13 @@ $PHPJasperXML->transferDBtoArray($server,$user,$pass,$db,'mysql',true);
 if($PHPJasperXML->query_status==1){
 	require_once('../clases/class_auditoria_proceso.php');
 	$Auditoria_Proceso = new Auditoria_Proceso();
-	$confirmado = 0;
 	$Auditoria_Proceso->nombre_usuario($_SESSION['user_name']);
-	$Auditoria_Proceso->proceso('rep_boletin');
-	$Auditoria_Proceso->parametro_valor("{codigo_ano_academico: \'".$codigo_ano_academico."\',cedula_estudiante: \'".$cedula_estudiante."\'}");
-	if(!$Auditoria_Proceso->Registrar()){
-		$confirmado = -1;
+	$Auditoria_Proceso->proceso($_SESSION['uri_service']);
+	$Auditoria_Proceso->parametro_valor("{codigo_ano_academico: \'".$codigo_ano_academico."\',
+		cedula_estudiante: \'".$cedula_estudiante."\'}");
+	if(!$Auditoria_Proceso->Registrar())
 		die('Error: '.$Auditoria_Proceso->error());
-	}
+
 	if($Auditoria_Proceso->Obtener_Nro_Registro()){
 		$nro_registro = $Auditoria_Proceso->nro_registro();
 		$PHPJasperXML->arrayParameter=array("codigo_ano_academico"=>"'$codigo_ano_academico'"

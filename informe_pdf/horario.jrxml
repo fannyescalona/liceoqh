@@ -12,6 +12,7 @@
 	<parameter name="codigo_ano_academico" class="java.math.BigDecimal">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
+	<parameter name="nro_registro" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[SELECT CASE WHEN bh.receso = 'Y' THEN '' ELSE bh.descripcion END AS nombrebh,
 CASE WHEN bh.receso = 'N' THEN '' ELSE bh.descripcion END AS nombresemana,
@@ -113,13 +114,13 @@ ORDER BY bh.hora_inicio,bh.hora_fin ASC]]>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="145" splitType="Stretch">
+		<band height="160" splitType="Stretch">
 			<image>
 				<reportElement x="0" y="0" width="802" height="71" uuid="5e5c3d8b-1018-4701-870f-c095e8a0c3c1"/>
 				<imageExpression><![CDATA["../images/cintillo_reportes.jpg"]]></imageExpression>
 			</image>
 			<textField>
-				<reportElement mode="Opaque" x="0" y="105" width="802" height="20" forecolor="#FFFFFF" backcolor="#6B6B6B" uuid="377ebb24-a564-4871-b6ee-76acfbf42522"/>
+				<reportElement mode="Opaque" x="0" y="120" width="802" height="20" forecolor="#FFFFFF" backcolor="#6B6B6B" uuid="377ebb24-a564-4871-b6ee-76acfbf42522"/>
 				<box>
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
@@ -139,7 +140,7 @@ ORDER BY bh.hora_inicio,bh.hora_fin ASC]]>
 				<textFieldExpression><![CDATA["REPORTE DE HORARIO"]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="0" y="125" width="60" height="20" uuid="5d0d7dbc-ee3c-43bd-baa9-f45a43861cfe"/>
+				<reportElement x="0" y="140" width="60" height="20" uuid="5d0d7dbc-ee3c-43bd-baa9-f45a43861cfe"/>
 				<box>
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
@@ -152,7 +153,7 @@ ORDER BY bh.hora_inicio,bh.hora_fin ASC]]>
 				<textFieldExpression><![CDATA["BLOQUE"]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="60" y="125" width="102" height="20" uuid="5ada1753-61f2-4866-8d41-c16ca024d9fc"/>
+				<reportElement x="60" y="140" width="102" height="20" uuid="5ada1753-61f2-4866-8d41-c16ca024d9fc"/>
 				<box>
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
@@ -165,7 +166,7 @@ ORDER BY bh.hora_inicio,bh.hora_fin ASC]]>
 				<textFieldExpression><![CDATA["HORA"]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="674" y="125" width="128" height="20" uuid="86a3e383-9572-4fab-b00a-2a0136770a4e"/>
+				<reportElement x="674" y="140" width="128" height="20" uuid="86a3e383-9572-4fab-b00a-2a0136770a4e"/>
 				<box>
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
@@ -178,7 +179,7 @@ ORDER BY bh.hora_inicio,bh.hora_fin ASC]]>
 				<textFieldExpression><![CDATA["VIERNES"]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="546" y="125" width="128" height="20" uuid="3b47d7e5-3c7f-4b9c-a3aa-6232c8a59bf6"/>
+				<reportElement x="546" y="140" width="128" height="20" uuid="3b47d7e5-3c7f-4b9c-a3aa-6232c8a59bf6"/>
 				<box>
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
@@ -191,7 +192,7 @@ ORDER BY bh.hora_inicio,bh.hora_fin ASC]]>
 				<textFieldExpression><![CDATA["JUEVES"]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="418" y="125" width="128" height="20" uuid="858034b4-0b1e-4787-a145-35f03a34aa5d"/>
+				<reportElement x="418" y="140" width="128" height="20" uuid="858034b4-0b1e-4787-a145-35f03a34aa5d"/>
 				<box>
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
@@ -204,7 +205,7 @@ ORDER BY bh.hora_inicio,bh.hora_fin ASC]]>
 				<textFieldExpression><![CDATA["MIERCOLES"]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="290" y="125" width="128" height="20" uuid="a8d6449d-877a-4406-ab1c-d2b531e4a13a"/>
+				<reportElement x="290" y="140" width="128" height="20" uuid="a8d6449d-877a-4406-ab1c-d2b531e4a13a"/>
 				<box>
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
@@ -217,7 +218,7 @@ ORDER BY bh.hora_inicio,bh.hora_fin ASC]]>
 				<textFieldExpression><![CDATA["MARTES"]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="162" y="125" width="128" height="20" uuid="cef2fb2c-fb00-4374-bbfb-e93ab2ad48ef"/>
+				<reportElement x="162" y="140" width="128" height="20" uuid="cef2fb2c-fb00-4374-bbfb-e93ab2ad48ef"/>
 				<box>
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
@@ -228,6 +229,20 @@ ORDER BY bh.hora_inicio,bh.hora_fin ASC]]>
 					<font isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA["LUNES"]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="150" y="105" width="118" height="10" uuid="24189637-348e-4628-a863-f8e9b52110be"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{nro_registro}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="0" y="105" width="207" height="10" uuid="025a0cd2-81a2-4341-b3a2-505e9fef4bae"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Reporte generado bajo el nro de confirmación: "]]></textFieldExpression>
 			</textField>
 		</band>
 	</title>
@@ -257,7 +272,7 @@ ORDER BY bh.hora_inicio,bh.hora_fin ASC]]>
 					<rightPen lineWidth="1.0"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="7" isBold="false"/>
+					<font size="6" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{bloque_lunes_ambiente}!="" ?
 $F{bloque_lunes_ambiente}+" \n "+
@@ -305,7 +320,7 @@ $F{bloque_lunes_docente}
 					<rightPen lineWidth="1.0"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="7" isBold="false"/>
+					<font size="6" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{bloque_martes_ambiente}!="" ?
 $F{bloque_martes_ambiente}+" \n "+
@@ -325,7 +340,7 @@ $F{bloque_martes_docente}
 					<rightPen lineWidth="1.0"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="7" isBold="false"/>
+					<font size="6" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{bloque_miercoles_ambiente}!="" ?
 $F{bloque_miercoles_ambiente}+" \n "+
@@ -345,7 +360,7 @@ $F{bloque_miercoles_docente}
 					<rightPen lineWidth="1.0"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="7" isBold="false"/>
+					<font size="6" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{bloque_jueves_ambiente}!="" ?
 $F{bloque_jueves_ambiente}+" \n "+
@@ -365,7 +380,7 @@ $F{bloque_jueves_docente}
 					<rightPen lineWidth="1.0"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="7" isBold="false"/>
+					<font size="6" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{bloque_viernes_ambiente}!="" ?
 $F{bloque_viernes_ambiente}+" \n "+

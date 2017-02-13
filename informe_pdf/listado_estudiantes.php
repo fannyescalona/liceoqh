@@ -1,4 +1,5 @@
 <?php
+session_start();
 /* 
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
@@ -14,12 +15,36 @@ $seccion = $_GET['seccion'];
 
 $PHPJasperXML = new PHPJasperXML();
 //$PHPJasperXML->debugsql=true;
-if($grado_escolar!="null")
-	$PHPJasperXML->arrayParameter=array("grado_escolar"=>"'$grado_escolar'","seccion"=>"null");
-else
-	$PHPJasperXML->arrayParameter=array("grado_escolar"=>"null","seccion"=>"'$seccion'");
+$PHPJasperXML->generatestatus=true;
+$PHPJasperXML->arrayParameter=array("grado_escolar"=>$grado_escolar!=null ? "'$grado_escolar'" : "null",
+	"seccion"=>$seccion!=null ? "'$seccion'" : "null",
+	"nro_registro"=>"null");
 $PHPJasperXML->xml_dismantle($xml);
 
-$PHPJasperXML->transferDBtoArray($server,$user,$pass,$db);
+$PHPJasperXML->transferDBtoArray($server,$user,$pass,$db,'mysql',true);
+
+if($PHPJasperXML->query_status==1){
+	require_once('../clases/class_auditoria_proceso.php');
+	$Auditoria_Proceso = new Auditoria_Proceso();
+	$Auditoria_Proceso->nombre_usuario($_SESSION['user_name']);
+	$Auditoria_Proceso->proceso($_SESSION['uri_service']);
+
+	$grado_escolar = $grado_escolar!=null ? $grado_escolar : 'vacio';
+	$seccion = $seccion!=null ? $seccion : 'vacio';
+
+	$Auditoria_Proceso->parametro_valor("{grado_escolar: \'".$grado_escolar."\',seccion: \'".$seccion."\'}");
+	if(!$Auditoria_Proceso->Registrar())
+		die('Error: '.$Auditoria_Proceso->error());
+
+	if($Auditoria_Proceso->Obtener_Nro_Registro()){
+		$nro_registro = $Auditoria_Proceso->nro_registro();
+		$PHPJasperXML->arrayParameter=array("grado_escolar"=>$grado_escolar!=null ? "'$grado_escolar'" : "null",
+			"seccion"=>$seccion!=null ? "'$seccion'" : "null","nro_registro"=>"'$nro_registro");
+	}
+	else
+		die('Error: '.$Auditoria_Proceso->error());
+}
+$PHPJasperXML->transferDBtoArray($server,$user,$pass,$db,'mysql',false);
+
 $PHPJasperXML->outpage("I");    //page output method I:standard output  D:Download file
 ?>

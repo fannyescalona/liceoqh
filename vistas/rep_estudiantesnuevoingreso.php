@@ -3,7 +3,7 @@
     <fieldset>
       <legend>Listado de Estudiantes Nuevo Ingreso</legend>
       <div id="contenedorFormulario">
-        <input type="hidden" name="seccion" id="seccion" value=null>
+        <input type="hidden" name="seccion" id="seccion">
         <input type="hidden" name="grado_escolar" id="grado_escolar" value="1">
         <br>
         <input name='cmdImprimir' type='button' id='cmdImprimir' class='btn btn-large' value='Enviar' />

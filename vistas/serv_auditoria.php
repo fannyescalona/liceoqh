@@ -92,49 +92,28 @@
   require_once("../clases/class_bd.php");
   $mysql=new Conexion();
 $clausuleWhere = "";
-if($fecha_desde!="" && $fecha_hasta!="" && $usuario!="" && $operacion!=""){
-    $clausuleWhere.="WHERE fecha BETWEEN '$fecha_desde' AND '$fecha_hasta' AND usuario_aplicacion = '$usuario' AND LOWER(query) LIKE '%$operacion%'";
+
+if($fecha_desde!="" && $fecha_hasta!=""){
+  $clausuleWhere.="WHERE DATE_FORMAT(fecha,'%Y-%m-%d') BETWEEN '$fecha_desde' AND '$fecha_hasta'";
 }
-else if($fecha_desde!="" && $usuario!="" && $operacion!=""){
-    $clausuleWhere.="WHERE fecha >= '$fecha_desde' AND usuario_aplicacion = '$usuario' AND LOWER(query) LIKE '%$operacion%'";
+else if($fecha_desde!="" && $fecha_hasta==""){
+  $clausuleWhere.="WHERE DATE_FORMAT(fecha,'%Y-%m-%d') >= '$fecha_desde'";
 }
-else if($fecha_hasta!="" && $usuario!="" && $operacion!=""){
-    $clausuleWhere.="WHERE fecha <= '$fecha_hasta' AND usuario_aplicacion = '$usuario' AND LOWER(query) LIKE '%$operacion%'";
+else if($fecha_desde=="" && $fecha_hasta!=""){
+  $clausuleWhere.="WHERE DATE_FORMAT(fecha,'%Y-%m-%d') <= '$fecha_hasta'"; 
 }
-else if($fecha_desde!="" && $fecha_hasta!="" && $usuario!=""){
-    $clausuleWhere.="WHERE fecha BETWEEN '$fecha_desde' AND '$fecha_hasta' AND usuario_aplicacion = '$usuario'";
+
+if($usuario!=""){
+  if(!empty($clausuleWhere))
+    $clausuleWhere.=" AND usuario_aplicacion='$usuario'";
+  else
+    $clausuleWhere.="WHERE usuario_aplicacion='$usuario'";
 }
-else if($fecha_desde!="" && $fecha_hasta!="" && $operacion!=""){
-    $clausuleWhere.="WHERE fecha BETWEEN '$fecha_desde' AND '$fecha_hasta' AND LOWER(query) LIKE '%$operacion%'";
-}
-else if($fecha_desde!="" && $fecha_hasta!=""){
-    $clausuleWhere.="WHERE fecha BETWEEN '$fecha_desde' AND '$fecha_hasta'";
-}
-else if($fecha_desde!="" && $usuario!=""){
-    $clausuleWhere.="WHERE fecha >= '$fecha_desde' AND usuario_aplicacion = '$usuario'";
-}
-else if($fecha_desde!="" && $operacion!=""){
-    $clausuleWhere.="WHERE fecha >= '$fecha_desde' AND LOWER(query) LIKE '%$operacion%'";
-}
-else if($fecha_hasta!="" && $usuario!=""){
-    $clausuleWhere.="WHERE fecha <= '$fecha_hasta' AND usuario_aplicacion = '$usuario'";
-}
-else if($fecha_hasta!="" && $operacion!=""){
-    $clausuleWhere.="WHERE fecha <= '$fecha_hasta' AND LOWER(query) LIKE '%$operacion%'";
-}
-else if($usuario!="" && $operacion!=""){
-    $clausuleWhere.="WHERE usuario_aplicacion = '$usuario' AND LOWER(query) LIKE '%$operacion%'";
-}
-else if($fecha_desde!=""){
-    $clausuleWhere.="WHERE fecha >= '$fecha_desde'";
-}
-else if($fecha_hasta!=""){
-    $clausuleWhere.="WHERE fecha <= '$fecha_hasta'";
-}
-else if($usuario!=""){
-    $clausuleWhere.="WHERE usuario_aplicacion = '$usuario'";
-}
-else if($operacion!=""){
+
+if($operacion!=""){
+  if(!empty($clausuleWhere))
+    $clausuleWhere.=" AND LOWER(query) LIKE '%$operacion%'";
+  else
     $clausuleWhere.="WHERE LOWER(query) LIKE '%$operacion%'";
 }
 

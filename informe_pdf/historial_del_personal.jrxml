@@ -6,9 +6,11 @@
 	<parameter name="cedula" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
+	<parameter name="nro_registro" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[SELECT CONCAT(p.nombres,' ',p.apellidos) AS personal, p.cedula, DATE_FORMAT(p.fecha_nacimiento,'%d/%m/%Y') AS fecha_nacimiento,
-p.direccion, p.telefono_movil, p.email, DATE_FORMAT(p.fecha_ingreso,'%d/%m/%Y') AS fecha_ingreso, c.descripcion AS cargo,
+p.direccion,
+CONCAT(SUBSTR(p.telefono_movil,1,4),'-',SUBSTR(p.telefono_movil,5,11)) AS telefono_movil, p.email, DATE_FORMAT(p.fecha_ingreso,'%d/%m/%Y') AS fecha_ingreso, c.descripcion AS cargo,
 CASE p.condicion_cargo WHEN 'F' THEN 'FIJO' ELSE 'CONTRATADO' END AS condicion_cargo,p.nivel_academico,p.carga_horaria,
 pl.nombre AS plantel, p.codigo_dependencia,pl.telefono_habitacion,pl.direccion AS dir_plantel,pl.email AS email_plantel,
 TIMESTAMPDIFF(YEAR, p.fecha_ingreso, CURDATE()) AS anio_servicio,((TIMESTAMPDIFF(MONTH,p.fecha_ingreso,CURDATE())) - (TIMESTAMPDIFF(YEAR,p.fecha_ingreso,CURDATE()) * 12)) AS mes_servicio,
@@ -77,6 +79,20 @@ WHERE p.espersonalinstitucion = 'Y' AND p.cedula = $P{cedula}]]>
 				<reportElement x="0" y="0" width="475" height="70" uuid="9bdc4c97-01ac-4672-bb3f-86ba1400d281"/>
 				<imageExpression><![CDATA["../images/cintillo_reportes.jpg"]]></imageExpression>
 			</image>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="150" y="130" width="118" height="10" uuid="f1a5e5d6-5f4c-418c-97b2-f6b19ccf28fb"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{nro_registro}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="0" y="130" width="207" height="10" uuid="533c9ea1-25c1-4f88-885e-0fa9f33e4d3b"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Reporte generado bajo el nro de confirmación: "]]></textFieldExpression>
+			</textField>
 		</band>
 	</title>
 	<detail>

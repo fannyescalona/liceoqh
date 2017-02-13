@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="constancia_de_estudio" language="groovy" pageWidth="595" pageHeight="842" columnWidth="435" leftMargin="80" rightMargin="80" topMargin="20" bottomMargin="20" uuid="211796ca-725e-418a-8268-50515e670850">
 	<property name="ireport.zoom" value="2.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="598"/>
+	<property name="ireport.y" value="0"/>
 	<style name="Title" forecolor="#FFFFFF" fontName="Times New Roman" fontSize="50" isBold="false" pdfFontName="Times-Bold"/>
 	<style name="SubTitle" forecolor="#CCCCCC" fontName="Times New Roman" fontSize="18" isBold="false" pdfFontName="Times-Roman"/>
 	<style name="Column header" forecolor="#666666" fontName="Times New Roman" fontSize="14" isBold="true" pdfFontName="Times-Roman"/>
@@ -16,6 +16,7 @@
 	<parameter name="cedula_estudiante" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
+	<parameter name="nro_registro" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[SELECT MAX(CONCAT(COALESCE(d.nivel_academico,''),' ',d.nombres,' ',d.apellidos)) as director,MAX(SUBSTRING(d.cedula,2,12)) AS cedula_director,
 MAX(c.descripcion) AS cargo,INITCAP(MAX(p.nombre)) AS plantel,MAX(m.descripcion) AS municipio,MAX(e.descripcion) AS estado,
@@ -81,6 +82,20 @@ WHERE c.descripcion LIKE '%DIRECTOR%']]>
 				</textElement>
 				<text><![CDATA[A QUIEN PUEDA INTERESAR:]]></text>
 			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="150" y="120" width="118" height="10" uuid="a4fdd07d-d33a-45a2-8295-386c995fd171"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{nro_registro}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="0" y="120" width="207" height="10" uuid="b9bbcc68-69dc-490f-a852-cd3e2fb04640"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Reporte generado bajo el nro de confirmación: "]]></textFieldExpression>
+			</textField>
 		</band>
 	</title>
 	<detail>
@@ -245,7 +260,4 @@ WHERE c.descripcion LIKE '%DIRECTOR%']]>
 			</textField>
 		</band>
 	</detail>
-	<summary>
-		<band height="39" splitType="Stretch"/>
-	</summary>
 </jasperReport>

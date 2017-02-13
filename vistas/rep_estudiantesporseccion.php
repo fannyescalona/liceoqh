@@ -4,7 +4,7 @@
       <legend>Listado de Estudiantes por Sección</legend>
       <div id="contenedorFormulario">
         <label>Sección:</label>
-        <input type="hidden" name="grado_escolar" id="grado_escolar" value=null>
+        <input type="hidden" name="grado_escolar" id="grado_escolar">
         <input title="Seleccione una sección" onKeyUp="this.value=this.value.toUpperCase()" name="seccion" id="seccion" type="text" size="50" placeholder="Seleccione una sección" class="campoTexto" />
         <br>
         <input name='cmdImprimir' type='button' id='cmdImprimir' class='btn btn-large' value='Enviar' />

@@ -6,8 +6,10 @@
 	<parameter name="codigo_materia" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
+	<parameter name="nro_registro" class="java.lang.String"/>
 	<queryString>
-		<![CDATA[SELECT p.cedula,CONCAT(p.nombres,' ',p.apellidos) AS docente,COALESCE(p.telefono_movil,p.telefono_habitacion) AS telefono,p.email,
+		<![CDATA[SELECT p.cedula,CONCAT(p.nombres,' ',p.apellidos) AS docente,
+CONCAT(SUBSTR(COALESCE(p.telefono_movil,p.telefono_habitacion),1,4),'-',SUBSTR(COALESCE(p.telefono_movil,p.telefono_habitacion),5,11)) AS telefono,p.email,
 GROUP_CONCAT(DISTINCT m.descripcion separator ',') AS materia
 FROM tpersona p
 INNER JOIN tcargo c ON p.codigo_cargo = c.codigo_cargo
@@ -26,7 +28,9 @@ ORDER BY p.cedula ASC]]>
 	<field name="email" class="java.lang.String">
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="materia" class="java.lang.String"/>
+	<field name="materia" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -37,12 +41,26 @@ ORDER BY p.cedula ASC]]>
 				<imageExpression><![CDATA["../images/cintillo_reportes.jpg"]]></imageExpression>
 			</image>
 			<staticText>
-				<reportElement x="217" y="112" width="270" height="20" uuid="28990231-640d-4ee7-9e44-a7d52123d025"/>
+				<reportElement x="217" y="100" width="270" height="20" uuid="28990231-640d-4ee7-9e44-a7d52123d025"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[LISTADO DE DOCENTES]]></text>
 			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="150" y="130" width="118" height="10" uuid="c6a1398e-1126-480c-b46c-204a27bbbdc8"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{nro_registro}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="0" y="130" width="207" height="10" uuid="428f7ae8-556b-4506-bc07-0aff1f3a2138"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Reporte generado bajo el nro de confirmación: "]]></textFieldExpression>
+			</textField>
 		</band>
 	</title>
 	<pageHeader>
@@ -84,7 +102,7 @@ ORDER BY p.cedula ASC]]>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA["GENERO"]]></textFieldExpression>
+				<textFieldExpression><![CDATA["MATERIAS"]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="217" y="0" width="67" height="20" uuid="0f1e88f3-1c7a-4f75-9a5c-0107d1068a42"/>

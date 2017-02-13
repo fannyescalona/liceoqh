@@ -4,7 +4,7 @@
       <legend>Listado de Estudiantes por Grado Escolar</legend>
       <div id="contenedorFormulario">
         <label>Grado Escolar:</label>
-        <input type="hidden" name="seccion" id="seccion" value=null>
+        <input type="hidden" name="seccion" id="seccion">
         <select tabindex=4 name="grado_escolar" id="grado_escolar" title="Seleccione el Grado Escolar" class='lista' required >
           <option value=null>Selecione una opción</option>
           <option value="1">1er Año</option>

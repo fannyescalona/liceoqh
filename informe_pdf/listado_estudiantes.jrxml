@@ -2,19 +2,20 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="listado_estudiantes" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="722" leftMargin="60" rightMargin="60" topMargin="60" bottomMargin="60" uuid="f69765e5-e49c-4a30-88ea-22f3f2db9701">
 	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="84"/>
+	<property name="ireport.y" value="0"/>
 	<parameter name="grado_escolar" class="java.lang.String">
 		<defaultValueExpression><![CDATA[null]]></defaultValueExpression>
 	</parameter>
 	<parameter name="seccion" class="java.lang.String">
 		<defaultValueExpression><![CDATA[null]]></defaultValueExpression>
 	</parameter>
+	<parameter name="nro_registro" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[SELECT pi.cedula_estudiante,CONCAT(p.nombres,' ',p.apellidos) AS estudiante,
 CASE p.genero WHEN 'M' THEN 'MASCULINO' ELSE 'FEMENINO' END AS genero,
 DATE_FORMAT(p.fecha_nacimiento,'%d/%m/%Y') AS fecha_nacimiento,TIMESTAMPDIFF(YEAR, p.fecha_nacimiento, CURDATE()) AS edad,
 pi.cedula_representante,CONCAT(r.nombres,' ',r.apellidos) AS representante,
-COALESCE(r.telefono_movil,r.telefono_habitacion) AS telefono,r.email,
+CONCAT(SUBSTR(COALESCE(r.telefono_movil,r.telefono_habitacion),1,4),'-',SUBSTR(COALESCE(r.telefono_movil,r.telefono_habitacion),5,11)) AS telefono,r.email,
 s.descripcion AS seccion,
 CASE s.grado_escolar WHEN '1' THEN '1ER AÑO' WHEN '2' THEN '2DO AÑO' WHEN '3' THEN '3ER AÑO' WHEN '4' THEN '4TO AÑO' ELSE '5TO AÑO' END AS grado_escolar
 FROM tpersona p
@@ -67,6 +68,20 @@ ORDER BY s.grado_escolar,s.seccion,p.fecha_nacimiento ASC]]>
 				</textElement>
 				<text><![CDATA[LISTADO DE ESTUDIANTES]]></text>
 			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="0" y="130" width="207" height="10" uuid="bdf0a528-92cd-443a-ba70-41c0554b1d2b"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Reporte generado bajo el nro de confirmación: "]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="159" y="130" width="118" height="10" uuid="0e9f5982-395f-4792-915b-9feb8cbdf3c5"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{nro_registro}]]></textFieldExpression>
+			</textField>
 		</band>
 	</title>
 	<pageHeader>

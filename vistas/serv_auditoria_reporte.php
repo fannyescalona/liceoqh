@@ -19,7 +19,11 @@
   }else{
     @$reporte=null;
   }
-  
+  if(isset($_GET['nro_registro'])) {
+    $nro_registro = $_GET['nro_registro'];
+  }else{
+    @$nro_registro=null;
+  }
   
 ?>
 <br>
@@ -30,7 +34,8 @@
     fechah = document.getElementById('fecha_hasta').value;
     usuario = document.getElementById('usuario').value;
     reporte = document.getElementById('reporte').value;
-    location.href="index.php?auditoria_reporte&fecha_desde="+fechad+"&fecha_hasta="+fechah+"&usuario="+usuario+"&reporte="+reporte;
+    nro_registro = document.getElementById('nro_registro').value;
+    location.href="index.php?auditoria_reporte&fecha_desde="+fechad+"&fecha_hasta="+fechah+"&usuario="+usuario+"&reporte="+reporte+"&nro_registro="+nro_registro;
   }
 </script>
 <fieldset>
@@ -41,22 +46,24 @@
             <label>Fecha Desde:</label>
             <input name="fecha_desde" id="fecha_desde" type="text" value="<?= $fecha_desde;?>" title="Seleccione la fecha inicio" placeholder="Seleccione la fecha inicio" class="campoTexto"/>
             <label>Usuario:</label>
-           <select id="usuario" name="usuario" title="Seleccione un usuario" class="campoTexto">
+            <select id="usuario" name="usuario" title="Seleccione un usuario" class="campoTexto">
               <option value=''>Seleccione un Usuario</option>
               <?php
-                require_once("../clases/class_bd.php");
-                $mysql=new Conexion();
-                $sql = "SELECT nombre_usuario FROM tusuario WHERE fecha_desactivacion IS NULL ORDER BY nombre_usuario";
-                $proceso = $mysql->Ejecutar($sql);
-                while ($row = $mysql->Respuesta($proceso)){
-                  if($row['nombre_usuario']==$usuario){
-                    echo "<option value='".$row['nombre_usuario']."' selected>".$row['nombre_usuario']."</option>";
-                  }else{
-                    echo "<option value='".$row['nombre_usuario']."'>".$row['nombre_usuario']."</option>";
-                  }
-                }
+              require_once("../clases/class_bd.php");
+              $mysql=new Conexion();
+              $sql = "SELECT nombre_usuario FROM tusuario WHERE fecha_desactivacion IS NULL ORDER BY nombre_usuario";
+              $proceso = $mysql->Ejecutar($sql);
+              while ($row = $mysql->Respuesta($proceso)){
+              if($row['nombre_usuario']==$usuario){
+              echo "<option value='".$row['nombre_usuario']."' selected>".$row['nombre_usuario']."</option>";
+              }else{
+              echo "<option value='".$row['nombre_usuario']."'>".$row['nombre_usuario']."</option>";
+              }
+              }
               ?>
             </select>
+            <label>Nro Registro:</label>
+            <input onKeyPress="return isNumberKey(event)" type="text" class="campoTexto" title="Ingrese el nro de registro" placeholder="Ingrese el nro de registro" name="nro_registro" id="nro_registro" maxlength=10 value="<?=$nro_registro?>">
           </div>
           <div class="span6">
             <label>Fecha Hasta:</label>
@@ -99,50 +106,36 @@
   require_once("../clases/class_bd.php");
   $mysql=new Conexion();
 $clausuleWhere = "";
-if($fecha_desde!="" && $fecha_hasta!="" && $usuario!="" && $reporte!=""){
-    $clausuleWhere.="WHERE DATE_FORMAT(fecha,'%Y-%m-%d') BETWEEN '$fecha_desde' AND '$fecha_hasta' AND nombre_usuario = '$usuario' AND proceso = LOWER('$reporte')";
+
+if($fecha_desde!="" && $fecha_hasta!=""){
+  $clausuleWhere.="WHERE DATE_FORMAT(fecha,'%Y-%m-%d') BETWEEN '$fecha_desde' AND '$fecha_hasta'";
 }
-else if($fecha_desde!="" && $usuario!="" && $reporte!=""){
-    $clausuleWhere.="WHERE DATE_FORMAT(fecha,'%Y-%m-%d') >= '$fecha_desde' AND nombre_usuario = '$usuario' AND proceso = LOWER('$reporte')";
+else if($fecha_desde!="" && $fecha_hasta==""){
+  $clausuleWhere.="WHERE DATE_FORMAT(fecha,'%Y-%m-%d') >= '$fecha_desde'";
 }
-else if($fecha_hasta!="" && $usuario!="" && $reporte!=""){
-    $clausuleWhere.="WHERE DATE_FORMAT(fecha,'%Y-%m-%d') <= '$fecha_hasta' AND nombre_usuario = '$usuario' AND proceso = LOWER('$reporte')";
+else if($fecha_desde=="" && $fecha_hasta!=""){
+  $clausuleWhere.="WHERE DATE_FORMAT(fecha,'%Y-%m-%d') <= '$fecha_hasta'"; 
 }
-else if($fecha_desde!="" && $fecha_hasta!="" && $usuario!=""){
-    $clausuleWhere.="WHERE DATE_FORMAT(fecha,'%Y-%m-%d') BETWEEN '$fecha_desde' AND '$fecha_hasta' AND nombre_usuario = '$usuario'";
+
+if($usuario!=""){
+  if(!empty($clausuleWhere))
+    $clausuleWhere.=" AND nombre_usuario='$usuario'";
+  else
+    $clausuleWhere.="WHERE nombre_usuario='$usuario'";
 }
-else if($fecha_desde!="" && $fecha_hasta!="" && $reporte!=""){
-    $clausuleWhere.="WHERE DATE_FORMAT(fecha,'%Y-%m-%d') BETWEEN '$fecha_desde' AND '$fecha_hasta' AND proceso = LOWER('$reporte')";
-}
-else if($fecha_desde!="" && $fecha_hasta!=""){
-    $clausuleWhere.="WHERE DATE_FORMAT(fecha,'%Y-%m-%d') BETWEEN '$fecha_desde' AND '$fecha_hasta'";
-}
-else if($fecha_desde!="" && $usuario!=""){
-    $clausuleWhere.="WHERE DATE_FORMAT(fecha,'%Y-%m-%d') >= '$fecha_desde' AND nombre_usuario = '$usuario'";
-}
-else if($fecha_desde!="" && $reporte!=""){
-    $clausuleWhere.="WHERE DATE_FORMAT(fecha,'%Y-%m-%d') >= '$fecha_desde' AND proceso = LOWER('$reporte')";
-}
-else if($fecha_hasta!="" && $usuario!=""){
-    $clausuleWhere.="WHERE DATE_FORMAT(fecha,'%Y-%m-%d') <= '$fecha_hasta' AND nombre_usuario = '$usuario'";
-}
-else if($fecha_hasta!="" && $reporte!=""){
-    $clausuleWhere.="WHERE DATE_FORMAT(fecha,'%Y-%m-%d') <= '$fecha_hasta' AND proceso = LOWER('$reporte')";
-}
-else if($usuario!="" && $reporte!=""){
-    $clausuleWhere.="WHERE nombre_usuario = '$usuario' AND proceso = LOWER('$reporte')";
-}
-else if($fecha_desde!=""){
-    $clausuleWhere.="WHERE DATE_FORMAT(fecha,'%Y-%m-%d') >= '$fecha_desde'";
-}
-else if($fecha_hasta!=""){
-    $clausuleWhere.="WHERE DATE_FORMAT(fecha,'%Y-%m-%d') <= '$fecha_hasta'";
-}
-else if($usuario!=""){
-    $clausuleWhere.="WHERE nombre_usuario = '$usuario'";
-}
-else if($reporte!=""){
+
+if($reporte!=""){
+  if(!empty($clausuleWhere))
+    $clausuleWhere.=" AND proceso = LOWER('$reporte')";
+  else
     $clausuleWhere.="WHERE proceso = LOWER('$reporte')";
+}
+
+if($nro_registro!=""){
+  if(!empty($clausuleWhere))
+    $clausuleWhere.=" AND LPAD(id,10,'0') LIKE '%$nro_registro%'";
+  else
+    $clausuleWhere.="WHERE LPAD(id,10,'0') LIKE '%$nro_registro%'";
 }
 
 //Sentencia sql (sin limit) 

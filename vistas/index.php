@@ -8,9 +8,10 @@ if(isset($ccc[1])){
 else{
   $cccc=explode('&',$ccc[0]);
 }
-if(isset($cccc[0]))
+if(isset($cccc[0])){
   $ccccc=explode('=',$cccc[0]);
-$url='../manuales/'.strtolower($ccccc[0].'.pdf');
+  $_SESSION['uri_service']=strtolower($ccccc[0]);
+}$url='../manuales/'.strtolower($ccccc[0].'.pdf');
 if(isset($_SESSION['user_estado'])){
   ?>
   <!DOCTYPE html>

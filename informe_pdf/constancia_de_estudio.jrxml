@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="constancia_de_estudio" language="groovy" pageWidth="595" pageHeight="842" columnWidth="435" leftMargin="80" rightMargin="80" topMargin="20" bottomMargin="20" uuid="211796ca-725e-418a-8268-50515e670850">
-	<property name="ireport.zoom" value="2.0"/>
+	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="554"/>
+	<property name="ireport.y" value="265"/>
 	<style name="Title" forecolor="#FFFFFF" fontName="Times New Roman" fontSize="50" isBold="false" pdfFontName="Times-Bold"/>
 	<style name="SubTitle" forecolor="#CCCCCC" fontName="Times New Roman" fontSize="18" isBold="false" pdfFontName="Times-Roman"/>
 	<style name="Column header" forecolor="#666666" fontName="Times New Roman" fontSize="14" isBold="true" pdfFontName="Times-Roman"/>
@@ -16,6 +16,7 @@
 	<parameter name="cedula_estudiante" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
+	<parameter name="nro_registro" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[SELECT MAX(CONCAT(COALESCE(d.nivel_academico,''),' ',d.nombres,' ',d.apellidos)) as director,MAX(SUBSTRING(d.cedula,2,12)) AS cedula_director,
 MAX(c.descripcion) AS cargo,MAX(p.nombre) AS plantel,MAX(m.descripcion) AS municipio,MAX(e.descripcion) AS estado,
@@ -74,6 +75,20 @@ WHERE c.descripcion LIKE '%DIRECTOR%']]>
 				<reportElement x="0" y="0" width="435" height="70" uuid="8ed1bb3a-659c-4f1f-83c3-f43e2cb258b6"/>
 				<imageExpression><![CDATA["../images/cintillo_reportes.jpg"]]></imageExpression>
 			</image>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="152" y="120" width="118" height="10" uuid="e899318e-0d54-44e8-bde6-fba1672f7512"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{nro_registro}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="2" y="120" width="207" height="10" uuid="c529f8b5-92a6-4bb2-8538-b98ab1ece212"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Reporte generado bajo el nro de confirmación: "]]></textFieldExpression>
+			</textField>
 		</band>
 	</title>
 	<detail>
@@ -159,14 +174,14 @@ WHERE c.descripcion LIKE '%DIRECTOR%']]>
 				<textFieldExpression><![CDATA[$F{grado_escolar}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="0" y="95" width="248" height="20" uuid="0a8da5ae-09cb-4e49-b2fa-b0bf03bf3468"/>
+				<reportElement x="0" y="95" width="270" height="20" uuid="0a8da5ae-09cb-4e49-b2fa-b0bf03bf3468"/>
 				<textElement verticalAlignment="Bottom">
 					<font isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{plantel}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="287" y="95" width="148" height="20" uuid="eb28cc5d-4e46-432b-84e0-70f612215046"/>
+				<reportElement x="331" y="95" width="104" height="20" uuid="eb28cc5d-4e46-432b-84e0-70f612215046"/>
 				<textElement verticalAlignment="Bottom"/>
 				<textFieldExpression><![CDATA[$F{anio_escolar}]]></textFieldExpression>
 			</textField>
@@ -240,7 +255,7 @@ WHERE c.descripcion LIKE '%DIRECTOR%']]>
 				<textFieldExpression><![CDATA[" de Educación Media General en el "]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="230" y="95" width="69" height="20" uuid="dc3ea7c3-c216-47ef-8bf3-8a15143c6467"/>
+				<reportElement x="268" y="95" width="69" height="20" uuid="dc3ea7c3-c216-47ef-8bf3-8a15143c6467"/>
 				<textElement verticalAlignment="Bottom"/>
 				<textFieldExpression><![CDATA[" Año Escolar  "]]></textFieldExpression>
 			</textField>
@@ -251,7 +266,4 @@ WHERE c.descripcion LIKE '%DIRECTOR%']]>
 			</textField>
 		</band>
 	</detail>
-	<summary>
-		<band splitType="Stretch"/>
-	</summary>
 </jasperReport>

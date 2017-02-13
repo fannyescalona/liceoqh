@@ -3,7 +3,7 @@
     <fieldset>
       <legend>Listado de Docentes</legend>
       <div id="contenedorFormulario">
-        <input type="hidden" name="codigo_materia" id="codigo_materia" value=null>
+        <input type="hidden" name="codigo_materia" id="codigo_materia">
         <input name='cmdImprimir' type='button' id='cmdImprimir' class='btn btn-large' value='Enviar' />
       </div>
     </fieldset>
