@@ -163,7 +163,22 @@ else{
                 <option value="F" <?php if($genero=="F"){ echo "selected";}?>>Fijo</option>
               </select>
               <label>Carga Horaria:</label>
-              <input tabindex=17 maxlength=2 title="Ingrese la carga horaria" name="carga_horaria" id="carga_horaria" type="number" min=0 max=36 size="50" value="<?= $carga_horaria;?>" placeholder="Ingrese la carga horaria" class="campoTexto" value=0 required />
+              <?php 
+                require_once("../clases/class_bd.php");
+                $mysql=new Conexion();
+                $sql = "SELECT hora_minima_docente,hora_maxima_docente FROM tconfiguracion_negocio 
+                WHERE fecha_desactivacion IS NULL";
+                $query = $mysql->Ejecutar($sql);
+                if($mysql->Total_Filas($query)==0)
+                  $carga_nota_abierta='N';
+                while ($row = $mysql->Respuesta($query)){
+                  $hora_minima_docente = $row['hora_minima_docente'];
+                  $hora_maxima_docente = $row['hora_maxima_docente'];
+                }
+              ?>
+              <input type="hidden" id="hora_minima_docente" value="<?php echo $hora_minima_docente; ?>">
+              <input type="hidden" id="hora_maxima_docente" value="<?php echo $hora_maxima_docente; ?>">
+              <input tabindex=17 maxlength=2 title="Ingrese la carga horaria" name="carga_horaria" id="carga_horaria" type="number" min=<?php echo $hora_minima_docente; ?> max=<?php echo $hora_maxima_docente; ?> size="50" value="<?= $carga_horaria;?>" placeholder="Ingrese la carga horaria" class="campoTexto" value=0 required />
             </div>
           </div> 
         </div>    

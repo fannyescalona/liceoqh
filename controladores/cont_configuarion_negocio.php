@@ -30,6 +30,18 @@ $edad_maxima_primer_anio=trim($_POST['edad_maxima_primer_anio']);
 if(isset($_POST['nota_aprobacion']))
 $nota_aprobacion=trim($_POST['nota_aprobacion']);
 
+if(isset($_POST['hora_minima_docente']))
+$hora_minima_docente=trim($_POST['hora_minima_docente']);
+
+if(isset($_POST['hora_maxima_docente']))
+$hora_maxima_docente=trim($_POST['hora_maxima_docente']);
+
+if(isset($_POST['hora_minima_materia']))
+$hora_minima_materia=trim($_POST['hora_minima_materia']);
+
+if(isset($_POST['hora_maxima_materia']))
+$hora_maxima_materia=trim($_POST['hora_maxima_materia']);
+
 include_once("../clases/class_configuracion_negocio.php");
 $configuracion_negocio=new Configuracion_Negocio();
 if($operacion=='Registrar'){
@@ -41,6 +53,10 @@ if($operacion=='Registrar'){
   $configuracion_negocio->nota_maxima($nota_maxima);
   $configuracion_negocio->edad_maxima_primer_anio($edad_maxima_primer_anio);
   $configuracion_negocio->nota_aprobacion($nota_aprobacion);
+  $configuracion_negocio->hora_minima_docente($hora_minima_docente);
+  $configuracion_negocio->hora_maxima_docente($hora_maxima_docente);
+  $configuracion_negocio->hora_minima_materia($hora_minima_materia);
+  $configuracion_negocio->hora_maxima_materia($hora_maxima_materia);
   if($configuracion_negocio->Registrar())
     $confirmacion=1;
   else
@@ -63,6 +79,10 @@ if($operacion=='Modificar'){
   $configuracion_negocio->nota_maxima($nota_maxima);
   $configuracion_negocio->edad_maxima_primer_anio($edad_maxima_primer_anio);
   $configuracion_negocio->nota_aprobacion($nota_aprobacion);
+  $configuracion_negocio->hora_minima_docente($hora_minima_docente);
+  $configuracion_negocio->hora_maxima_docente($hora_maxima_docente);
+  $configuracion_negocio->hora_minima_materia($hora_minima_materia);
+  $configuracion_negocio->hora_maxima_materia($hora_maxima_materia);
   if($configuracion_negocio->Actualizar())
     $confirmacion=1;
   else

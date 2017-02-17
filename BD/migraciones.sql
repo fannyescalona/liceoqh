@@ -1,10 +1,4 @@
-DROP TABLE IF EXISTS tauditoria_proceso;
-
-CREATE TABLE tauditoria_proceso (
-  id int(11) NOT NULL AUTO_INCREMENT,
-  nombre_usuario char(15) COLLATE utf8_spanish_ci NOT NULL,
-  fecha timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  proceso varchar(255) NOT NULL,
-  parametro_valor text NOT NULL,
-  PRIMARY KEY (id)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+ALTER TABLE tconfiguracion_negocio ADD COLUMN hora_minima_docente int(11) NOT NULL DEFAULT 0;
+ALTER TABLE tconfiguracion_negocio ADD COLUMN hora_maxima_docente int(11) NOT NULL DEFAULT 0;
+ALTER TABLE tconfiguracion_negocio ADD COLUMN hora_minima_materia int(11) NOT NULL DEFAULT 0;
+ALTER TABLE tconfiguracion_negocio ADD COLUMN hora_maxima_materia int(11) NOT NULL DEFAULT 0;

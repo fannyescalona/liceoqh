@@ -620,6 +620,10 @@ CREATE TABLE tconfiguracion_negocio (
   nota_minima float(10,2) NOT NULL DEFAULT 1,
   nota_maxima float(10,2) NOT NULL DEFAULT 20,
   nota_aprobacion float(10,2) NOT NULL DEFAULT 10,
+  hora_minima_docente int(11) NOT NULL DEFAULT 0,
+  hora_maxima_docente int(11) NOT NULL DEFAULT 0,
+  hora_minima_materia int(11) NOT NULL DEFAULT 0,
+  hora_maxima_materia int(11) NOT NULL DEFAULT 0,
   fecha_desactivacion date DEFAULT NULL,
   PRIMARY KEY (codigo_configuracion_negocio),
   CONSTRAINT fk_config_negocio_plantel FOREIGN KEY (codigo_plantel) REFERENCES tplantel (codigo_plantel) ON UPDATE CASCADE ON DELETE SET NULL 

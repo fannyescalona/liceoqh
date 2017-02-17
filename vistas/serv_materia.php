@@ -45,7 +45,22 @@ else{
       <label>Unidad curricular:</label>
       <input title="Ingrese la unidad curricular" onKeyPress="return isNumberKey(event)" name="unidad_curricular" id="unidad_curricular" type="text" size="50" value="<?= $unidad_curricular;?>" required placeholder="Ingrese la unidad curricular" class="campoTexto"/>
       <label>Horas Académicas:</label>
-      <input title="Ingrese las horas académicas" onKeyPress="return isNumberKey(event)" name="hora_academica" id="hora_academica" type="text" size="50" value="<?= $hora_academica;?>" required placeholder="Ingrese la hora academica" class="campoTexto"/>
+      <?php 
+        require_once("../clases/class_bd.php");
+        $mysql=new Conexion();
+        $sql = "SELECT hora_minima_materia,hora_maxima_materia FROM tconfiguracion_negocio 
+        WHERE fecha_desactivacion IS NULL";
+        $query = $mysql->Ejecutar($sql);
+        if($mysql->Total_Filas($query)==0)
+          $carga_nota_abierta='N';
+        while ($row = $mysql->Respuesta($query)){
+          $hora_minima_materia = $row['hora_minima_materia'];
+          $hora_maxima_materia = $row['hora_maxima_materia'];
+        }
+      ?>
+      <input type="hidden" id="hora_minima_materia" value="<?php echo $hora_minima_materia; ?>">
+      <input type="hidden" id="hora_maxima_materia" value="<?php echo $hora_maxima_materia; ?>">
+      <input title="Ingrese las horas académicas" onKeyPress="return isNumberKey(event)" name="hora_academica" id="hora_academica" type="number" min=<?php echo $hora_minima_materia; ?> max=<?php echo $hora_maxima_materia; ?> size="50" value="<?= $hora_academica;?>" required placeholder="Ingrese la hora academica" class="campoTexto"/>
       <label>Grado Escolar:</label>
       <select tabindex=4 name="grado_escolar" id="grado_escolar" title="Seleccione el Grado Escolar" class='lista' required >
         <option value="">Selecione una opción</option>

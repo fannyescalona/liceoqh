@@ -10,6 +10,10 @@
 	private $nota_maxima;
 	private $edad_maxima_primer_anio;
 	private $nota_aprobacion;
+	private $hora_minima_docente;
+	private $hora_maxima_docente;
+	private $hora_minima_materia;
+	private $hora_maxima_materia;
 	private $estatus_configuracion_negocio; 
 	private $fecha_desactivacion; 
 	private $error;
@@ -24,6 +28,10 @@
      $this->nota_maxima=null;
      $this->edad_maxima_primer_anio=null;
      $this->nota_aprobacion=null;
+     $this->hora_minima_docente=null;
+     $this->hora_maxima_docente=null;
+     $this->hora_minima_materia=null;
+     $this->hora_maxima_materia=null;
      $this->error=null;
 	 $this->mysql=new Conexion();
    }
@@ -117,6 +125,42 @@
 	 }
    }
    
+   public function hora_minima_docente(){
+   $Num_Parametro=func_num_args();
+	 if($Num_Parametro==0) return $this->hora_minima_docente;
+     
+	 if($Num_Parametro>0){
+	   $this->hora_minima_docente=func_get_arg(0);
+	 }
+   }
+   
+   public function hora_maxima_docente(){
+   $Num_Parametro=func_num_args();
+	 if($Num_Parametro==0) return $this->hora_maxima_docente;
+     
+	 if($Num_Parametro>0){
+	   $this->hora_maxima_docente=func_get_arg(0);
+	 }
+   }
+   
+   public function hora_minima_materia(){
+   $Num_Parametro=func_num_args();
+	 if($Num_Parametro==0) return $this->hora_minima_materia;
+     
+	 if($Num_Parametro>0){
+	   $this->hora_minima_materia=func_get_arg(0);
+	 }
+   }
+   
+   public function hora_maxima_materia(){
+   $Num_Parametro=func_num_args();
+	 if($Num_Parametro==0) return $this->hora_maxima_materia;
+     
+	 if($Num_Parametro>0){
+	   $this->hora_maxima_materia=func_get_arg(0);
+	 }
+   }
+   
    public function fecha_desactivacion(){
       $Num_Parametro=func_num_args();
 	 if($Num_Parametro==0) return $this->fecha_desactivacion;
@@ -136,8 +180,8 @@
    }      
 
    public function Registrar(){
-    $sql="insert into tconfiguracion_negocio (codigo_plantel,inscripcion_abierta,carga_nota_abierta,nota_minima,nota_maxima,edad_maxima_primer_anio,nota_aprobacion) 
-    values ('$this->codigo_plantel','$this->inscripcion_abierta','$this->carga_nota_abierta',$this->nota_minima,$this->nota_maxima,$this->edad_maxima_primer_anio,$this->nota_aprobacion);";
+    $sql="insert into tconfiguracion_negocio (codigo_plantel,inscripcion_abierta,carga_nota_abierta,nota_minima,nota_maxima,edad_maxima_primer_anio,nota_aprobacion,hora_minima_docente,hora_maxima_docente,hora_minima_materia,hora_maxima_materia) 
+    values ('$this->codigo_plantel','$this->inscripcion_abierta','$this->carga_nota_abierta',$this->nota_minima,$this->nota_maxima,$this->edad_maxima_primer_anio,$this->nota_aprobacion,$this->hora_minima_docente,$this->hora_maxima_docente,$this->hora_minima_materia,$this->hora_maxima_materia);";
     if($this->mysql->Ejecutar($sql)!=null)
 		return true;
 	else{
@@ -167,7 +211,8 @@
    
     public function Actualizar(){
     $sql="update tconfiguracion_negocio set codigo_plantel='$this->codigo_plantel',inscripcion_abierta='$this->inscripcion_abierta',carga_nota_abierta='$this->carga_nota_abierta',
-    nota_minima=$this->nota_minima,nota_maxima=$this->nota_maxima,edad_maxima_primer_anio=$this->edad_maxima_primer_anio,nota_aprobacion=$this->nota_aprobacion 
+    nota_minima=$this->nota_minima,nota_maxima=$this->nota_maxima,edad_maxima_primer_anio=$this->edad_maxima_primer_anio,nota_aprobacion=$this->nota_aprobacion,hora_minima_docente=$this->hora_minima_docente,
+    hora_maxima_docente=$this->hora_maxima_docente,hora_minima_materia=$this->hora_minima_materia,hora_maxima_materia=$this->hora_maxima_materia 
     where (codigo_configuracion_negocio='$this->codigo_configuracion_negocio');";
     if($this->mysql->Ejecutar($sql)!=null)
 		return true;

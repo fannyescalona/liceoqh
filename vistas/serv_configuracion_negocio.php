@@ -39,6 +39,10 @@
             <input tabindex=5 type="text" id="nota_minima" name="nota_minima" size="25" title="Ingrese la Nota Mínima" placeholder="Ingrese la Nota Mínima" class="campoTexto" onKeyPress="return isNumberKey(event)" required value="<?php echo !empty($filas['nota_minima']) ? $filas['nota_minima'] : 0; ?>"/>
             <label>Edad Máxima para nuevo ingreso a la Institución:</label>
             <input tabindex=7 type="text" id="edad_maxima_primer_anio" name="edad_maxima_primer_anio" size="25" title="Ingrese la Edad máxima para cursar el 1er año" placeholder="Ingrese la Edad máxima para cursar el 1er año" class="campoTexto" onKeyPress="return isNumberKey(event)" required value="<?php echo !empty($filas['edad_maxima_primer_anio']) ? $filas['edad_maxima_primer_anio'] : 0; ?>"/>
+            <label>Carga Horaria Mínima del Docente:</label>
+            <input tabindex=9 type="text" id="hora_minima_docente" name="hora_minima_docente" size="25" title="Ingrese la cantidad de horas mínimas que puede asignarle a un docente" placeholder="Ingrese la Carga Horaria Mínima del Docente" class="campoTexto" onKeyPress="return isNumberKey(event)" required value="<?php echo !empty($filas['hora_minima_docente']) ? $filas['hora_minima_docente'] : 0; ?>"/>
+            <label>Carga Horaria Mínima de la Materia:</label>
+            <input tabindex=11 type="text" id="hora_minima_materia" name="hora_minima_materia" size="25" title="Ingrese la cantidad de horas mínimas que puede asignarle a una materia" placeholder="Ingrese la Carga Horaria Mínima de la Materia" class="campoTexto" onKeyPress="return isNumberKey(event)" required value="<?php echo !empty($filas['hora_minima_materia']) ? $filas['hora_minima_materia'] : 0; ?>"/>
           </div>
           <div class="span6">
             <label>Abrir Notas:</label>
@@ -50,6 +54,10 @@
             <input tabindex=6 type="text" id="nota_maxima" name="nota_maxima" size="25" title="Ingrese la Nota Máxima" placeholder="Ingrese la Nota Máxima" class="campoTexto" onKeyPress="return isNumberKey(event)" required value="<?php echo !empty($filas['nota_maxima']) ? $filas['nota_maxima'] : 0; ?>"/>
             <label>Nota para Aprobar:</label>
             <input tabindex=8 type="text" id="nota_aprobacion" name="nota_aprobacion" size="25" title="Ingrese la Nota para Aprobar las materias" placeholder="Ingrese la Nota para Aprobar las materias" class="campoTexto" onKeyPress="return isNumberKey(event)" required value="<?php echo !empty($filas['nota_aprobacion']) ? $filas['nota_aprobacion'] : 0; ?>"/>
+            <label>Carga Horaria Máxima del Docente:</label>
+            <input tabindex=10 type="text" id="hora_maxima_docente" name="hora_maxima_docente" size="25" title="Ingrese la cantidad de horas máximas que puede asignarle a un docente" placeholder="Ingrese la Carga Horaria Máxima del Docente" class="campoTexto" onKeyPress="return isNumberKey(event)" required value="<?php echo !empty($filas['hora_maxima_docente']) ? $filas['hora_maxima_docente'] : 0; ?>"/>
+            <label>Carga Horaria Máxima de la Materia:</label>
+            <input tabindex=12 type="text" id="hora_maxima_materia" name="hora_maxima_materia" size="25" title="Ingrese la cantidad de horas máximas que puede asignarle a una materia" placeholder="Ingrese la Carga Horaria Máxima de la Materia" class="campoTexto" onKeyPress="return isNumberKey(event)" required value="<?php echo !empty($filas['hora_maxima_materia']) ? $filas['hora_maxima_materia'] : 0; ?>"/>
           </div>
         </div>
         <strong class="obligatorio">Los campos resaltados en rojo son obligatorios</strong><br />
@@ -91,6 +99,30 @@
     }
     else if( (parseFloat($('#nota_aprobacion').val())<parseFloat($('#nota_minima').val())) || (parseFloat($('#nota_aprobacion').val())>parseFloat($('#nota_maxima').val())) ){
       alert("La nota de aprobación debe estar entre "+parseFloat($('#nota_minima').val())+" y "+parseFloat($('#nota_maxima').val())+"!");
+      validado=false;
+    }
+    else if($('#hora_minima_docente').val()==""){
+      alert("Debe ingresar la carga horaria mínima del docente!");
+      validado=false;
+    }
+    else if($('#hora_maxima_docente').val()==""){
+      alert("Debe ingresar la carga horaria maxima del docente!");
+      validado=false;
+    }
+    else if(parseInt($('#hora_minima_docente').val()) > parseInt($('#hora_maxima_docente').val())){
+      alert("La carga horaria mínima del docente debe ser menor o igual a la carga horaria máxima del docente!");
+      validado=false;
+    }
+    else if($('#hora_minima_materia').val()==""){
+      alert("Debe ingresar la carga horaria mínima de la materia!");
+      validado=false;
+    }
+    else if($('#hora_maxima_materia').val()==""){
+      alert("Debe ingresar la carga horaria maxima de la materia!");
+      validado=false;
+    }
+    else if(parseInt($('#hora_minima_materia').val()) > parseInt($('#hora_maxima_materia').val())){
+      alert("La carga horaria mínima de la materia debe ser menor o igual a la carga horaria máxima de la materia!");
       validado=false;
     }
     else 

@@ -26,6 +26,9 @@ valor3=document.getElementById('unidad_curricular').value;
 valor4=document.getElementById('grado_escolar').value;
 valor5=document.getElementById('materia_compuesta_oculta').value;
 valor6=document.getElementById('codigo_materia_padre').value;
+valor7=document.getElementById('hora_academica').value;
+valor8=document.getElementById('hora_minima_materia').value;
+valor9=document.getElementById('hora_maxima_materia').value;
 if(devuelve_boton(param)=="Registrar" || devuelve_boton(param)=="Modificar"){
 	if(valor2.replace(/^\s+|\s+$/gi,"").length==0){ //para no permitir que se quede en blanco
 		alert('Ingrese el código de la materia')
@@ -43,6 +46,10 @@ if(devuelve_boton(param)=="Registrar" || devuelve_boton(param)=="Modificar"){
 	}else if(valor5=="Y" && valor6.replace(/^\s+|\s+$/gi,"").length==0){ //para no permitir que se quede en blanco
 		alert('Seleccione la materia padre')
 		permitido=false;
+	}
+	else if(parseInt(valor7) < parseInt(valor8) || parseInt(valor7) > parseInt(valor9)){
+		alert('Las horas academicas deben estar entre '+valor8+' y '+valor9);
+		permitido = false;
 	}
 }
 	

@@ -129,7 +129,7 @@
    }
    
     public function Actualizar(){
-    $sql="update tlapso set descripcion='$this->descripcion',fecha_inicio='$this->fecha_inicio',fecha_fin='$this->fecha_fin',codigo_ano_academico='$this->codigo_ano_academico' where (codigo_lapso='$this->codigo_lapso');";
+    $sql="update tlapso set descripcion='$this->descripcion',fecha_inicio=STR_TO_DATE('$this->fecha_inicio','%d/%m/%Y'),fecha_fin=STR_TO_DATE('$this->fecha_fin','%d/%m/%Y'),codigo_ano_academico='$this->codigo_ano_academico' where (codigo_lapso='$this->codigo_lapso');";
     if($this->mysql->Ejecutar($sql)!=null)
 	return true;
 	else{

@@ -79,6 +79,8 @@ function validar_formulario(param){
 	valor10=document.getElementById('email').value;
 	valor11=document.getElementById('epiSI').checked;
 	valor12=document.getElementById('carga_horaria').value;
+	valor13=document.getElementById('hora_minima_docente').value;
+	valor14=document.getElementById('hora_maxima_docente').value;
 	//Utilizamos una expresion regular para validar email
 	var regex = /[\w-\.]{2,}@([\w-]{2,}\.)*([\w-]{2,}\.)[\w-]{2,4}/;
 	var cedula_rif = /^[VGJE-vgje]\d{7,9}$/;
@@ -136,8 +138,8 @@ function validar_formulario(param){
 			alert('La direccion de correo electrónico no es válida, la forma correcta sería por ejemplo pedroperez@gmail.com');
 			permitido = false;
 		}
-		else if(valor11 && valor12 > 36){
-			alert('La carga horaria no debe ser mayor a 36');
+		else if(valor11 && (parseInt(valor12) < parseInt(valor13) || parseInt(valor12) > parseInt(valor14))){
+			alert('La carga horaria debe estar entre '+valor13+' y '+valor14);
 			permitido = false;
 		}
 	}

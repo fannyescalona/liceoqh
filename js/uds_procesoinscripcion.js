@@ -75,11 +75,31 @@ function init(){
 			$(this).css({"border":"2px solid #B21D11"});
 			$(this).focus();
 		}
+		if($('#cedula_estudiante').val()==$(this).val()){
+			alert('La cédula del estudiante: '+$('#cedula_estudiante').val()+' no puede ser igual a la cédula de la madre: '+$(this).val());
+			$(this).css({"border":"2px solid #B21D11"});
+			$(this).focus();
+		}
+		if($('#cedula_padre').val()!="" && $('#cedula_padre').val()==$(this).val()){
+			alert('La cédula del padre: '+$('#cedula_padre').val()+' no puede ser igual a la cédula de la madre: '+$(this).val());
+			$(this).css({"border":"2px solid #B21D11"});
+			$(this).focus();
+		}
 	});
 
 	$('#cedula_padre').on('change',function(){
 		if(!valida_rif($(this).val())){
 			alert('Error en la cédula ingresada ('+$(this).val()+'), formato permitido de una cédula/rif: V210569852 -> la letra puede ser V, G, J, E y minimo 7 maximo 9 digitos');
+			$(this).css({"border":"2px solid #B21D11"});
+			$(this).focus();
+		}
+		if($('#cedula_estudiante').val()==$(this).val()){
+			alert('La cédula del estudiante: '+$('#cedula_estudiante').val()+' no puede ser igual a la cédula del padre: '+$(this).val());
+			$(this).css({"border":"2px solid #B21D11"});
+			$(this).focus();
+		}
+		if($('#cedula_madre').val()!="" && $('#cedula_madre').val()==$(this).val()){
+			alert('La cédula de la madre: '+$('#cedula_madre').val()+' no puede ser igual a la cédula del padre: '+$(this).val());
 			$(this).css({"border":"2px solid #B21D11"});
 			$(this).focus();
 		}
