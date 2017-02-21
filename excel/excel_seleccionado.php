@@ -28,7 +28,7 @@ $sql = "SELECT CASE pa.nombre_pais WHEN 'VENEZUELA' THEN CONCAT('V-',p.cedula) E
     p.telefono_movil,p.telefono_fijo,INITCAP(LOWER(p.direccion)) direccionhab,INITCAP(LOWER(pi.direccion_temp)) direccionresid,
     CASE pi.modalidad_ingreso WHEN 1 THEN 'Prueba de Selección Interna' WHEN 2 THEN 'Atletas de Alta Competencia' WHEN 3 THEN 'Convenio Fundayacucho' WHEN 4 THEN 'Asignados CNU-OPSU' ELSE 'Ninguno' END modalidad_ingreso,
     CASE pi.modalidad_estudio WHEN 1 THEN 'Educación a Distancia' WHEN 2 THEN 'Especialidades Sin Maestrias' ELSE 'Presencial' END modalidad_estudio,
-    CASE pi.turno WHEN 'M' THEN 'Integral' WHEN 'T' THEN 'Alterno' ELSE 'Noche' END turno,car.nombre_carrera carrera
+    CASE pi.turno WHEN 'M' THEN 'Integral' WHEN 'T' THEN 'Medio Turno' ELSE 'Noche' END turno,car.nombre_carrera carrera
     from tpersonas p 
     inner join tpais pa ON p.nacionalidad=pa.cod_pais 
     inner join tpre_inscripcion pi on p.cedula = pi.cedula 
