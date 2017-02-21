@@ -205,8 +205,7 @@ if(isset($_POST['telefono_movil_representante']))
 $telefono_movil_representante=trim($_POST['telefono_movil_representante']);
 
 if(isset($_POST['lugar_trabajo'])){
-  $lugartrabajo=explode("_",trim($_POST['lugar_trabajo']));
-  $lugar_trabajo=$lugartrabajo[0];
+  $lugar_trabajo=trim($_POST['lugar_trabajo']);
 }
 
 if(isset($_POST['parentesco'])){

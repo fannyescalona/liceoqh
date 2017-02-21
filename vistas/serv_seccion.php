@@ -44,8 +44,8 @@
           <label>Asigne el Turno:</label>
           <select name="turno" id="turno" title="Seleccione un turno para la secci&oacute;n" placeholder="Seleccione un turno" class="campoTexto"  required >
             <option value='0'>Seleccione un Turno</option>
-            <option value='M' <?php if($turno=='M'){ echo 'selected'; }?>> Mañana</option>
-            <option value='T' <?php if($turno=='T'){ echo 'selected'; }?>> Tarde</option>
+            <option value='M' <?php if($turno=='M'){ echo 'selected'; }?>> Integral</option>
+            <option value='T' <?php if($turno=='T'){ echo 'selected'; }?>> Alterno</option>
           </select>
           <label>Grado Escolar:</label>
           <select tabindex=4 name="grado_escolar" id="grado_escolar" title="Seleccione el Grado Escolar" class='lista' required >

@@ -740,7 +740,7 @@ CREATE TABLE tproceso_inscripcion (
   cedula_padre char(10) COLLATE utf8_spanish_ci DEFAULT NULL,
   cedula_representante char(10) COLLATE utf8_spanish_ci NULL,
   codigo_parentesco int(11) NULL,
-  lugar_trabajo int(11) NULL,
+  lugar_trabajo varchar(120) NULL,
   primerafi date NULL,
   seccion char(5) NULL,
   proceso_completado char(1) COLLATE utf8_spanish_ci NOT NULL DEFAULT 'N',

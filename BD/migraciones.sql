@@ -1,4 +1,3 @@
-ALTER TABLE tconfiguracion_negocio ADD COLUMN hora_minima_docente int(11) NOT NULL DEFAULT 0;
-ALTER TABLE tconfiguracion_negocio ADD COLUMN hora_maxima_docente int(11) NOT NULL DEFAULT 0;
-ALTER TABLE tconfiguracion_negocio ADD COLUMN hora_minima_materia int(11) NOT NULL DEFAULT 0;
-ALTER TABLE tconfiguracion_negocio ADD COLUMN hora_maxima_materia int(11) NOT NULL DEFAULT 0;
+ALTER TABLE tproceso_inscripcion DROP FOREIGN KEY fk_tpi_tlugartrabajo;
+ALTER TABLE tproceso_inscripcion DROP INDEX fk_tpi_tlugartrabajo;
+ALTER TABLE tproceso_inscripcion CHANGE `lugar_trabajo` `lugar_trabajo` VARCHAR(120) NULL DEFAULT NULL;

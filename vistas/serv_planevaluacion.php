@@ -103,7 +103,7 @@
                 $id_plan .= $row['codigo_plan_evaluacion']."_";
                 echo "<tr id='$con'>";
                 echo "<td><input type='hidden' name='codigo_plan_evaluaciones[]' id='codigo_plan_evaluacion_".$con."' value='".$row['codigo_plan_evaluacion']."' /><input type='text' onKeyUp='this.value=this.value.toUpperCase()' name='descripciones[]' id='descripcion_".$con."' title='Ingrese una descripción' placeholder='Ingrese una descripción' class='campoTexto' value='".$row['descripcion']."'/></td>";
-                echo "<td><input type='text' onKeyPress='return isNumberKey(event)' name='porcentajes[]' id='porcentaje_".$con."' title='Ingrese el porcentaje de la unidad' placeholder='Ingrese el porcentaje de la unidad' class='campoTexto' value='".$row['porcentaje']."'/></td>";
+                echo "<td><input type='number' onKeyPress='return isNumberKey(event)' name='porcentajes[]' id='porcentaje_".$con."' title='Ingrese el porcentaje de la unidad' placeholder='Ingrese el porcentaje de la unidad' class='campoTexto' value='".$row['porcentaje']."' min=0 max=25 /></td>";
                 echo "<td><button type='button' class='boton' onclick='elimina_me(".$con.")'><i class='icon-minus'></i></button></td>";
                 echo "</tr>";
                 $con++;
@@ -128,7 +128,7 @@
         function agrega_campos(){
             $("#tablaPlanEvaluacion").append("<tr id='"+contador+"' >"+
             "<td><input type='hidden' name='codigo_plan_evaluaciones[]' id='codigo_plan_evaluacion_"+contador+"' /><input type='text' onKeyUp='this.value=this.value.toUpperCase()' name='descripciones[]' id='descripcion_"+contador+"' title='Ingrese una descripción' placeholder='Ingrese una descripción' class='campoTexto'/></td>"+
-            "<td><input type='text' onKeyPress='return isNumberKey(event)' name='porcentajes[]' id='porcentaje_"+contador+"' title='Ingrese el porcentaje de la unidad' placeholder='Ingrese el porcentaje de la unidad' class='campoTexto' value='0'/></td>"+
+            "<td><input type='number' onKeyPress='return isNumberKey(event)' name='porcentajes[]' id='porcentaje_"+contador+"' title='Ingrese el porcentaje de la unidad' placeholder='Ingrese el porcentaje de la unidad' class='campoTexto' value='0' min=0 max=25 /></td>"+
             "<td><button type='button' class='boton' onclick='elimina_me("+contador+")'><i class='icon-minus'></button></td>"+
             "</tr>");
             contador++;

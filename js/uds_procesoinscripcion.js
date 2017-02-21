@@ -130,10 +130,6 @@ function init(){
 		source:'../autocomplete/parroquia.php', 
 		minLength:1
 	});
-	$('#lugar_trabajo').autocomplete({
-		source:'../autocomplete/parroquia.php', 
-		minLength:1
-	});
 	$('#parentesco').autocomplete({
 		source:'../autocomplete/parentesco.php', 
 		minLength:1

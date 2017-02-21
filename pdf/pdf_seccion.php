@@ -187,7 +187,7 @@ function NbLines($w,$txt)
 require_once("../clases/class_bd.php");
   $mysql=new Conexion();
   $sql="SELECT s.seccion,s.descripcion AS nombre_seccion,s.capacidad_min,s.capacidad_max,
-  CASE s.turno WHEN 'M' THEN 'MAÑANA' ELSE 'TARDE' END turno, 
+  CASE s.turno WHEN 'M' THEN 'INTEGRAL' ELSE 'ALTERNO' END turno, 
   CASE WHEN s.fecha_desactivacion IS NULL THEN 'Activo' ELSE 'Desactivado' END estatus 
    FROM tseccion s 
    WHERE s.fecha_desactivacion IS NULL ORDER BY seccion DESC";

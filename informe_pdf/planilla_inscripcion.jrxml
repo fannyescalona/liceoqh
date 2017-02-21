@@ -31,8 +31,7 @@
 	CASE pi.becado WHEN 'N' THEN 'X' ELSE '' END AS becado_no,
 	CASE pi.tipobeca WHEN 'N' THEN 'Nacional' WHEN 'E' THEN 'Estadal' WHEN 'M' THEN 'Madres del Barrio' WHEN 'H' THEN 'Hijos de Venezuela' ELSE '' END tipobeca,
 	CONCAT(r.nombres,' ',r.apellidos) AS representante,pi.cedula_representante,
-	r.direccion AS direccion_representante,pr.descripcion AS parentesco,CASE WHEN r.telefono_habitacion <> '' THEN CONCAT(SUBSTR(r.telefono_habitacion,1,4),'-',SUBSTR(r.telefono_habitacion,5,11)) ELSE NULL END AS telefono_representante,plt.descripcion AS lugar_trabajo,
-	DATE_FORMAT(pi.primerafi,'%d/%m/%Y') AS primerafi,DATE_FORMAT(pi.primerafi,'%Y') AS anofi,
+	r.direccion AS direccion_representante,pr.descripcion AS parentesco,CASE WHEN r.telefono_habitacion <> '' THEN CONCAT(SUBSTR(r.telefono_habitacion,1,4),'-',SUBSTR(r.telefono_habitacion,5,11)) ELSE NULL END AS telefono_representante,pi.lugar_trabajo,DATE_FORMAT(pi.primerafi,'%d/%m/%Y') AS primerafi,DATE_FORMAT(pi.primerafi,'%Y') AS anofi,
 	CONCAT(d.nombres,' ',d.apellidos) AS docente,DATE_FORMAT(pi.fecha_inscripcion,'%d/%m/%Y') AS fecha_inscripcion,
 	COALESCE((SELECT CASE WHEN AVG(notafinal) >= 10 THEN 'X' ELSE NULL END FROM tcontrol_notas cn WHERE cn.cedula_estudiante = pi.cedula_estudiante),'X') AS estudiante_regular,
 	COALESCE((SELECT CASE WHEN AVG(notafinal) < 10 THEN 'X' ELSE NULL END FROM tcontrol_notas cn WHERE cn.cedula_estudiante = pi.cedula_estudiante),'') AS estudiante_repitiente,
@@ -50,7 +49,6 @@
 	INNER JOIN tpersona d ON pi.cedula_docente = d.cedula
 	INNER JOIN tpersona r ON pi.cedula_representante = r.cedula
 	INNER JOIN tparentesco pr ON pi.codigo_parentesco = pr.codigo_parentesco
-	INNER JOIN tparroquia plt ON pi.lugar_trabajo = plt.codigo_parroquia
 	LEFT JOIN tpersona p ON pi.cedula_padre = p.cedula
 	LEFT JOIN tpersona m ON pi.cedula_madre = m.cedula
 	LEFT JOIN tplantel pl ON pi.codigo_plantel = pl.codigo_plantel

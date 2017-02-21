@@ -12,14 +12,13 @@
       rep.cedula AS cedula_representante,rep.nombres AS nombre_representante,rep.apellidos AS apellido_representante,
       Date_Format(rep.fecha_nacimiento,'%d/%m/%Y') AS fn_representante,CONCAT(rep.lugar_nacimiento,'_',prep.descripcion) AS ln_representante,
       rep.direccion AS dir_representante,rep.telefono_habitacion AS th_representante,rep.telefono_movil AS tm_representante,rep.email AS email_representante,
-      CONCAT(pi.codigo_parentesco,'_',par.descripcion) AS parentesco,CONCAT(pi.lugar_trabajo,'_',plugt.descripcion) AS lugar_trabajo,rep.genero AS genero_representante,
+      CONCAT(pi.codigo_parentesco,'_',par.descripcion) AS parentesco,pi.lugar_trabajo,rep.genero AS genero_representante,
       pi.proceso_completado 
       FROM tpersona est 
       INNER JOIN tproceso_inscripcion pi ON est.cedula = pi.cedula_estudiante 
       LEFT JOIN tpersona rep ON pi.cedula_representante = rep.cedula 
       LEFT JOIN tpersona doc ON pi.cedula_docente = doc.cedula
       LEFT JOIN tparroquia prep ON rep.lugar_nacimiento = prep.codigo_parroquia 
-      LEFT JOIN tparroquia plugt ON pi.lugar_trabajo = plugt.codigo_parroquia 
       LEFT JOIN tparentesco par ON pi.codigo_parentesco = par.codigo_parentesco 
       WHERE pi.cedula_estudiante = '".$cedula_estudiante."'";
       $query = $mysql->Ejecutar($sql);
@@ -56,8 +55,8 @@
               <input tabindex=5 title="Seleccione el fecha de Nacimiento del representante" name="fecha_nacimiento_representante" id="fecha_nacimiento_representante" type="text" size="50" value="<?=$row['fn_representante'];?>" placeholder="Ingrese la Fecha de Nacimiento del representante" class="campoTexto" readonly required />
               <label>Dirección:</label>
               <textarea tabindex=7 onKeyUp="this.value=this.value.toUpperCase()" title="Ingrese la dirección de la madre" name="direccion_representante" id="direccion_representante" rows=5 placeholder="Ingrese la Dirección del representante" required /><?php echo $row['dir_representante'];?></textarea>
-              <label>Lugar de Trabajo:</label>
-              <input tabindex=10 title="Seleccione una Parroquia" onKeyUp="this.value=this.value.toUpperCase()" name="lugar_trabajo" id="lugar_trabajo" type="text" size="50" value="<?=$row['lugar_trabajo'];?>" placeholder="Seleccione una Parroquia" class="campoTexto" required />
+              <label>Lugar de Trabajo o Ocupación:</label>
+              <input tabindex=10 title="Seleccione una Parroquia" onKeyUp="this.value=this.value.toUpperCase()" name="lugar_trabajo" id="lugar_trabajo" type="text" size="50" value="<?=$row['lugar_trabajo'];?>" placeholder="Ingrese un lugar de trabajo o ocupación" class="campoTexto" required />
               <label>Parentesco:</label>
               <input tabindex=12 title="Seleccione un parentesco" onKeyUp="this.value=this.value.toUpperCase()" name="parentesco" id="parentesco" type="text" size="50" value="<?=$row['parentesco'];?>" placeholder="Seleccione un parentesco" class="campoTexto" required />
             </div>

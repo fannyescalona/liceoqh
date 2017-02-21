@@ -50,9 +50,16 @@ function validar_formulario(param){
 		else if(descripcion && porcentaje){
 			arregloD = new Array();
 			var ptotal = 0;
+			var maxprocentaje = false;
 			for(i=0;i<descripcion.length;i++){
 				arregloD.push($('#descripcion_'+i).val());
+				if(parseFloat($('#porcentaje_'+i).val()) > 25)
+					maxprocentaje = true;
 				ptotal+=parseFloat($('#porcentaje_'+i).val());
+			}
+			if(maxprocentaje){
+				alert("Error","info","<font style='color:red;'>¡El porcentaje de cada unidad debe ser menor o igual a 25!</font>");
+				permitido = false;
 			}
 			if(ptotal > 100){
 				alert("Error","info","<font style='color:red;'>¡El porcentaje total debe ser menor a 100!<br>Total porcentaje enviado: "+ptotal+"</font>");
