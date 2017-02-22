@@ -652,11 +652,11 @@ function validar_formulario3(){
 	/*else if(valor8.replace(/^\s+|\s+$/gi,"").length==0){ //para no permitir que se quede en blanco
 		alert('Ingrese el teléfono habitación del representante')
 		permitido=false;
-	}*/
+	}
 	else if(valor9.replace(/^\s+|\s+$/gi,"").length==0){ //para no permitir que se quede en blanco
 		alert('Ingrese el lugar de trabajo del representante')
 		permitido=false;
-	}
+	}*/
 	else if(valor10.replace(/^\s+|\s+$/gi,"").length==0){ //para no permitir que se quede en blanco
 		alert('Seleccione el parentesco del representante con el estudiante')
 		permitido=false;

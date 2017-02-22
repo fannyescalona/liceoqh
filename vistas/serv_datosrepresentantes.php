@@ -56,7 +56,7 @@
               <label>Dirección:</label>
               <textarea tabindex=7 onKeyUp="this.value=this.value.toUpperCase()" title="Ingrese la dirección de la madre" name="direccion_representante" id="direccion_representante" rows=5 placeholder="Ingrese la Dirección del representante" required /><?php echo $row['dir_representante'];?></textarea>
               <label>Lugar de Trabajo o Ocupación:</label>
-              <input tabindex=10 title="Seleccione una Parroquia" onKeyUp="this.value=this.value.toUpperCase()" name="lugar_trabajo" id="lugar_trabajo" type="text" size="50" value="<?=$row['lugar_trabajo'];?>" placeholder="Ingrese un lugar de trabajo o ocupación" class="campoTexto" required />
+              <input tabindex=10 title="Seleccione una Parroquia" onKeyUp="this.value=this.value.toUpperCase()" name="lugar_trabajo" id="lugar_trabajo" type="text" size="50" value="<?=$row['lugar_trabajo'];?>" placeholder="Ingrese un lugar de trabajo o ocupación" class="campoTexto" />
               <label>Parentesco:</label>
               <input tabindex=12 title="Seleccione un parentesco" onKeyUp="this.value=this.value.toUpperCase()" name="parentesco" id="parentesco" type="text" size="50" value="<?=$row['parentesco'];?>" placeholder="Seleccione un parentesco" class="campoTexto" required />
             </div>
@@ -88,10 +88,7 @@
         <label>
           <input type="hidden" name="operacion" value="" id="operacion_tab4" />
           <input name="cmdRegistrar" type="button" id="cmdForm3" class="btn btn-large" value="Guardar" />
-          <?php
-            if($proceso_completado=="Y")
-              echo "<input name='cmdImprimir' type='button' id='cmdImprimir' class='btn btn-large' value='Imprimir Ficha' />";
-          ?>
+          <input name='cmdImprimir' type='button' id='cmdImprimir' class='btn btn-large' value='Imprimir Ficha' />
         </label>
       </p>
     </fieldset>
