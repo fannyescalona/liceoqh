@@ -19,12 +19,12 @@ s.descripcion AS seccion,DATE_FORMAT(CURDATE(),'%d/%m/%Y') AS fecha_actual,m.des
 SUM(CASE WHEN l.descripcion LIKE '%1er%' THEN COALESCE(cn.notafinal,0) ELSE 0 END) AS 1erLapso,
 SUM(CASE WHEN l.descripcion LIKE '%2do%' THEN COALESCE(cn.notafinal,0) ELSE 0 END) AS 2doLapso,
 SUM(CASE WHEN l.descripcion LIKE '%3er%' THEN COALESCE(cn.notafinal,0) ELSE 0 END) AS 3erLapso,
-ROUND(AVG((CASE WHEN l.descripcion LIKE '%1er%' THEN COALESCE(cn.notafinal,0) ELSE 0 END)+
+ROUND((SUM((CASE WHEN l.descripcion LIKE '%1er%' THEN COALESCE(cn.notafinal,0) ELSE 0 END)+
 (CASE WHEN l.descripcion LIKE '%2do%' THEN COALESCE(cn.notafinal,0) ELSE 0 END)+
-(CASE WHEN l.descripcion LIKE '%3er%' THEN COALESCE(cn.notafinal,0) ELSE 0 END))) AS notafinal,
-(SELECT ROUND(AVG((CASE WHEN l.descripcion LIKE '%1er%' THEN COALESCE(cn.notafinal,0) ELSE 0 END)+
+(CASE WHEN l.descripcion LIKE '%3er%' THEN COALESCE(cn.notafinal,0) ELSE 0 END)) / 3)) AS notafinal,
+(SELECT ROUND((ROUND((SUM((CASE WHEN l.descripcion LIKE '%1er%' THEN COALESCE(cn.notafinal,0) ELSE 0 END)+
 (CASE WHEN l.descripcion LIKE '%2do%' THEN COALESCE(cn.notafinal,0) ELSE 0 END)+
-(CASE WHEN l.descripcion LIKE '%3er%' THEN COALESCE(cn.notafinal,0) ELSE 0 END)),2) AS promedio
+(CASE WHEN l.descripcion LIKE '%3er%' THEN COALESCE(cn.notafinal,0) ELSE 0 END)) / 3)) / COUNT(DISTINCT m.codigo_materia)),2) AS promedio
 FROM tseccion s
 INNER JOIN tmateria_seccion_docente msd ON s.seccion = msd.seccion
 INNER JOIN tmateria m ON msd.codigo_materia = m.codigo_materia

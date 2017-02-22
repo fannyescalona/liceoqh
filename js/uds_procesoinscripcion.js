@@ -657,10 +657,6 @@ function validar_formulario3(){
 		alert('Ingrese el lugar de trabajo del representante')
 		permitido=false;
 	}
-	else if(!autocompletado.test(valor9.trim())){
-		alert('Error en campo lugar de trabajo del representante','warning','<font style=\'color:red\'><p>Valor no válido. </br> El valor permitido es: </br> digito segido de underscore ( _ ) segido de texto. </br> Ejemplo: 0_Algun Texto</p></font>');
-		permitido=false;
-	}
 	else if(valor10.replace(/^\s+|\s+$/gi,"").length==0){ //para no permitir que se quede en blanco
 		alert('Seleccione el parentesco del representante con el estudiante')
 		permitido=false;
