@@ -56,7 +56,7 @@
               echo '<div class="row">
               <div class="span6">
               <label>Pregunta '.$numero.':</label>
-              <textarea class="campoTexto" onKeyUp="this.value=this.value.toUpperCase()" name="pregunta[]" id="pregunta_'.$i.'" title="Ingrese la pregunta '.$numero.' de seguridad" required/>'.$pregunta.'</textarea>
+              <textarea class="campoTexto" minlength=6 onKeyUp="this.value=this.value.toUpperCase()" name="pregunta[]" id="pregunta_'.$i.'" title="Ingrese la pregunta '.$numero.' de seguridad" required/>'.$pregunta.'</textarea>
               </div>
               <div class="span6">
               <label>Respuesta '.$numero.':</label>

@@ -7,7 +7,7 @@ $respuestas=null;
 $Usuario=new Usuario();
 $Usuario->user_name(trim($_POST['usuario']));
 $Usuario->password(trim($_POST['contrasena']));
-if(trim(md5(strtolower($_POST["captcha"]))) == trim($_SESSION["captcha"])){
+if(trim(md5($_POST["captcha"])) == trim($_SESSION["captcha"])){
    $checkStatus=$Usuario->Buscar(false);
    if($checkStatus!=null){
       if($checkStatus[0]['estado']==4){

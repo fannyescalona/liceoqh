@@ -107,15 +107,17 @@
               <input tabindex=11 title="Seleccione el fecha de Nacimiento" name="fecha_nacimiento_estudiante" id="fecha_nacimiento_estudiante" type="text" size="50" value="<?= $fecha_nacimiento;?>" placeholder="Ingrese la Fecha de Nacimiento" class="campoTexto" readonly required />
               <label>Dirección:</label>
               <textarea tabindex=13 onKeyUp="this.value=this.value.toUpperCase()" title="Ingrese la dirección del persona" name="direccion" id="direccion" rows=5 placeholder="Ingrese la Dirección" required /><?php echo $direccion;?></textarea>
-              <label>Grado Escolar:</label>
-              <select tabindex=16 name="grado_escolar" id="grado_escolar" title="Seleccione el Grado Escolar" class='lista' required >
-                <option value="">Selecione una opción</option>
-                <option value="1" <?php if($grado_escolar=="1"){ echo "selected";}?>>1er Año</option>
-                <option value="2" <?php if($grado_escolar=="2"){ echo "selected";}?>>2do Año</option>
-                <option value="3" <?php if($grado_escolar=="3"){ echo "selected";}?>>3er Año</option>
-                <option value="4" <?php if($grado_escolar=="4"){ echo "selected";}?>>4to Año</option>
-                <option value="5" <?php if($grado_escolar=="5"){ echo "selected";}?>>5to Año</option>
-              </select>
+              <div style="display: none;">
+                <label>Grado Escolar:</label>
+                <select tabindex=16 name="grado_escolar" id="grado_escolar" title="Seleccione el Grado Escolar" class='lista' required >
+                  <option value="">Selecione una opción</option>
+                  <option value="1" selected >1er Año</option>
+                  <option value="2">2do Año</option>
+                  <option value="3">3er Año</option>
+                  <option value="4">4to Año</option>
+                  <option value="5">5to Año</option>
+                </select>
+              </div>
               <label>Plantel de Procedencia:</label>
               <select tabindex=18 id="codigo_plantel" name="codigo_plantel" title="Seleccione un Plantel" class="lista" required >
               <option value="" selected>Seleccione un Plantel</option>

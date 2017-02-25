@@ -38,7 +38,7 @@
     }
     $cantLetras = 5;
     $tokenCaptcha = obtenToken($cantLetras);
-    $_SESSION["captcha"] = md5(strtolower($tokenCaptcha));
+    $_SESSION["captcha"] = md5($tokenCaptcha);
 	$imagenCaptcha = imagecreatefrompng("images/captcha.png");
 	$infoImagen = getimagesize("images/captcha.png");
 

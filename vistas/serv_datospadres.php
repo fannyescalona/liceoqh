@@ -55,7 +55,7 @@
               <input tabindex=2 title="Ingrese el correo electrónico de la madre ejemplo: usuario@dominio.com" onKeyPress="return isEmail(event,this.value)" onKeyUp="this.value=this.value.toLowerCase()" name="email_madre" id="email_madre" type="text" size="50" value="<?=$row['email_madre'];?>" placeholder="Ingrese el Correo Electrónico de la Madre ejemplo: usuario@dominio.com" class="campoTexto" />
               <label>Apellido(s):</label>
               <input tabindex=4 title="Ingrese el(los) apellido(s) de la Madre" onKeyPress="return isCharKey(event)" onKeyUp="this.value=this.value.toUpperCase()" name="apellido_madre" id="apellido_madre" type="text" size="50" value="<?=$row['apellido_madre'];?>" placeholder="Ingrese el(los) Apellido(s) de la Madre" class="campoTexto" />
-              <label>Lugar de Nacimiento:</label>
+              <label>Lugar de Nacimiento (Parroquia):</label>
               <input tabindex=6 title="Seleccione una Parroquia" onKeyUp="this.value=this.value.toUpperCase()" name="lugar_nacimiento_madre" id="lugar_nacimiento_madre" type="text" size="50" value="<?=$row['ln_madre'];?>" placeholder="Seleccione una Parroquia" class="campoTexto" />
               <label>Teléfono de Habitación:</label>
               <input tabindex=8 maxlength=11 title="Ingrese el número de habitación de la madre" onKeyPress="return isNumberKey(event)" name="telefono_habitacion_madre" id="telefono_habitacion_madre" type="text" size="50" value="<?=$row['th_madre'];?>" placeholder="Ingreso el Número Teléfonico de Habitación de la Madre" class="campoTexto" />

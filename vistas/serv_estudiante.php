@@ -100,7 +100,7 @@ require_once("../clases/class_bd.php");
                 </select>
                 <label>Apellido(s):</label>
                 <input tabindex=6 title="Ingrese el(los) apellido(s) de la estudiante" onKeyPress="return isCharKey(event)" onKeyUp="this.value=this.value.toUpperCase()" name="apellidos" id="apellidos" type="text" size="50" value="<?= $apellidos;?>" placeholder="Ingrese el Apellido" class="campoTexto" required />
-                <label>Lugar de Nacimiento:</label>
+                <label>Lugar de Nacimiento (Parroquia):</label>
                 <input tabindex=8 title="Seleccione una Parroquia" onKeyUp="this.value=this.value.toUpperCase()" name="lugar_nacimiento" id="lugar_nacimiento" type="text" size="50" value="<?= $lugar_nacimiento;?>" placeholder="Seleccione una parroquia" class="campoTexto" required />
                 <label>Teléfono de Habitación:</label>
                 <input tabindex=10 maxlength=11 title="Ingrese el número de habitación" onKeyPress="return isNumberKey(event)" name="telefono_habitacion" id="telefono_habitacion" type="text" size="50" value="<?= $telefono_habitacion;?>" placeholder="Ingreso el Número de Habitación" class="campoTexto" />

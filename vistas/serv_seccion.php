@@ -56,10 +56,10 @@
             <option value="4" <?php if($grado_escolar=="4"){ echo "selected";}?>>4to Año</option>
             <option value="5" <?php if($grado_escolar=="5"){ echo "selected";}?>>5to Año</option>
           </select>
-          <label>Capacidad Mínima de la Sección:</label>
-          <input title="Ingrese la capacidad mínima de la sección" onKeyPress="return isNumberKey(event)" name="capacidad_min" id="capacidad_min" maxlength=2 type="text" size="50" value="<?= $capacidad_min;?>" placeholder="Ingrese la Capacidad Mínima" class="campoTexto" required />
-          <label>Capacidad Máxima de la sección:</label>
-          <input title="Ingrese la capacidad máxima de la sección" onKeyPress="return isNumberKey(event)" name="capacidad_max" id="capacidad_max" maxlength=2 type="text" size="50" value="<?= $capacidad_max;?>" placeholder="Ingrese la Capacidad Máxima" class="campoTexto" required />
+          <label>Capacidad Mínima de Estudiantes:</label>
+          <input title="Ingrese la capacidad mínima de estudiantes para la seccion" onKeyPress="return isNumberKey(event)" name="capacidad_min" id="capacidad_min" maxlength=2 type="text" size="50" value="<?= $capacidad_min;?>" placeholder="Ingrese la Capacidad Mínima" class="campoTexto" required />
+          <label>Capacidad Máxima de Estudiantes:</label>
+          <input title="Ingrese la capacidad máxima de estudiantes para la sección" onKeyPress="return isNumberKey(event)" name="capacidad_max" id="capacidad_max" maxlength=2 type="text" size="50" value="<?= $capacidad_max;?>" placeholder="Ingrese la Capacidad Máxima" class="campoTexto" required />
           <br/>
           <table id='tablaMaterias' class="table-bordered zebra-striped">
             <tr>

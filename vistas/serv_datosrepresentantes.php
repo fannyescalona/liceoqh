@@ -69,7 +69,7 @@
               </select>
               <label>Apellido(s):</label>
               <input tabindex=4 title="Ingrese el(los) apellido(s) del representante" onKeyPress="return isCharKey(event)" onKeyUp="this.value=this.value.toUpperCase()" name="apellido_representante" id="apellido_representante" type="text" size="50" value="<?=$row['apellido_representante'];?>" placeholder="Ingrese el(los) Apellido(s) del representante" class="campoTexto" required />
-              <label>Lugar de Nacimiento:</label>
+              <label>Lugar de Nacimiento (Parroquia):</label>
               <input tabindex=6 title="Seleccione una Parroquia" onKeyUp="this.value=this.value.toUpperCase()" name="lugar_nacimiento_representante" id="lugar_nacimiento_representante" type="text" size="50" value="<?=$row['ln_representante'];?>" placeholder="Seleccione una Parroquia" class="campoTexto" required />
               <label>Teléfono de Habitación:</label>
               <input tabindex=8 maxlength=11 title="Ingrese el número de habitación del representante" onKeyPress="return isNumberKey(event)" name="telefono_habitacion_representante" id="telefono_habitacion_representante" type="text" size="50" value="<?=$row['th_representante'];?>" placeholder="Ingreso el Número Teléfonico de Habitación del representante" class="campoTexto" />

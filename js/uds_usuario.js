@@ -30,6 +30,10 @@ function validar_formulario(param){
 				alert('\u00a1Debe Ingresar la pregunta '+numero+' de seguridad!');
 				return false;
 			}
+			if($('#pregunta_'+i).val().length < 6){
+				alert('\u00a1La longitud minima de la pregunta debe ser mayor o igual 6!')
+				return false;
+			}
 			if($('#respuesta_'+i).val()==""){
 				alert('\u00a1Debe Ingresar la respuesta de la pregunta '+numero+' de seguridad!');
 				return false;
