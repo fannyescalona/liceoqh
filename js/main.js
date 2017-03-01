@@ -242,6 +242,20 @@ function ACDataGridPorFiltro(obj,url,filtros){
                     param=filtro.value.split('_');
                 Data.items.push({term:param[0]});
             }
+            var nameobj = obj.split('_');
+            nameobj = nameobj[0]+'s[]';
+            if($('input[name=\''+nameobj+'\']')){
+                var objeto = $('input[name=\''+nameobj+'\']');
+                var objeto_id;
+                for(var j=0; j<objeto.length;j++){
+                    objeto_id = obj.split('_');
+                    objeto_id = objeto_id[0]+'_'+j;
+                    if(objeto_id!=obj){
+                        param=$('#'+objeto_id).val().split('_');
+                        Data.items.push({term:param[0]});
+                    }
+                }
+            }
             $.ajax({
                 url: "../autocomplete/"+url,
                 dataType: "json",

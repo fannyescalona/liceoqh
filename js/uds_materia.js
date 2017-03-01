@@ -22,7 +22,6 @@ permitido=true;
 
 valor2=document.getElementById('codigo_materia').value;
 valor=document.getElementById('descripcion').value;
-valor3=document.getElementById('unidad_curricular').value;
 valor4=document.getElementById('grado_escolar').value;
 valor5=document.getElementById('materia_compuesta_oculta').value;
 valor6=document.getElementById('codigo_materia_padre').value;
@@ -37,9 +36,6 @@ if(devuelve_boton(param)=="Registrar" || devuelve_boton(param)=="Modificar"){
 		alert('Ingrese el nombre de la materia')
 		permitido=false;
 	
-	}else if(valor3.replace(/^\s+|\s+$/gi,"").length==0){ //para no permitir que se quede en blanco
-		alert('Ingrese la unidad curricular')
-		permitido=false;
 	}else if(valor4.replace(/^\s+|\s+$/gi,"").length==0){ //para no permitir que se quede en blanco
 		alert('Seleccione el grado escolar')
 		permitido=false;

@@ -27,7 +27,6 @@
                   //$this->Cell($anchura,$altura,utf8_decode('N°'),1,0,'L',$color_fondo); 
                   $this->Cell($anchura*2,$altura,utf8_decode('CÓDIGO'),1,0,'L',$color_fondo); 
                   $this->Cell($anchura*6,$altura,utf8_decode('NOMBRE MATERIA'),1,0,'L',$color_fondo); 
-                  $this->Cell($anchura*4,$altura,'UNIDAD CURRICULAR',1,0,'L',$color_fondo); 
                   $this->Cell($anchura*2+6,$altura,'ESTATUS',1,1,'L',$color_fondo); 
                   $this->Cell($avnzar); 
                   }
@@ -205,7 +204,6 @@ require_once("../clases/class_bd.php");
          $lobjPdf->Row(array(
           utf8_decode(ucwords(strtolower(@utf8_decode($tperfil['codigo_materia'])))),
           utf8_decode(ucwords(strtolower(@utf8_decode($tperfil['descripcion'])))),
-          utf8_decode(ucwords(strtolower(@utf8_decode($tperfil['unidad_curricular'])))),
           utf8_decode(ucwords(strtolower(@utf8_decode($tperfil['estatus']))))));
           $lobjPdf->Cell($avnzar);         
          }

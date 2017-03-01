@@ -4,7 +4,6 @@
  {
      private $codigo_materia; 
      private $descripcion; 
-     private $unidad_curricular;
      private $hora_academica;
      private $materia_compuesta; 
      private $grado_escolar;
@@ -17,7 +16,6 @@
    public function __construct(){
      $this->descripcion=null;
      $this->codigo_materia=null;
-     $this->unidad_curricular=null;
      $this->hora_academica=null;
      $this->materia_compuesta=null;
      $this->grado_escolar=null;
@@ -49,15 +47,6 @@
      
 	 if($Num_Parametro>0){
 	   $this->descripcion=func_get_arg(0);
-	 }
-   }
-
-   public function unidad_curricular(){
-      $Num_Parametro=func_num_args();
-	 if($Num_Parametro==0) return $this->unidad_curricular;
-     
-	 if($Num_Parametro>0){
-	   $this->unidad_curricular=func_get_arg(0);
 	 }
    }
    
@@ -126,9 +115,9 @@
 
    public function Registrar(){
     	if($this->codigo_materia_padre!="")
-    		$sql="insert into tmateria (codigo_materia,descripcion,unidad_curricular,hora_academica,materia_compuesta,grado_escolar,codigo_materia_padre) values ('$this->codigo_materia','$this->descripcion',$this->unidad_curricular,$this->hora_academica,'$this->materia_compuesta','$this->grado_escolar','$this->codigo_materia_padre');";
+    		$sql="insert into tmateria (codigo_materia,descripcion,hora_academica,materia_compuesta,grado_escolar,codigo_materia_padre) values ('$this->codigo_materia','$this->descripcion',$this->hora_academica,'$this->materia_compuesta','$this->grado_escolar','$this->codigo_materia_padre');";
     	else
-    		$sql="insert into tmateria (codigo_materia,descripcion,unidad_curricular,hora_academica,materia_compuesta,grado_escolar) values ('$this->codigo_materia','$this->descripcion',$this->unidad_curricular,$this->hora_academica,'$this->materia_compuesta','$this->grado_escolar');";
+    		$sql="insert into tmateria (codigo_materia,descripcion,hora_academica,materia_compuesta,grado_escolar) values ('$this->codigo_materia','$this->descripcion',$this->hora_academica,'$this->materia_compuesta','$this->grado_escolar');";
     	if($this->mysql->Ejecutar($sql)!=null)
 			return true;
 		else{
@@ -158,9 +147,9 @@
    
     public function Actualizar($oldcodigo){
     	if($this->codigo_materia_padre!="")
-    		$sql="update tmateria set codigo_materia='$this->codigo_materia',descripcion='$this->descripcion',unidad_curricular=$this->unidad_curricular,hora_academica=$this->hora_academica,materia_compuesta='$this->materia_compuesta',grado_escolar='$this->grado_escolar',codigo_materia_padre='$this->codigo_materia_padre' where (codigo_materia='$oldcodigo');";
+    		$sql="update tmateria set codigo_materia='$this->codigo_materia',descripcion='$this->descripcion',hora_academica=$this->hora_academica,materia_compuesta='$this->materia_compuesta',grado_escolar='$this->grado_escolar',codigo_materia_padre='$this->codigo_materia_padre' where (codigo_materia='$oldcodigo');";
     	else
-    		$sql="update tmateria set codigo_materia='$this->codigo_materia',descripcion='$this->descripcion',unidad_curricular=$this->unidad_curricular,hora_academica=$this->hora_academica,materia_compuesta='$this->materia_compuesta',grado_escolar='$this->grado_escolar',codigo_materia_padre=NULL where (codigo_materia='$oldcodigo');";
+    		$sql="update tmateria set codigo_materia='$this->codigo_materia',descripcion='$this->descripcion',hora_academica=$this->hora_academica,materia_compuesta='$this->materia_compuesta',grado_escolar='$this->grado_escolar',codigo_materia_padre=NULL where (codigo_materia='$oldcodigo');";
     	if($this->mysql->Ejecutar($sql)!=null)
 			return true;
 		else{
@@ -176,7 +165,6 @@
 	$tmateria=$this->mysql->Respuesta($query);
 	$this->codigo_materia($tmateria['codigo_materia']);
 	$this->descripcion($tmateria['descripcion']);
-	$this->unidad_curricular($tmateria['unidad_curricular']);
 	$this->hora_academica($tmateria['hora_academica']);
 	$this->materia_compuesta($tmateria['materia_compuesta']);
 	$this->grado_escolar($tmateria['grado_escolar']);
@@ -199,7 +187,6 @@
 	$tmateria=$this->mysql->Respuesta($query);
 	$this->codigo_materia($tmateria['codigo_materia']);
 	$this->descripcion($tmateria['descripcion']);
-	$this->unidad_curricular($tmateria['unidad_curricular']);
 	$this->grado_escolar($tmateria['grado_escolar']);
 	$this->fecha_desactivacion($tmateria['fecha_desactivacion']);
     $this->error("El registro ya existe !");

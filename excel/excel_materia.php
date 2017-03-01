@@ -22,17 +22,16 @@
 						 ->setCategory("Reporte excel");*/
 
 	$tituloReporte = "Listado de Estados";
-	$titulosColumnas = array('Código', 'Materia', 'Unidad Curricular', 'Estatus');
+	$titulosColumnas = array('Código', 'Materia', 'Estatus');
 	
-	$objPHPExcel->setActiveSheetIndex(0)->mergeCells('A1:D1')->mergeCells('A2:D2');
+	$objPHPExcel->setActiveSheetIndex(0)->mergeCells('A1:C1')->mergeCells('A2:C2');
 					
 	// Se agregan los titulos del reporte
 	$objPHPExcel->setActiveSheetIndex(0)
 				->setCellValue('A1', $tituloReporte)
 				->setCellValue('A3', $titulosColumnas[0])
 				->setCellValue('B3', $titulosColumnas[1])
-				->setCellValue('C3', $titulosColumnas[2])
-				->setCellValue('D3', $titulosColumnas[3]);
+				->setCellValue('C3', $titulosColumnas[2]);
 	
 	//Se agregan los datos
 	$i = 5;
@@ -40,8 +39,7 @@
 		$objPHPExcel->setActiveSheetIndex(0)
 		->setCellValue('A'.$i, $row['codigo_materia'])
 		->setCellValue('B'.$i, $row['descripcion'])
-		->setCellValue('C'.$i, $row['unidad_curricular'])
-		->setCellValue('D'.$i, $row['estatus']);
+		->setCellValue('C'.$i, $row['estatus']);
 		$i++;
 	}
 	
@@ -133,10 +131,10 @@
     	)
 	);
 	 
-	$objPHPExcel->getActiveSheet()->getStyle('A1:D1')->applyFromArray($estiloTituloReporte);
-	$objPHPExcel->getActiveSheet()->getStyle('A2:D2')->applyFromArray($estiloTituloReporte);
-	$objPHPExcel->getActiveSheet()->getStyle('A3:D3')->applyFromArray($estiloTituloColumnas);		
-	$objPHPExcel->getActiveSheet()->setSharedStyle($estiloInformacion, "A5:D".($i-1));
+	$objPHPExcel->getActiveSheet()->getStyle('A1:C1')->applyFromArray($estiloTituloReporte);
+	$objPHPExcel->getActiveSheet()->getStyle('A2:C2')->applyFromArray($estiloTituloReporte);
+	$objPHPExcel->getActiveSheet()->getStyle('A3:C3')->applyFromArray($estiloTituloColumnas);		
+	$objPHPExcel->getActiveSheet()->setSharedStyle($estiloInformacion, "A5:C".($i-1));
 	$objPHPExcel->getActiveSheet()->getRowDimension('1')->setRowHeight(40);
 			
 	for($i = 'A'; $i <= 'D'; $i++){

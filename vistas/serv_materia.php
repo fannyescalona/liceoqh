@@ -11,7 +11,6 @@ $servicios='materia';
 if(isset($_SESSION['datos'])){
   @$descripcion=$_SESSION['datos']['descripcion'];
   @$codigo_materia=$_SESSION['datos']['codigo_materia'];
-  @$unidad_curricular=$_SESSION['datos']['unidad_curricular'];
   @$hora_academica=$_SESSION['datos']['hora_academica'];
   @$materia_compuesta=$_SESSION['datos']['materia_compuesta'];
   @$grado_escolar=$_SESSION['datos']['grado_escolar'];
@@ -21,7 +20,6 @@ if(isset($_SESSION['datos'])){
 else{
   @$descripcion=null;
   @$codigo_materia=null;
-  @$unidad_curricular=null;
   @$hora_academica=null;
   @$materia_compuesta="N";
   @$grado_escolar=null;
@@ -42,8 +40,6 @@ else{
       <input title="Ingrese el código de la materia" onKeyUp="this.value=this.value.toUpperCase()" name="codigo_materia" id="codigo_materia" type="text" size="10" value="<?= $codigo_materia;?>" required placeholder="Ingrese el código de la materia " class="campoTexto"/> 
       <label>Materia:</label>
       <input autocomplete=off title="Ingrese el nombre de la materia" onKeyUp="this.value=this.value.toUpperCase()" name="descripcion" id="descripcion" type="text" size="50" value="<?= $descripcion;?>" required placeholder="Ingrese el nombre de la materia" class="campoTexto"/>
-      <label>Unidad curricular:</label>
-      <input title="Ingrese la unidad curricular" onKeyPress="return isNumberKey(event)" name="unidad_curricular" id="unidad_curricular" type="text" size="50" value="<?= $unidad_curricular;?>" required placeholder="Ingrese la unidad curricular" class="campoTexto"/>
       <label>Horas Académicas:</label>
       <?php 
         require_once("../clases/class_bd.php");
@@ -122,7 +118,6 @@ else{
        <td>Código </td>
        <td>Materia</td>
        <td>Horas Académias</td>
-       <td>Unidad Curricular</td>
        <td>Grado Escolar</td>
      </tr>
      <?php
@@ -130,7 +125,7 @@ else{
     require_once("../clases/class_bd.php");
     $mysql=new Conexion();
     //Sentencia sql (sin limit) 
-    $_pagi_sql = "SELECT codigo_materia,descripcion,hora_academica,unidad_curricular,
+    $_pagi_sql = "SELECT codigo_materia,descripcion,hora_academica,
     CASE grado_escolar WHEN '1' THEN '1er Año' WHEN '2' THEN '2do Año' WHEN '3' THEN '3er Año' WHEN '4' THEN '4to Año' WHEN '5' THEN '5to Año' WHEN '6' THEN '6to Año' END AS grado_escolar
     FROM tmateria where fecha_desactivacion is null order by codigo_materia desc";
     //cantidad de resultados por página (opcional, por defecto 20) 
@@ -147,7 +142,6 @@ else{
       <td style='width:20%;'>".$row['codigo_materia']."</td>
       <td align='left'>".$row['descripcion']."</td>
       <td align='left'>".$row['hora_academica']."</td>
-      <td align='left'>".$row['unidad_curricular']."</td>
       <td align='left'>".$row['grado_escolar']."</td></tr>"; 
     }
     //Incluimos la barra de navegación 

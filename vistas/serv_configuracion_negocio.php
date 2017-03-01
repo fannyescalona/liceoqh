@@ -6,7 +6,7 @@
   $filas=$conexion->Respuesta($query);
 ?>
 <article>
-  <form action="../controladores/cont_configuarion_negocio.php" method='post' id="form_interior" name="form_interior" onsubmit='return validar()'>
+  <form action="../controladores/cont_configuarion_negocio.php" method='post' id="form_interior" name="form_interior" onsubmit='return validar()' enctype='multipart/form-data'>
     <fieldset>
       <legend>Configuración del Negocio</legend>
       <div id="contenedorFormulario">
@@ -35,14 +35,23 @@
             <span>SÍ</span>
             <input tabindex=2 name="inscripcion_abierta" id="inscripcion_abierta" type="radio" value="N" <?php if($filas['inscripcion_abierta']=="N"){ echo "checked='checked'"; } ?> required />
             <span>NO</span>
+            <label>Datos del Padre Obligatorio:</label>
+            <input tabindex=5 name="datos_padre_obligatorio" id="datos_padre_obligatorio" type="radio" value="Y" <?php if($filas['datos_padre_obligatorio']=="Y"){ echo "checked='checked'"; } ?>  required />
+            <span>SÍ</span>
+            <input tabindex=6 name="datos_padre_obligatorio" id="datos_padre_obligatorio" type="radio" value="N" <?php if($filas['datos_padre_obligatorio']=="N"){ echo "checked='checked'"; } ?> required />
+            <span>NO</span>
             <label>Nota Mínima:</label>
-            <input tabindex=5 type="text" id="nota_minima" name="nota_minima" size="25" title="Ingrese la Nota Mínima" placeholder="Ingrese la Nota Mínima" class="campoTexto" onKeyPress="return isNumberKey(event)" required value="<?php echo !empty($filas['nota_minima']) ? $filas['nota_minima'] : 0; ?>"/>
+            <input tabindex=9 type="number" id="nota_minima" name="nota_minima" size="25" title="Ingrese la Nota Mínima" placeholder="Ingrese la Nota Mínima" class="campoTexto" onKeyPress="return isNumberKey(event)" required value="<?php echo !empty($filas['nota_minima']) ? $filas['nota_minima'] : 0; ?>"/>
             <label>Edad Máxima para nuevo ingreso a la Institución:</label>
-            <input tabindex=7 type="text" id="edad_maxima_primer_anio" name="edad_maxima_primer_anio" size="25" title="Ingrese la Edad máxima para cursar el 1er año" placeholder="Ingrese la Edad máxima para cursar el 1er año" class="campoTexto" onKeyPress="return isNumberKey(event)" required value="<?php echo !empty($filas['edad_maxima_primer_anio']) ? $filas['edad_maxima_primer_anio'] : 0; ?>"/>
+            <input tabindex=11 type="number" id="edad_maxima_primer_anio" name="edad_maxima_primer_anio" size="25" title="Ingrese la Edad máxima para cursar el 1er año" placeholder="Ingrese la Edad máxima para cursar el 1er año" class="campoTexto" onKeyPress="return isNumberKey(event)" required value="<?php echo !empty($filas['edad_maxima_primer_anio']) ? $filas['edad_maxima_primer_anio'] : 0; ?>"/>
+            <label>Cantidad Materias aplazadas para Reprobar:</label>
+            <input tabindex=13 type="number" max=10 id="cantidad_materia_reprobada" name="cantidad_materia_reprobada" size="25" title="Ingrese la Edad máxima para cursar el 1er año" placeholder="Ingrese la Edad máxima para cursar el 1er año" class="campoTexto" onKeyPress="return isNumberKey(event)" required value="<?php echo !empty($filas['cantidad_materia_reprobada']) ? $filas['cantidad_materia_reprobada'] : 0; ?>"/>
             <label>Carga Horaria Mínima del Docente:</label>
-            <input tabindex=9 type="text" id="hora_minima_docente" name="hora_minima_docente" size="25" title="Ingrese la cantidad de horas mínimas que puede asignarle a un docente" placeholder="Ingrese la Carga Horaria Mínima del Docente" class="campoTexto" onKeyPress="return isNumberKey(event)" required value="<?php echo !empty($filas['hora_minima_docente']) ? $filas['hora_minima_docente'] : 0; ?>"/>
+            <input tabindex=15 type="number" id="hora_minima_docente" name="hora_minima_docente" size="25" title="Ingrese la cantidad de horas mínimas que puede asignarle a un docente" placeholder="Ingrese la Carga Horaria Mínima del Docente" class="campoTexto" onKeyPress="return isNumberKey(event)" required value="<?php echo !empty($filas['hora_minima_docente']) ? $filas['hora_minima_docente'] : 0; ?>"/>
             <label>Carga Horaria Mínima de la Materia:</label>
-            <input tabindex=11 type="text" id="hora_minima_materia" name="hora_minima_materia" size="25" title="Ingrese la cantidad de horas mínimas que puede asignarle a una materia" placeholder="Ingrese la Carga Horaria Mínima de la Materia" class="campoTexto" onKeyPress="return isNumberKey(event)" required value="<?php echo !empty($filas['hora_minima_materia']) ? $filas['hora_minima_materia'] : 0; ?>"/>
+            <input tabindex=17 type="number" id="hora_minima_materia" name="hora_minima_materia" size="25" title="Ingrese la cantidad de horas mínimas que puede asignarle a una materia" placeholder="Ingrese la Carga Horaria Mínima de la Materia" class="campoTexto" onKeyPress="return isNumberKey(event)" required value="<?php echo !empty($filas['hora_minima_materia']) ? $filas['hora_minima_materia'] : 0; ?>"/>
+            <label>Url del Cintillo para los reportes</label>
+            <input tabindex=19 type=file accept="image/*" name="archivo_reporte">
           </div>
           <div class="span6">
             <label>Abrir Notas:</label>
@@ -50,14 +59,21 @@
             <span>SÍ</span>
             <input tabindex=4 name="carga_nota_abierta" id="carga_nota_abierta" type="radio" value="N" <?php if($filas['carga_nota_abierta']=="N"){ echo "checked='checked'"; } ?> required />
             <span>NO</span>
+            <label>Datos de la Madre Obligatorio:</label>
+            <input tabindex=7 name="datos_madre_obligatorio" id="datos_madre_obligatorio" type="radio" value="Y" <?php if($filas['datos_madre_obligatorio']=="Y"){ echo "checked='checked'"; } ?>  required />
+            <span>SÍ</span>
+            <input tabindex=8 name="datos_madre_obligatorio" id="datos_madre_obligatorio" type="radio" value="N" <?php if($filas['datos_madre_obligatorio']=="N"){ echo "checked='checked'"; } ?> required />
+            <span>NO</span>
             <label>Nota Máxima:</label>
-            <input tabindex=6 type="text" id="nota_maxima" name="nota_maxima" size="25" title="Ingrese la Nota Máxima" placeholder="Ingrese la Nota Máxima" class="campoTexto" onKeyPress="return isNumberKey(event)" required value="<?php echo !empty($filas['nota_maxima']) ? $filas['nota_maxima'] : 0; ?>"/>
+            <input tabindex=10 type="number" id="nota_maxima" name="nota_maxima" size="25" title="Ingrese la Nota Máxima" placeholder="Ingrese la Nota Máxima" class="campoTexto" onKeyPress="return isNumberKey(event)" required value="<?php echo !empty($filas['nota_maxima']) ? $filas['nota_maxima'] : 0; ?>"/>
             <label>Nota para Aprobar:</label>
-            <input tabindex=8 type="text" id="nota_aprobacion" name="nota_aprobacion" size="25" title="Ingrese la Nota para Aprobar las materias" placeholder="Ingrese la Nota para Aprobar las materias" class="campoTexto" onKeyPress="return isNumberKey(event)" required value="<?php echo !empty($filas['nota_aprobacion']) ? $filas['nota_aprobacion'] : 0; ?>"/>
+            <input tabindex=12 type="number" id="nota_aprobacion" name="nota_aprobacion" size="25" title="Ingrese la Nota para Aprobar las materias" placeholder="Ingrese la Nota para Aprobar las materias" class="campoTexto" onKeyPress="return isNumberKey(event)" required value="<?php echo !empty($filas['nota_aprobacion']) ? $filas['nota_aprobacion'] : 0; ?>"/>
+            <label>Cantidad de Materias por Sección:</label>
+            <input tabindex=14 type="number" max=10 id="cantidad_materia_maxima" name="cantidad_materia_maxima" size="25" title="Ingrese la Edad máxima para cursar el 1er año" placeholder="Ingrese la Edad máxima para cursar el 1er año" class="campoTexto" onKeyPress="return isNumberKey(event)" required value="<?php echo !empty($filas['cantidad_materia_maxima']) ? $filas['cantidad_materia_maxima'] : 0; ?>"/>
             <label>Carga Horaria Máxima del Docente:</label>
-            <input tabindex=10 type="text" id="hora_maxima_docente" name="hora_maxima_docente" size="25" title="Ingrese la cantidad de horas máximas que puede asignarle a un docente" placeholder="Ingrese la Carga Horaria Máxima del Docente" class="campoTexto" onKeyPress="return isNumberKey(event)" required value="<?php echo !empty($filas['hora_maxima_docente']) ? $filas['hora_maxima_docente'] : 0; ?>"/>
+            <input tabindex=16 type="number" id="hora_maxima_docente" name="hora_maxima_docente" size="25" title="Ingrese la cantidad de horas máximas que puede asignarle a un docente" placeholder="Ingrese la Carga Horaria Máxima del Docente" class="campoTexto" onKeyPress="return isNumberKey(event)" required value="<?php echo !empty($filas['hora_maxima_docente']) ? $filas['hora_maxima_docente'] : 0; ?>"/>
             <label>Carga Horaria Máxima de la Materia:</label>
-            <input tabindex=12 type="text" id="hora_maxima_materia" name="hora_maxima_materia" size="25" title="Ingrese la cantidad de horas máximas que puede asignarle a una materia" placeholder="Ingrese la Carga Horaria Máxima de la Materia" class="campoTexto" onKeyPress="return isNumberKey(event)" required value="<?php echo !empty($filas['hora_maxima_materia']) ? $filas['hora_maxima_materia'] : 0; ?>"/>
+            <input tabindex=18 type="number" id="hora_maxima_materia" name="hora_maxima_materia" size="25" title="Ingrese la cantidad de horas máximas que puede asignarle a una materia" placeholder="Ingrese la Carga Horaria Máxima de la Materia" class="campoTexto" onKeyPress="return isNumberKey(event)" required value="<?php echo !empty($filas['hora_maxima_materia']) ? $filas['hora_maxima_materia'] : 0; ?>"/>
           </div>
         </div>
         <strong class="obligatorio">Los campos resaltados en rojo son obligatorios</strong><br />

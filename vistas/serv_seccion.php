@@ -30,7 +30,13 @@
     }
   ?>
   <br><br>
-  <?php if(!isset($_GET['l'])){?>
+  <?php if(!isset($_GET['l'])){
+    $mysql=new Conexion();
+    $sql="SELECT cantidad_materia_maxima FROM tconfiguracion_negocio";
+    $query = $mysql->Ejecutar($sql);
+    $row = $mysql->Respuesta($query);
+    ?>
+    <input type="hidden" id="cantidad_materia_maxima" value="<?=$row['cantidad_materia_maxima']?>">
     <script src="../js/uds_seccion.js"> </script>
     <form action="../controladores/cont_seccion.php" method="post" id="form">
       <fieldset>
@@ -105,6 +111,7 @@
       var docentes = document.getElementsByName('docentes[]');
       var contador=materias.length;
         function agrega_campos(){
+          if(contador<parseInt($('#cantidad_materia_maxima').val())){
             $("#tablaMaterias").append("<tr id='"+contador+"' >"+
             "<td><input type='hidden' name='codigo_msds[]' id='codigo_msd_"+contador+"' /><input type='hidden' name='oldmateria[]' id='oldmateria_"+contador+"' /><input type='text' name='materias[]' id='materia_"+contador+"' onKeyPress='return ACDataGridPorFiltro(this.id,\"materiaporfiltro.php\",[&#39;grado_escolar&#39;])' onKeyUp='this.value=this.value.toUpperCase()' title='Seleccione una materia' placeholder='Seleccione una materia' class='campoTexto'/></td>"+
             "<td><input type='hidden' name='olddocente[]' id='olddocente_"+contador+"' /><input type='text' name='docentes[]' id='docente_"+contador+"' onKeyPress='return ACDataGrid(this.id,\"docente.php\")' onKeyUp='this.value=this.value.toUpperCase()' title='Seleccione un docente' placeholder='Seleccione un docente' class='campoTexto'/></td>"+
@@ -112,6 +119,10 @@
             "</tr>");
             $('#materia_'+contador)
             contador++;
+          }
+          else{
+            alert('No puede agregar más de '+$('#cantidad_materia_maxima').val()+' materias');
+          }
         }
         function elimina_me(elemento){
           $("#"+elemento).remove();
@@ -123,6 +134,7 @@
             materias[i].setAttribute('id','materia_'+i);
             docentes[i].setAttribute('id','docente_'+i);
           }
+          contador--;
         }
     </script>
     <br>

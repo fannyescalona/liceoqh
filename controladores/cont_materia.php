@@ -9,9 +9,6 @@ $codigo_materia=trim($_POST['codigo_materia']);
 if(isset($_POST['descripcion']))
 $descripcion=ucfirst(trim($_POST['descripcion']));
 
-if(isset($_POST['unidad_curricular']))
-$unidad_curricular=trim($_POST['unidad_curricular']);
-
 if(isset($_POST['hora_academica']))
 $hora_academica=trim($_POST['hora_academica']);
 
@@ -29,7 +26,6 @@ $materia=new Materia();
 if($operacion=='Registrar'){
   $materia->codigo_materia($codigo_materia);
   $materia->descripcion($descripcion);
-  $materia->unidad_curricular($unidad_curricular);
   $materia->hora_academica($hora_academica);
   $materia->materia_compuesta($materia_compuesta);
   $materia->grado_escolar($grado_escolar);
@@ -59,7 +55,6 @@ if($operacion=='Registrar'){
 if($operacion=='Modificar'){
   $materia->codigo_materia($codigo_materia);
   $materia->descripcion($descripcion);
-  $materia->unidad_curricular($unidad_curricular);
   $materia->hora_academica($hora_academica);
   $materia->materia_compuesta($materia_compuesta);
   $materia->grado_escolar($grado_escolar);
@@ -123,7 +118,6 @@ if($operacion=='Consultar'){
   if($materia->Consultar()){
     $_SESSION['datos']['codigo_materia']=$materia->codigo_materia();
     $_SESSION['datos']['descripcion']=$materia->descripcion();
-    $_SESSION['datos']['unidad_curricular']=$materia->unidad_curricular();
     $_SESSION['datos']['hora_academica']=$materia->hora_academica();
     $_SESSION['datos']['materia_compuesta']=$materia->materia_compuesta();
     $_SESSION['datos']['grado_escolar']=$materia->grado_escolar();

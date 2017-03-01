@@ -306,7 +306,6 @@ DROP TABLE IF EXISTS tmateria;
 CREATE TABLE tmateria (
   codigo_materia char(7) COLLATE utf8_spanish_ci NOT NULL,
   descripcion varchar(100) COLLATE utf8_spanish_ci NOT NULL,
-  unidad_curricular int(11) NOT NULL DEFAULT '0',
   grado_escolar char(1) NOT NULL DEFAULT '1',
   materia_compuesta char(1) NOT NULL DEFAULT 'N',
   hora_academica int(11) NOT NULL DEFAULT 0,
@@ -624,6 +623,11 @@ CREATE TABLE tconfiguracion_negocio (
   hora_maxima_docente int(11) NOT NULL DEFAULT 0,
   hora_minima_materia int(11) NOT NULL DEFAULT 0,
   hora_maxima_materia int(11) NOT NULL DEFAULT 0,
+  datos_padre_obligatorio char(1) NOT NULL DEFAULT 'N',
+  datos_madre_obligatorio char(1) NOT NULL DEFAULT 'N',
+  cantidad_materia_reprobada int(1) NOT NULL DEFAULT 0,
+  cantidad_materia_maxima int(1) NOT NULL DEFAULT 0,
+  url_imagen_reporte varchar(255) NULL,
   fecha_desactivacion date DEFAULT NULL,
   PRIMARY KEY (codigo_configuracion_negocio),
   CONSTRAINT fk_config_negocio_plantel FOREIGN KEY (codigo_plantel) REFERENCES tplantel (codigo_plantel) ON UPDATE CASCADE ON DELETE SET NULL 
