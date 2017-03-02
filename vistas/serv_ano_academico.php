@@ -55,6 +55,7 @@ else{
    <tr> 
      <td>Código </td>
      <td>Año Académico</td>
+     <td>Cerrado</td>
    </tr>
    <?php
 
@@ -63,7 +64,7 @@ else{
    $mysql=new Conexion();
 
 //Sentencia sql (sin limit) 
-   $_pagi_sql = "SELECT * FROM tano_academico where fecha_desactivacion is null order by codigo_ano_academico desc"; 
+   $_pagi_sql = "SELECT codigo_ano_academico,descripcion,CASE cerrado WHEN 'N' THEN 'No' ELSE 'Sí' END AS cerrado FROM tano_academico where fecha_desactivacion is null order by codigo_ano_academico desc"; 
 //cantidad de resultados por página (opcional, por defecto 20) 
    $_pagi_cuantos = 10; 
 //Cadena que separa los enlaces numéricos en la barra de navegación entre páginas.
@@ -78,6 +79,7 @@ else{
     echo "<tr style='cursor: pointer;' id='".$row['descripcion']."' onclick='enviarForm(this.id)'>
     <td style='width:20%;'>".$row['codigo_ano_academico']."</td>
     <td align='left'>".$row['descripcion']."</td>
+    <td align='left'>".$row['cerrado']."</td>
     </tr>"; 
   } 
 //Incluimos la barra de navegación 

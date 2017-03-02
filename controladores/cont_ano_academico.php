@@ -115,13 +115,16 @@ if($operacion=='Consultar'){
   }
 }
 
-if($operacion=='CerrarAñoEscolar'){  
+if($operacion=='CerrarAñoEscolar'){
   $confirmacion=false;
   $ano_academico->Transaccion('iniciando');
-  $ano_academico->codigo_ano_academico($id);
-  if($ano_academico->Cerrar())
-    if($ano_academico->ActualizarInscripciones())
-      $confirmacion=1;
+  //$ano_academico->codigo_ano_academico($id);
+  if($ano_academico->Cerrar($id))
+    if($ano_academico->NuevoAA($id))
+      if($ano_academico->ActualizarInscripciones($id))
+        $confirmacion=1;
+      else
+        $confirmacion=-1;
     else
       $confirmacion=-1;
   else

@@ -1,5 +1,5 @@
 <div class="form_externo" >
-  <form method="post" id="form" class="form-horizontal" action="../ontroladores/cont_ano_academico.php">
+  <form method="post" id="form" class="form-horizontal" action="../controladores/cont_ano_academico.php">
     <fieldset>
       <legend>Cerrar Año Académico</legend>
       <div id="contenedorFormulario">
@@ -25,11 +25,11 @@
   <script type="text/javascript">
     // Generar Reporte
     $('#cmdEnviar').click(function(){
-      if($('codigo_ano_academico').val()!="0"){ 
+      if($('#codigo_ano_academico').val()!="0"){ 
         $('#form').submit();
       }
       else{
-        alert("Debe seleccionar una materia");
+        alert("Debe seleccionar un año academico");
       }
     })
   </script>
