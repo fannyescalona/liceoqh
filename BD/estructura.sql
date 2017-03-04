@@ -669,6 +669,22 @@ CREATE TABLE tpersona (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
+-- Table structure for table tmateria_docente
+--
+
+DROP TABLE IF EXISTS tmateria_docente;
+
+CREATE TABLE tmateria_docente (
+  codigo_materia_docente int(11) NOT NULL AUTO_INCREMENT,
+  cedula_docente char(10) COLLATE utf8_spanish_ci NOT NULL,
+  codigo_materia char(7) COLLATE utf8_spanish_ci NOT NULL,
+  grado_escolar char(1) NOT NULL DEFAULT '1',
+  PRIMARY KEY(codigo_materia_docente),
+  CONSTRAINT fk_tmateria_docente_tmateria FOREIGN KEY (codigo_materia) REFERENCES tmateria (codigo_materia) ON UPDATE CASCADE,
+  CONSTRAINT fk_tmateria_docente_tpersona FOREIGN KEY (cedula_docente) REFERENCES tpersona (cedula) ON UPDATE CASCADE 
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+--
 -- Table structure for table tmateria_seccion
 --
 

@@ -139,4 +139,9 @@ if($operacion=="ComboMateria"){
   echo $materia->ComboMateria($_POST['seccion'],$_POST['cedula_docente']);
   unset($materia);
 } 
+
+if($operacion=="ComboMateria_PorGrado"){
+  echo $materia->ComboMateriaPorGrado($_POST['grado_escolar']);
+  unset($materia);
+} 
 ?>

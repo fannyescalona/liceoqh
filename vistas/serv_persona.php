@@ -181,7 +181,40 @@ else{
               <input tabindex=17 maxlength=2 title="Ingrese la carga horaria" name="carga_horaria" id="carga_horaria" type="number" min=<?php echo $hora_minima_docente; ?> max=<?php echo $hora_maxima_docente; ?> size="50" value="<?= $carga_horaria;?>" placeholder="Ingrese la carga horaria" class="campoTexto" value=0 required />
             </div>
           </div> 
-        </div>    
+        </div>
+          <br/>
+          <table id='tablaMaterias' class="table-bordered zebra-striped">
+            <tr>
+              <td><center><label class="control-label" >Grado Escolar:</label></center></td>
+              <td><center><label class="control-label" >Materias:</label></center></td>
+              <td><center><button type="button" onclick="agrega_campos()" class="boton"><i class="icon-plus"></i></button></center></td>
+            </tr>
+            <?php
+              require_once("../clases/class_bd.php");
+              $mysql=new Conexion();
+              $sql = "SELECT msd.codigo_materia_docente,md.grado_escolar, 
+              CONCAT(md.codigo_materia,'_',m.descripcion) AS materia 
+              FROM tmateria_docente md 
+              INNER JOIN tmateria m ON md.codigo_materia = m.codigo_materia 
+              WHERE md.cedula_docente = '$cedula' 
+              ORDER BY msd.codigo_msd ASC";
+              $query = @$mysql->Ejecutar($sql);
+              $con=0;
+              $id_md = "";
+              while ($row = @$mysql->Respuesta($query)){
+                $id_md .= $row['codigo_md']."_";
+                $grado_escolar = $row['grado_escolar'];
+                echo "<tr id='$con'>";
+                echo "<td><select class='lista' name='grados_escolares[]' id='grado_escolar_$con' onchange='comboMateria(this,&quot;codigo_materia_$con&quot;,&quot;materia_$con&quot;)'></select></td>";
+                echo "<td><input type='hidden' name='codigo_msds[]' id='codigo_msd_".$con."' value='".$row['codigo_msd']."' /><input type='hidden' id='materia_$con' name='materia' value=''/><select required class='lista' name='codigo_materia' id='codigo_materia_$con' title='Seleccione una materia'></select></td>";
+                echo "<td><button type='button' class='boton' onclick='elimina_me(".$con.")'><i class='icon-minus'></i></button></td>";
+                echo "</tr>";
+                $con++;
+              }
+              $id_md=substr($id_md,0,-1);
+              echo "<input type='hidden' name='oldcodigo_md' value='$id_md' />";
+            ?>
+          </table>
           <strong class="obligatorio">Los campos resaltados en rojo son obligatorios</strong>
       </div>    
       <br><br>
@@ -191,6 +224,38 @@ else{
       ?>
     </fieldset>
   </form>
+  <script type="text/javascript">
+      function comboMateria(obj,select,hidden){
+        var Combo = {"operacion":"ComboMateria_PorGrado","grado_escolar":obj.value};
+        comboDependiente(Combo,"../controladores/cont_materia.php",$("#"+select),[hidden]);
+      }
+
+    var materias = document.getElementsByName('materias[]');
+    var grados_escolares = document.getElementsByName('grados_escolares[]');
+    var contador=materias.length;
+      function agrega_campos(){
+          $("#tablaMaterias").append("<tr id='"+contador+"' >"+
+          "<td><select class='lista' name='grados_escolares[]' id='grado_escolar_"+contador+"' onchange='comboMateria(this,&quot;codigo_materia_"+contador+"&quot;,&quot;materia_"+contador+"&quot;)'></select></td>"+
+          "<td><input type='hidden' name='codigo_msds[]' id='codigo_msd_"+contador+"' /><input type='hidden' id='materia_"+contador+"' name='materias[]' value=''/><select required class='lista' name='codigo_materia[]' id='codigo_materia_"+contador+"' title='Seleccione una materia'></select></td>"+
+          "<td><button type='button' class='boton' onclick='elimina_me("+contador+")'><i class='icon-minus'></button></td>"+
+          "</tr>");
+          $('#materia_'+contador)
+          contador++;
+        }
+      }
+      function elimina_me(elemento){
+        $("#"+elemento).remove();
+        for(var i=0;i<materias.length;i++){
+          materias[i].removeAttribute('id');
+          grados_escolares[i].removeAttribute('id');
+        }
+        for(var i=0;i<materias.length;i++){
+          materias[i].setAttribute('id','materia_'+i);
+          grados_escolares[i].setAttribute('id','docente_'+i);
+        }
+        contador--;
+      }
+  </script>
 </div>
   <?php }else{ 
     require_once("../clases/class_perfil.php");
