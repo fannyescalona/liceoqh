@@ -141,6 +141,7 @@ if(isset($_SESSION['user_estado'])){
                   else if(isset($_GET['inscripcion'])) include("serv_inscripcion.php"); //listo
                   else if(isset($_GET['asignar_seccion'])) include("serv_asignarseccion.php"); //listo
                   else if(isset($_GET['proceso_inscripcion'])) include("serv_procesoinscripcion.php"); //listo
+                  else if(isset($_GET['proceso_inscripcion_foraneo'])) include("serv_procesoinscripcion_foraneo.php"); //listo
                   else if(isset($_GET['asignar_notas'])) include("serv_asignarnotas.php"); //listo
                   else if(isset($_GET['cerrar_anoacademico'])) include("prc_cerrar_anoacademico.php"); //listo
                   else if(isset($_GET['planevaluacion'])) include("serv_planevaluacion.php"); //listo

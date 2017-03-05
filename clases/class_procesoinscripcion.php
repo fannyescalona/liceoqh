@@ -753,6 +753,22 @@ class Inscripcion {
     }
   }
 
+  public function RegistrarMateriasPendientes($materias)
+  {
+    $sql="INSERT INTO tmateria_pendiente (cedula_estudiante,codigo_materia) VALUES";
+    foreach ($materias as $materia => $codigo_materia) {
+      $codigo_materia = explode('_',$codigo_materia);
+      $sql.="('$this->cedula_estudiante','".$codigo_materia[0]."'),";
+    }
+    $sql = substr($sql,0,-1);
+    if($this->mysql->Ejecutar($sql)!=null)
+      return true;
+    else{
+      $this->error($this->mysql->Error());
+      return false;
+    }
+  }
+
   public function RegistrarInscripcionManual(){
     $sql="INSERT INTO tproceso_inscripcion (codigo_inscripcion,fecha_inscripcion,codigo_ano_academico,cedula_estudiante,";
     $sql.="codigo_plantel,primerafi,cedula_docente,seccion,cedula_representante,codigo_parentesco) VALUES ((SELECT MAX(codigo_inscripcion) FROM tinscripcion WHERE fecha_desactivacion IS NULL),";
