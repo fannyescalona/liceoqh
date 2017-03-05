@@ -183,7 +183,7 @@ else{
           </div> 
         </div>
           <br/>
-          <table id='tablaMaterias' class="table-bordered zebra-striped">
+          <table id='tablaMaterias' class="table-bordered zebra-striped" style="display: none;">
             <tr>
               <td><center><label class="control-label" >Grado Escolar:</label></center></td>
               <td><center><label class="control-label" >Materias:</label></center></td>
@@ -192,27 +192,40 @@ else{
             <?php
               require_once("../clases/class_bd.php");
               $mysql=new Conexion();
-              $sql = "SELECT msd.codigo_materia_docente,md.grado_escolar, 
-              CONCAT(md.codigo_materia,'_',m.descripcion) AS materia 
+              $sql = "SELECT md.grado_escolar,md.codigo_materia
               FROM tmateria_docente md 
-              INNER JOIN tmateria m ON md.codigo_materia = m.codigo_materia 
               WHERE md.cedula_docente = '$cedula' 
-              ORDER BY msd.codigo_msd ASC";
+              ORDER BY md.codigo_materia_docente ASC";
               $query = @$mysql->Ejecutar($sql);
               $con=0;
               $id_md = "";
               while ($row = @$mysql->Respuesta($query)){
-                $id_md .= $row['codigo_md']."_";
                 $grado_escolar = $row['grado_escolar'];
-                echo "<tr id='$con'>";
-                echo "<td><select class='lista' name='grados_escolares[]' id='grado_escolar_$con' onchange='comboMateria(this,&quot;codigo_materia_$con&quot;,&quot;materia_$con&quot;)'></select></td>";
-                echo "<td><input type='hidden' name='codigo_msds[]' id='codigo_msd_".$con."' value='".$row['codigo_msd']."' /><input type='hidden' id='materia_$con' name='materia' value=''/><select required class='lista' name='codigo_materia' id='codigo_materia_$con' title='Seleccione una materia'></select></td>";
-                echo "<td><button type='button' class='boton' onclick='elimina_me(".$con.")'><i class='icon-minus'></i></button></td>";
-                echo "</tr>";
+                $codigo_materia = $row['codigo_materia'];
+            ?>
+                <tr id='<?=$con?>'>
+                  <td>
+                    <select class='lista' name='grados_escolares[]' id='grado_escolar_<?=$con?>' onchange="comboMateria(this,'codigo_materia_<?=$con?>',['materia_<?=$con?>'])">
+                    <option value="1" <?php if($grado_escolar=="1"){ echo "selected";}?>>1er Año</option>
+                    <option value="2" <?php if($grado_escolar=="2"){ echo "selected";}?>>2do Año</option>
+                    <option value="3" <?php if($grado_escolar=="3"){ echo "selected";}?>>3er Año</option>
+                    <option value="4" <?php if($grado_escolar=="4"){ echo "selected";}?>>4to Año</option>
+                    <option value="5" <?php if($grado_escolar=="5"){ echo "selected";}?>>5to Año</option>
+                    </select>
+                  </td>
+                  <td>
+                    <input type='hidden' id='materia_<?=$con?>' name='materias[]' value='<?=$codigo_materia?>'/>
+                    <select class='lista' name='codigo_materias[]' id='codigo_materia_<?=$con?>' title='Seleccione una materia'>
+                    </select>
+                  </td>
+                  <td>
+                    <button type='button' class='boton' onclick='elimina_me(<?=$con?>)'><i class='icon-minus'></i>
+                    </button>
+                  </td>
+                </tr>
+            <?php
                 $con++;
               }
-              $id_md=substr($id_md,0,-1);
-              echo "<input type='hidden' name='oldcodigo_md' value='$id_md' />";
             ?>
           </table>
           <strong class="obligatorio">Los campos resaltados en rojo son obligatorios</strong>
@@ -225,36 +238,62 @@ else{
     </fieldset>
   </form>
   <script type="text/javascript">
-      function comboMateria(obj,select,hidden){
-        var Combo = {"operacion":"ComboMateria_PorGrado","grado_escolar":obj.value};
-        comboDependiente(Combo,"../controladores/cont_materia.php",$("#"+select),[hidden]);
+
+    $('#codigo_cargo').on("change",function()
+    {
+      if($(this).find(":selected").text()=="DOCENTE"){
+        $('#tablaMaterias').show();
       }
+      else{
+        $('#tablaMaterias').hide();
+      }
+    });
+
+    if($('#codigo_cargo option:selected').text()=="DOCENTE"){
+      $('#tablaMaterias').show();
+    }
+    else
+    {
+      $('#tablaMaterias').hide();
+    }
+
+    function comboMateria(obj,select,hidden){
+      var Combo = {"operacion":"ComboMateria_PorGrado","grado_escolar":obj.value};
+      comboDependiente(Combo,"../controladores/cont_materia.php",$("#"+select),[hidden]);
+    }
 
     var materias = document.getElementsByName('materias[]');
     var grados_escolares = document.getElementsByName('grados_escolares[]');
     var contador=materias.length;
-      function agrega_campos(){
-          $("#tablaMaterias").append("<tr id='"+contador+"' >"+
-          "<td><select class='lista' name='grados_escolares[]' id='grado_escolar_"+contador+"' onchange='comboMateria(this,&quot;codigo_materia_"+contador+"&quot;,&quot;materia_"+contador+"&quot;)'></select></td>"+
-          "<td><input type='hidden' name='codigo_msds[]' id='codigo_msd_"+contador+"' /><input type='hidden' id='materia_"+contador+"' name='materias[]' value=''/><select required class='lista' name='codigo_materia[]' id='codigo_materia_"+contador+"' title='Seleccione una materia'></select></td>"+
-          "<td><button type='button' class='boton' onclick='elimina_me("+contador+")'><i class='icon-minus'></button></td>"+
-          "</tr>");
-          $('#materia_'+contador)
-          contador++;
-        }
+    function agrega_campos(){
+      $("#tablaMaterias").append("<tr id='"+contador+"' >"+
+      "<td><select class='lista' name='grados_escolares[]' id='grado_escolar_"+contador+"' onchange='comboMateria(this,&quot;codigo_materia_"+contador+"&quot;,&quot;materia_"+contador+"&quot;)'><option value=''>Selecione una opción</option><option value='1'>1er Año</option><option value='2'>2do Año</option><option value='3'>3er Año</option><option value='4'>4to Año</option><option value='5'>5to Año</option></select></td>"+
+      "<td><input type='hidden' id='materia_"+contador+"' name='materias[]' value=''/><select class='lista' name='codigo_materias[]' id='codigo_materia_"+contador+"' title='Seleccione una materia'></select></td>"+
+      "<td><button type='button' class='boton' onclick='elimina_me("+contador+")'><i class='icon-minus'></button></td>"+
+      "</tr>");
+      contador++;
+    }
+    function elimina_me(elemento){
+      $("#"+elemento).remove();
+      for(var i=0;i<materias.length;i++){
+        materias[i].removeAttribute('id');
+        grados_escolares[i].removeAttribute('id');
       }
-      function elimina_me(elemento){
-        $("#"+elemento).remove();
-        for(var i=0;i<materias.length;i++){
-          materias[i].removeAttribute('id');
-          grados_escolares[i].removeAttribute('id');
-        }
-        for(var i=0;i<materias.length;i++){
-          materias[i].setAttribute('id','materia_'+i);
-          grados_escolares[i].setAttribute('id','docente_'+i);
-        }
-        contador--;
+      for(var i=0;i<materias.length;i++){
+        materias[i].setAttribute('id','materia_'+i);
+        grados_escolares[i].setAttribute('id','docente_'+i);
       }
+      contador--;
+    }
+
+    if(grados_escolares.length > 0){
+      for (var i = 0; i<grados_escolares.length ;i++) {
+        var Combo = {"operacion":"ComboMateria_PorGrado","grado_escolar":$('#grado_escolar_'+i).val()};
+        var materia = 'materia_'+i;
+        comboDependiente(Combo,"../controladores/cont_materia.php",$('#codigo_materia_'+i),[materia]);
+      }
+    }
+
   </script>
 </div>
   <?php }else{ 

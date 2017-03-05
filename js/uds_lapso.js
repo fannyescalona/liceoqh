@@ -1,3 +1,55 @@
+$(document).ready(function(){
+	$('#codigo_ano_academico').on("change",function(){
+		var Data = {"operacion":"BuscarFechas","codigo_ano_academico":$(this).val()};
+		$.ajax({
+	        url: '../controladores/cont_ano_academico.php',
+	        type: 'POST',
+	        async: true,
+	        data: Data,
+	        dataType: "json",
+	        success: function(resp){
+	        	$("#fecha_inicio").datepicker("option", "minDate", resp[0].fecha_inicio);
+	        	$("#fecha_inicio").datepicker("option", "maxDate", resp[0].fecha_fin);
+	        	$("#fecha_fin").datepicker("option", "maxDate", resp[0].fecha_fin);
+	        },
+	        error: function(jqXHR, textStatus, errorThrown){
+	        	alert('¡Error al procesar la petición! '+textStatus+" "+errorThrown)
+	        }
+        });
+	});
+
+	if($('#codigo_ano_academico').val()!=""){
+		var Data = {"operacion":"BuscarFechas","codigo_ano_academico":$('#codigo_ano_academico').val()};
+		$.ajax({
+	        url: '../controladores/cont_ano_academico.php',
+	        type: 'POST',
+	        async: true,
+	        data: Data,
+	        dataType: "json",
+	        success: function(resp){
+	        	if($('fecha_inicio').val()!=""){
+		        	$("#fecha_inicio").datepicker("option", "minDate", $('fecha_inicio').val());
+		        	$("#fecha_inicio").datepicker("option", "maxDate", $('fecha_fin').val());
+	        	}
+	        	else
+	        	{
+		        	$("#fecha_inicio").datepicker("option", "minDate", resp[0].fecha_inicio);
+		        	$("#fecha_inicio").datepicker("option", "maxDate", resp[0].fecha_fin);	
+	        	}
+	        	if($('fecha_fin').val()!=""){
+	        		$("#fecha_fin").datepicker("option", "maxDate", $('fecha_fin').val());
+	        	}
+	        	else{
+	        		$("#fecha_fin").datepicker("option", "maxDate", resp[0].fecha_fin);
+	        	}
+	        },
+	        error: function(jqXHR, textStatus, errorThrown){
+	        	alert('¡Error al procesar la petición! '+textStatus+" "+errorThrown)
+	        }
+        });
+	}
+});
+
 function validar_formulario(param){
 //para validar en caso q no return false
 permitido=true;

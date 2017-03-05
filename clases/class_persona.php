@@ -333,6 +333,31 @@ class Persona {
       $this->error=func_get_arg(0);
     }
   }
+   
+  public function EliminarMaterias(){
+    $sql="DELETE FROM tmateria_docente WHERE (cedula_docente='$this->cedula');";
+    if($this->mysql->Ejecutar($sql)!=null)
+      return true;
+    else{
+      $this->error($this->mysql->Error());
+      return false;
+    }
+  }
+
+  public function InsertarMaterias($codigo_materia,$grado_escolar){
+    $sql="INSERT INTO tmateria_docente (cedula_docente,codigo_materia,grado_escolar) VALUES ";
+    for($i=0;$i<count($codigo_materia);$i++){
+      $sql.="('$this->cedula','".$codigo_materia[$i]."','".$grado_escolar[$i]."'),";
+    }
+    $sql=substr($sql,0,-1);
+    $sql=$sql.";";
+    if($this->mysql->Ejecutar($sql)!=null)
+      return true;
+    else{
+      $this->error($this->mysql->Error());
+      return false;
+    }
+  }
 
   public function Registrar(){
     if($this->espersonalinstitucion=="Y"){

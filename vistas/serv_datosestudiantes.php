@@ -88,6 +88,9 @@
       <fieldset>
         <h1>Datos del Estudiante</h1>
         <div id="contenedorInscripcion">
+          <label>Estudiante Nuevo Ingreso:</label>
+          <input readonly type="radio" name="tipo_estudiante" id="nuevo_ingreso" value="NI" <?php echo (empty($grado_escolar) || $grado_escolar=="1" ? 'checked' : 'disabled' );?>> Sí
+          <input readonly type="radio" name="tipo_estudiante" id="regular" value="RG" <?php echo (!empty($grado_escolar) && $grado_escolar!="1" ? 'checked' : 'disabled' );?>> No
           <div class="row">
             <div class="span6">
               <label>Cédula:</label>
@@ -111,11 +114,11 @@
                 <label>Grado Escolar:</label>
                 <select tabindex=16 name="grado_escolar" id="grado_escolar" title="Seleccione el Grado Escolar" class='lista' required >
                   <option value="">Selecione una opción</option>
-                  <option value="1" selected >1er Año</option>
-                  <option value="2">2do Año</option>
-                  <option value="3">3er Año</option>
-                  <option value="4">4to Año</option>
-                  <option value="5">5to Año</option>
+                  <option value="1" <?php echo ((empty($grado_escolar) || $grado_escolar=="1") ? 'selected' : ''); ?>>1er Año</option>
+                  <option value="2" <?php echo ((!empty($grado_escolar) && $grado_escolar=="2") ? 'selected' : ''); ?>>2do Año</option>
+                  <option value="3" <?php echo ((!empty($grado_escolar) && $grado_escolar=="3") ? 'selected' : ''); ?>>3er Año</option>
+                  <option value="4" <?php echo ((!empty($grado_escolar) && $grado_escolar=="4") ? 'selected' : ''); ?>>4to Año</option>
+                  <option value="5" <?php echo ((!empty($grado_escolar) && $grado_escolar=="5") ? 'selected' : ''); ?>>5to Año</option>
                 </select>
               </div>
               <label>Plantel de Procedencia:</label>

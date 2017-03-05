@@ -81,6 +81,8 @@ function validar_formulario(param){
 	valor12=document.getElementById('carga_horaria').value;
 	valor13=document.getElementById('hora_minima_docente').value;
 	valor14=document.getElementById('hora_maxima_docente').value;
+	codigo_materias = document.getElementsByName('codigo_materias[]');
+	grados_escolares = document.getElementsByName('grados_escolares[]');
 	//Utilizamos una expresion regular para validar email
 	var regex = /[\w-\.]{2,}@([\w-]{2,}\.)*([\w-]{2,}\.)[\w-]{2,4}/;
 	var cedula_rif = /^[VGJE-vgje]\d{7,9}$/;
@@ -142,6 +144,18 @@ function validar_formulario(param){
 			alert('La carga horaria debe estar entre '+valor13+' y '+valor14);
 			permitido = false;
 		}
+		else if(codigo_materias && grados_escolares){
+			arregloM = new Array();
+			arregloD = new Array();
+			for(i=0;i<codigo_materias.length;i++){
+				arregloM.push($('#codigo_materia_'+i).val());
+				arregloD.push($('#grado_escolar_'+i).val());
+			}
+			if(combinacionRepetida(arregloM,arregloD)>0){
+				alert('¡La combinación Grado Escolar + Materia no se puede repetir!')
+				permitido = false;
+			}
+		}
 	}
 		
 	if(devuelve_boton(param)=="Desactivar"){
@@ -158,4 +172,24 @@ function validar_formulario(param){
 	
 	if(permitido==true)
 		document.getElementById("form").submit();
+
+	function combinacionRepetida(arregloA,arregloB){
+	    var arreglo1 = arregloA;
+	    var arreglo2 = arregloB;
+	    var con=0;
+	    for (var m=0; m<arreglo1.length; m++)
+	    {
+	        for (var n=0; n<arreglo1.length; n++)
+	        {
+	            if(n!=m)
+	            {
+	                if(arreglo1[m]==arreglo1[n] && arreglo2[m]==arreglo2[n])
+	                {
+	                	con++;
+	                }
+	            }
+	        }
+	    }
+	    return con;
+	}
 }

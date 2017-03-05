@@ -282,7 +282,7 @@ function init(){
 	});
 
 	$('#tab-documentosconsignados').click(function(){
-		if($('#cedula').val()==""){
+		if($('#cedula').val()=="" || (($('#dpo').val()=="Y" && $('#cedula_padre').val()=="") || ($('#dmo').val()=="Y" && $('#cedula_madre').val()==""))){
 			alert('Debe completar los datos de la condición escolar antes de continuar!');
 			return false;
 		}
@@ -450,6 +450,8 @@ function validar_formulario1(){
 	valor13=document.getElementById('lugar_nacimiento_padre').value;
 	valor14=document.getElementById('direccion_padre').value;
 	valor15=document.getElementById('telefono_habitacion_padre').value;
+	valor16=document.getElementById('dpo').value;
+	valor17=document.getElementById('dmo').value;
 	//Utilizamos una expresion regular para validar email
 	var regex = /[\w-\.]{2,}@([\w-]{2,}\.)*([\w-]{2,}\.)[\w-]{2,4}/;
 	var cedula_rif = /^[VGJE-vgje]\d{7,9}$/;
@@ -458,6 +460,14 @@ function validar_formulario1(){
 	if((valor0.replace(/^\s+|\s+$/gi,"").length!=0 && valor8.replace(/^\s+|\s+$/gi,"").length!=0) && (valor0==valor8)){
 		alert('CI Madre:'+valor0+' - CI Padre:'+valor8+' <br> La cédula de la madre no puede ser igual que la cédula del padre');
 		permitido = false;
+	}
+
+	if(valor17=="Y" && valor0.replace(/^\s+|\s+$/gi,"").length==0){
+		alert('Los datos de la madre son obligatorios');
+		permitido=false;
+	}else if(valor16=="Y" && valor8.replace(/^\s+|\s+$/gi,"").length==0){
+		alert('Los datos del padre son obligatorios');
+		permitido=false;
 	}
 	
 	if(valor0.replace(/^\s+|\s+$/gi,"").length!=0){

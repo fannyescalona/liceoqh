@@ -138,5 +138,10 @@ if($operacion=='CerrarAñoEscolar'){
     $_SESSION['datos']['mensaje']="Problema al cerrar el Año Académico.<br><b>Error: ".utf8_encode($ano_academico->error())."</b>";
     header("Location: ../vistas/?cerrar_anoacademico");
   }
-}     
+}
+
+if($operacion=='BuscarFechas'){
+  echo $ano_academico->BuscarFechas($_POST['codigo_ano_academico']);
+  unset($ano_academico);
+}   
 ?>

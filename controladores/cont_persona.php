@@ -99,9 +99,15 @@ if($operacion=='Registrar'){
   $persona->nivel_academico($nivel_academico);
   $persona->carga_horaria($carga_horaria);
   $persona->codigo_plantel($codigo_plantel);
+  $persona->Transaccion("iniciando");
   if(!$persona->Comprobar()){
     if($persona->Registrar())
-       $confirmacion=1;
+      if(isset($_POST['codigo_materias']) && isset($_POST['grados_escolares'])){
+        $persona->InsertarMaterias($_POST['codigo_materias'],$_POST['grados_escolares']);
+        $confirmacion=1;
+      }
+      else
+        $confirmacion=1;
     else
        $confirmacion=-1;
   }else{
@@ -113,9 +119,11 @@ if($operacion=='Registrar'){
     }
   }
   if($confirmacion==1){
+    $persona->Transaccion("finalizado");
     $_SESSION['datos']['mensaje']="La persona ha sido registrada con éxito !";
     header("Location: ../vistas/?persona");
    }else{
+    $persona->Transaccion("cancelado");
     $_SESSION['datos']['mensaje']="Se presentó un error al registrar la persona.<br><b>Error: ".utf8_encode($persona->error())."</b>";
     header("Location: ../vistas/?persona");
   }
@@ -143,14 +151,22 @@ if($operacion=='Modificar'){
   $persona->nivel_academico($nivel_academico);
   $persona->carga_horaria($carga_horaria);
   $persona->codigo_plantel($codigo_plantel);
-    if($persona->Actualizar($oldci))
-     $confirmacion=1;
+  $persona->Transaccion("iniciando");
+    if($persona->Actualizar($oldci)){
+      $confirmacion=1;
+      if(isset($_POST['codigo_materias']) && isset($_POST['grados_escolares'])){
+        $persona->EliminarMaterias();
+        $persona->InsertarMaterias($_POST['codigo_materias'],$_POST['grados_escolares']);
+      }
+    }
     else
      $confirmacion=-1;
   if($confirmacion==1){
+    $persona->Transaccion("finalizado");
     $_SESSION['datos']['mensaje']="La persona ha sido modificada con éxito !";
     header("Location: ../vistas/?persona");
   }else{
+    $persona->Transaccion("cancelado");
     $_SESSION['datos']['mensaje']="Se presentó un error al modificar la persona.<br><b>Error: ".utf8_encode($persona->error())."</b>";
     header("Location: ../vistas/?persona");
   }

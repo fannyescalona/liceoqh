@@ -1,5 +1,14 @@
 <div class="form_externo" >
   <form id="form2" name="form" method="POST" action="../controladores/cont_procesoinscripcion.php">
+    <?php
+      require_once('../clases/class_bd.php');
+      $mysql=new Conexion();
+      $sql="SELECT datos_padre_obligatorio,datos_madre_obligatorio FROM tconfiguracion_negocio";
+      $query = $mysql->Ejecutar($sql);
+      $config = $mysql->Respuesta($query);
+    ?>
+    <input type="hidden" name="dpo" id="dpo" value="<?=$config['datos_padre_obligatorio']?>">
+    <input type="hidden" name="dmo" id="dmo" value="<?=$config['datos_madre_obligatorio']?>">
     <fieldset>
       <?php
       require_once('../clases/class_bd.php');

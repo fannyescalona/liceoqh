@@ -210,5 +210,39 @@
 		return false;
 	}
    }
+
+   public function BuscarFechas($codigo_ano_academico){
+    $sql="SELECT COALESCE(
+    	(SELECT DATE_FORMAT(MAX(fecha_fin + INTERVAL 1 DAY),'%d/%m/%Y') FROM tlapso WHERE codigo_ano_academico = $codigo_ano_academico-1),
+    	(SELECT DATE_FORMAT(MAX(fecha_fin + INTERVAL 1 DAY),'%d/%m/%Y') FROM tlapso WHERE codigo_ano_academico = $codigo_ano_academico), 
+    	MIN(DATE_FORMAT(NOW() - INTERVAL 5 YEAR,'%d/%m/%Y'))
+    ) AS fecha_inicio, 
+	CASE 
+		WHEN COALESCE(
+		(SELECT DATE_FORMAT(MAX(fecha_fin + INTERVAL 1 YEAR),'%d/%m/%Y') FROM tlapso WHERE codigo_ano_academico = $codigo_ano_academico-1), 
+		(SELECT DATE_FORMAT(MAX(fecha_fin + INTERVAL 1 DAY),'%d/%m/%Y') FROM tlapso WHERE codigo_ano_academico = $codigo_ano_academico),
+		MAX(fecha_fin)) > NOW() 
+			THEN 
+				COALESCE(
+				(SELECT DATE_FORMAT(MAX(fecha_fin + INTERVAL 1 YEAR),'%d/%m/%Y') FROM tlapso WHERE codigo_ano_academico = $codigo_ano_academico-1), 
+				(SELECT DATE_FORMAT(MAX(fecha_fin + INTERVAL 1 DAY),'%d/%m/%Y') FROM tlapso WHERE codigo_ano_academico = $codigo_ano_academico)
+				) 
+		ELSE 
+			DATE_FORMAT(NOW() + INTERVAL 1 YEAR,'%d/%m/%Y') 
+	END AS fecha_fin 
+	FROM tlapso";
+    $query = $this->mysql->Ejecutar($sql);
+    while($Obj=$this->mysql->Respuesta_assoc($query)){
+      $rows[]=array_map("html_entity_decode",$Obj);
+    }
+    if(!empty($rows)){
+      $json = json_encode($rows);
+    }
+    else{
+      $rows[] = array("msj" => "Error al Buscar Registros ");
+      $json = json_encode($rows);
+    }
+    return $json;
+  }
 }
 ?>

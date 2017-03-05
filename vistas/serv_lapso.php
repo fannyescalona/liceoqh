@@ -35,12 +35,6 @@ else{
     <div id="contenedorFormulario">
       <label>Código</label>
       <input title="El c&oacute;digo del lapso es generado por el sistema" name="codigo_lapso" id="codigo_lapso" type="text" size="10" readonly value="<?= $codigo_lapso;?>" placeholder="El código del lapso es generado por el Sistema" class="campoTexto"/>
-      <label>Nombre del Lapso</label>
-      <input title="Ingrese el nombre del lapso" onKeyUp="this.value=this.value.toUpperCase()" name="descripcion" id="descripcion" type="text" size="50" value="<?= $descripcion;?>" placeholder="Ingrese el lapso" class="campoTexto" required >
-      <label>Fecha Inicio del Lapso</label>
-      <input title="Ingrese la fecha inicio del lapso" name="fecha_inicio" id="fecha_inicio" type="text" size="50" value="<?= $fecha_inicio;?>" placeholder="Ingrese la fecha inicio del lapso" class="campoTexto" readonly required >    
-      <label>Fecha Fin del Lapso</label>
-      <input title="Ingrese la fecha fin del lapso" name="fecha_fin" id="fecha_fin" type="text" size="50" value="<?= $fecha_fin;?>" placeholder="Ingrese la fecha fin del lapso" class="campoTexto" readonly required >    
       <label>Año Académico</label>
       <select name="codigo_ano_academico" id="codigo_ano_academico" title="Seleccione un año" required class="campoTexto"/>
         <option value='0'>Seleccione un Año</option>
@@ -57,7 +51,13 @@ else{
             }
           }
         ?>
-      </select>                                           
+      </select> 
+      <label>Nombre del Lapso</label>
+      <input title="Ingrese el nombre del lapso" onKeyUp="this.value=this.value.toUpperCase()" name="descripcion" id="descripcion" type="text" size="50" value="<?= $descripcion;?>" placeholder="Ingrese el lapso" class="campoTexto" required >
+      <label>Fecha Inicio del Lapso</label>
+      <input title="Ingrese la fecha inicio del lapso" name="fecha_inicio" id="fecha_inicio" type="text" size="50" value="<?= $fecha_inicio;?>" placeholder="Ingrese la fecha inicio del lapso" class="campoTexto" readonly required >    
+      <label>Fecha Fin del Lapso</label>
+      <input title="Ingrese la fecha fin del lapso" name="fecha_fin" id="fecha_fin" type="text" size="50" value="<?= $fecha_fin;?>" placeholder="Ingrese la fecha fin del lapso" class="campoTexto" readonly required >                                          
         <strong class="obligatorio">Los campos resaltados en rojo son obligatorios</strong>
      </div>
      <br>

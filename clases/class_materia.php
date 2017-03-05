@@ -218,7 +218,7 @@
   }
 
    public function ComboMateriaPorGrado($grado_escolar){
-    $sql="SELECT msd.codigo_materia AS id,m.descripcion AS name FROM tmateria WHERE grado_escolar = '$grado_escolar'";
+    $sql="SELECT codigo_materia AS id,descripcion AS name FROM tmateria WHERE grado_escolar = '$grado_escolar'";
     $query = $this->mysql->Ejecutar($sql);
     while($Obj=$this->mysql->Respuesta_assoc($query)){
       $rows[]=array_map("html_entity_decode",$Obj);
