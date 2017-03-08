@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="planilla_inscripcion" language="groovy" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="230a6877-1832-43a9-bed6-3bff5aba4c9c">
 	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="512"/>
+	<property name="ireport.y" value="322"/>
 	<parameter name="cedula_estudiante" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
@@ -33,7 +33,7 @@
 	CONCAT(r.nombres,' ',r.apellidos) AS representante,pi.cedula_representante,
 	r.direccion AS direccion_representante,pr.descripcion AS parentesco,CASE WHEN r.telefono_habitacion <> '' THEN CONCAT(SUBSTR(r.telefono_habitacion,1,4),'-',SUBSTR(r.telefono_habitacion,5,11)) ELSE NULL END AS telefono_representante,pi.lugar_trabajo,DATE_FORMAT(pi.primerafi,'%d/%m/%Y') AS primerafi,DATE_FORMAT(pi.primerafi,'%Y') AS anofi,
 	CONCAT(d.nombres,' ',d.apellidos) AS docente,DATE_FORMAT(pi.fecha_inscripcion,'%d/%m/%Y') AS fecha_inscripcion,
-	COALESCE((SELECT CASE WHEN AVG(notafinal) >= (SELECT nota_aprobacion FROM tconfiguracion_negocio) THEN 'X' ELSE NULL END FROM tcontrol_notas cn WHERE cn.cedula_estudiante = pi.cedula_estudiante),'X') AS estudiante_regular,
+	COALESCE((SELECT CASE WHEN AVG(notafinal) >= (SELECT nota_aprobacion FROM tconfiguracion_negocio) THEN 'X' ELSE NULL END FROM tcontrol_notas cn WHERE cn.cedula_estudiante = pi.cedula_estudiante),'') AS estudiante_regular,
 	COALESCE((SELECT CASE WHEN AVG(notafinal) < (SELECT nota_aprobacion FROM tconfiguracion_negocio) THEN 'X' ELSE NULL END FROM tcontrol_notas cn WHERE cn.cedula_estudiante = pi.cedula_estudiante),'') AS estudiante_repitiente,
 	(SELECT GROUP_CONCAT(m.descripcion) FROM tmateria m
 WHERE EXISTS (SELECT 1 FROM tcontrol_notas ctn
@@ -54,7 +54,8 @@ ORDER BY m.grado_escolar,m.descripcion ASC) AS asignaturas_pendientes,s.descripc
 	LEFT JOIN tpersona m ON pi.cedula_madre = m.cedula
 	LEFT JOIN tplantel pl ON pi.codigo_plantel = pl.codigo_plantel
 	LEFT JOIN tseccion s ON pi.seccion = s.seccion
-	WHERE pi.cedula_estudiante = $P{cedula_estudiante}]]>
+	WHERE pi.cedula_estudiante = $P{cedula_estudiante}
+	ORDER BY aa.codigo_ano_academico DESC LIMIT 1]]>
 	</queryString>
 	<field name="ano_escolar" class="java.lang.String"/>
 	<field name="edad" class="java.lang.Long"/>
@@ -513,7 +514,7 @@ ORDER BY m.grado_escolar,m.descripcion ASC) AS asignaturas_pendientes,s.descripc
 				<imageExpression><![CDATA["../images/cintillo_reportes.jpg"]]></imageExpression>
 			</image>
 			<line>
-				<reportElement x="0" y="299" width="572" height="1" uuid="76bd2af0-a97f-4ff7-b2c6-7c32451420b1"/>
+				<reportElement x="0" y="301" width="572" height="1" uuid="76bd2af0-a97f-4ff7-b2c6-7c32451420b1"/>
 				<graphicElement>
 					<pen lineWidth="2.0"/>
 				</graphicElement>
@@ -659,7 +660,7 @@ ORDER BY m.grado_escolar,m.descripcion ASC) AS asignaturas_pendientes,s.descripc
 				<text><![CDATA[Email:]]></text>
 			</staticText>
 			<line>
-				<reportElement x="1" y="404" width="572" height="1" uuid="82de126a-20c2-4940-bce2-911b561a820a"/>
+				<reportElement x="1" y="406" width="572" height="1" uuid="82de126a-20c2-4940-bce2-911b561a820a"/>
 				<graphicElement>
 					<pen lineWidth="2.0"/>
 				</graphicElement>

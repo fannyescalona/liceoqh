@@ -192,7 +192,7 @@ if($operacion=='Aplicar_Notas'){
     }
   }
   $rest=count($_POST['msd'])-$con;
-  $_SESSION['datos']['mensaje']="Cantidad de Estudiantes Seleccionados: ".count($_POST['msd']).", Cantidad Calificados: ".$con.", Cantidad Restantes: ".$rest;
+  $_SESSION['datos']['mensaje']="Cantidad de Estudiantes Seleccionados: ".count($_POST['msd']).", Cantidad Calificados: ".$con.", Cantidad Restantes: ".$rest."<br>".$seccion->error();
   header("Location: ../vistas/?aplicar_notas");
 }
 

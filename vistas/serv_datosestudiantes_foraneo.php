@@ -120,7 +120,8 @@
               <label>Grado Escolar:</label>
               <select tabindex=16 name="grado_escolar" id="grado_escolar" title="Seleccione el Grado Escolar" class='lista' required >
                 <option value="">Selecione una opción</option>
-                <option value="2" <?php echo ((empty($grado_escolar) || $grado_escolar=="2") ? 'selected' : ''); ?>>2do Año</option>
+                <option value="1" <?php echo ((empty($grado_escolar) || $grado_escolar=="1") ? 'selected' : ''); ?>>1er Año</option>
+                <option value="2" <?php echo ((!empty($grado_escolar) || $grado_escolar=="2") ? 'selected' : ''); ?>>2do Año</option>
                 <option value="3" <?php echo ((!empty($grado_escolar) && $grado_escolar=="3") ? 'selected' : ''); ?>>3er Año</option>
                 <option value="4" <?php echo ((!empty($grado_escolar) && $grado_escolar=="4") ? 'selected' : ''); ?>>4to Año</option>
                 <option value="5" <?php echo ((!empty($grado_escolar) && $grado_escolar=="5") ? 'selected' : ''); ?>>5to Año</option>
@@ -252,7 +253,7 @@
       INNER JOIN tproceso_inscripcion pi ON per.cedula = pi.cedula_estudiante 
       INNER JOIN tinscripcion i ON pi.codigo_inscripcion = i.codigo_inscripcion 
       INNER JOIN tano_academico a ON pi.codigo_ano_academico = a.codigo_ano_academico 
-      WHERE i.fecha_desactivacion IS NULL 
+      WHERE i.fecha_desactivacion IS NULL AND a.cerrado = 'N'
       ORDER BY pi.codigo_procesoinscripcion,pi.fecha_inscripcion,per.cedula,a.codigo_ano_academico"; 
       //cantidad de resultados por página (opcional, por defecto 20) 
       $_pagi_cuantos = 10; 

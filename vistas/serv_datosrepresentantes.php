@@ -16,11 +16,12 @@
       pi.proceso_completado 
       FROM tpersona est 
       INNER JOIN tproceso_inscripcion pi ON est.cedula = pi.cedula_estudiante 
+      INNER JOIN tano_academico a ON pi.codigo_ano_academico = a.codigo_ano_academico 
       LEFT JOIN tpersona rep ON pi.cedula_representante = rep.cedula 
       LEFT JOIN tpersona doc ON pi.cedula_docente = doc.cedula
       LEFT JOIN tparroquia prep ON rep.lugar_nacimiento = prep.codigo_parroquia 
       LEFT JOIN tparentesco par ON pi.codigo_parentesco = par.codigo_parentesco 
-      WHERE pi.cedula_estudiante = '".$cedula_estudiante."'";
+      WHERE pi.cedula_estudiante = '".$cedula_estudiante."' AND a.cerrado = 'N'";
       $query = $mysql->Ejecutar($sql);
       while($row = $mysql->Respuesta($query)){
         $proceso_completado = $row['proceso_completado'];

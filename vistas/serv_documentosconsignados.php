@@ -30,7 +30,8 @@
       pi.kitscomedor,pi.becado,pi.tipobeca 
       FROM tpersona est 
       INNER JOIN tproceso_inscripcion pi ON est.cedula = pi.cedula_estudiante 
-      WHERE pi.cedula_estudiante = '".$cedula_estudiante."'";
+      INNER JOIN tano_academico a ON pi.codigo_ano_academico = a.codigo_ano_academico 
+      WHERE pi.cedula_estudiante = '".$cedula_estudiante."' AND a.cerrado = 'N'";
       $query = $mysql->Ejecutar($sql);
       while($row = $mysql->Respuesta($query)){
         ?>

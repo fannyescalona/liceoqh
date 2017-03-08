@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tiempo de generación: 27-01-2017 a las 16:58:59
+-- Tiempo de generación: 08-03-2017 a las 00:58:44
 -- Versión del servidor: 5.5.54-0+deb8u1
 -- Versión de PHP: 5.6.29-0+deb8u1
 
@@ -17,14 +17,15 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8 */;
 
 --
--- Base de datos: `bdliceonew`
+-- Base de datos: `cualquiera`
 --
 
 DELIMITER $$
 --
 -- Funciones
 --
-CREATE DEFINER=`admin`@`localhost` FUNCTION `f_fecha_spanish`(v_fecha DATE,v_tipo int (3)) RETURNS varchar(50) CHARSET latin1
+DROP FUNCTION IF EXISTS `f_fecha_spanish`$$
+CREATE DEFINER=`admin`@`%` FUNCTION `f_fecha_spanish`(v_fecha DATE,v_tipo int (3)) RETURNS varchar(50) CHARSET latin1
 BEGIN
 declare v_dia varchar(20);
 declare v_mes varchar(20);
@@ -121,7 +122,8 @@ end case;
 return t_fecha;
 END$$
 
-CREATE DEFINER=`admin`@`localhost` FUNCTION `initcap`(x VARCHAR(120) CHARSET utf8) RETURNS varchar(120) CHARSET utf8
+DROP FUNCTION IF EXISTS `initcap`$$
+CREATE DEFINER=`admin`@`%` FUNCTION `initcap`(x VARCHAR(120) CHARSET utf8) RETURNS varchar(120) CHARSET utf8
     NO SQL
 BEGIN
 SET @str='';
@@ -134,7 +136,8 @@ END WHILE;
 RETURN LTRIM(CONCAT(@str, ' ', CONCAT(UPPER(SUBSTRING(x,1,1)),LOWER(SUBSTRING(x,2)))));
 END$$
 
-CREATE DEFINER=`admin`@`localhost` FUNCTION `letras`(XNumero NUMERIC(20,2),  XMoneda VARCHAR(100)) RETURNS varchar(512) CHARSET latin1
+DROP FUNCTION IF EXISTS `letras`$$
+CREATE DEFINER=`admin`@`%` FUNCTION `letras`(XNumero NUMERIC(20,2),  XMoneda VARCHAR(100)) RETURNS varchar(512) CHARSET latin1
     DETERMINISTIC
 BEGIN 
 DECLARE XlnEntero INT; 
@@ -259,6 +262,7 @@ DELIMITER ;
 -- Estructura de tabla para la tabla `tambiente`
 --
 
+DROP TABLE IF EXISTS `tambiente`;
 CREATE TABLE IF NOT EXISTS `tambiente` (
 `codigo_ambiente` int(11) NOT NULL,
   `descripcion` varchar(60) COLLATE utf8_spanish_ci NOT NULL,
@@ -282,12 +286,20 @@ INSERT INTO `tambiente` (`codigo_ambiente`, `descripcion`, `tipo_ambiente`, `fec
 -- Estructura de tabla para la tabla `tano_academico`
 --
 
+DROP TABLE IF EXISTS `tano_academico`;
 CREATE TABLE IF NOT EXISTS `tano_academico` (
 `codigo_ano_academico` int(11) NOT NULL,
   `descripcion` char(10) COLLATE utf8_spanish_ci NOT NULL,
   `cerrado` char(1) COLLATE utf8_spanish_ci NOT NULL DEFAULT 'N',
   `fecha_desactivacion` date DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+--
+-- Volcado de datos para la tabla `tano_academico`
+--
+
+INSERT INTO `tano_academico` (`codigo_ano_academico`, `descripcion`, `cerrado`, `fecha_desactivacion`) VALUES
+(1, '2016-2017', 'N', NULL);
 
 -- --------------------------------------------------------
 
@@ -295,6 +307,7 @@ CREATE TABLE IF NOT EXISTS `tano_academico` (
 -- Estructura de tabla para la tabla `tasignacion_nota`
 --
 
+DROP TABLE IF EXISTS `tasignacion_nota`;
 CREATE TABLE IF NOT EXISTS `tasignacion_nota` (
 `codigo_asignacionnotas` int(11) NOT NULL,
   `codigo_plan_evaluacion` int(11) NOT NULL,
@@ -309,6 +322,7 @@ CREATE TABLE IF NOT EXISTS `tasignacion_nota` (
 -- Estructura de tabla para la tabla `tauditoria`
 --
 
+DROP TABLE IF EXISTS `tauditoria`;
 CREATE TABLE IF NOT EXISTS `tauditoria` (
 `id` int(11) NOT NULL,
   `ip` varchar(15) COLLATE utf8_spanish_ci NOT NULL,
@@ -318,6 +332,85 @@ CREATE TABLE IF NOT EXISTS `tauditoria` (
   `usuario_aplicacion` char(15) COLLATE utf8_spanish_ci NOT NULL,
   `query` text COLLATE utf8_spanish_ci NOT NULL,
   `fecha` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB AUTO_INCREMENT=59 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+--
+-- Volcado de datos para la tabla `tauditoria`
+--
+
+INSERT INTO `tauditoria` (`id`, `ip`, `so`, `navigador`, `usuario_base_de_datos`, `usuario_aplicacion`, `query`, `fecha`) VALUES
+(1, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'update tusuario set sesion_abierta=(CASE WHEN sesion_abierta = 0 THEN 0 ELSE sesion_abierta-1 END) where (nombre_usuario=''V123456789'')', '2017-03-08 04:20:48'),
+(2, '::1', 'Linux', 'Google Chrome', 'admin@localhost', '', 'update tusuario set intento_fallido=(intento_fallido+1) where (nombre_usuario=''V123456789'')', '2017-03-08 04:21:05'),
+(3, '::1', 'Linux', 'Google Chrome', 'admin@localhost', '', 'update tusuario set intento_fallido=(intento_fallido+1) where (nombre_usuario=''V123456789'')', '2017-03-08 04:21:30'),
+(4, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'update tusuario set intento_fallido=0 where (nombre_usuario=''V123456789'')', '2017-03-08 04:22:37'),
+(5, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'update tusuario set sesion=''617e547d959903e74f71f1e68719bcb53f542200'',sesion_abierta=(sesion_abierta+1),fecha_ultimasesion = CURDATE() where (nombre_usuario=''V123456789'')', '2017-03-08 04:22:37'),
+(6, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'update tcontrasena set estado=0 where (nombre_usuario=''V123456789'')', '2017-03-08 04:25:45'),
+(7, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'insert into tcontrasena (contrasena,nombre_usuario,estado) values (''2e5f402b1f0117f9f7217a3e8cbff136b1e304ad'',''V123456789'',1)', '2017-03-08 04:25:45'),
+(8, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO trespuesta_secreta (nombre_usuario,pregunta,respuesta)\r\n			VALUES (''V123456789'',''COLOR FAVORITO'',''AMARILLO'')', '2017-03-08 04:25:45'),
+(9, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO trespuesta_secreta (nombre_usuario,pregunta,respuesta)\r\n			VALUES (''V123456789'',''PERSONAJE FAVORITO'',''GOKU'')', '2017-03-08 04:25:45'),
+(10, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO trespuesta_secreta (nombre_usuario,pregunta,respuesta)\r\n			VALUES (''V123456789'',''PREGUNTA 3'',''P3'')', '2017-03-08 04:25:45'),
+(11, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'update tservicio set descripcion=''CONFIGURACIÓN DEL NEGOCIO'',url=''CONFIGURACION_NEGOCIO'',orden=''0'',codigo_modulo=''8'' where (codigo_servicio=''35'');', '2017-03-08 04:33:23'),
+(12, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'update tservicio set descripcion=''BLOQUE DE HORA'',url=''BLOQUE_HORA'',orden=''1'',codigo_modulo=''5'' where (codigo_servicio=''49'');', '2017-03-08 04:33:42'),
+(13, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'update tservicio set descripcion=''HORARIO'',url=''HORARIO'',orden=''2'',codigo_modulo=''5'' where (codigo_servicio=''50'');', '2017-03-08 04:33:57'),
+(14, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'update tservicio set descripcion=''FICHA DE INSCRIPCIÓN'',url=''REP_FICHAINSCRIPCION'',orden=''1'',codigo_modulo=''7'' where (codigo_servicio=''20'');', '2017-03-08 04:34:25'),
+(15, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'update tservicio set descripcion=''MÓDULO'',url=''MODULO'',orden=''1'',codigo_modulo=''8'' where (codigo_servicio=''36'');', '2017-03-08 04:34:47'),
+(16, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'update tservicio set descripcion=''CONSTANCIA DE ESTUDIO'',url=''REP_CONSTANCIAESTUDIO'',orden=''2'',codigo_modulo=''7'' where (codigo_servicio=''21'');', '2017-03-08 04:35:06'),
+(17, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'update tservicio set descripcion=''SERVICIOS'',url=''SERVICIO'',orden=''2'',codigo_modulo=''8'' where (codigo_servicio=''37'');', '2017-03-08 04:35:22'),
+(18, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'update tservicio set descripcion=''HISTORIAL DEL PERSONAL ADMINISTRATIVO'',url=''REP_HISTORIALPERSONAL'',orden=''3'',codigo_modulo=''7'' where (codigo_servicio=''22'');', '2017-03-08 04:35:40'),
+(19, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'update tservicio set descripcion=''BOTONERA'',url=''BOTONES'',orden=''3'',codigo_modulo=''8'' where (codigo_servicio=''38'');', '2017-03-08 04:35:55'),
+(20, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'update tservicio set descripcion=''ESTUDIANTES POR GRADO ESCOLAR'',url=''REP_ESTUDIANTESPORGRADO'',orden=''4'',codigo_modulo=''7'' where (codigo_servicio=''23'');', '2017-03-08 04:36:18'),
+(21, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'update tservicio set descripcion=''CONFIGURACIÓN DEL PERFIL'',url=''CONFIGURACION'',orden=''4'',codigo_modulo=''8'' where (codigo_servicio=''39'');', '2017-03-08 04:36:34'),
+(22, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'update tservicio set descripcion=''ESTUDIANTES POR SECCIÓN'',url=''REP_ESTUDIANTESPORSECCION'',orden=''5'',codigo_modulo=''7'' where (codigo_servicio=''24'');', '2017-03-08 04:36:51'),
+(23, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'update tservicio set descripcion=''ESTUDIANTES NUEVO INGRESO'',url=''REP_ESTUDIANTESNUEVOINGRESO'',orden=''6'',codigo_modulo=''7'' where (codigo_servicio=''25'');', '2017-03-08 04:37:08'),
+(24, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'update tservicio set descripcion=''MÍ PERFIL'',url=''PERFIL'',orden=''6'',codigo_modulo=''8'' where (codigo_servicio=''42'');', '2017-03-08 04:37:20'),
+(25, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'update tservicio set descripcion=''LISTADO DE DOCENTES'',url=''REP_DOCENTES'',orden=''7'',codigo_modulo=''7'' where (codigo_servicio=''26'');', '2017-03-08 04:37:38'),
+(26, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'update tservicio set descripcion=''LISTADO DE DOCENTES'',url=''REP_DOCENTES'',orden=''7'',codigo_modulo=''7'' where (codigo_servicio=''26'');', '2017-03-08 04:37:38'),
+(27, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'update tservicio set descripcion=''CAMBIAR CONTRASEÑA'',url=''CAMBIARCONTRASENA'',orden=''7'',codigo_modulo=''8'' where (codigo_servicio=''43'');', '2017-03-08 04:37:50'),
+(28, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'update tservicio set descripcion=''CAMBIAR CONTRASEÑA'',url=''CAMBIARCONTRASENA'',orden=''7'',codigo_modulo=''8'' where (codigo_servicio=''43'');', '2017-03-08 04:37:50'),
+(29, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'update tservicio set descripcion=''NOTAS CERTIFICADAS'',url=''REP_NOTASCERTIFICADAS'',orden=''9'',codigo_modulo=''7'' where (codigo_servicio=''28'');', '2017-03-08 04:38:07'),
+(30, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'update tservicio set descripcion=''BOLETIN'',url=''REP_BOLETIN'',orden=''10'',codigo_modulo=''7'' where (codigo_servicio=''29'');', '2017-03-08 04:38:18'),
+(31, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'update tservicio set descripcion=''DESBLOQUEAR USUARIO'',url=''DESBLOQUEARUSUARIO'',orden=''10'',codigo_modulo=''8'' where (codigo_servicio=''44'');', '2017-03-08 04:38:43'),
+(32, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'update tservicio set descripcion=''CARTA BUENA CONDUCTA'',url=''REP_CARTABUENACONDUCTA'',orden=''11'',codigo_modulo=''7'' where (codigo_servicio=''30'');', '2017-03-08 04:38:55'),
+(33, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'update tservicio set descripcion=''REPORTE DE HORARIO'',url=''REP_HORARIO'',orden=''11'',codigo_modulo=''7'' where (codigo_servicio=''31'');', '2017-03-08 04:39:08'),
+(34, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'update tservicio set descripcion=''AUDITORIA DE REPORTES'',url=''AUDITORIA_REPORTE'',orden=''11'',codigo_modulo=''8'' where (codigo_servicio=''45'');', '2017-03-08 04:39:22'),
+(35, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'update tservicio set descripcion=''HISTÓRICO DE CAMBIOS'',url=''BITACORA'',orden=''11'',codigo_modulo=''8'' where (codigo_servicio=''46'');', '2017-03-08 04:39:46'),
+(36, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'update tservicio set descripcion=''PROCESO DE INSCRIPCIÓN (ESTUDIANTES FORANEOS)'',url=''PROCESO_INSCRIPCION_FORANEO'',orden=''2'',codigo_modulo=''6'' where (codigo_servicio=''48'');', '2017-03-08 04:40:30'),
+(37, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'update tservicio set descripcion=''PROCESO DE INSCRIPCIÓN'',url=''PROCESO_INSCRIPCION'',orden=''1'',codigo_modulo=''6'' where (codigo_servicio=''47'');', '2017-03-08 04:40:54'),
+(38, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'update tservicio set descripcion=''PLANIFICACIÓN DE NOTAS'',url=''REP_PLANIFICACIONNOTAS'',orden=''12'',codigo_modulo=''7'' where (codigo_servicio=''32'');', '2017-03-08 04:41:26'),
+(39, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'update tservicio set descripcion=''PLANIFICACIÓN DE NOTAS POR DOCENTE'',url=''REP_PLANIFICACIONNOTASPORDOCENTE'',orden=''13'',codigo_modulo=''7'' where (codigo_servicio=''33'');', '2017-03-08 04:41:44'),
+(40, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'update tservicio set descripcion=''REPORTE DE NOTAS ASIGNADAS'',url=''REP_NOTASASIGNADAS'',orden=''14'',codigo_modulo=''7'' where (codigo_servicio=''34'');', '2017-03-08 04:41:57'),
+(41, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'update tperfil set descripcion=''ADMINISTRADOR'',codigo_configuracion=1 where (codigo_perfil=''1'');', '2017-03-08 04:47:16'),
+(42, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'DELETE FROM tservicio_usuario_opcion where (codigo_perfil=''1'');', '2017-03-08 04:47:17'),
+(43, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',1,1),(''1'',1,2),(''1'',1,3),(''1'',1,4),(''1'',1,5),(''1'',1,6),(''1'',1,7),(''1'',2,1),(''1'',2,2),(''1'',2,3),(''1'',2,4),(''1'',2,5),(''1'',2,6),(''1'',2,7),(''1'',3,1),(''1'',3,2),(''1'',3,3),(''1'',3,4),(''1'',3,5),(''1'',3,6),(''1'',3,7),(''1'',4,1),(''1'',4,2),(''1'',4,3),(''1'',4,4),(''1'',4,5),(''1'',4,6),(''1'',4,7),(''1'',5,1),(''1'',5,2),(''1'',5,3),(''1'',5,4),(''1'',5,5),(''1'',5,6),(''1'',5,7),(''1'',6,1),(''1'',6,2),(''1'',6,3),(''1'',6,4),(''1'',6,5),(''1'',6,6),(''1'',6,7),(''1'',7,1),(''1'',7,2),(''1'',7,3),(''1'',7,4),(''1'',7,5),(''1'',7,6),(''1'',7,7),(''1'',8,1),(''1'',8,2),(''1'',8,3),(''1'',8,4),(''1'',8,5),(''1'',8,6),(''1'',8,7),(''1'',9,7),(''1'',10,1),(''1'',10,2),(''1'',10,3),(''1'',10,4),(''1'',10,5),(''1'',10,6),(''1'',10,7),(''1'',11,1),(''1'',11,2),(''1'',11,3),(''1'',11,4),(''1'',11,5),(''1'',11,6),(''1'',11,7),(''1'',12,1),(''1'',12,2),(''1'',12,3),(''1'',12,4),(''1'',12,5),(''1'',12,6),(''1'',12,7),(''1'',13,1),(''1'',13,2),(''1'',13,3),(''1'',13,4),(''1'',13,5),(''1'',13,6),(''1'',13,7),(''1'',14,1),(''1'',14,2),(''1'',14,3),(''1'',14,4),(''1'',14,5),(''1'',14,6),(''1'',14,7),(''1'',15,1),(''1'',15,2),(''1'',15,3),(''1'',15,4),(''1'',15,5),(''1'',15,6),(''1'',15,7),(''1'',16,1),(''1'',16,2),(''1'',16,3),(''1'',16,4),(''1'',16,5),(''1'',16,6),(''1'',16,7),(''1'',17,1),(''1'',17,2),(''1'',17,3),(''1'',17,4),(''1'',17,5),(''1'',17,6),(''1'',17,7),(''1'',18,NULL),(''1'',19,NULL),(''1'',49,1),(''1'',49,2),(''1'',49,3),(''1'',49,4),(''1'',49,5),(''1'',49,6),(''1'',49,7),(''1'',50,NULL),(''1'',27,NULL),(''1'',40,1),(''1'',40,2),(''1'',40,3),(''1'',40,4),(''1'',40,5),(''1'',40,6),(''1'',40,7),(''1'',41,2),(''1'',41,7),(''1'',47,1),(''1'',47,2),(''1'',47,3),(''1'',47,4),(''1'',47,5),(''1'',47,6),(''1'',47,7),(''1'',48,2),(''1'',20,NULL),(''1'',21,NULL),(''1'',22,NULL),(''1'',23,NULL),(''1'',24,NULL),(''1'',25,NULL),(''1'',26,NULL),(''1'',29,NULL),(''1'',30,NULL),(''1'',31,NULL),(''1'',32,NULL),(''1'',33,NULL),(''1'',34,NULL),(''1'',35,2),(''1'',36,1),(''1'',36,2),(''1'',36,3),(''1'',36,4),(''1'',36,5),(''1'',36,6),(''1'',36,7),(''1'',37,1),(''1'',37,2),(''1'',37,3),(''1'',37,4),(''1'',37,5),(''1'',37,6),(''1'',37,7),(''1'',38,1),(''1'',38,2),(''1'',38,3),(''1'',38,4),(''1'',38,5),(''1'',38,6),(''1'',38,7),(''1'',39,1),(''1'',39,2),(''1'',39,3),(''1'',39,4),(''1'',39,5),(''1'',39,6),(''1'',39,7),(''1'',42,2),(''1'',43,2),(''1'',44,NULL),(''1'',45,NULL),(''1'',46,NULL);', '2017-03-08 04:47:17'),
+(44, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'update tservicio set descripcion=''PERFIL'',url=''PERFILES'',orden=''5'',codigo_modulo=''8'' where (codigo_servicio=''40'');', '2017-03-08 04:48:18'),
+(45, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'update tservicio set descripcion=''NUEVO USUARIO'',url=''NUEVOUSUARIO'',orden=''6'',codigo_modulo=''8'' where (codigo_servicio=''41'');', '2017-03-08 04:48:32'),
+(46, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'update tservicio set descripcion=''LISTADO DE DOCENTES POR MATERIA'',url=''REP_DOCENTESPORMATERIA'',orden=''8'',codigo_modulo=''7'' where (codigo_servicio=''27'');', '2017-03-08 04:48:51'),
+(47, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'insert into tconfiguracion_negocio (codigo_plantel,inscripcion_abierta,carga_nota_abierta,nota_minima,nota_maxima,edad_maxima_primer_anio,nota_aprobacion,hora_minima_docente,hora_maxima_docente,hora_minima_materia,hora_maxima_materia,datos_padre_obligatorio,datos_madre_obligatorio,cantidad_materia_reprobada,cantidad_materia_maxima,url_imagen_reporte) \n    values (''OD00741801'',''Y'',''Y'',1,20,15,10,36,48,2,4,''Y'',''Y'',3,6,''http://localhost/liceoqh/images/cintillo_reportes.jpg'');', '2017-03-08 04:50:27'),
+(48, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'update tperfil set descripcion=''ADMINISTRADOR'',codigo_configuracion=1 where (codigo_perfil=''1'');', '2017-03-08 04:51:39'),
+(49, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'DELETE FROM tservicio_usuario_opcion where (codigo_perfil=''1'');', '2017-03-08 04:51:39'),
+(50, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''1'',1,1),(''1'',1,2),(''1'',1,3),(''1'',1,4),(''1'',1,5),(''1'',1,6),(''1'',1,7),(''1'',2,1),(''1'',2,2),(''1'',2,3),(''1'',2,4),(''1'',2,5),(''1'',2,6),(''1'',2,7),(''1'',3,1),(''1'',3,2),(''1'',3,3),(''1'',3,4),(''1'',3,5),(''1'',3,6),(''1'',3,7),(''1'',4,1),(''1'',4,2),(''1'',4,3),(''1'',4,4),(''1'',4,5),(''1'',4,6),(''1'',4,7),(''1'',5,1),(''1'',5,2),(''1'',5,3),(''1'',5,4),(''1'',5,5),(''1'',5,6),(''1'',5,7),(''1'',6,1),(''1'',6,2),(''1'',6,3),(''1'',6,4),(''1'',6,5),(''1'',6,6),(''1'',6,7),(''1'',7,1),(''1'',7,2),(''1'',7,3),(''1'',7,4),(''1'',7,5),(''1'',7,6),(''1'',7,7),(''1'',8,1),(''1'',8,2),(''1'',8,3),(''1'',8,4),(''1'',8,5),(''1'',8,6),(''1'',8,7),(''1'',9,7),(''1'',10,1),(''1'',10,2),(''1'',10,3),(''1'',10,4),(''1'',10,5),(''1'',10,6),(''1'',10,7),(''1'',11,1),(''1'',11,2),(''1'',11,3),(''1'',11,4),(''1'',11,5),(''1'',11,6),(''1'',11,7),(''1'',12,1),(''1'',12,2),(''1'',12,3),(''1'',12,4),(''1'',12,5),(''1'',12,6),(''1'',12,7),(''1'',13,1),(''1'',13,2),(''1'',13,3),(''1'',13,4),(''1'',13,5),(''1'',13,6),(''1'',13,7),(''1'',14,1),(''1'',14,2),(''1'',14,3),(''1'',14,4),(''1'',14,5),(''1'',14,6),(''1'',14,7),(''1'',15,1),(''1'',15,2),(''1'',15,3),(''1'',15,4),(''1'',15,5),(''1'',15,6),(''1'',15,7),(''1'',16,1),(''1'',16,2),(''1'',16,3),(''1'',16,4),(''1'',16,5),(''1'',16,6),(''1'',16,7),(''1'',17,1),(''1'',17,2),(''1'',17,3),(''1'',17,4),(''1'',17,5),(''1'',17,6),(''1'',17,7),(''1'',18,NULL),(''1'',19,NULL),(''1'',49,1),(''1'',49,2),(''1'',49,3),(''1'',49,4),(''1'',49,5),(''1'',49,6),(''1'',49,7),(''1'',50,NULL),(''1'',47,1),(''1'',47,2),(''1'',47,3),(''1'',47,4),(''1'',47,5),(''1'',47,6),(''1'',47,7),(''1'',48,2),(''1'',20,NULL),(''1'',21,NULL),(''1'',22,NULL),(''1'',23,NULL),(''1'',24,NULL),(''1'',25,NULL),(''1'',26,NULL),(''1'',27,NULL),(''1'',29,NULL),(''1'',30,NULL),(''1'',31,NULL),(''1'',32,NULL),(''1'',33,NULL),(''1'',34,NULL),(''1'',35,2),(''1'',36,1),(''1'',36,2),(''1'',36,3),(''1'',36,4),(''1'',36,5),(''1'',36,6),(''1'',36,7),(''1'',37,1),(''1'',37,2),(''1'',37,3),(''1'',37,4),(''1'',37,5),(''1'',37,6),(''1'',37,7),(''1'',38,1),(''1'',38,2),(''1'',38,3),(''1'',38,4),(''1'',38,5),(''1'',38,6),(''1'',38,7),(''1'',39,1),(''1'',39,2),(''1'',39,3),(''1'',39,4),(''1'',39,5),(''1'',39,6),(''1'',39,7),(''1'',40,1),(''1'',40,2),(''1'',40,3),(''1'',40,4),(''1'',40,5),(''1'',40,6),(''1'',40,7),(''1'',41,1),(''1'',41,7),(''1'',42,2),(''1'',43,NULL),(''1'',44,NULL),(''1'',45,NULL),(''1'',46,NULL);', '2017-03-08 04:51:39'),
+(51, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'update tperfil set descripcion=''DOCENTE'',codigo_configuracion=2 where (codigo_perfil=''2'');', '2017-03-08 04:53:59'),
+(52, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'DELETE FROM tservicio_usuario_opcion where (codigo_perfil=''2'');', '2017-03-08 04:53:59'),
+(53, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''2'',7,5),(''2'',7,7),(''2'',17,1),(''2'',17,2),(''2'',17,3),(''2'',17,4),(''2'',17,5),(''2'',17,6),(''2'',17,7),(''2'',18,NULL),(''2'',19,NULL),(''2'',23,NULL),(''2'',24,NULL),(''2'',29,NULL),(''2'',33,NULL),(''2'',42,2),(''2'',43,NULL);', '2017-03-08 04:53:59'),
+(54, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'insert into tperfil (descripcion,codigo_configuracion) values (''DIRECTOR(A)'',2);', '2017-03-08 04:56:17'),
+(55, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'DELETE FROM tservicio_usuario_opcion where (codigo_perfil='''');', '2017-03-08 04:56:17'),
+(56, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'update tperfil set descripcion=''DOCENTE'',codigo_configuracion=2 where (codigo_perfil=''2'');', '2017-03-08 04:57:11'),
+(57, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'DELETE FROM tservicio_usuario_opcion where (codigo_perfil=''2'');', '2017-03-08 04:57:11'),
+(58, '::1', 'Linux', 'Google Chrome', 'admin@localhost', 'V123456789', 'INSERT INTO tservicio_usuario_opcion(codigo_perfil,codigo_servicio,codigo_opcion) VALUES (''2'',7,5),(''2'',7,7),(''2'',17,1),(''2'',17,2),(''2'',17,3),(''2'',17,4),(''2'',17,5),(''2'',17,6),(''2'',17,7),(''2'',18,NULL),(''2'',19,NULL),(''2'',47,1),(''2'',47,7),(''2'',48,2),(''2'',23,NULL),(''2'',24,NULL),(''2'',29,NULL),(''2'',33,NULL),(''2'',42,2),(''2'',43,NULL);', '2017-03-08 04:57:11');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tauditoria_proceso`
+--
+
+DROP TABLE IF EXISTS `tauditoria_proceso`;
+CREATE TABLE IF NOT EXISTS `tauditoria_proceso` (
+`id` int(11) NOT NULL,
+  `nombre_usuario` char(15) COLLATE utf8_spanish_ci NOT NULL,
+  `fecha` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `proceso` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
+  `parametro_valor` text COLLATE utf8_spanish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 -- --------------------------------------------------------
@@ -326,6 +419,7 @@ CREATE TABLE IF NOT EXISTS `tauditoria` (
 -- Estructura de tabla para la tabla `tbloque_hora`
 --
 
+DROP TABLE IF EXISTS `tbloque_hora`;
 CREATE TABLE IF NOT EXISTS `tbloque_hora` (
 `codigo_bloque_hora` int(11) NOT NULL,
   `descripcion` varchar(60) COLLATE utf8_spanish_ci DEFAULT NULL,
@@ -359,6 +453,7 @@ INSERT INTO `tbloque_hora` (`codigo_bloque_hora`, `descripcion`, `hora_inicio`, 
 -- Estructura de tabla para la tabla `tcargo`
 --
 
+DROP TABLE IF EXISTS `tcargo`;
 CREATE TABLE IF NOT EXISTS `tcargo` (
 `codigo_cargo` int(15) NOT NULL,
   `descripcion` varchar(100) COLLATE utf8_spanish_ci NOT NULL,
@@ -382,6 +477,7 @@ INSERT INTO `tcargo` (`codigo_cargo`, `descripcion`, `fecha_desactivacion`) VALU
 -- Estructura de tabla para la tabla `tconfiguracion`
 --
 
+DROP TABLE IF EXISTS `tconfiguracion`;
 CREATE TABLE IF NOT EXISTS `tconfiguracion` (
 `codigo_configuracion` int(11) NOT NULL,
   `descripcion` varchar(30) COLLATE utf8_spanish_ci NOT NULL,
@@ -416,6 +512,7 @@ INSERT INTO `tconfiguracion` (`codigo_configuracion`, `descripcion`, `longitud_m
 -- Estructura de tabla para la tabla `tconfiguracion_negocio`
 --
 
+DROP TABLE IF EXISTS `tconfiguracion_negocio`;
 CREATE TABLE IF NOT EXISTS `tconfiguracion_negocio` (
 `codigo_configuracion_negocio` int(11) NOT NULL,
   `codigo_plantel` char(11) COLLATE utf8_spanish_ci DEFAULT NULL,
@@ -425,8 +522,24 @@ CREATE TABLE IF NOT EXISTS `tconfiguracion_negocio` (
   `nota_minima` float(10,2) NOT NULL DEFAULT '1.00',
   `nota_maxima` float(10,2) NOT NULL DEFAULT '20.00',
   `nota_aprobacion` float(10,2) NOT NULL DEFAULT '10.00',
+  `hora_minima_docente` int(11) NOT NULL DEFAULT '0',
+  `hora_maxima_docente` int(11) NOT NULL DEFAULT '0',
+  `hora_minima_materia` int(11) NOT NULL DEFAULT '0',
+  `hora_maxima_materia` int(11) NOT NULL DEFAULT '0',
+  `datos_padre_obligatorio` char(1) COLLATE utf8_spanish_ci NOT NULL DEFAULT 'N',
+  `datos_madre_obligatorio` char(1) COLLATE utf8_spanish_ci NOT NULL DEFAULT 'N',
+  `cantidad_materia_reprobada` int(1) NOT NULL DEFAULT '0',
+  `cantidad_materia_maxima` int(1) NOT NULL DEFAULT '0',
+  `url_imagen_reporte` varchar(255) COLLATE utf8_spanish_ci DEFAULT NULL,
   `fecha_desactivacion` date DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+--
+-- Volcado de datos para la tabla `tconfiguracion_negocio`
+--
+
+INSERT INTO `tconfiguracion_negocio` (`codigo_configuracion_negocio`, `codigo_plantel`, `inscripcion_abierta`, `carga_nota_abierta`, `edad_maxima_primer_anio`, `nota_minima`, `nota_maxima`, `nota_aprobacion`, `hora_minima_docente`, `hora_maxima_docente`, `hora_minima_materia`, `hora_maxima_materia`, `datos_padre_obligatorio`, `datos_madre_obligatorio`, `cantidad_materia_reprobada`, `cantidad_materia_maxima`, `url_imagen_reporte`, `fecha_desactivacion`) VALUES
+(1, 'OD00741801', 'Y', 'Y', 15, 1.00, 20.00, 10.00, 36, 48, 2, 4, 'Y', 'Y', 3, 6, 'http://localhost/liceoqh/images/cintillo_reportes.jpg', NULL);
 
 -- --------------------------------------------------------
 
@@ -434,6 +547,7 @@ CREATE TABLE IF NOT EXISTS `tconfiguracion_negocio` (
 -- Estructura de tabla para la tabla `tcontrasena`
 --
 
+DROP TABLE IF EXISTS `tcontrasena`;
 CREATE TABLE IF NOT EXISTS `tcontrasena` (
   `nombre_usuario` char(10) COLLATE utf8_spanish_ci NOT NULL,
   `contrasena` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
@@ -446,7 +560,8 @@ CREATE TABLE IF NOT EXISTS `tcontrasena` (
 --
 
 INSERT INTO `tcontrasena` (`nombre_usuario`, `contrasena`, `estado`, `fecha_modificacion`) VALUES
-('V123456789', ',1f82ea75c5cc526729e2d581aeb3aeccfef4407e', 3, '2017-01-27 20:52:13');
+('V123456789', '1f82ea75c5cc526729e2d581aeb3aeccfef4407e', 0, '2017-03-08 04:25:45'),
+('V123456789', '2e5f402b1f0117f9f7217a3e8cbff136b1e304ad', 1, '2017-03-08 04:25:45');
 
 -- --------------------------------------------------------
 
@@ -454,6 +569,7 @@ INSERT INTO `tcontrasena` (`nombre_usuario`, `contrasena`, `estado`, `fecha_modi
 -- Estructura de tabla para la tabla `tcontrol_notas`
 --
 
+DROP TABLE IF EXISTS `tcontrol_notas`;
 CREATE TABLE IF NOT EXISTS `tcontrol_notas` (
 `codigo_controlnotas` int(11) NOT NULL,
   `codigo_msd` int(11) NOT NULL,
@@ -468,6 +584,7 @@ CREATE TABLE IF NOT EXISTS `tcontrol_notas` (
 -- Estructura de tabla para la tabla `testado`
 --
 
+DROP TABLE IF EXISTS `testado`;
 CREATE TABLE IF NOT EXISTS `testado` (
 `codigo_estado` int(11) NOT NULL,
   `descripcion` varchar(35) COLLATE utf8_spanish_ci NOT NULL,
@@ -510,6 +627,7 @@ INSERT INTO `testado` (`codigo_estado`, `descripcion`, `codigo_pais`, `fecha_des
 -- Estructura de tabla para la tabla `thorario`
 --
 
+DROP TABLE IF EXISTS `thorario`;
 CREATE TABLE IF NOT EXISTS `thorario` (
 `codigo_horario` int(11) NOT NULL,
   `dia` int(11) NOT NULL,
@@ -528,6 +646,7 @@ CREATE TABLE IF NOT EXISTS `thorario` (
 -- Estructura de tabla para la tabla `tinscripcion`
 --
 
+DROP TABLE IF EXISTS `tinscripcion`;
 CREATE TABLE IF NOT EXISTS `tinscripcion` (
 `codigo_inscripcion` int(11) NOT NULL,
   `descripcion` varchar(60) COLLATE utf8_spanish_ci NOT NULL,
@@ -543,6 +662,7 @@ CREATE TABLE IF NOT EXISTS `tinscripcion` (
 -- Estructura de tabla para la tabla `tlapso`
 --
 
+DROP TABLE IF EXISTS `tlapso`;
 CREATE TABLE IF NOT EXISTS `tlapso` (
 `codigo_lapso` int(11) NOT NULL,
   `descripcion` varchar(35) COLLATE utf8_spanish_ci NOT NULL,
@@ -558,10 +678,10 @@ CREATE TABLE IF NOT EXISTS `tlapso` (
 -- Estructura de tabla para la tabla `tmateria`
 --
 
+DROP TABLE IF EXISTS `tmateria`;
 CREATE TABLE IF NOT EXISTS `tmateria` (
   `codigo_materia` char(7) COLLATE utf8_spanish_ci NOT NULL,
   `descripcion` varchar(100) COLLATE utf8_spanish_ci NOT NULL,
-  `unidad_curricular` int(11) NOT NULL DEFAULT '0',
   `grado_escolar` char(1) COLLATE utf8_spanish_ci NOT NULL DEFAULT '1',
   `materia_compuesta` char(1) COLLATE utf8_spanish_ci NOT NULL DEFAULT 'N',
   `hora_academica` int(11) NOT NULL DEFAULT '0',
@@ -572,9 +692,38 @@ CREATE TABLE IF NOT EXISTS `tmateria` (
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `tmateria_docente`
+--
+
+DROP TABLE IF EXISTS `tmateria_docente`;
+CREATE TABLE IF NOT EXISTS `tmateria_docente` (
+`codigo_materia_docente` int(11) NOT NULL,
+  `cedula_docente` char(10) COLLATE utf8_spanish_ci NOT NULL,
+  `codigo_materia` char(7) COLLATE utf8_spanish_ci NOT NULL,
+  `grado_escolar` char(1) COLLATE utf8_spanish_ci NOT NULL DEFAULT '1'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tmateria_pendiente`
+--
+
+DROP TABLE IF EXISTS `tmateria_pendiente`;
+CREATE TABLE IF NOT EXISTS `tmateria_pendiente` (
+`codigo_materia_pendiente` int(11) NOT NULL,
+  `codigo_materia` char(7) COLLATE utf8_spanish_ci NOT NULL,
+  `cedula_estudiante` char(10) COLLATE utf8_spanish_ci NOT NULL,
+  `aprobada` char(1) COLLATE utf8_spanish_ci NOT NULL DEFAULT 'N'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `tmateria_seccion_docente`
 --
 
+DROP TABLE IF EXISTS `tmateria_seccion_docente`;
 CREATE TABLE IF NOT EXISTS `tmateria_seccion_docente` (
 `codigo_msd` int(11) NOT NULL,
   `codigo_materia` char(7) COLLATE utf8_spanish_ci NOT NULL,
@@ -588,6 +737,7 @@ CREATE TABLE IF NOT EXISTS `tmateria_seccion_docente` (
 -- Estructura de tabla para la tabla `tmodulo`
 --
 
+DROP TABLE IF EXISTS `tmodulo`;
 CREATE TABLE IF NOT EXISTS `tmodulo` (
 `codigo_modulo` int(11) NOT NULL,
   `descripcion` varchar(70) COLLATE utf8_spanish_ci NOT NULL,
@@ -616,6 +766,7 @@ INSERT INTO `tmodulo` (`codigo_modulo`, `descripcion`, `icono`, `orden`, `fecha_
 -- Estructura de tabla para la tabla `tmunicipio`
 --
 
+DROP TABLE IF EXISTS `tmunicipio`;
 CREATE TABLE IF NOT EXISTS `tmunicipio` (
 `codigo_municipio` int(11) NOT NULL,
   `descripcion` varchar(50) COLLATE utf8_spanish_ci NOT NULL,
@@ -925,6 +1076,7 @@ INSERT INTO `tmunicipio` (`codigo_municipio`, `descripcion`, `codigo_estado`, `f
 -- Estructura de tabla para la tabla `topcion`
 --
 
+DROP TABLE IF EXISTS `topcion`;
 CREATE TABLE IF NOT EXISTS `topcion` (
 `codigo_opcion` int(11) NOT NULL,
   `descripcion` varchar(45) COLLATE utf8_spanish_ci NOT NULL,
@@ -952,6 +1104,7 @@ INSERT INTO `topcion` (`codigo_opcion`, `descripcion`, `icono`, `orden`, `fecha_
 -- Estructura de tabla para la tabla `tpais`
 --
 
+DROP TABLE IF EXISTS `tpais`;
 CREATE TABLE IF NOT EXISTS `tpais` (
 `codigo_pais` int(11) NOT NULL,
   `descripcion` varchar(35) COLLATE utf8_spanish_ci NOT NULL,
@@ -971,6 +1124,7 @@ INSERT INTO `tpais` (`codigo_pais`, `descripcion`, `fecha_desactivacion`) VALUES
 -- Estructura de tabla para la tabla `tparentesco`
 --
 
+DROP TABLE IF EXISTS `tparentesco`;
 CREATE TABLE IF NOT EXISTS `tparentesco` (
 `codigo_parentesco` int(11) NOT NULL,
   `descripcion` varchar(35) COLLATE utf8_spanish_ci NOT NULL,
@@ -994,6 +1148,7 @@ INSERT INTO `tparentesco` (`codigo_parentesco`, `descripcion`, `fecha_desactivac
 -- Estructura de tabla para la tabla `tparroquia`
 --
 
+DROP TABLE IF EXISTS `tparroquia`;
 CREATE TABLE IF NOT EXISTS `tparroquia` (
 `codigo_parroquia` int(11) NOT NULL,
   `descripcion` varchar(50) COLLATE utf8_spanish_ci NOT NULL,
@@ -1933,12 +2088,13 @@ INSERT INTO `tparroquia` (`codigo_parroquia`, `descripcion`, `fecha_desactivacio
 -- Estructura de tabla para la tabla `tperfil`
 --
 
+DROP TABLE IF EXISTS `tperfil`;
 CREATE TABLE IF NOT EXISTS `tperfil` (
 `codigo_perfil` int(11) NOT NULL,
   `descripcion` varchar(45) COLLATE utf8_spanish_ci NOT NULL,
   `codigo_configuracion` int(11) NOT NULL,
   `fecha_desactivacion` date DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
 -- Volcado de datos para la tabla `tperfil`
@@ -1946,7 +2102,8 @@ CREATE TABLE IF NOT EXISTS `tperfil` (
 
 INSERT INTO `tperfil` (`codigo_perfil`, `descripcion`, `codigo_configuracion`, `fecha_desactivacion`) VALUES
 (1, 'ADMINISTRADOR', 1, NULL),
-(2, 'DOCENTE', 2, NULL);
+(2, 'DOCENTE', 2, NULL),
+(3, 'DIRECTOR(A)', 2, NULL);
 
 -- --------------------------------------------------------
 
@@ -1954,6 +2111,7 @@ INSERT INTO `tperfil` (`codigo_perfil`, `descripcion`, `codigo_configuracion`, `
 -- Estructura de tabla para la tabla `tpersona`
 --
 
+DROP TABLE IF EXISTS `tpersona`;
 CREATE TABLE IF NOT EXISTS `tpersona` (
   `cedula` char(10) COLLATE utf8_spanish_ci NOT NULL,
   `nombres` varchar(45) COLLATE utf8_spanish_ci NOT NULL,
@@ -1992,6 +2150,7 @@ INSERT INTO `tpersona` (`cedula`, `nombres`, `apellidos`, `genero`, `fecha_nacim
 -- Estructura de tabla para la tabla `tplantel`
 --
 
+DROP TABLE IF EXISTS `tplantel`;
 CREATE TABLE IF NOT EXISTS `tplantel` (
   `codigo_plantel` char(11) COLLATE utf8_spanish_ci NOT NULL,
   `nombre` varchar(60) COLLATE utf8_spanish_ci NOT NULL,
@@ -2019,6 +2178,7 @@ INSERT INTO `tplantel` (`codigo_plantel`, `nombre`, `direccion`, `telefono_habit
 -- Estructura de tabla para la tabla `tplan_evaluacion`
 --
 
+DROP TABLE IF EXISTS `tplan_evaluacion`;
 CREATE TABLE IF NOT EXISTS `tplan_evaluacion` (
 `codigo_plan_evaluacion` int(11) NOT NULL,
   `codigo_msd` int(11) NOT NULL,
@@ -2034,6 +2194,7 @@ CREATE TABLE IF NOT EXISTS `tplan_evaluacion` (
 -- Estructura de tabla para la tabla `tproceso_inscripcion`
 --
 
+DROP TABLE IF EXISTS `tproceso_inscripcion`;
 CREATE TABLE IF NOT EXISTS `tproceso_inscripcion` (
 `codigo_procesoinscripcion` int(11) NOT NULL,
   `codigo_inscripcion` int(11) NOT NULL,
@@ -2042,7 +2203,9 @@ CREATE TABLE IF NOT EXISTS `tproceso_inscripcion` (
   `cedula_docente` char(10) COLLATE utf8_spanish_ci DEFAULT NULL,
   `cedula_estudiante` char(10) COLLATE utf8_spanish_ci NOT NULL,
   `cedula_escolar` char(10) COLLATE utf8_spanish_ci DEFAULT NULL,
+  `lateralidad` char(1) COLLATE utf8_spanish_ci NOT NULL DEFAULT 'D',
   `codigo_canaima` varchar(20) COLLATE utf8_spanish_ci DEFAULT NULL,
+  `canaima_operativa` char(1) COLLATE utf8_spanish_ci NOT NULL DEFAULT 'D',
   `peso` float NOT NULL DEFAULT '0',
   `estatura` float NOT NULL DEFAULT '0',
   `codigo_plantel` char(11) COLLATE utf8_spanish_ci DEFAULT NULL,
@@ -2061,9 +2224,10 @@ CREATE TABLE IF NOT EXISTS `tproceso_inscripcion` (
   `cedula_padre` char(10) COLLATE utf8_spanish_ci DEFAULT NULL,
   `cedula_representante` char(10) COLLATE utf8_spanish_ci DEFAULT NULL,
   `codigo_parentesco` int(11) DEFAULT NULL,
-  `lugar_trabajo` int(11) DEFAULT NULL,
+  `lugar_trabajo` varchar(120) COLLATE utf8_spanish_ci DEFAULT NULL,
   `primerafi` date DEFAULT NULL,
   `seccion` char(5) COLLATE utf8_spanish_ci DEFAULT NULL,
+  `grado_escolar` char(1) COLLATE utf8_spanish_ci NOT NULL DEFAULT '1',
   `proceso_completado` char(1) COLLATE utf8_spanish_ci NOT NULL DEFAULT 'N',
   `estatus` char(1) COLLATE utf8_spanish_ci NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
@@ -2074,12 +2238,22 @@ CREATE TABLE IF NOT EXISTS `tproceso_inscripcion` (
 -- Estructura de tabla para la tabla `trespuesta_secreta`
 --
 
+DROP TABLE IF EXISTS `trespuesta_secreta`;
 CREATE TABLE IF NOT EXISTS `trespuesta_secreta` (
 `codigo_respuesta` int(11) NOT NULL,
   `nombre_usuario` char(10) COLLATE utf8_spanish_ci NOT NULL,
   `pregunta` varchar(60) COLLATE utf8_spanish_ci NOT NULL,
   `respuesta` varchar(60) COLLATE utf8_spanish_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+--
+-- Volcado de datos para la tabla `trespuesta_secreta`
+--
+
+INSERT INTO `trespuesta_secreta` (`codigo_respuesta`, `nombre_usuario`, `pregunta`, `respuesta`) VALUES
+(1, 'V123456789', 'COLOR FAVORITO', 'AMARILLO'),
+(2, 'V123456789', 'PERSONAJE FAVORITO', 'GOKU'),
+(3, 'V123456789', 'PREGUNTA 3', 'P3');
 
 -- --------------------------------------------------------
 
@@ -2087,6 +2261,7 @@ CREATE TABLE IF NOT EXISTS `trespuesta_secreta` (
 -- Estructura de tabla para la tabla `tseccion`
 --
 
+DROP TABLE IF EXISTS `tseccion`;
 CREATE TABLE IF NOT EXISTS `tseccion` (
   `seccion` char(5) COLLATE utf8_spanish_ci NOT NULL,
   `descripcion` varchar(10) COLLATE utf8_spanish_ci NOT NULL,
@@ -2103,6 +2278,7 @@ CREATE TABLE IF NOT EXISTS `tseccion` (
 -- Estructura de tabla para la tabla `tservicio`
 --
 
+DROP TABLE IF EXISTS `tservicio`;
 CREATE TABLE IF NOT EXISTS `tservicio` (
 `codigo_servicio` int(11) NOT NULL,
   `descripcion` varchar(45) COLLATE utf8_spanish_ci NOT NULL,
@@ -2110,7 +2286,7 @@ CREATE TABLE IF NOT EXISTS `tservicio` (
   `orden` decimal(10,0) DEFAULT '0',
   `codigo_modulo` int(11) NOT NULL,
   `fecha_desactivacion` date DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
 -- Volcado de datos para la tabla `tservicio`
@@ -2130,41 +2306,43 @@ INSERT INTO `tservicio` (`codigo_servicio`, `descripcion`, `url`, `orden`, `codi
 (11, 'LAPSO', 'LAPSO', 3, 3, NULL),
 (12, 'MATERIA', 'MATERIA', 4, 3, NULL),
 (13, 'SECCIÓN', 'SECCION', 6, 3, NULL),
-(14, 'CERRAR AÑO ACADÉMICO', 'CERRAR_ANOACADEMICO', 7, 3, NULL),
-(15, 'ESTUDIANTES', 'ESTUDIANTE', 7, 3, NULL),
+(14, 'ACTUALIZACIÓN DE DATOS', 'ESTUDIANTE', 7, 3, NULL),
+(15, 'CERRAR AÑO ACADÉMICO', 'CERRAR_ANOACADEMICO', 7, 3, NULL),
 (16, 'INSCRIPCIÓN', 'INSCRIPCION', 8, 3, NULL),
 (17, 'PLAN DE EVALUACIÓN', 'PLANEVALUACION', 0, 4, NULL),
 (18, 'ASIGNACIÓN DE NOTAS', 'ASIGNAR_NOTAS', 1, 4, NULL),
-(19, 'BLOQUE DE HORA', 'BLOQUE_HORA', 1, 5, NULL),
-(20, 'HORARIO', 'HORARIO', 2, 5, NULL),
-(21, 'APLICAR NOTA FINAL', 'APLICAR_NOTAS', 3, 4, NULL),
-(22, 'PROCESO DE INSCRIPCIÓN', 'PROCESO_INSCRIPCION', 1, 6, NULL),
-(23, 'ASIGNACIÓN DE SECCIONES', 'ASIGNAR_SECCION', 10, 6, NULL),
-(24, 'FICHA DE INSCRIPCIÓN', 'REP_FICHAINSCRIPCION', 1, 7, NULL),
-(25, 'CONSTANCIA DE ESTUDIO', 'REP_CONSTANCIAESTUDIO', 2, 7, NULL),
-(26, 'CARTA BUENA CONDUCTA', 'REP_CARTABUENACONDUCTA', 3, 7, NULL),
-(27, 'HISTORIAL DEL PERSONAL ADMINISTRATIVO', 'REP_HISTORIALPERSONAL', 3, 7, NULL),
-(28, 'ESTUDIANTES POR GRADO ESCOLAR', 'REP_ESTUDIANTESPORGRADO', 4, 7, NULL),
-(29, 'ESTUDIANTES POR SECCIÓN', 'REP_ESTUDIANTESPORSECCION', 5, 7, NULL),
-(30, 'ESTUDIANTES NUEVO INGRESO', 'REP_ESTUDIANTESNUEVOINGRESO', 6, 7, NULL),
-(31, 'LISTADO DE DOCENTES', 'REP_DOCENTES', 7, 7, NULL),
-(32, 'LISTADO DE DOCENTES POR MATERIA', 'REP_DOCENTESPORMATERIA', 8, 7, NULL),
-(33, 'NOTAS CERTIFICADAS', 'REP_NOTASCERTIFICADAS', 9, 7, NULL),
-(34, 'BOLETIN', 'REP_BOLETIN', 10, 7, NULL),
-(35, 'REPORTE DE HORARIO', 'REP_HORARIO', 11, 7, NULL),
-(36, 'PLANIFIACIÓN DE NOTAS', 'REP_PLANIFICACIONNOTAS', 12, 7, NULL),
-(37, 'REPORTE DE NOTAS ASIGNADAS', 'REP_NOTASASIGNADAS', 14, 7, NULL),
-(38, 'CONFIGURACIÓN DEL NEGOCIO', 'CONFIGURACION_NEGOCIO', 0, 8, NULL),
-(39, 'MÓDULO', 'MODULO', 1, 8, NULL),
-(40, 'SERVICIOS', 'SERVICIO', 2, 8, NULL),
-(41, 'BOTONERA', 'BOTONES', 3, 8, NULL),
-(42, 'CONFIGURACIÓN DEL PERFIL', 'CONFIGURACION', 4, 8, NULL),
-(43, 'PERFIL', 'PERFILES', 5, 8, NULL),
-(44, 'NUEVO USUARIO', 'NUEVOUSUARIO', 6, 8, NULL),
-(45, 'MÍ PERFIL', 'PERFIL', 6, 8, NULL),
-(46, 'CAMBIAR CONTRASEÑA', 'CAMBIARCONTRASENA', 7, 8, NULL),
-(47, 'DESBLOQUEAR USUARIO', 'DESBLOQUEARUSUARIO', 10, 8, NULL),
-(48, 'HISTÓRICO DE CAMBIOS', 'BITACORA', 11, 8, NULL);
+(19, 'APLICAR NOTA FINAL', 'APLICAR_NOTAS', 3, 4, NULL),
+(20, 'FICHA DE INSCRIPCIÓN', 'REP_FICHAINSCRIPCION', 1, 7, NULL),
+(21, 'CONSTANCIA DE ESTUDIO', 'REP_CONSTANCIAESTUDIO', 2, 7, NULL),
+(22, 'HISTORIAL DEL PERSONAL ADMINISTRATIVO', 'REP_HISTORIALPERSONAL', 3, 7, NULL),
+(23, 'ESTUDIANTES POR GRADO ESCOLAR', 'REP_ESTUDIANTESPORGRADO', 4, 7, NULL),
+(24, 'ESTUDIANTES POR SECCIÓN', 'REP_ESTUDIANTESPORSECCION', 5, 7, NULL),
+(25, 'ESTUDIANTES NUEVO INGRESO', 'REP_ESTUDIANTESNUEVOINGRESO', 6, 7, NULL),
+(26, 'LISTADO DE DOCENTES', 'REP_DOCENTES', 7, 7, NULL),
+(27, 'LISTADO DE DOCENTES POR MATERIA', 'REP_DOCENTESPORMATERIA', 8, 7, NULL),
+(28, 'NOTAS CERTIFICADAS', 'REP_NOTASCERTIFICADAS', 9, 7, NULL),
+(29, 'BOLETIN', 'REP_BOLETIN', 10, 7, NULL),
+(30, 'CARTA BUENA CONDUCTA', 'REP_CARTABUENACONDUCTA', 11, 7, NULL),
+(31, 'REPORTE DE HORARIO', 'REP_HORARIO', 11, 7, NULL),
+(32, 'PLANIFICACIÓN DE NOTAS', 'REP_PLANIFICACIONNOTAS', 12, 7, NULL),
+(33, 'PLANIFICACIÓN DE NOTAS POR DOCENTE', 'REP_PLANIFICACIONNOTASPORDOCENTE', 13, 7, NULL),
+(34, 'REPORTE DE NOTAS ASIGNADAS', 'REP_NOTASASIGNADAS', 14, 7, NULL),
+(35, 'CONFIGURACIÓN DEL NEGOCIO', 'CONFIGURACION_NEGOCIO', 0, 8, NULL),
+(36, 'MÓDULO', 'MODULO', 1, 8, NULL),
+(37, 'SERVICIOS', 'SERVICIO', 2, 8, NULL),
+(38, 'BOTONERA', 'BOTONES', 3, 8, NULL),
+(39, 'CONFIGURACIÓN DEL PERFIL', 'CONFIGURACION', 4, 8, NULL),
+(40, 'PERFIL', 'PERFILES', 5, 8, NULL),
+(41, 'NUEVO USUARIO', 'NUEVOUSUARIO', 6, 8, NULL),
+(42, 'MÍ PERFIL', 'PERFIL', 6, 8, NULL),
+(43, 'CAMBIAR CONTRASEÑA', 'CAMBIARCONTRASENA', 7, 8, NULL),
+(44, 'DESBLOQUEAR USUARIO', 'DESBLOQUEARUSUARIO', 10, 8, NULL),
+(45, 'AUDITORIA DE REPORTES', 'AUDITORIA_REPORTE', 11, 8, NULL),
+(46, 'HISTÓRICO DE CAMBIOS', 'BITACORA', 11, 8, NULL),
+(47, 'PROCESO DE INSCRIPCIÓN', 'PROCESO_INSCRIPCION', 1, 6, NULL),
+(48, 'PROCESO DE INSCRIPCIÓN (ESTUDIANTES FORANEOS)', 'PROCESO_INSCRIPCION_FORANEO', 2, 6, NULL),
+(49, 'BLOQUE DE HORA', 'BLOQUE_HORA', 1, 5, NULL),
+(50, 'HORARIO', 'HORARIO', 2, 5, NULL);
 
 -- --------------------------------------------------------
 
@@ -2172,6 +2350,7 @@ INSERT INTO `tservicio` (`codigo_servicio`, `descripcion`, `url`, `orden`, `codi
 -- Estructura de tabla para la tabla `tservicio_usuario_opcion`
 --
 
+DROP TABLE IF EXISTS `tservicio_usuario_opcion`;
 CREATE TABLE IF NOT EXISTS `tservicio_usuario_opcion` (
   `codigo_opcion` int(11) DEFAULT NULL,
   `codigo_servicio` int(11) NOT NULL,
@@ -2239,12 +2418,6 @@ INSERT INTO `tservicio_usuario_opcion` (`codigo_opcion`, `codigo_servicio`, `cod
 (5, 8, 1),
 (6, 8, 1),
 (7, 8, 1),
-(1, 9, 1),
-(2, 9, 1),
-(3, 9, 1),
-(4, 9, 1),
-(5, 9, 1),
-(6, 9, 1),
 (7, 9, 1),
 (1, 10, 1),
 (2, 10, 1),
@@ -2274,7 +2447,13 @@ INSERT INTO `tservicio_usuario_opcion` (`codigo_opcion`, `codigo_servicio`, `cod
 (5, 13, 1),
 (6, 13, 1),
 (7, 13, 1),
-(NULL, 14, 1),
+(1, 14, 1),
+(2, 14, 1),
+(3, 14, 1),
+(4, 14, 1),
+(5, 14, 1),
+(6, 14, 1),
+(7, 14, 1),
 (1, 15, 1),
 (2, 15, 1),
 (3, 15, 1),
@@ -2297,37 +2476,59 @@ INSERT INTO `tservicio_usuario_opcion` (`codigo_opcion`, `codigo_servicio`, `cod
 (6, 17, 1),
 (7, 17, 1),
 (NULL, 18, 1),
-(1, 19, 1),
-(2, 19, 1),
-(3, 19, 1),
-(4, 19, 1),
-(5, 19, 1),
-(6, 19, 1),
-(7, 19, 1),
+(NULL, 19, 1),
+(1, 49, 1),
+(2, 49, 1),
+(3, 49, 1),
+(4, 49, 1),
+(5, 49, 1),
+(6, 49, 1),
+(7, 49, 1),
+(NULL, 50, 1),
+(1, 47, 1),
+(2, 47, 1),
+(3, 47, 1),
+(4, 47, 1),
+(5, 47, 1),
+(6, 47, 1),
+(7, 47, 1),
+(2, 48, 1),
 (NULL, 20, 1),
 (NULL, 21, 1),
-(1, 22, 1),
-(2, 22, 1),
-(3, 22, 1),
-(4, 22, 1),
-(5, 22, 1),
-(6, 22, 1),
-(7, 22, 1),
+(NULL, 22, 1),
+(NULL, 23, 1),
 (NULL, 24, 1),
 (NULL, 25, 1),
 (NULL, 26, 1),
 (NULL, 27, 1),
-(NULL, 28, 1),
 (NULL, 29, 1),
 (NULL, 30, 1),
 (NULL, 31, 1),
 (NULL, 32, 1),
 (NULL, 33, 1),
 (NULL, 34, 1),
-(NULL, 35, 1),
-(NULL, 36, 1),
-(NULL, 37, 1),
+(2, 35, 1),
+(1, 36, 1),
+(2, 36, 1),
+(3, 36, 1),
+(4, 36, 1),
+(5, 36, 1),
+(6, 36, 1),
+(7, 36, 1),
+(1, 37, 1),
+(2, 37, 1),
+(3, 37, 1),
+(4, 37, 1),
+(5, 37, 1),
+(6, 37, 1),
+(7, 37, 1),
+(1, 38, 1),
 (2, 38, 1),
+(3, 38, 1),
+(4, 38, 1),
+(5, 38, 1),
+(6, 38, 1),
+(7, 38, 1),
 (1, 39, 1),
 (2, 39, 1),
 (3, 39, 1),
@@ -2343,33 +2544,12 @@ INSERT INTO `tservicio_usuario_opcion` (`codigo_opcion`, `codigo_servicio`, `cod
 (6, 40, 1),
 (7, 40, 1),
 (1, 41, 1),
-(2, 41, 1),
-(3, 41, 1),
-(4, 41, 1),
-(5, 41, 1),
-(6, 41, 1),
 (7, 41, 1),
-(1, 42, 1),
 (2, 42, 1),
-(3, 42, 1),
-(4, 42, 1),
-(5, 42, 1),
-(6, 42, 1),
-(7, 42, 1),
-(1, 43, 1),
-(2, 43, 1),
-(3, 43, 1),
-(4, 43, 1),
-(5, 43, 1),
-(6, 43, 1),
-(7, 43, 1),
-(1, 44, 1),
-(7, 44, 1),
-(2, 45, 1),
+(NULL, 43, 1),
+(NULL, 44, 1),
+(NULL, 45, 1),
 (NULL, 46, 1),
-(NULL, 47, 1),
-(NULL, 48, 1),
-(2, 7, 2),
 (5, 7, 2),
 (7, 7, 2),
 (1, 17, 2),
@@ -2380,20 +2560,16 @@ INSERT INTO `tservicio_usuario_opcion` (`codigo_opcion`, `codigo_servicio`, `cod
 (6, 17, 2),
 (7, 17, 2),
 (NULL, 18, 2),
-(1, 21, 2),
-(2, 21, 2),
-(3, 21, 2),
-(4, 21, 2),
-(5, 21, 2),
-(6, 21, 2),
-(7, 21, 2),
-(NULL, 27, 2),
-(NULL, 28, 2),
+(NULL, 19, 2),
+(1, 47, 2),
+(7, 47, 2),
+(2, 48, 2),
+(NULL, 23, 2),
+(NULL, 24, 2),
 (NULL, 29, 2),
-(NULL, 30, 2),
-(5, 34, 2),
-(2, 45, 2),
-(2, 46, 2);
+(NULL, 33, 2),
+(2, 42, 2),
+(NULL, 43, 2);
 
 -- --------------------------------------------------------
 
@@ -2401,6 +2577,7 @@ INSERT INTO `tservicio_usuario_opcion` (`codigo_opcion`, `codigo_servicio`, `cod
 -- Estructura de tabla para la tabla `tusuario`
 --
 
+DROP TABLE IF EXISTS `tusuario`;
 CREATE TABLE IF NOT EXISTS `tusuario` (
   `nombre_usuario` char(10) COLLATE utf8_spanish_ci NOT NULL,
   `cedula` char(10) COLLATE utf8_spanish_ci NOT NULL,
@@ -2418,13 +2595,14 @@ CREATE TABLE IF NOT EXISTS `tusuario` (
 --
 
 INSERT INTO `tusuario` (`nombre_usuario`, `cedula`, `codigo_perfil`, `intento_fallido`, `activar_caducidad`, `sesion`, `sesion_abierta`, `fecha_ultimasesion`, `fecha_desactivacion`) VALUES
-('V123456789', 'V123456789', 1, 0, 1, NULL, 0, NULL, NULL);
+('V123456789', 'V123456789', 1, 0, 1, '617e547d959903e74f71f1e68719bcb53f542200', 1, '2017-03-08', NULL);
 
 -- --------------------------------------------------------
 
 --
 -- Estructura Stand-in para la vista `vhorario`
 --
+DROP VIEW IF EXISTS `vhorario`;
 CREATE TABLE IF NOT EXISTS `vhorario` (
 `nombre` varchar(45)
 ,`apellido` varchar(45)
@@ -2450,6 +2628,7 @@ CREATE TABLE IF NOT EXISTS `vhorario` (
 --
 -- Estructura Stand-in para la vista `vmateria_seccion_horario`
 --
+DROP VIEW IF EXISTS `vmateria_seccion_horario`;
 CREATE TABLE IF NOT EXISTS `vmateria_seccion_horario` (
 `seccion` char(5)
 ,`cantidad_materia_horario` bigint(21)
@@ -2462,7 +2641,7 @@ CREATE TABLE IF NOT EXISTS `vmateria_seccion_horario` (
 --
 DROP TABLE IF EXISTS `vhorario`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`admin`@`localhost` SQL SECURITY DEFINER VIEW `vhorario` AS select `pr`.`nombres` AS `nombre`,`pr`.`apellidos` AS `apellido`,concat(`h`.`codigo_bloque_hora`,'-',`h`.`dia`) AS `celda`,`pr`.`cedula` AS `cedula`,`h`.`dia` AS `dia`,`h`.`codigo_bloque_hora` AS `codigo_bloque_hora`,`h`.`codigo_materia` AS `materia`,`h`.`cedula_docente` AS `profesor`,`h`.`codigo_ambiente` AS `codigo_ambiente`,`h`.`seccion` AS `seccion`,`h`.`codigo_ano_academico` AS `codigo_ano_academico`,`tm`.`descripcion` AS `nombre_materia`,`ta`.`descripcion` AS `nombre_ambiente`,concat(`bh`.`hora_inicio`,'-',`bh`.`hora_fin`) AS `hora`,`s`.`descripcion` AS `nombre_seccion`,coalesce(`pr`.`carga_horaria`,0) AS `maxhoras`,coalesce(`tm`.`hora_academica`,0) AS `maxhoramateria`,coalesce(`bh`.`hora_academica`,0) AS `hora_academica` from (((((`thorario` `h` left join `tseccion` `s` on((`s`.`seccion` = `h`.`seccion`))) left join `tpersona` `pr` on((`pr`.`cedula` = `h`.`cedula_docente`))) left join `tmateria` `tm` on((`tm`.`codigo_materia` = `h`.`codigo_materia`))) left join `tambiente` `ta` on((`ta`.`codigo_ambiente` = `h`.`codigo_ambiente`))) left join `tbloque_hora` `bh` on((`bh`.`codigo_bloque_hora` = `h`.`codigo_bloque_hora`)));
+CREATE ALGORITHM=UNDEFINED DEFINER=`admin`@`%` SQL SECURITY DEFINER VIEW `vhorario` AS select `pr`.`nombres` AS `nombre`,`pr`.`apellidos` AS `apellido`,concat(`h`.`codigo_bloque_hora`,'-',`h`.`dia`) AS `celda`,`pr`.`cedula` AS `cedula`,`h`.`dia` AS `dia`,`h`.`codigo_bloque_hora` AS `codigo_bloque_hora`,`h`.`codigo_materia` AS `materia`,`h`.`cedula_docente` AS `profesor`,`h`.`codigo_ambiente` AS `codigo_ambiente`,`h`.`seccion` AS `seccion`,`h`.`codigo_ano_academico` AS `codigo_ano_academico`,`tm`.`descripcion` AS `nombre_materia`,`ta`.`descripcion` AS `nombre_ambiente`,concat(`bh`.`hora_inicio`,'-',`bh`.`hora_fin`) AS `hora`,`s`.`descripcion` AS `nombre_seccion`,coalesce(`pr`.`carga_horaria`,0) AS `maxhoras`,coalesce(`tm`.`hora_academica`,0) AS `maxhoramateria`,coalesce(`bh`.`hora_academica`,0) AS `hora_academica` from (((((`thorario` `h` left join `tseccion` `s` on((`s`.`seccion` = `h`.`seccion`))) left join `tpersona` `pr` on((`pr`.`cedula` = `h`.`cedula_docente`))) left join `tmateria` `tm` on((`tm`.`codigo_materia` = `h`.`codigo_materia`))) left join `tambiente` `ta` on((`ta`.`codigo_ambiente` = `h`.`codigo_ambiente`))) left join `tbloque_hora` `bh` on((`bh`.`codigo_bloque_hora` = `h`.`codigo_bloque_hora`)));
 
 -- --------------------------------------------------------
 
@@ -2471,7 +2650,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`admin`@`localhost` SQL SECURITY DEFINER VIEW
 --
 DROP TABLE IF EXISTS `vmateria_seccion_horario`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`admin`@`localhost` SQL SECURITY DEFINER VIEW `vmateria_seccion_horario` AS select `s`.`seccion` AS `seccion`,count(`h`.`codigo_materia`) AS `cantidad_materia_horario`,count(`msd`.`codigo_materia`) AS `cantidad_materia_seccion` from ((`tseccion` `s` left join `tmateria_seccion_docente` `msd` on((`s`.`seccion` = `msd`.`seccion`))) left join `thorario` `h` on((`h`.`seccion` = `s`.`seccion`))) group by `s`.`seccion`,`msd`.`codigo_materia`;
+CREATE ALGORITHM=UNDEFINED DEFINER=`admin`@`%` SQL SECURITY DEFINER VIEW `vmateria_seccion_horario` AS select `s`.`seccion` AS `seccion`,count(`h`.`codigo_materia`) AS `cantidad_materia_horario`,count(`msd`.`codigo_materia`) AS `cantidad_materia_seccion` from ((`tseccion` `s` left join `tmateria_seccion_docente` `msd` on((`s`.`seccion` = `msd`.`seccion`))) left join `thorario` `h` on((`h`.`seccion` = `s`.`seccion`))) group by `s`.`seccion`,`msd`.`codigo_materia`;
 
 --
 -- Índices para tablas volcadas
@@ -2499,6 +2678,12 @@ ALTER TABLE `tasignacion_nota`
 -- Indices de la tabla `tauditoria`
 --
 ALTER TABLE `tauditoria`
+ ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `tauditoria_proceso`
+--
+ALTER TABLE `tauditoria_proceso`
  ADD PRIMARY KEY (`id`);
 
 --
@@ -2566,6 +2751,18 @@ ALTER TABLE `tlapso`
 --
 ALTER TABLE `tmateria`
  ADD PRIMARY KEY (`codigo_materia`);
+
+--
+-- Indices de la tabla `tmateria_docente`
+--
+ALTER TABLE `tmateria_docente`
+ ADD PRIMARY KEY (`codigo_materia_docente`), ADD KEY `fk_tmateria_docente_tmateria` (`codigo_materia`), ADD KEY `fk_tmateria_docente_tpersona` (`cedula_docente`);
+
+--
+-- Indices de la tabla `tmateria_pendiente`
+--
+ALTER TABLE `tmateria_pendiente`
+ ADD PRIMARY KEY (`codigo_materia_pendiente`), ADD UNIQUE KEY `uk_me` (`codigo_materia`,`cedula_estudiante`), ADD KEY `fk_tmateria_pendiente_tpersona` (`cedula_estudiante`);
 
 --
 -- Indices de la tabla `tmateria_seccion_docente`
@@ -2637,7 +2834,7 @@ ALTER TABLE `tplan_evaluacion`
 -- Indices de la tabla `tproceso_inscripcion`
 --
 ALTER TABLE `tproceso_inscripcion`
- ADD PRIMARY KEY (`codigo_procesoinscripcion`), ADD KEY `fk_tpi_tinscrip` (`codigo_inscripcion`), ADD KEY `fk_tpi_taa` (`codigo_ano_academico`), ADD KEY `fk_tpi_tdocente` (`cedula_docente`), ADD KEY `fk_tpi_testudiante` (`cedula_estudiante`), ADD KEY `fk_tpi_tmadre` (`cedula_madre`), ADD KEY `fk_tpi_tpadre` (`cedula_padre`), ADD KEY `fk_tpi_trepresentante` (`cedula_representante`), ADD KEY `fk_tpi_tparentesco` (`codigo_parentesco`), ADD KEY `fk_tpi_tlugartrabajo` (`lugar_trabajo`), ADD KEY `fk_tpi_tseccion` (`seccion`), ADD KEY `fk_tpi_tplantel` (`codigo_plantel`);
+ ADD PRIMARY KEY (`codigo_procesoinscripcion`), ADD KEY `fk_tpi_tinscrip` (`codigo_inscripcion`), ADD KEY `fk_tpi_taa` (`codigo_ano_academico`), ADD KEY `fk_tpi_tdocente` (`cedula_docente`), ADD KEY `fk_tpi_testudiante` (`cedula_estudiante`), ADD KEY `fk_tpi_tmadre` (`cedula_madre`), ADD KEY `fk_tpi_tpadre` (`cedula_padre`), ADD KEY `fk_tpi_trepresentante` (`cedula_representante`), ADD KEY `fk_tpi_tparentesco` (`codigo_parentesco`), ADD KEY `fk_tpi_tseccion` (`seccion`), ADD KEY `fk_tpi_tplantel` (`codigo_plantel`);
 
 --
 -- Indices de la tabla `trespuesta_secreta`
@@ -2682,7 +2879,7 @@ MODIFY `codigo_ambiente` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
 -- AUTO_INCREMENT de la tabla `tano_academico`
 --
 ALTER TABLE `tano_academico`
-MODIFY `codigo_ano_academico` int(11) NOT NULL AUTO_INCREMENT;
+MODIFY `codigo_ano_academico` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT de la tabla `tasignacion_nota`
 --
@@ -2692,6 +2889,11 @@ MODIFY `codigo_asignacionnotas` int(11) NOT NULL AUTO_INCREMENT;
 -- AUTO_INCREMENT de la tabla `tauditoria`
 --
 ALTER TABLE `tauditoria`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=59;
+--
+-- AUTO_INCREMENT de la tabla `tauditoria_proceso`
+--
+ALTER TABLE `tauditoria_proceso`
 MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT de la tabla `tbloque_hora`
@@ -2712,7 +2914,7 @@ MODIFY `codigo_configuracion` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 -- AUTO_INCREMENT de la tabla `tconfiguracion_negocio`
 --
 ALTER TABLE `tconfiguracion_negocio`
-MODIFY `codigo_configuracion_negocio` int(11) NOT NULL AUTO_INCREMENT;
+MODIFY `codigo_configuracion_negocio` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT de la tabla `tcontrol_notas`
 --
@@ -2738,6 +2940,16 @@ MODIFY `codigo_inscripcion` int(11) NOT NULL AUTO_INCREMENT;
 --
 ALTER TABLE `tlapso`
 MODIFY `codigo_lapso` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT de la tabla `tmateria_docente`
+--
+ALTER TABLE `tmateria_docente`
+MODIFY `codigo_materia_docente` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT de la tabla `tmateria_pendiente`
+--
+ALTER TABLE `tmateria_pendiente`
+MODIFY `codigo_materia_pendiente` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT de la tabla `tmateria_seccion_docente`
 --
@@ -2777,7 +2989,7 @@ MODIFY `codigo_parroquia` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=921;
 -- AUTO_INCREMENT de la tabla `tperfil`
 --
 ALTER TABLE `tperfil`
-MODIFY `codigo_perfil` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+MODIFY `codigo_perfil` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT de la tabla `tplan_evaluacion`
 --
@@ -2792,12 +3004,12 @@ MODIFY `codigo_procesoinscripcion` int(11) NOT NULL AUTO_INCREMENT;
 -- AUTO_INCREMENT de la tabla `trespuesta_secreta`
 --
 ALTER TABLE `trespuesta_secreta`
-MODIFY `codigo_respuesta` int(11) NOT NULL AUTO_INCREMENT;
+MODIFY `codigo_respuesta` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT de la tabla `tservicio`
 --
 ALTER TABLE `tservicio`
-MODIFY `codigo_servicio` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=49;
+MODIFY `codigo_servicio` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=51;
 --
 -- Restricciones para tablas volcadas
 --
@@ -2851,6 +3063,20 @@ ADD CONSTRAINT `fk_thorario_tpersona` FOREIGN KEY (`cedula_docente`) REFERENCES 
 --
 ALTER TABLE `tlapso`
 ADD CONSTRAINT `fk_tlapso_tanoacademico` FOREIGN KEY (`codigo_ano_academico`) REFERENCES `tano_academico` (`codigo_ano_academico`) ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `tmateria_docente`
+--
+ALTER TABLE `tmateria_docente`
+ADD CONSTRAINT `fk_tmateria_docente_tmateria` FOREIGN KEY (`codigo_materia`) REFERENCES `tmateria` (`codigo_materia`) ON UPDATE CASCADE,
+ADD CONSTRAINT `fk_tmateria_docente_tpersona` FOREIGN KEY (`cedula_docente`) REFERENCES `tpersona` (`cedula`) ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `tmateria_pendiente`
+--
+ALTER TABLE `tmateria_pendiente`
+ADD CONSTRAINT `fk_tmateria_pendiente_tmateria` FOREIGN KEY (`codigo_materia`) REFERENCES `tmateria` (`codigo_materia`) ON UPDATE CASCADE,
+ADD CONSTRAINT `fk_tmateria_pendiente_tpersona` FOREIGN KEY (`cedula_estudiante`) REFERENCES `tpersona` (`cedula`) ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `tmateria_seccion_docente`
@@ -2911,7 +3137,6 @@ ADD CONSTRAINT `fk_tpi_tmadre` FOREIGN KEY (`cedula_madre`) REFERENCES `tpersona
 ADD CONSTRAINT `fk_tpi_tpadre` FOREIGN KEY (`cedula_padre`) REFERENCES `tpersona` (`cedula`) ON UPDATE CASCADE,
 ADD CONSTRAINT `fk_tpi_trepresentante` FOREIGN KEY (`cedula_representante`) REFERENCES `tpersona` (`cedula`) ON UPDATE CASCADE,
 ADD CONSTRAINT `fk_tpi_tparentesco` FOREIGN KEY (`codigo_parentesco`) REFERENCES `tparentesco` (`codigo_parentesco`) ON UPDATE CASCADE,
-ADD CONSTRAINT `fk_tpi_tlugartrabajo` FOREIGN KEY (`lugar_trabajo`) REFERENCES `tparroquia` (`codigo_parroquia`) ON UPDATE CASCADE,
 ADD CONSTRAINT `fk_tpi_tseccion` FOREIGN KEY (`seccion`) REFERENCES `tseccion` (`seccion`) ON UPDATE CASCADE,
 ADD CONSTRAINT `fk_tpi_tplantel` FOREIGN KEY (`codigo_plantel`) REFERENCES `tplantel` (`codigo_plantel`) ON UPDATE CASCADE;
 

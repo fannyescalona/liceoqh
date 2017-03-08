@@ -213,8 +213,8 @@
 
    public function BuscarFechas($codigo_ano_academico){
     $sql="SELECT COALESCE(
-    	(SELECT DATE_FORMAT(MAX(fecha_fin + INTERVAL 1 DAY),'%d/%m/%Y') FROM tlapso WHERE codigo_ano_academico = $codigo_ano_academico-1),
     	(SELECT DATE_FORMAT(MAX(fecha_fin + INTERVAL 1 DAY),'%d/%m/%Y') FROM tlapso WHERE codigo_ano_academico = $codigo_ano_academico), 
+    	(SELECT DATE_FORMAT(MAX(fecha_fin + INTERVAL 1 DAY),'%d/%m/%Y') FROM tlapso WHERE codigo_ano_academico = $codigo_ano_academico-1),
     	MIN(DATE_FORMAT(NOW() - INTERVAL 5 YEAR,'%d/%m/%Y'))
     ) AS fecha_inicio, 
 	CASE 

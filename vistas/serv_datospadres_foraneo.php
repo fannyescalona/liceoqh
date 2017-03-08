@@ -26,11 +26,12 @@
       mad.direccion AS dir_madre,mad.telefono_habitacion AS th_madre,mad.telefono_movil AS tm_madre,mad.email AS email_madre
       FROM tpersona est 
       INNER JOIN tproceso_inscripcion pi ON est.cedula = pi.cedula_estudiante 
+      INNER JOIN tano_academico a ON pi.codigo_ano_academico = a.codigo_ano_academico 
       LEFT JOIN tpersona pad ON pi.cedula_padre = pad.cedula
       LEFT JOIN tpersona mad ON pi.cedula_madre = mad.cedula 
       LEFT JOIN tparroquia ppad ON pad.lugar_nacimiento = ppad.codigo_parroquia 
       LEFT JOIN tparroquia pmad ON mad.lugar_nacimiento = pmad.codigo_parroquia 
-      WHERE pi.cedula_estudiante = '".$cedula_estudiante."'";
+      WHERE pi.cedula_estudiante = '".$cedula_estudiante."' AND a.cerrado = 'N'";
       $query = $mysql->Ejecutar($sql);
       while($row = $mysql->Respuesta($query)){
         ?>

@@ -209,7 +209,7 @@
       INNER JOIN tproceso_inscripcion pi ON per.cedula = pi.cedula_estudiante 
       INNER JOIN tinscripcion i ON pi.codigo_inscripcion = i.codigo_inscripcion 
       INNER JOIN tano_academico a ON pi.codigo_ano_academico = a.codigo_ano_academico 
-      WHERE i.fecha_desactivacion IS NULL 
+      WHERE i.fecha_desactivacion IS NULL AND a.cerrado = 'N'
       ORDER BY pi.codigo_procesoinscripcion,pi.fecha_inscripcion,per.cedula,a.codigo_ano_academico"; 
       //cantidad de resultados por página (opcional, por defecto 20) 
       $_pagi_cuantos = 10; 

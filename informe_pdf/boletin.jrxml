@@ -1,0 +1,444 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="boletin" language="groovy" pageWidth="595" pageHeight="842" columnWidth="475" leftMargin="60" rightMargin="60" topMargin="20" bottomMargin="60" uuid="30e9340e-27d5-490c-9f63-cb8889c1ad47">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="57"/>
+	<parameter name="cedula_estudiante" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="codigo_ano_academico" class="java.math.BigDecimal">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="nro_registro" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT CONCAT(e.nombres,' ',e.apellidos) AS estudiante,cn.cedula_estudiante,CONCAT('Año Escolar ',aa.descripcion) AS ano_escolar,
+CASE s.grado_escolar WHEN '1' THEN '1ero' WHEN '2' THEN '2do' WHEN '3' THEN '3ero' WHEN '4' THEN '4to' ELSE '5to' END AS grado_escolar,
+s.descripcion AS seccion,DATE_FORMAT(CURDATE(),'%d/%m/%Y') AS fecha_actual,m.descripcion AS materia,d.director,
+SUM(CASE WHEN l.descripcion LIKE '%1er%' THEN COALESCE(cn.notafinal,0) ELSE 0 END) AS 1erLapso,
+SUM(CASE WHEN l.descripcion LIKE '%2do%' THEN COALESCE(cn.notafinal,0) ELSE 0 END) AS 2doLapso,
+SUM(CASE WHEN l.descripcion LIKE '%3er%' THEN COALESCE(cn.notafinal,0) ELSE 0 END) AS 3erLapso,
+ROUND((SUM((CASE WHEN l.descripcion LIKE '%1er%' THEN COALESCE(cn.notafinal,0) ELSE 0 END)+
+(CASE WHEN l.descripcion LIKE '%2do%' THEN COALESCE(cn.notafinal,0) ELSE 0 END)+
+(CASE WHEN l.descripcion LIKE '%3er%' THEN COALESCE(cn.notafinal,0) ELSE 0 END)) / 3)) AS notafinal,
+(SELECT ROUND((ROUND((SUM((CASE WHEN l.descripcion LIKE '%1er%' THEN COALESCE(cn.notafinal,0) ELSE 0 END)+
+(CASE WHEN l.descripcion LIKE '%2do%' THEN COALESCE(cn.notafinal,0) ELSE 0 END)+
+(CASE WHEN l.descripcion LIKE '%3er%' THEN COALESCE(cn.notafinal,0) ELSE 0 END)) / 3)) / COUNT(DISTINCT m.codigo_materia)),2) AS promedio
+FROM tseccion s
+INNER JOIN tmateria_seccion_docente msd ON s.seccion = msd.seccion
+INNER JOIN tmateria m ON msd.codigo_materia = m.codigo_materia
+LEFT JOIN tcontrol_notas cn ON msd.codigo_msd = cn.codigo_msd
+LEFT JOIN tlapso l ON cn.codigo_lapso = l.codigo_lapso
+LEFT JOIN tpersona e ON cn.cedula_estudiante = e.cedula
+WHERE l.codigo_ano_academico = $P{codigo_ano_academico} AND cn.cedula_estudiante = $P{cedula_estudiante}) AS promedio
+FROM tseccion s
+INNER JOIN tmateria_seccion_docente msd ON s.seccion = msd.seccion
+INNER JOIN tmateria m ON msd.codigo_materia = m.codigo_materia
+LEFT JOIN tcontrol_notas cn ON msd.codigo_msd = cn.codigo_msd
+LEFT JOIN tlapso l ON cn.codigo_lapso = l.codigo_lapso
+LEFT JOIN tano_academico aa ON l.codigo_ano_academico = aa.codigo_ano_academico
+LEFT JOIN tpersona e ON cn.cedula_estudiante = e.cedula,
+(SELECT MAX(CONCAT(d.nivel_academico,' ',d.nombres,' ',d.apellidos)) AS director
+FROM tpersona d
+INNER JOIN tcargo c ON d.codigo_cargo = c.codigo_cargo
+WHERE c.descripcion LIKE '%DIRECTOR%') AS d
+WHERE aa.codigo_ano_academico = $P{codigo_ano_academico} AND cn.cedula_estudiante = $P{cedula_estudiante}
+GROUP BY e.nombres,e.apellidos,cn.cedula_estudiante,aa.descripcion,s.grado_escolar,s.descripcion,m.descripcion,d.director
+ORDER BY l.descripcion,m.descripcion]]>
+	</queryString>
+	<field name="estudiante" class="java.lang.String"/>
+	<field name="cedula_estudiante" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="ano_escolar" class="java.lang.String"/>
+	<field name="grado_escolar" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="seccion" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="fecha_actual" class="java.lang.String"/>
+	<field name="materia" class="java.lang.String"/>
+	<field name="director" class="java.lang.String"/>
+	<field name="1erLapso" class="java.math.BigDecimal"/>
+	<field name="2doLapso" class="java.math.BigDecimal"/>
+	<field name="3erLapso" class="java.math.BigDecimal"/>
+	<field name="notafinal" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="promedio" class="java.math.BigDecimal"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="216" splitType="Stretch">
+			<image>
+				<reportElement x="0" y="0" width="475" height="70" uuid="5a5e7a09-05ec-4fcf-8f8b-85542e22cdba"/>
+				<imageExpression><![CDATA["/var/www/html/liceoqh/images/cintillo_reportes.jpg"]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement x="0" y="186" width="200" height="30" uuid="34db8834-0881-45c3-8198-b4eda7d0ba17"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["ASIGNATURAS"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="200" y="201" width="60" height="15" uuid="a55c0804-e387-46b2-b9d7-aff97207857a"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Calificación"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="200" y="186" width="60" height="15" uuid="d3e47110-48b2-48a7-ad72-8e20ea1e10ae"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["1ER LAPSO"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="260" y="201" width="60" height="15" uuid="fb50696c-3724-4ed6-8ffc-1064518f0409"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Calificación"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="260" y="186" width="60" height="15" uuid="0fa0e4c4-a213-4af6-b293-6d82e6d2c99e"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["2DO LAPSO"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="320" y="201" width="60" height="15" uuid="26f6e2e6-f19d-4773-9189-07c0ed67c480"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Calificación"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="320" y="186" width="60" height="15" uuid="0dc8ef01-8c87-40f5-9c58-63d2905b7b8c"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["3ER LAPSO"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="380" y="186" width="95" height="15" uuid="b51eb622-82a4-4327-8941-c93b10d8bf87"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["TOTAL"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="380" y="201" width="95" height="15" uuid="33584bf5-c997-4e80-81f7-1423e85092a8"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Definitiva"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="279" y="131" width="79" height="15" uuid="044a0d7f-2679-4b7c-a632-5b3a0dfe32bc"/>
+				<box>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Bottom">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cedula_estudiante}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="207" y="146" width="82" height="15" uuid="b2050c55-997e-4511-ba95-6a1307b2c324"/>
+				<box>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Bottom">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{seccion}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="90" y="146" width="70" height="15" uuid="40511a57-efe4-4126-b8b4-488477956086"/>
+				<box>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Bottom">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{grado_escolar}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="59" y="146" width="31" height="15" uuid="2c83e1f4-1766-4f06-8e39-122846db3b3c"/>
+				<textElement verticalAlignment="Bottom">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Año:"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="358" y="131" width="118" height="15" uuid="c5cc2f3b-a9ac-40d2-928e-02b0dbe350a0"/>
+				<box>
+					<bottomPen lineWidth="0.0"/>
+				</box>
+				<textElement verticalAlignment="Bottom">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ano_escolar}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="1" y="131" width="103" height="15" uuid="98a36821-3dc5-462b-bbfa-b322b962d365"/>
+				<textElement verticalAlignment="Bottom">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Nombre del Estudiante:"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="325" y="146" width="79" height="15" uuid="5aa54484-9a5c-46c8-9243-1a1e3102ace9"/>
+				<box>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Bottom">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fecha_actual}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="255" y="131" width="24" height="15" uuid="fec3dd21-6a89-4283-bd43-7fced39d0cf9"/>
+				<textElement verticalAlignment="Bottom">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["C.I:"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="289" y="146" width="36" height="15" uuid="b98709e7-f8b1-4ee8-8c2a-9adbe590566a"/>
+				<textElement verticalAlignment="Bottom">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Fecha:"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="160" y="146" width="47" height="15" uuid="309ad08a-b1fb-4124-8cfb-57823b4badde"/>
+				<textElement verticalAlignment="Bottom">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Sección:"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="104" y="131" width="151" height="15" uuid="72e1085a-3001-455e-be35-b7626a165dc3"/>
+				<box>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Bottom">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{estudiante}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="0" y="110" width="207" height="10" uuid="65b19923-e48c-481b-89b8-653a47a77bbc"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Reporte generado bajo el nro de confirmación: "]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="145" y="81" width="180" height="15" uuid="03fc1641-9ec2-488d-8e96-e69ca40dba10"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["U.E.N. QUEBRADA HONDA BOLENTIN DE CALIFICACIONES"]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="150" y="110" width="118" height="10" uuid="f8612194-5b21-47cd-b44d-7cb2c50a8e58"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{nro_registro}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<detail>
+		<band height="16">
+			<textField>
+				<reportElement x="0" y="0" width="200" height="15" uuid="57ea3f51-dded-4952-b1c8-24aae3f5eeb6"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{materia}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="200" y="0" width="60" height="15" uuid="f57a7b5c-8d63-4252-a714-48e529a1d226"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{1erLapso}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="260" y="0" width="60" height="15" uuid="63428146-1a78-4537-ba0f-16cc7bc4e8c3"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{2doLapso}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="320" y="0" width="60" height="15" uuid="1f32acef-b3a9-4f7b-8e6d-66d8dcaa7a62"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{3erLapso}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="380" y="0" width="95" height="15" uuid="a63a0e4b-c4ce-4635-8b2e-9ecbcdd852d1"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{notafinal}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="30">
+			<textField>
+				<reportElement x="131" y="0" width="129" height="15" uuid="c95031bf-0cb7-4168-b2a1-7b75315e362c"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{director}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="131" y="15" width="129" height="15" uuid="24417e9e-ac11-4c21-99b1-cd699ef3155d"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["DIRECTOR"]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="15">
+			<textField pattern="###0.00;-###0.00">
+				<reportElement x="380" y="-16" width="95" height="15" uuid="1af134d1-bebe-4c94-a1b9-f87151c3c28c"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{promedio}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="200" y="-16" width="180" height="15" uuid="74e4221b-1cfc-445e-8422-3bc69a031a3a"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Bottom">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Promedio de notas:"]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

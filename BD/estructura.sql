@@ -408,7 +408,7 @@ CREATE TABLE tauditoria (
 -- Table structure for table tauditoria_proceso
 --
 
-DROP TABLE tauditoria_proceso;
+DROP TABLE IF EXISTS tauditoria_proceso;
 
 CREATE TABLE tauditoria_proceso (
   id int(11) NOT NULL AUTO_INCREMENT,
@@ -595,8 +595,8 @@ CREATE TABLE tplantel (
   nombre varchar(60) COLLATE utf8_spanish_ci NOT NULL,
   direccion varchar(255) COLLATE utf8_spanish_ci NOT NULL,
   telefono_habitacion varchar(11) NOT NULL,
-  localidad varchar(20),
-  email varchar(150),
+  localidad varchar(20) NULL,
+  email varchar(150) NULL,
   codigo_municipio int(11) NOT NULL,
   fecha_desactivacion varchar(45) COLLATE utf8_spanish_ci DEFAULT NULL,
   PRIMARY KEY (codigo_plantel),
@@ -741,7 +741,9 @@ CREATE TABLE tproceso_inscripcion (
   cedula_docente char(10) COLLATE utf8_spanish_ci NULL,
   cedula_estudiante char(10) COLLATE utf8_spanish_ci NOT NULL,
   cedula_escolar char(10) COLLATE utf8_spanish_ci NULL,
+  lateralidad char(1) NOT NULL DEFAULT 'D',
   codigo_canaima varchar(20) NULL,
+  canaima_operativa char(1) NOT NULL DEFAULT 'D',
   peso float NOT NULL DEFAULT 0,
   estatura float NOT NULL DEFAULT 0,
   codigo_plantel char(11),
@@ -763,6 +765,7 @@ CREATE TABLE tproceso_inscripcion (
   lugar_trabajo varchar(120) NULL,
   primerafi date NULL,
   seccion char(5) NULL,
+  grado_escolar char(1) NOT NULL DEFAULT '1',
   proceso_completado char(1) COLLATE utf8_spanish_ci NOT NULL DEFAULT 'N',
   estatus char(1) COLLATE utf8_spanish_ci NOT NULL DEFAULT '1',
   PRIMARY KEY (codigo_procesoinscripcion),
@@ -774,7 +777,6 @@ CREATE TABLE tproceso_inscripcion (
   CONSTRAINT fk_tpi_tpadre FOREIGN KEY (cedula_padre) REFERENCES tpersona (cedula) ON UPDATE CASCADE,
   CONSTRAINT fk_tpi_trepresentante FOREIGN KEY (cedula_representante) REFERENCES tpersona (cedula) ON UPDATE CASCADE,
   CONSTRAINT fk_tpi_tparentesco FOREIGN KEY (codigo_parentesco) REFERENCES tparentesco (codigo_parentesco) ON UPDATE CASCADE,
-  CONSTRAINT fk_tpi_tlugartrabajo FOREIGN KEY (lugar_trabajo) REFERENCES tparroquia (codigo_parroquia) ON UPDATE CASCADE,
   CONSTRAINT fk_tpi_tseccion FOREIGN KEY (seccion) REFERENCES tseccion (seccion) ON UPDATE CASCADE,
   CONSTRAINT fk_tpi_tplantel FOREIGN KEY (codigo_plantel) REFERENCES tplantel (codigo_plantel) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
@@ -844,7 +846,6 @@ CREATE TABLE tplan_evaluacion (
   porcentaje float(11,2) NOT NULL DEFAULT 0.0,
   fecha_desactivacion date DEFAULT NULL,
   PRIMARY KEY (codigo_plan_evaluacion),
-  CONSTRAINT uk_pe_msd_lapso UNIQUE (codigo_msd,codigo_lapso),
   CONSTRAINT fk_tplanevaluacion_msd FOREIGN KEY(codigo_msd) REFERENCES tmateria_seccion_docente (codigo_msd) ON UPDATE CASCADE,
   CONSTRAINT fk_tplanevaluacion_lapso FOREIGN KEY(codigo_lapso) REFERENCES tlapso (codigo_lapso) ON UPDATE CASCADE 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
@@ -878,6 +879,7 @@ CREATE TABLE tcontrol_notas (
   cedula_estudiante char(10) NOT NULL,
   codigo_lapso int(11) NOT NULL,
   notafinal int(11) NOT NULL DEFAULT 0,
+  aprobado char(1) NOT NULL DEFAULT 'N',
   PRIMARY KEY(codigo_controlnotas),
   CONSTRAINT fk_tcontrolnotas_msd FOREIGN KEY(codigo_msd) REFERENCES tmateria_seccion_docente (codigo_msd) ON UPDATE CASCADE,
   CONSTRAINT fk_tcontrolnotas_lapso FOREIGN KEY(codigo_lapso) REFERENCES tlapso (codigo_lapso) ON UPDATE CASCADE,
