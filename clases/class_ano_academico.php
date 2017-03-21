@@ -202,9 +202,40 @@
 	$sql.="GROUP BY msd.codigo_materia,cn.cedula_estudiante ";
 	$sql.="ORDER BY cn.cedula_estudiante,msd.codigo_materia) AS notas ";
 	$sql.="GROUP BY cedula_estudiante ";
-	$sql.="HAVING SUM(CASE WHEN notafinal <10 THEN 1 ELSE 0 END) < 3)";
-    if($this->mysql->Ejecutar($sql)!=null)
-		return true;
+	$sql.="HAVING SUM(CASE WHEN notafinal <(SELECT MAX(nota_aprobacion) FROM tconfiguracion_negocio) THEN 1 ELSE 0 END) < (SELECT MAX(cantidad_materia_reprobada) FROM tconfiguracion_negocio))";
+    if($this->mysql->Ejecutar($sql)!=null){
+    	$sql1="INSERT INTO tproceso_inscripcion (codigo_inscripcion,fecha_inscripcion,codigo_ano_academico,cedula_docente,cedula_estudiante,codigo_canaima,peso,estatura,codigo_plantel,certificado_sextogrado,";
+		$sql1.="notascertificadas,cartabuenaconducta,fotoestudiante,fotorepresentante,fotocopia_ciestudiante,fotocopia_cirepresentante,fotocopia_pnestudiante,kitscomedor,becado,tipobeca,cedula_madre,cedula_padre,";
+		$sql1.="cedula_representante,codigo_parentesco,lugar_trabajo,primerafi,seccion,estatus,cedula_escolar,proceso_completado) ";
+		$sql1.="SELECT pi.codigo_inscripcion,CURDATE(),$this->codigo_ano_academico,";
+		$sql1.="pi.cedula_docente,pi.cedula_estudiante,pi.codigo_canaima,pi.peso,pi.estatura,pi.codigo_plantel,pi.certificado_sextogrado,pi.notascertificadas,pi.cartabuenaconducta,";
+		$sql1.="pi.fotoestudiante,pi.fotorepresentante,pi.fotocopia_ciestudiante,pi.fotocopia_cirepresentante,pi.fotocopia_pnestudiante,pi.kitscomedor,pi.becado,pi.tipobeca,pi.cedula_madre,";
+		$sql1.="pi.cedula_padre,pi.cedula_representante,pi.codigo_parentesco,pi.lugar_trabajo,pi.primerafi, ";
+		$sql1.="pi.seccion,";
+		$sql1.="pi.estatus,pi.cedula_escolar,pi.proceso_completado ";
+		$sql1.="FROM tproceso_inscripcion pi ";
+		$sql1.="INNER JOIN tseccion s ON pi.seccion = s.seccion ";
+		$sql1.="WHERE codigo_ano_academico = $id ";
+		$sql1.="AND cedula_estudiante IN ";
+		$sql1.="(SELECT cedula_estudiante ";
+		$sql1.="FROM ";
+		$sql1.="(SELECT cn.cedula_estudiante,msd.codigo_materia,ROUND(AVG(notafinal)) AS notafinal ";
+		$sql1.="FROM tcontrol_notas cn ";
+		$sql1.="INNER JOIN tmateria_seccion_docente msd ON cn.codigo_msd = msd.codigo_msd ";
+		$sql1.="INNER JOIN tlapso l ON cn.codigo_lapso = l.codigo_lapso ";
+		$sql1.="WHERE l.codigo_ano_academico = $id ";
+		$sql1.="GROUP BY msd.codigo_materia,cn.cedula_estudiante ";
+		$sql1.="ORDER BY cn.cedula_estudiante,msd.codigo_materia) AS notas ";
+		$sql1.="GROUP BY cedula_estudiante ";
+		$sql1.="HAVING SUM(CASE WHEN notafinal <(SELECT MAX(nota_aprobacion) FROM tconfiguracion_negocio) THEN 1 ELSE 0 END) > (SELECT MAX(cantidad_materia_reprobada) FROM tconfiguracion_negocio))";
+    	if($this->mysql->Ejecutar($sql1)!=null){
+			return true;
+	    }
+		else{
+			$this->error($this->mysql->Error());
+			return false;
+		}	
+    }
 	else{
 		$this->error($this->mysql->Error());
 		return false;

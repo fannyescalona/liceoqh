@@ -204,7 +204,7 @@
       var materias = document.getElementsByName('materias[]');
       var contador=materias.length;
         function agrega_campos(){
-          if(contador<2){
+          if(contador<8){
             $("#tablaMaterias").append("<tr id='"+contador+"' >"+
             "<td><input type='text' name='materias[]' id='materia_"+contador+"' onKeyPress='return ACDataGridPorFiltro(this.id,\"materiapendienteporfiltro.php\",[&#39;grado_escolar&#39;])' onKeyUp='this.value=this.value.toUpperCase()' title='Seleccione una materia' placeholder='Seleccione una materia' class='campoTexto'/></td>"+
             "<td><button type='button' class='boton' onclick='elimina_me("+contador+")'><i class='icon-minus'></button></td>"+
@@ -213,7 +213,7 @@
             contador++;
           }
           else{
-            alert('No puede agregar más de 2 materias');
+            alert('No puede agregar más de 8 materias');
           }
         }
         function elimina_me(elemento){

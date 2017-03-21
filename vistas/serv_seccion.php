@@ -88,8 +88,8 @@
               while ($row = $mysql->Respuesta($query)){
                 $id_msd .= $row['codigo_msd']."_";
                 echo "<tr id='$con'>";
-                echo "<td><input type='hidden' name='codigo_msds[]' id='codigo_msd_".$con."' value='".$row['codigo_msd']."' /><input type='hidden' name='oldmateria[]' id='oldmateria_".$con."' value='".$row['materia']."'><input type='text' name='materias[]' id='materia_".$con."' onKeyPress='return ACDataGridPorFiltro(this.id,\"materiaporfiltro.php\",[&#39;grado_escolar&#39;])' onKeyUp='this.value=this.value.toUpperCase()' title='Seleccione una materia' placeholder='Seleccione una materia' class='campoTexto' value='".$row['materia']."'/></td>";
-                echo "<td><input type='hidden' name='olddocente[]' id='olddocente_".$con."' value='".$row['docente']."'><input type='text' name='docentes[]' id='docente_".$con."' onKeyPress='return ACDataGrid(this.id,\"docente.php\")' onKeyUp='this.value=this.value.toUpperCase()' title='Seleccione un docente' placeholder='Seleccione un docente' class='campoTexto' value='".$row['docente']."'/></td>";
+                echo "<td><input type='text' name='materias[]' id='materia_".$con."' onKeyPress='return ACDataGridPorFiltro(this.id,\"materiaporfiltro.php\",[&#39;grado_escolar&#39;])' onKeyUp='this.value=this.value.toUpperCase()' title='Seleccione una materia' placeholder='Seleccione una materia' class='campoTexto' value='".$row['materia']."'/><input type='hidden' name='codigo_msds[]' id='codigo_msd_".$con."' value='".$row['codigo_msd']."' /><input type='hidden' name='oldmateria[]' id='oldmateria_".$con."' value='".$row['materia']."'></td>";
+                echo "<td><input type='hidden' name='olddocente[]' id='olddocente_".$con."' value='".$row['docente']."'><input type='text' name='docentes[]' id='docente_".$con."' onKeyPress='return ACDataGridDependiente(this,\"docentepormateria.php\",[0])' onKeyUp='this.value=this.value.toUpperCase()' title='Seleccione un docente' placeholder='Seleccione un docente' class='campoTexto' value='".$row['docente']."'/></td>";
                 echo "<td><button type='button' class='boton' onclick='elimina_me(".$con.")'><i class='icon-minus'></i></button></td>";
                 echo "</tr>";
                 $con++;
@@ -113,8 +113,8 @@
         function agrega_campos(){
           if(contador<parseInt($('#cantidad_materia_maxima').val())){
             $("#tablaMaterias").append("<tr id='"+contador+"' >"+
-            "<td><input type='hidden' name='codigo_msds[]' id='codigo_msd_"+contador+"' /><input type='hidden' name='oldmateria[]' id='oldmateria_"+contador+"' /><input type='text' name='materias[]' id='materia_"+contador+"' onKeyPress='return ACDataGridPorFiltro(this.id,\"materiaporfiltro.php\",[&#39;grado_escolar&#39;])' onKeyUp='this.value=this.value.toUpperCase()' title='Seleccione una materia' placeholder='Seleccione una materia' class='campoTexto'/></td>"+
-            "<td><input type='hidden' name='olddocente[]' id='olddocente_"+contador+"' /><input type='text' name='docentes[]' id='docente_"+contador+"' onKeyPress='return ACDataGrid(this.id,\"docente.php\")' onKeyUp='this.value=this.value.toUpperCase()' title='Seleccione un docente' placeholder='Seleccione un docente' class='campoTexto'/></td>"+
+            "<td><input type='text' name='materias[]' id='materia_"+contador+"' onKeyPress='return ACDataGridPorFiltro(this.id,\"materiaporfiltro.php\",[&#39;grado_escolar&#39;])' onKeyUp='this.value=this.value.toUpperCase()' title='Seleccione una materia' placeholder='Seleccione una materia' class='campoTexto'/><input type='hidden' name='codigo_msds[]' id='codigo_msd_"+contador+"' /><input type='hidden' name='oldmateria[]' id='oldmateria_"+contador+"' /></td>"+
+            "<td><input type='hidden' name='olddocente[]' id='olddocente_"+contador+"' /><input type='text' name='docentes[]' id='docente_"+contador+"' onKeyPress='return ACDataGridDependiente(this,\"docentepormateria.php\",[0])' onKeyUp='this.value=this.value.toUpperCase()' title='Seleccione un docente' placeholder='Seleccione un docente' class='campoTexto'/></td>"+
             "<td><button type='button' class='boton' onclick='elimina_me("+contador+")'><i class='icon-minus'></button></td>"+
             "</tr>");
             $('#materia_'+contador)

@@ -21,10 +21,14 @@ SUM(CASE WHEN l.descripcion LIKE '%2do%' THEN COALESCE(cn.notafinal,0) ELSE 0 EN
 SUM(CASE WHEN l.descripcion LIKE '%3er%' THEN COALESCE(cn.notafinal,0) ELSE 0 END) AS 3erLapso,
 ROUND((SUM((CASE WHEN l.descripcion LIKE '%1er%' THEN COALESCE(cn.notafinal,0) ELSE 0 END)+
 (CASE WHEN l.descripcion LIKE '%2do%' THEN COALESCE(cn.notafinal,0) ELSE 0 END)+
-(CASE WHEN l.descripcion LIKE '%3er%' THEN COALESCE(cn.notafinal,0) ELSE 0 END)) / 3)) AS notafinal,
+(CASE WHEN l.descripcion LIKE '%3er%' THEN COALESCE(cn.notafinal,0) ELSE 0 END)) / (SELECT COUNT(DISTINCT codigo_lapso) FROM tcontrol_notas ctn 
+INNER JOIN tproceso_inscripcion prci ON ctn.cedula_estudiante = prci.cedula_estudiante 
+WHERE prci.codigo_ano_academico = $P{codigo_ano_academico} AND ctn.cedula_estudiante = $P{cedula_estudiante})) AS notafinal,
 (SELECT ROUND((ROUND((SUM((CASE WHEN l.descripcion LIKE '%1er%' THEN COALESCE(cn.notafinal,0) ELSE 0 END)+
 (CASE WHEN l.descripcion LIKE '%2do%' THEN COALESCE(cn.notafinal,0) ELSE 0 END)+
-(CASE WHEN l.descripcion LIKE '%3er%' THEN COALESCE(cn.notafinal,0) ELSE 0 END)) / 3)) / COUNT(DISTINCT m.codigo_materia)),2) AS promedio
+(CASE WHEN l.descripcion LIKE '%3er%' THEN COALESCE(cn.notafinal,0) ELSE 0 END)) / (SELECT COUNT(DISTINCT codigo_lapso) FROM tcontrol_notas ctn 
+INNER JOIN tproceso_inscripcion prci ON ctn.cedula_estudiante = prci.cedula_estudiante 
+WHERE prci.codigo_ano_academico = $P{codigo_ano_academico} AND ctn.cedula_estudiante = $P{cedula_estudiante}))) / COUNT(DISTINCT m.codigo_materia)),2) AS promedio
 FROM tseccion s
 INNER JOIN tmateria_seccion_docente msd ON s.seccion = msd.seccion
 INNER JOIN tmateria m ON msd.codigo_materia = m.codigo_materia

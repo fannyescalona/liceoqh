@@ -772,7 +772,7 @@ class Inscripcion {
   public function RegistrarInscripcionManual(){
     $sql="INSERT INTO tproceso_inscripcion (codigo_inscripcion,fecha_inscripcion,codigo_ano_academico,cedula_estudiante,";
     $sql.="codigo_plantel,primerafi,cedula_docente,seccion,cedula_representante,codigo_parentesco) VALUES ((SELECT MAX(codigo_inscripcion) FROM tinscripcion WHERE fecha_desactivacion IS NULL),";
-    $sql.="CURDATE(),(SELECT MAX(codigo_ano_academico) FROM tano_academico WHERE fecha_desactivacion IS NULL),'$this->cedula_estudiante','$this->codigo_plantel',CURDATE(),";
+    $sql.="CURDATE(),(SELECT MAX(codigo_ano_academico) FROM tano_academico WHERE cerrado='N' AND fecha_desactivacion IS NULL),'$this->cedula_estudiante','$this->codigo_plantel',CURDATE(),";
     $sql.="'$this->cedula_docente','$this->seccion','$this->cedula_representante','$this->codigo_parentesco');";
     if($this->mysql->Ejecutar($sql)!=null)
       return true;
@@ -784,7 +784,8 @@ class Inscripcion {
 
   public function ActualizarInscripcionManual(){
     $sql="UPDATE tproceso_inscripcion SET codigo_plantel='$this->codigo_plantel',cedula_docente='$this->cedula_docente',";
-    $sql.="seccion='$this->seccion',cedula_representante='$this->cedula_representante',codigo_parentesco='$this->codigo_parentesco' ";
+    $sql.="seccion='$this->seccion',cedula_representante='$this->cedula_representante',codigo_parentesco='$this->codigo_parentesco', ";
+    $sql.="codigo_ano_academico = (SELECT MAX(codigo_ano_academico) FROM tano_academico WHERE cerrado='N' AND fecha_desactivacion IS NULL) ";
     $sql.="WHERE cedula_estudiante='$this->cedula_estudiante';";
     if($this->mysql->Ejecutar($sql)!=null)
       return true;
